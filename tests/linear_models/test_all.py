@@ -1,62 +1,60 @@
 import os
 import unittest
 
-from test_linear_regression import test_linear_regression
+from linear_regression.test_linear_regression import test_linear_regression
 
-from test_ridge_regression import test_ridge_regression
-from test_ridge_regression_cv import test_ridge_regression_cv
-from test_ridge_classifier import test_ridge_classifier
-from test_ridge_classifier_cv import test_ridge_classifier_cv
+from ridge.test_ridge_regression import test_ridge_regression
+from ridge.test_ridge_regression_cv import test_ridge_regression_cv
+from ridge.test_ridge_classifier import test_ridge_classifier
+from ridge.test_ridge_classifier_cv import test_ridge_classifier_cv
 
-from test_lasso import test_lasso
-from test_lasso_cv import test_lasso_cv
-from test_lasso_lars import test_lasso_lars
-from test_lasso_lars_cv import test_lasso_lars_cv
-from test_lasso_lars_ic import test_lasso_lars_ic
+from lasso_lars.test_lasso import test_lasso
+from lasso_lars.test_lasso_cv import test_lasso_cv
+from lasso_lars.test_lasso_lars import test_lasso_lars
+from lasso_lars.test_lasso_lars_cv import test_lasso_lars_cv
+from lasso_lars.test_lasso_lars_ic import test_lasso_lars_ic
+from lasso_lars.test_multi_task_lasso import test_multi_task_lasso
+from lasso_lars.test_multi_task_lasso_cv import test_multi_task_lasso_cv
 
-from test_multi_task_lasso import test_multi_task_lasso
-from test_multi_task_lasso_cv import test_multi_task_lasso_cv
+from elasticnet.test_elastic_net import test_elastic_net
+from elasticnet.test_elastic_net_cv import test_elastic_net_cv
+from elasticnet.test_multi_task_elastic_net import test_multi_task_elastic_net
+from elasticnet.test_multi_task_elastic_net_cv import test_multi_task_elastic_net_cv
 
-from test_elastic_net import test_elastic_net
-from test_elastic_net_cv import test_elastic_net_cv
-from test_multi_task_elastic_net import test_multi_task_elastic_net
-from test_multi_task_elastic_net_cv import test_multi_task_elastic_net_cv
+from omp.test_omp import test_omp
+from omp.test_omp_cv import test_omp_cv
 
-from test_omp import test_omp
-from test_omp_cv import test_omp_cv
+from bayesian.test_bayesian_regression import test_bayesian_regression
+from bayesian.test_ard_regression import test_ard_regression
 
-from test_bayesian_regression import test_bayesian_regression
-from test_ard_regression import test_ard_regression
+from logistic.test_logistic_regression import test_logistic_regression
+from logistic.test_logistic_regression_cv import test_logistic_regression_cv
 
-from test_logistic_regression import test_logistic_regression
-from test_logistic_regression_cv import test_logistic_regression_cv
+from glm.test_tweedie_regression import test_tweedie_regression
+from glm.test_poisson_regression import test_poisson_regression
+from glm.test_gamma_regression import test_gamma_regression
 
-from test_tweedie_regression import test_tweedie_regression
-from test_poisson_regression import test_poisson_regression
-from test_gamma_regression import test_gamma_regression
+from sgd.test_sgd_regression import test_sgd_regression
+from sgd.test_sgd_classifier import test_sgd_classifier
+from sgd.test_sgd_oneclass_svm import test_sgd_oneclass_svm
 
-from test_sgd_regression import test_sgd_regression
-from test_sgd_classifier import test_sgd_classifier
-from test_sgd_oneclass_svm import test_sgd_oneclass_svm
+from perceptron.test_perception import test_perceptron
 
-from test_perception import test_perceptron
+from passive_aggressive.test_passive_aggressive_regressor import test_passive_agressive_regressor
+from passive_aggressive.test_passive_aggressive_classifier import test_passive_aggressive_classifier
 
-from test_passive_aggressive_regressor import test_passive_agressive_regressor
-from test_passive_aggressive_classifier import test_passive_aggressive_classifier
+from robustness.test_ransac_regression import test_ransac_regression
+from robustness.test_theil_sen_regression import test_theil_sen_regression
+from robustness.test_huber_regression import test_huber_regression
 
-from test_ransac_regression import test_ransac_regression
-from test_theil_sen_regression import test_theil_sen_regression
-from test_huber_regression import test_huber_regression
-
-from test_quantile import test_quantile_regressor
+from quantile.test_quantile import test_quantile_regressor
 
 class TestStringMethods(unittest.TestCase):
 
     LINEAR_MODELS = {
         "LINEAR_REGRESSION": [test_linear_regression],
         "RIDGE_REGRESSION_AND_CLASSIFICATION": [test_ridge_regression,test_ridge_regression_cv,test_ridge_classifier,test_ridge_classifier_cv],
-        "LASSO_AND_LARS": [test_lasso, test_lasso_cv, test_lasso_lars, test_lasso_lars_cv, test_lasso_lars_ic],
-        "MULTI_CLASS_LASSO": [test_multi_task_lasso,test_multi_task_lasso_cv],
+        "LASSO_AND_LARS": [test_lasso, test_lasso_cv, test_lasso_lars, test_lasso_lars_cv, test_lasso_lars_ic,test_multi_task_lasso,test_multi_task_lasso_cv],
         "ELASTIC_NET":[test_elastic_net,test_elastic_net_cv],
         "MULTI_CLASS_ELASTIC_NET": [test_multi_task_elastic_net, test_multi_task_elastic_net_cv],
         "OMP": [test_omp, test_omp_cv],
@@ -87,6 +85,7 @@ class TestStringMethods(unittest.TestCase):
         for category in self.LINEAR_MODELS.keys():
             category_all_test_pass = True
             for model in self.LINEAR_MODELS[category]:
+                print(model)
                 category_all_test_pass = category_all_test_pass and model()
             self.assertTrue(category_all_test_pass)
 
