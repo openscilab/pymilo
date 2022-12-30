@@ -74,7 +74,6 @@ class TestStringMethods(unittest.TestCase):
             os.mkdir(exported_models_directory)
             return 
         for file_name in os.listdir(exported_models_directory):
-            print(file_name)
             # construct full file path
             json_file = os.path.join(exported_models_directory,file_name)
             if os.path.isfile(json_file):
@@ -85,9 +84,18 @@ class TestStringMethods(unittest.TestCase):
         for category in self.LINEAR_MODELS.keys():
             category_all_test_pass = True
             for model in self.LINEAR_MODELS[category]:
-                print(model)
                 category_all_test_pass = category_all_test_pass and model()
             self.assertTrue(category_all_test_pass)
+
+
+    # def test_mini(self):
+    #     category = "ROBUSTNESS_REGRESSION"
+    #     self.reset_exported_models_directory()
+    #     category_all_test_pass = True
+    #     for model in self.LINEAR_MODELS[category]:
+    #         category_all_test_pass = category_all_test_pass and model()
+    #     self.assertTrue(category_all_test_pass)
+
 
 if __name__ == '__main__':
     unittest.main()

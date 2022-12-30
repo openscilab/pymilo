@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo modules."""
-from .pymilo_func import get_sklearn_data, get_sklearn_version, get_sklearn_type, convert_from_import_object_to_sklearn_model
+from .pymilo_func import get_sklearn_data, get_sklearn_version, convert_to_sklearn_model
+from .utils.util import get_sklearn_type
 from .pymilo_param import PYMILO_VERSION
 import json
 
@@ -22,7 +23,12 @@ class Export:
 
     def save(self, file_adr):
         with open(file_adr, 'w') as fp:
-            json.dump({"data": self.data, "sklearn_version": self.version, "pymilo_version": PYMILO_VERSION, "model_type": self.type}, fp)
+            json.dump({
+                "data": self.data,
+                "sklearn_version": self.version, 
+                "pymilo_version": PYMILO_VERSION, 
+                "model_type": self.type
+                }, fp)
 
 class Import:
     def __init__(self, file_adr, json_dump = None):
@@ -37,9 +43,8 @@ class Import:
         self.type = serialized_model_obj["model_type"]
 
     def to_model(self):
-        return convert_from_import_object_to_sklearn_model(self)
+        return convert_to_sklearn_model(self)
 
-        
         
 
 

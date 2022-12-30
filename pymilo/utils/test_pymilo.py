@@ -9,14 +9,14 @@
 import os
 
 # import Pymilo Export & Import
-from pymilo.pymilo_obj import Export 
-from pymilo.pymilo_obj import Import
+from ..pymilo_obj import Export 
+from ..pymilo_obj import Import
 # metrics for regression precision evaluation
 from sklearn.metrics import mean_squared_error, r2_score
 # metrics for classification precision evaluation
 from sklearn.metrics import accuracy_score, hinge_loss
 # compare the results before & after Pymilo
-from pymilo.pymilo_func import compare_model_outputs
+from ..pymilo_func import compare_model_outputs
 
 def test_pymilo(model, model_name, test_data):
     x_test,_ = test_data
