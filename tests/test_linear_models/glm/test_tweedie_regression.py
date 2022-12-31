@@ -1,8 +1,9 @@
-from  sklearn.linear_model import TweedieRegressor
+from sklearn.linear_model import TweedieRegressor
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.utils.test_pymilo import test_pymilo_regression
 
 MODEL_NAME = "Tweedie-Regression"
+
 
 def test_tweedie_regression():
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
@@ -10,7 +11,11 @@ def test_tweedie_regression():
     tweedie_alpha = 0.5
     tweedie_link = 'log'
     tweedie_power = 1
-    tweedie_regression = TweedieRegressor(power= tweedie_power, alpha= tweedie_power, link= tweedie_link)
+    tweedie_regression = TweedieRegressor(
+        power=tweedie_power,
+        alpha=tweedie_power,
+        link=tweedie_link)
     # Train the model using the training sets
     tweedie_regression.fit(x_train, y_train)
-    return test_pymilo_regression(tweedie_regression, MODEL_NAME, (x_test,y_test))
+    return test_pymilo_regression(
+        tweedie_regression, MODEL_NAME, (x_test, y_test))

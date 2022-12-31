@@ -5,3 +5,4 @@ In order to test linear models, you can simply run test_all.py and Pymilo will b
   pip install . # install pymilo locally
   python test_all.py
   ```
+

@@ -28,7 +28,7 @@ def read_description():
 
 setup(
     name='pymilo',
-    packages=['pymilo','pymilo/utils'],
+    packages=['pymilo', 'pymilo/utils'],
     version='0.1',
     description='Transportation of ML models',
     long_description=read_description(),

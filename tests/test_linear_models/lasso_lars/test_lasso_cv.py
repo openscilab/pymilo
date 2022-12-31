@@ -1,8 +1,9 @@
-from  sklearn.linear_model import LassoCV
+from sklearn.linear_model import LassoCV
 from pymilo.utils.test_pymilo import test_pymilo_regression
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 MODEL_NAME = "Lasso-Regression-CV"
+
 
 def test_lasso_cv():
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
@@ -10,7 +11,11 @@ def test_lasso_cv():
     lasso_alphas = [1e-3, 1e-2, 1e-1, 1]
     lasso_cv = 5
     lasso_random_state = 0
-    lasso_cv_regression = LassoCV(alphas=lasso_alphas, cv=lasso_cv,random_state=lasso_random_state)
+    lasso_cv_regression = LassoCV(
+        alphas=lasso_alphas,
+        cv=lasso_cv,
+        random_state=lasso_random_state)
     # Train the model using the training sets
     lasso_cv_regression.fit(x_train, y_train)
-    return test_pymilo_regression(lasso_cv_regression, MODEL_NAME, (x_test,y_test))
+    return test_pymilo_regression(
+        lasso_cv_regression, MODEL_NAME, (x_test, y_test))

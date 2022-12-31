@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 from numpy import int32
 from numpy import int64
@@ -81,7 +82,7 @@ SKLEARN_MODEL_TABLE = {
 
     "BayesianRidge": BayesianRidge,
     "ARDRegression": ARDRegression,
-    
+
     "LogisticRegression": LogisticRegression,
     "LogisticRegressionCV": LogisticRegressionCV,
 
@@ -107,22 +108,22 @@ SKLEARN_MODEL_TABLE = {
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
-    "_label_binarizer": LabelBinarizer, # in Ridge Classifier
-    "active_": int32, # in Lasso Lars
-    "n_nonzero_coefs_": int64, # in OMP-CV
+    "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
+    "active_": int32,  # in Lasso Lars
+    "n_nonzero_coefs_": int64,  # in OMP-CV
     "scores_": dict,  # in Logistic Regression CV,
-    "_base_loss": {}, # BaseLoss in Logistic Regression,
-    "loss_function_": {}, # LossFunction in SGD Classifier,
-    "estimator_": {}, # LinearRegression model inside RANSAC
+    "_base_loss": {},  # BaseLoss in Logistic Regression,
+    "loss_function_": {},  # LossFunction in SGD Classifier,
+    "estimator_": {},  # LinearRegression model inside RANSAC
 }
 
-import numpy as np
+
 def numpy_infinity_returner(_):
     return np.inf
+
 
 NUMPY_TYPE_DICT = {
     "numpy.int32": int32,
     "numpy.int64": int64,
     "numpy.infinity": numpy_infinity_returner
 }
-
