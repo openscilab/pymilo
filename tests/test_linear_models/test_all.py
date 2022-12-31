@@ -103,7 +103,7 @@ class TestStringMethods(unittest.TestCase):
     def reset_exported_models_directory(self):
         exported_models_directory = os.path.join(
             os.getcwd(), "tests", "exported_models")
-        if (not os.path.isdir(exported_models_directory)):
+        if not os.path.isdir(exported_models_directory):
             os.mkdir(exported_models_directory)
             return
         for file_name in os.listdir(exported_models_directory):

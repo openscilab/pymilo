@@ -35,7 +35,7 @@ class Export:
 class Import:
     def __init__(self, file_adr, json_dump=None):
         serialized_model_obj = None
-        if (json_dump and isinstance(json_dump, str)):
+        if json_dump and isinstance(json_dump, str):
             serialized_model_obj = json.loads(json_dump)
         else:
             with open(file_adr, 'r') as fp:

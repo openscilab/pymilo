@@ -18,7 +18,7 @@ def is_iterable(obj):
         return False
 
 
-def check_string_field_existence_in_an_iterable(field, content):
+def check_str_in_iterable(field, content):
     if (not (is_iterable(content))):
         return False
     if (isinstance(content, ndarray)):

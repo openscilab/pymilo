@@ -2,9 +2,8 @@
 """Functions."""
 import numpy as np
 import sklearn
-from .transport_pipeline import transport_linear_model
-from .chain import Command
-
+from .chains.linear_model_chain import transport_linear_model
+from .transporters.transporter import Command
 
 def get_sklearn_version():
     return sklearn.__version__
@@ -21,7 +20,7 @@ def convert_to_sklearn_model(import_obj):
 def compare_model_outputs(exported_model_output,
                           imported_model_output,
                           epsilon_error=10**(-8)):
-    if (len(exported_model_output.keys()) != len(imported_model_output.keys())):
+    if len(exported_model_output.keys()) != len(imported_model_output.keys()):
         return False  # Todo throw exception
     totalError = 0
     for key in exported_model_output.keys():
