@@ -5,6 +5,7 @@ import sklearn
 from .chains.linear_model_chain import transport_linear_model
 from .transporters.transporter import Command
 
+
 def get_sklearn_version():
     return sklearn.__version__
 
