@@ -20,7 +20,7 @@ def get_sklearn_data(model):
     Return sklearn data by serializing given model
 
     :param model: given model
-    :type model: any sklearn's model classes
+    :type model: any sklearn's model class
     :return: sklearn data
     """
     return transport_linear_model(model, Command.SERIALIZE)
