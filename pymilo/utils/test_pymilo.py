@@ -24,7 +24,7 @@ def test_pymilo(model, model_name, test_data):
     :return: imported model's output
     """
     x_test, _ = test_data
-    
+
     exported_model = Export(model)
     exported_model_serialized_path = os.path.join(
         os.getcwd(), "tests", "exported_models", f'{model_name}.json')

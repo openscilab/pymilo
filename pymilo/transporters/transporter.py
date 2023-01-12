@@ -52,7 +52,7 @@ class AbstractTransporter(Transporter):
             # request is a pymilo-created import object
             data = None
             model_type = None
-            if (is_inner_model):
+            if is_inner_model:
                 data = request["data"]
                 model_type = request["type"]
             else:
