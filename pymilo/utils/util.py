@@ -40,9 +40,12 @@ def is_iterable(obj):
 
 
 def check_str_in_iterable(field, content):
-    if (not (is_iterable(content))):
+    """
+    TODO: Complete docstring.
+    """
+    if not is_iterable(content):
         return False
-    if (isinstance(content, ndarray)):
+    if isinstance(content, ndarray):
         # https://stackoverflow.com/questions/40659212/futurewarning-elementwise-comparison-failed-returning-scalar-but-in-the-futur.
         return False
     else:
