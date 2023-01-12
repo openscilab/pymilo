@@ -117,13 +117,8 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "estimator_": {},  # LinearRegression model inside RANSAC
 }
 
-
-def numpy_infinity_returner(_):
-    return np.inf
-
-
 NUMPY_TYPE_DICT = {
     "numpy.int32": int32,
     "numpy.int64": int64,
-    "numpy.infinity": numpy_infinity_returner
+    "numpy.infinity": lambda x: np.inf
 }
