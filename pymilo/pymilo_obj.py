@@ -19,7 +19,8 @@ class Export:
                 "sklearn_version": self.version,
                 "pymilo_version": PYMILO_VERSION,
                 "model_type": self.type
-            }
+            },
+            indent=4
         )
 
     def save(self, file_adr):
@@ -29,7 +30,7 @@ class Export:
                 "sklearn_version": self.version,
                 "pymilo_version": PYMILO_VERSION,
                 "model_type": self.type
-            }, fp)
+            }, fp, indent=4)
 
 
 class Import:
