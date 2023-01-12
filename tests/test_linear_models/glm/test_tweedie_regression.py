@@ -13,7 +13,7 @@ def test_tweedie_regression():
     tweedie_power = 1
     tweedie_regression = TweedieRegressor(
         power=tweedie_power,
-        alpha=tweedie_power,
+        alpha=tweedie_alpha,
         link=tweedie_link)
     # Train the model using the training sets
     tweedie_regression.fit(x_train, y_train)
