@@ -14,7 +14,7 @@ def get_sklearn_data(model):
     return transport_linear_model(model, Command.SERIALIZE)
 
 
-def convert_to_sklearn_model(import_obj):
+def to_sklearn_model(import_obj):
     return transport_linear_model(import_obj, Command.DESERIALZIE)
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """PyMilo modules."""
-from .pymilo_func import get_sklearn_data, get_sklearn_version, convert_to_sklearn_model
+from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
 from .utils.util import get_sklearn_type
 from .pymilo_param import PYMILO_VERSION
 import json
@@ -46,4 +46,4 @@ class Import:
         self.type = serialized_model_obj["model_type"]
 
     def to_model(self):
-        return convert_to_sklearn_model(self)
+        return to_sklearn_model(self)
