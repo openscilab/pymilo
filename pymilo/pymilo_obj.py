@@ -7,12 +7,21 @@ import json
 
 
 class Export:
+    """
+    TODO: Complete docstring.
+    """
+
     def __init__(self, model):
         self.data = get_sklearn_data(model)
         self.version = get_sklearn_version()
         self.type = get_sklearn_type(model)
 
     def to_json(self):
+        """
+        Return a json-like representation of model.
+
+        :return: model's representation as str 
+        """
         return json.dumps(
             {
                 "data": self.data,
@@ -24,6 +33,13 @@ class Export:
         )
 
     def save(self, file_adr):
+        """
+        Save model in a file.
+
+        :param file_adr: file address
+        :type file_adr: str
+        :return: None
+        """
         with open(file_adr, 'w') as fp:
             json.dump({
                 "data": self.data,
@@ -34,6 +50,10 @@ class Export:
 
 
 class Import:
+    """
+    TODO: Complete docstring.
+    """
+
     def __init__(self, file_adr, json_dump=None):
         serialized_model_obj = None
         if json_dump and isinstance(json_dump, str):
@@ -46,4 +66,9 @@ class Import:
         self.type = serialized_model_obj["model_type"]
 
     def to_model(self):
+        """
+        Convert imported model to sklearn model.
+
+        :return: sklearn model
+        """
         return to_sklearn_model(self)
