@@ -20,7 +20,7 @@ class Export:
         """
         Return a json-like representation of model.
 
-        :return: model's representation as str 
+        :return: model's representation as str
         """
         return json.dumps(
             {
