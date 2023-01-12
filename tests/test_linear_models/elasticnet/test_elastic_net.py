@@ -9,7 +9,6 @@ def test_elastic_net():
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     # Create Elastic Net regression object
     elasticnet_alpha = 0.1
-    lasso_cv = 5
     elasticnet_random_state = 0
     elasticnet_regression = ElasticNet(
         random_state=elasticnet_random_state,
