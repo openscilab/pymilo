@@ -1,2 +1,2 @@
 numpy
-sklearn
+scikit-learn
