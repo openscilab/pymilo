@@ -6,7 +6,7 @@ MODEL_NAME = "SGD-OneClass-Regression"
 
 
 def test_sgd_oneclass_svm():
-    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
+    x_train, _, x_test, y_test = prepare_simple_regression_datasets()
     # Create SGDOneClassSVM regression object
     sgd_random_state = 34
     sgd_oneclass_svm = SGDOneClassSVM(random_state=sgd_random_state)
