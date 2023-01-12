@@ -54,7 +54,7 @@ from sklearn.linear_model import HuberRegressor
 from sklearn.linear_model import QuantileRegressor
 
 
-PYMILO_VERSION = "3.6"
+PYMILO_VERSION = "0.1"
 
 SKLEARN_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
