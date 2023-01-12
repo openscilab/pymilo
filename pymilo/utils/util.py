@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""utility module."""
 from numpy import ndarray
 
 
