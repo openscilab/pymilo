@@ -14,6 +14,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased]: https://github.com/openscilab/pymilo/compare/v0.1...dev
 [0.1]: https://github.com/openscilab/pymilo/compare/3598e8b...v0.1
-
-
-
