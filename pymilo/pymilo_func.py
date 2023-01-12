@@ -27,6 +27,5 @@ def compare_model_outputs(exported_output,
     for key in exported_output.keys():
         if (not (key in imported_output.keys())):
             return False  # TODO: throw exception
-        total_error += np.abs(imported_output[key]) - \
-            np.abs(exported_output[key])
+        total_error += np.abs(imported_output[key] - exported_output[key])
     return np.abs(total_error) < epsilon_error
