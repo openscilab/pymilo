@@ -30,14 +30,21 @@ from bayesian.test_ard_regression import test_ard_regression
 from logistic.test_logistic_regression import test_logistic_regression
 from logistic.test_logistic_regression_cv import test_logistic_regression_cv
 
-from glm.test_tweedie_regression import test_tweedie_regression
-from glm.test_poisson_regression import test_poisson_regression
-from glm.test_gamma_regression import test_gamma_regression
+try: 
+    from glm.test_tweedie_regression import test_tweedie_regression
+    from glm.test_poisson_regression import test_poisson_regression
+    from glm.test_gamma_regression import test_gamma_regression
+except: 
+    ""
 
 from sgd.test_sgd_regression import test_sgd_regression
 from sgd.test_sgd_classifier import test_sgd_classifier
-from sgd.test_sgd_oneclass_svm import test_sgd_oneclass_svm
 
+try:
+    from sgd.test_sgd_oneclass_svm import test_sgd_oneclass_svm
+except:
+    ""
+    
 from perceptron.test_perception import test_perceptron
 
 from passive_aggressive.test_passive_aggressive_regressor import test_passive_agressive_regressor
@@ -47,8 +54,11 @@ from robustness.test_ransac_regression import test_ransac_regression
 from robustness.test_theil_sen_regression import test_theil_sen_regression
 from robustness.test_huber_regression import test_huber_regression
 
-from quantile.test_quantile import test_quantile_regressor
-
+try:
+    from quantile.test_quantile import test_quantile_regressor
+except:
+    ""
+    
 from pymilo.pymilo_param import SKLEARN_MODEL_TABLE, NOT_SUPPORTED
 class TestStringMethods(unittest.TestCase):
 

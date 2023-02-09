@@ -27,7 +27,7 @@ def test_pymilo(model, model_name, test_data):
 
     exported_model = Export(model)
     exported_model_serialized_path = os.path.join(
-        os.getcwd(), "tests", "exported_models", f'{model_name}.json')
+        os.getcwd(), "tests", "exported_models", model_name + '.json')
     exported_model.save(exported_model_serialized_path)
 
     imported_model = Import(exported_model_serialized_path)
@@ -106,6 +106,6 @@ def report_status(result, model_name):
     :return: None
     """
     if (result):
-        print(f'Pymilo Test for Model:{model_name} succeed.')
+        print('Pymilo Test for Model:' + model_name + 'succeed.')
     else:
-        print(f'Pymilo Test for Model:{model_name} failed.')
+        print('Pymilo Test for Model:' + model_name + 'failed.')
