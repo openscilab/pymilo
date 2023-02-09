@@ -1,19 +1,32 @@
-from sklearn._loss.loss import BaseLoss
-from sklearn.linear_model._glm import GammaRegressor
-from sklearn.linear_model._glm import PoissonRegressor
-from sklearn.linear_model._glm import TweedieRegressor
-from ..utils.util import check_str_in_iterable
-from .transporter import AbstractTransporter
-
+bypass = {
+    'GammaRegressor': True,
+    'PoissonRegressor': True,
+    'TweedieRegressor': True
+}
+try:
+    from sklearn._loss.loss import BaseLoss
+    from sklearn.linear_model._glm import GammaRegressor
+    bypass['GammaRegressor'] = False
+    from sklearn.linear_model._glm import PoissonRegressor
+    bypass['PoissonRegressor'] = False
+    from sklearn.linear_model._glm import TweedieRegressor
+    bypass['TweedieRegressor'] = False
+    from ..utils.util import check_str_in_iterable
+    from .transporter import AbstractTransporter
+except:
+    bypass
 # Handling BaseLoss function in GLMs.
 # BaseLoss function in Tweedie regression
 # BaseLoss function in Poisson regression
 # BaseLoss function in Gamma regression
-
+print("BYPASS:", bypass)
 
 class BaseLossTransporter(AbstractTransporter):
-
     def serialize(self, data, key, model_type):
+        # bypass when it's not supported.
+        if(model_type in bypass.keys()):
+            if(bypass[model_type]):
+                return data[key]
         # Handling special Loss function of GLMs.
         if isinstance(data[key], BaseLoss):
             if model_type == "TweedieRegressor":
@@ -40,7 +53,6 @@ class BaseLossTransporter(AbstractTransporter):
         return data[key]
 
     def get_deserialized_base_loss(self, model_type, content):
-
         if model_type == "TweedieRegressor":
             if not ("power" in content and "link" in content):
                 return None  # TODO EXCEPTION HANDLING
@@ -56,6 +68,11 @@ class BaseLossTransporter(AbstractTransporter):
             return content
 
     def deserialize(self, data, key, model_type):
+        # bypass when it's not supported.
+        if(model_type in bypass.keys()):
+            if(bypass[model_type]):
+                return data[key]
+            
         content = data[key]
         if not (check_str_in_iterable(
                 "pymilo_glm_base_loss", content)):
