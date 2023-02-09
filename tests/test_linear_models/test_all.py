@@ -49,7 +49,7 @@ from robustness.test_huber_regression import test_huber_regression
 
 from quantile.test_quantile import test_quantile_regressor
 
-
+from pymilo.pymilo_param import SKLEARN_MODEL_TABLE, NOT_SUPPORTED
 class TestStringMethods(unittest.TestCase):
 
     LINEAR_MODELS = {
@@ -83,13 +83,13 @@ class TestStringMethods(unittest.TestCase):
             test_logistic_regression,
             test_logistic_regression_cv],
         "GLM": [
-            test_tweedie_regression,
-            test_poisson_regression,
-            test_gamma_regression],
+            test_tweedie_regression if SKLEARN_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else None,
+            test_poisson_regression if SKLEARN_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else None,
+            test_gamma_regression if SKLEARN_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else None],
         "SGD": [
             test_sgd_regression,
             test_sgd_classifier,
-            test_sgd_oneclass_svm],
+            test_sgd_oneclass_svm if SKLEARN_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else None],
         "PERCEPTRON": [test_perceptron],
         "PASSIVE_AGGRESSIVE_REGRESSION_AND_CLASSIFIER": [
             test_passive_agressive_regressor,
@@ -98,7 +98,7 @@ class TestStringMethods(unittest.TestCase):
             test_ransac_regression,
             test_theil_sen_regression,
             test_huber_regression],
-        "QUANTILE_REGRESSION": [test_quantile_regressor]}
+        "QUANTILE_REGRESSION": [test_quantile_regressor if SKLEARN_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else None]}
 
     def reset_exported_models_directory(self):
         exported_models_directory = os.path.join(
@@ -117,6 +117,9 @@ class TestStringMethods(unittest.TestCase):
         for category in self.LINEAR_MODELS.keys():
             category_all_test_pass = True
             for model in self.LINEAR_MODELS[category]:
+                if model == None:
+                    print("This particular model is not supported in this python version.")
+                    continue
                 category_all_test_pass = category_all_test_pass and model()
             self.assertTrue(category_all_test_pass)
 

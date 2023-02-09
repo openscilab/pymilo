@@ -1,3 +1,4 @@
+# Handle python 3.5 issues.
 bypass = {
     'GammaRegressor': True,
     'PoissonRegressor': True,
@@ -11,15 +12,16 @@ try:
     bypass['PoissonRegressor'] = False
     from sklearn.linear_model._glm import TweedieRegressor
     bypass['TweedieRegressor'] = False
-    from ..utils.util import check_str_in_iterable
-    from .transporter import AbstractTransporter
 except:
     bypass
+
+print("BYPASS: ",bypass)
+from ..utils.util import check_str_in_iterable
+from .transporter import AbstractTransporter
 # Handling BaseLoss function in GLMs.
 # BaseLoss function in Tweedie regression
 # BaseLoss function in Poisson regression
 # BaseLoss function in Gamma regression
-print("BYPASS:", bypass)
 
 class BaseLossTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
@@ -27,6 +29,8 @@ class BaseLossTransporter(AbstractTransporter):
         if(model_type in bypass.keys()):
             if(bypass[model_type]):
                 return data[key]
+        else:
+            return data[key]
         # Handling special Loss function of GLMs.
         if isinstance(data[key], BaseLoss):
             if model_type == "TweedieRegressor":
@@ -72,6 +76,8 @@ class BaseLossTransporter(AbstractTransporter):
         if(model_type in bypass.keys()):
             if(bypass[model_type]):
                 return data[key]
+        else:
+            return data[key]
             
         content = data[key]
         if not (check_str_in_iterable(
