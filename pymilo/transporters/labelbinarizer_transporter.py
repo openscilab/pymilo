@@ -1,4 +1,3 @@
-from __future__ import annotations
 from ..pymilo_param import KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION
 from sklearn import preprocessing
 import numpy as np

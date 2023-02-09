@@ -106,6 +106,6 @@ def report_status(result, model_name):
     :return: None
     """
     if (result):
-        print(f'Pymilo Test for Model:{model_name} succeed✅.'.encode("utf-8"))
+        print(f'Pymilo Test for Model:{model_name} succeed.')
     else:
-        print(f'Pymilo Test for Model:{model_name} failed❌.'.encode("utf-8"))
+        print(f'Pymilo Test for Model:{model_name} failed.')
