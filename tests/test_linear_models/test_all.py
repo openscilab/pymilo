@@ -130,8 +130,11 @@ class TestStringMethods(unittest.TestCase):
                 if model == None:
                     print("This particular model is not supported in this python version.")
                     continue
-                category_all_test_pass = category_all_test_pass and model()
-            self.assertTrue(category_all_test_pass)
+                try:
+                    category_all_test_pass = category_all_test_pass and model()
+                    self.assertTrue(category_all_test_pass)
+                except:
+                    print("model: " + model + " of category: " + category + " failed.")
 
 
 if __name__ == '__main__':

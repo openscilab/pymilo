@@ -8,7 +8,7 @@ MODEL_NAME = "Huber-Regressor"
 def test_huber_regression():
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     # Create Huber regression object
-    huber_regresion = HuberRegressor()
+    huber_regresion = HuberRegressor(max_iter=300)
     # Train the model using the training sets
     huber_regresion.fit(x_train, y_train)
     return test_pymilo_regression(
