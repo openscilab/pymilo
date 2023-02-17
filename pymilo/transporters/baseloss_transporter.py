@@ -70,11 +70,8 @@ class BaseLossTransporter(AbstractTransporter):
                             "pymilo_glm_base_loss": True
                             # nothing for now
                         }
-                    else:
-                        # print("ERROR: NOT IMPLEMENTED YET")
-                        # TODO
-                        return data[key]
-                   
+                return data[key]
+            
             else:
                 # it's legacy version of GLMs
                 if(key == "_family_instance"):
