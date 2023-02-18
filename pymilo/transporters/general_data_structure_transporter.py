@@ -22,6 +22,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     "key-value": dictionary[key]
                 }
                 black_list_key_values.append([key, new_value])
+            if isinstance(key, np.int64):
+                new_value = {
+                    "np-type": "numpy.int64",
+                    "key-value": dictionary[key]
+                }
+                black_list_key_values.append([key, new_value])
         for black_key_value in black_list_key_values:
             prev_key = black_key_value[0]
             new_value = black_key_value[1]
