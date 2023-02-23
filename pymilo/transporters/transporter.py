@@ -1,7 +1,7 @@
-from ..utils.util import get_sklearn_type
+from pymilo.utils.util import get_sklearn_type
 from abc import ABC, abstractmethod
 from enum import Enum
-from ..utils.util import is_primitive, check_str_in_iterable
+from pymilo.utils.util import is_primitive, check_str_in_iterable
 
 class Command(Enum):
     SERIALIZE = 1

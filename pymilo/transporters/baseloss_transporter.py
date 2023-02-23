@@ -39,8 +39,8 @@ except:
 
 print("LEGACY-VERSION: ",legacy_version)
 
-from ..utils.util import check_str_in_iterable
-from .transporter import AbstractTransporter
+from pymilo.utils.util import check_str_in_iterable
+from pymilo.transporters.transporter import AbstractTransporter
 # Handling BaseLoss function in GLMs.
 # BaseLoss function in Tweedie regression
 # BaseLoss function in Poisson regression

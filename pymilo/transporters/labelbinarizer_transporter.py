@@ -1,7 +1,7 @@
-from ..pymilo_param import KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION
+from pymilo.pymilo_param import KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION
 from sklearn import preprocessing
 import numpy as np
-from .transporter import AbstractTransporter
+from pymilo.transporters.transporter import AbstractTransporter
 
 # TODO exception handling
 # Handling Label Binarizer for Ridge Classifier(+[CV])
