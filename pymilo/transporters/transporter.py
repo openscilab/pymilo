@@ -1,9 +1,7 @@
-from __future__ import annotations
 from ..utils.util import get_sklearn_type
 from abc import ABC, abstractmethod
 from enum import Enum
 from ..utils.util import is_primitive, check_str_in_iterable
-
 
 class Command(Enum):
     SERIALIZE = 1
@@ -52,7 +50,7 @@ class AbstractTransporter(Transporter):
             # request is a pymilo-created import object
             data = None
             model_type = None
-            if (is_inner_model):
+            if is_inner_model:
                 data = request["data"]
                 model_type = request["type"]
             else:

@@ -30,14 +30,21 @@ from bayesian.test_ard_regression import test_ard_regression
 from logistic.test_logistic_regression import test_logistic_regression
 from logistic.test_logistic_regression_cv import test_logistic_regression_cv
 
-from glm.test_tweedie_regression import test_tweedie_regression
-from glm.test_poisson_regression import test_poisson_regression
-from glm.test_gamma_regression import test_gamma_regression
+try: 
+    from glm.test_tweedie_regression import test_tweedie_regression
+    from glm.test_poisson_regression import test_poisson_regression
+    from glm.test_gamma_regression import test_gamma_regression
+except: 
+    ""
 
 from sgd.test_sgd_regression import test_sgd_regression
 from sgd.test_sgd_classifier import test_sgd_classifier
-from sgd.test_sgd_oneclass_svm import test_sgd_oneclass_svm
 
+try:
+    from sgd.test_sgd_oneclass_svm import test_sgd_oneclass_svm
+except:
+    ""
+    
 from perceptron.test_perception import test_perceptron
 
 from passive_aggressive.test_passive_aggressive_regressor import test_passive_agressive_regressor
@@ -47,9 +54,12 @@ from robustness.test_ransac_regression import test_ransac_regression
 from robustness.test_theil_sen_regression import test_theil_sen_regression
 from robustness.test_huber_regression import test_huber_regression
 
-from quantile.test_quantile import test_quantile_regressor
-
-
+try:
+    from quantile.test_quantile import test_quantile_regressor
+except:
+    ""
+    
+from pymilo.pymilo_param import SKLEARN_MODEL_TABLE, NOT_SUPPORTED
 class TestStringMethods(unittest.TestCase):
 
     LINEAR_MODELS = {
@@ -83,13 +93,13 @@ class TestStringMethods(unittest.TestCase):
             test_logistic_regression,
             test_logistic_regression_cv],
         "GLM": [
-            test_tweedie_regression,
-            test_poisson_regression,
-            test_gamma_regression],
+            test_tweedie_regression if SKLEARN_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else (None,"TweedieRegressor"),
+            test_poisson_regression if SKLEARN_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else (None,"PoissonRegressor"),
+            test_gamma_regression if SKLEARN_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else (None,"GammaRegressor")],
         "SGD": [
             test_sgd_regression,
             test_sgd_classifier,
-            test_sgd_oneclass_svm],
+            test_sgd_oneclass_svm if SKLEARN_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else (None,"SGDOneClassSVM")],
         "PERCEPTRON": [test_perceptron],
         "PASSIVE_AGGRESSIVE_REGRESSION_AND_CLASSIFIER": [
             test_passive_agressive_regressor,
@@ -98,7 +108,7 @@ class TestStringMethods(unittest.TestCase):
             test_ransac_regression,
             test_theil_sen_regression,
             test_huber_regression],
-        "QUANTILE_REGRESSION": [test_quantile_regressor]}
+        "QUANTILE_REGRESSION": [test_quantile_regressor if SKLEARN_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else (None,"QuantileRegressor")]}
 
     def reset_exported_models_directory(self):
         exported_models_directory = os.path.join(
@@ -117,9 +127,13 @@ class TestStringMethods(unittest.TestCase):
         for category in self.LINEAR_MODELS.keys():
             category_all_test_pass = True
             for model in self.LINEAR_MODELS[category]:
+                if(isinstance(model, tuple)):
+                    func, model_name = model
+                    if func == None:
+                        print("Model: " + model_name + " is not supported in this python version.")
+                        continue
                 category_all_test_pass = category_all_test_pass and model()
-            self.assertTrue(category_all_test_pass)
-
+                self.assertTrue(category_all_test_pass)
 
 if __name__ == '__main__':
     unittest.main()

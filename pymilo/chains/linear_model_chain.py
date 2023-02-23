@@ -20,7 +20,7 @@ def is_linear_model(model):
 
 
 def is_deserialized_linear_model(content):
-    if not (is_iterable(content)):
+    if not is_iterable(content):
         return False
     return "inner-model-type" in content and "inner-model-data" in content
 
@@ -42,7 +42,7 @@ def transport_linear_model(request, command, is_inner_model=False):
                 request, Command.SERIALIZE)
         return request.__dict__
 
-    elif (command == Command.DESERIALZIE):
+    elif command == Command.DESERIALZIE:
         raw_model = None
         data = None
         if (is_inner_model):

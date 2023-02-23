@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+NOT_SUPPORTED = "NOT_SUPPORTED"
+
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 from numpy import int32
@@ -34,13 +36,32 @@ from sklearn.linear_model import ARDRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LogisticRegressionCV
 
-from sklearn.linear_model import TweedieRegressor
-from sklearn.linear_model import PoissonRegressor
-from sklearn.linear_model import GammaRegressor
+# Handle python 3.5.4 issues.
+glm_support = {
+    'GammaRegressor': False,
+    'PoissonRegressor': False,
+    'TweedieRegressor': False
+}
+try:
+    from sklearn.linear_model import TweedieRegressor
+    glm_support['TweedieRegressor'] = True
+    from sklearn.linear_model import PoissonRegressor
+    glm_support['PoissonRegressor'] = True
+    from sklearn.linear_model import GammaRegressor
+    glm_support['GammaRegressor'] = True
+except: 
+    glm_support
 
 from sklearn.linear_model import SGDRegressor
 from sklearn.linear_model import SGDClassifier
-from sklearn.linear_model import SGDOneClassSVM
+
+# Handle python 3.6.8 issue
+sgd_one_class_svm_support = False
+try:
+    from sklearn.linear_model import SGDOneClassSVM
+    sgd_one_class_svm_support = True
+except:
+    sgd_one_class_svm_support
 
 from sklearn.linear_model import Perceptron
 
@@ -51,10 +72,14 @@ from sklearn.linear_model import RANSACRegressor
 from sklearn.linear_model import TheilSenRegressor
 from sklearn.linear_model import HuberRegressor
 
-from sklearn.linear_model import QuantileRegressor
+# Handle python 3.5.4 issue
+quantile_regressor_support = True
+try:
+    from sklearn.linear_model import QuantileRegressor
+except:
+    quantile_regressor_support = False
 
-
-PYMILO_VERSION = "3.6"
+PYMILO_VERSION = "0.1"
 
 SKLEARN_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
@@ -86,13 +111,13 @@ SKLEARN_MODEL_TABLE = {
     "LogisticRegression": LogisticRegression,
     "LogisticRegressionCV": LogisticRegressionCV,
 
-    "TweedieRegressor": TweedieRegressor,
-    "PoissonRegressor": PoissonRegressor,
-    "GammaRegressor": GammaRegressor,
+    "TweedieRegressor": NOT_SUPPORTED if not(glm_support['TweedieRegressor']) else TweedieRegressor,
+    "PoissonRegressor": NOT_SUPPORTED if not(glm_support['PoissonRegressor']) else PoissonRegressor,
+    "GammaRegressor": NOT_SUPPORTED if not(glm_support['GammaRegressor']) else GammaRegressor,
 
     "SGDRegressor": SGDRegressor,
     "SGDClassifier": SGDClassifier,
-    "SGDOneClassSVM": SGDOneClassSVM,
+    "SGDOneClassSVM": NOT_SUPPORTED if not(sgd_one_class_svm_support) else SGDOneClassSVM,
 
     "Perceptron": Perceptron,
 
@@ -103,7 +128,7 @@ SKLEARN_MODEL_TABLE = {
     "TheilSenRegressor": TheilSenRegressor,
     "HuberRegressor": HuberRegressor,
 
-    "QuantileRegressor": QuantileRegressor
+    "QuantileRegressor": NOT_SUPPORTED if not(quantile_regressor_support) else QuantileRegressor
 
 }
 
@@ -117,13 +142,8 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "estimator_": {},  # LinearRegression model inside RANSAC
 }
 
-
-def numpy_infinity_returner(_):
-    return np.inf
-
-
 NUMPY_TYPE_DICT = {
     "numpy.int32": int32,
     "numpy.int64": int64,
-    "numpy.infinity": numpy_infinity_returner
+    "numpy.infinity": lambda x: np.inf
 }

@@ -22,6 +22,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     "key-value": dictionary[key]
                 }
                 black_list_key_values.append([key, new_value])
+            if isinstance(key, np.int64):
+                new_value = {
+                    "np-type": "numpy.int64",
+                    "key-value": dictionary[key]
+                }
+                black_list_key_values.append([key, new_value])
         for black_key_value in black_list_key_values:
             prev_key = black_key_value[0]
             new_value = black_key_value[1]
@@ -32,7 +38,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
         # 1. Handling numpy infinity, ransac
         if isinstance(data[key], type(np.inf)):
-            if (np.inf == data[key]):
+            if np.inf == data[key]:
                 data[key] = {
                     "np-type": "numpy.infinity",
                     "value": "infinite"  # added for compatibility
@@ -51,10 +57,10 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         elif isinstance(data[key], list):
             new_list = []
             for item in data[key]:
-                if (isinstance(item, np.int32)):
+                if isinstance(item, np.int32):
                     new_list.append(
                         {"value": int(item), "np-type": "numpy.int32"})
-                elif (isinstance(item, np.int64)):
+                elif isinstance(item, np.int64):
                     new_list.append(
                         {"value": int(item), "np-type": "numpy.int64"})
                 else:
@@ -108,7 +114,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     # active_ array in Lasso Lars
     def get_deserialized_list(self, content):
-        if not (isinstance(content, list)):
+        if not isinstance(content, list):
             return None
         new_list = []
         for item in content:
@@ -129,10 +135,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if is_primitive(content):
             return False
         current_supported_primary_types = NUMPY_TYPE_DICT.values()
-        if not (is_iterable(content)):
+        if not is_iterable(content):
             return False
-        if ("np-type" in content and content["np-type"]
-                in current_supported_primary_types):
+        if "np-type" in content and content["np-type"] in current_supported_primary_types:
             return True
         else:
             return False
