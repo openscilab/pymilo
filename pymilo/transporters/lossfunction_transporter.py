@@ -1,6 +1,6 @@
 from sklearn.linear_model._stochastic_gradient import SGDClassifier
 from ..utils.util import is_primitive, check_str_in_iterable
-from ..transporters.transporter import AbstractTransporter
+from .transporter import AbstractTransporter
 
 # Handling LossFunction for SGD-Classifier
 
