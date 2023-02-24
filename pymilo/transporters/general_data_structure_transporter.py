@@ -1,7 +1,7 @@
 import numpy as np
-from pymilo.pymilo_param import NUMPY_TYPE_DICT
-from pymilo.utils.util import is_primitive, is_iterable, check_str_in_iterable
-from pymilo.transporters.transporter import AbstractTransporter
+from ..pymilo_param import NUMPY_TYPE_DICT
+from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
+from ..transporters.transporter import AbstractTransporter
 
 
 class GeneralDataStructureTransporter(AbstractTransporter):

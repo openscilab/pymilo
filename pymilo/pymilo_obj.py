@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """PyMilo modules."""
-from pymilo.pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
-from pymilo.utils.util import get_sklearn_type
-from pymilo.pymilo_param import PYMILO_VERSION
+from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
+from .utils.util import get_sklearn_type
+from .pymilo_param import PYMILO_VERSION
 import json
 
 

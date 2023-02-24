@@ -1,12 +1,12 @@
-from pymilo.transporters.transporter import Command
+from ..transporters.transporter import Command
 
-from pymilo.transporters.general_data_structure_transporter import GeneralDataStructureTransporter
-from pymilo.transporters.baseloss_transporter import BaseLossTransporter
-from pymilo.transporters.lossfunction_transporter import LossFunctionTransporter
-from pymilo.transporters.labelbinarizer_transporter import LabelBinarizerTransporter
+from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
+from ..transporters.baseloss_transporter import BaseLossTransporter
+from ..transporters.lossfunction_transporter import LossFunctionTransporter
+from ..transporters.labelbinarizer_transporter import LabelBinarizerTransporter
 
-from pymilo.pymilo_param import SKLEARN_MODEL_TABLE
-from pymilo.utils.util import get_sklearn_type, is_iterable
+from ..pymilo_param import SKLEARN_MODEL_TABLE
+from ..utils.util import get_sklearn_type, is_iterable
 
 LINEAR_MODEL_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),

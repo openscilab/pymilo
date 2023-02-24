@@ -2,8 +2,8 @@
 """Functions."""
 import numpy as np
 import sklearn
-from pymilo.chains.linear_model_chain import transport_linear_model
-from pymilo.transporters.transporter import Command
+from .chains.linear_model_chain import transport_linear_model
+from .transporters.transporter import Command
 
 
 def get_sklearn_version():
