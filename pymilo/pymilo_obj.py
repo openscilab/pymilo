@@ -25,12 +25,22 @@ class Export:
         :return: None
         """
         with open(file_adr, 'w') as fp:
-            json.dump({
+            fp.write(self.to_json())
+
+    def to_json(self):
+        """
+        Return a json-like representation of model.
+        :return: model's representation as str
+        """
+        return json.dumps(
+            {
                 "data": self.data,
                 "sklearn_version": self.version,
                 "pymilo_version": PYMILO_VERSION,
                 "model_type": self.type
-            }, fp, indent=4)
+            },
+            indent=4
+        )
 
 class Import:
     """
