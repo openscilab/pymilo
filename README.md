@@ -2,24 +2,24 @@
     <img src="https://github.com/openscilab/pymilo/raw/master/otherfiles/logo.png">
     <br/>
     <br/>
-    <!-- <a href="https://codecov.io/gh/openscilab/pymilo">
+    <a href="https://codecov.io/gh/openscilab/pymilo">
         <img src="https://codecov.io/gh/openscilab/pymilo/branch/master/graph/badge.svg" alt="Codecov"/>
-    </a> -->
-    <!-- <a href="https://badge.fury.io/py/pymilo">
+    </a>
+    <a href="https://badge.fury.io/py/pymilo">
         <img src="https://badge.fury.io/py/pymilo.svg" alt="PyPI version" height="18">
-    </a> -->
+    </a>
     <a href="https://www.python.org/">
         <img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3">
     </a>
     <!-- <a href="https://anaconda.org/openscilab/pymilo">
         <img src="https://anaconda.org/openscilab/pymilo/badges/version.svg">
     </a> -->
-    <!-- <a href="https://colab.research.google.com/github/openscilab/pymilo/blob/master">
+    <a href="https://colab.research.google.com/github/openscilab/pymilo/blob/master">
         <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Pymilo-Colab"/>
-    </a> -->
-    <!-- <a href="?">
-        <img src="?" alt="Discord Channel">
-    </a> -->
+    </a>
+    <a href="https://discord.gg/mtuMS8AjDS">
+        <img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel">
+    </a>
 </div>
 
 ----------
@@ -57,7 +57,7 @@
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
 - Run `pip install pymilo==0.1` or `pip3 install pymilo==0.1` (Need root access)
 
-<!-- ### Conda
+### Conda
 
 - Check [Conda Managing Package](https://conda.io/)
 - Update Conda using `conda update conda` (Need root access)
@@ -65,7 +65,7 @@
 
 ### Easy install
 
-- Run `easy_install --upgrade pycm` (Need root access) -->
+- Run `easy_install --upgrade pymilo` (Need root access)
 
 
 ## Usage
@@ -73,15 +73,11 @@
 
 ## Issues & bug reports
 
-<!-- Just fill an issue and describe it. We'll check it ASAP! or send an email to [example@openscilab.com](mailto:example@openscilab.com "example@openscilab.com"). -->
-
-- Please complete the issue template
- 
-You can also join our discord server
-
-<!-- <a href="?">
-  <img src="?" alt="Discord Channel">
-</a> -->
+1. Fill an issue and describe it. We'll check it ASAP!
+    - Please complete the issue template
+2. Discord : [https://discord.gg/mtuMS8AjDS](https://discord.gg/mtuMS8AjDS)
+<!-- 3. Website : [https://www.ascii-art.site](https://www.ascii-art.site) -->
+<!-- 4. Email : [info@ascii-art.site](mailto:info@ascii-art.site "info@ascii-art.site") -->
 
 
 <!-- ## Cite -->
