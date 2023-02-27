@@ -47,10 +47,25 @@
 
 ## Installation
 
-Install pymilo locally by
-```pycon
-pip install .
-```
+### Source code
+- Download [Version 0.1](https://github.com/openscilab/pymilo/archive/v0.1.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Run `pip install -r requirements.txt` or `pip3 install -r requirements.txt` (Need root access)
+- Run `python3 setup.py install` or `python setup.py install` (Need root access)
+
+### PyPI
+
+- Check [Python Packaging User Guide](https://packaging.python.org/installing/)
+- Run `pip install pymilo==0.1` or `pip3 install pymilo==0.1` (Need root access)
+
+<!-- ### Conda
+
+- Check [Conda Managing Package](https://conda.io/)
+- Update Conda using `conda update conda` (Need root access)
+- Run `conda install -c openscilab pymilo` (Need root access)
+
+### Easy install
+
+- Run `easy_install --upgrade pycm` (Need root access) -->
 
 
 ## Usage
