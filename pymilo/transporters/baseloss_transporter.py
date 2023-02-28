@@ -37,7 +37,7 @@ except:
         # there is not glm models.
         legacy_version
 
-print("LEGACY-VERSION: ",legacy_version)
+# print("LEGACY-VERSION: ",legacy_version)
 
 from ..utils.util import check_str_in_iterable
 from .transporter import AbstractTransporter

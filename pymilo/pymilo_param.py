@@ -145,5 +145,5 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
 NUMPY_TYPE_DICT = {
     "numpy.int32": int32,
     "numpy.int64": int64,
-    "numpy.infinity": lambda x: np.inf
+    "numpy.infinity": lambda _: np.inf
 }

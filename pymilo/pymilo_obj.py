@@ -16,10 +16,20 @@ class Export:
         self.version = get_sklearn_version()
         self.type = get_sklearn_type(model)
 
+    def save(self, file_adr):
+        """
+        Save model in a file.
+
+        :param file_adr: file address
+        :type file_adr: str
+        :return: None
+        """
+        with open(file_adr, 'w') as fp:
+            fp.write(self.to_json())
+
     def to_json(self):
         """
         Return a json-like representation of model.
-
         :return: model's representation as str
         """
         return json.dumps(
@@ -31,23 +41,6 @@ class Export:
             },
             indent=4
         )
-
-    def save(self, file_adr):
-        """
-        Save model in a file.
-
-        :param file_adr: file address
-        :type file_adr: str
-        :return: None
-        """
-        with open(file_adr, 'w') as fp:
-            json.dump({
-                "data": self.data,
-                "sklearn_version": self.version,
-                "pymilo_version": PYMILO_VERSION,
-                "model_type": self.type
-            }, fp, indent=4)
-
 
 class Import:
     """
