@@ -23,7 +23,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install .
-      - name: Test all
+          python setup.py install 
+      - name: First test
         run: |
           python tests/test_linear_models/test_all.py
+      - name: Test requirements Installation
+        run: |
+          python otherfiles/requirements-splitter.py
+          pip install --upgrade --upgrade-strategy=only-if-needed -r test-requirements.txt
+      - name: Other tests
+        run: |
+          python -m vulture pymilo/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
+          python -m bandit -r pymilo -s B311
+        if: matrix.python-version == 3.8
