@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/openscilab/pymilo/raw/master/otherfiles/logo.png">
+    <img src="https://github.com/openscilab/pymilo/raw/master/otherfiles/logo.png" width="550">
     <br/>
     <br/>
     <a href="https://codecov.io/gh/openscilab/pymilo">
@@ -11,9 +11,9 @@
     <a href="https://www.python.org/">
         <img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3">
     </a>
-    <!-- <a href="https://anaconda.org/openscilab/pymilo">
+    <a href="https://anaconda.org/openscilab/pymilo">
         <img src="https://anaconda.org/openscilab/pymilo/badges/version.svg">
-    </a> -->
+    </a>
     <a href="https://colab.research.google.com/github/openscilab/pymilo/blob/master">
         <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Pymilo-Colab"/>
     </a>
@@ -29,12 +29,9 @@
 * [Overview](https://github.com/openscilab/pymilo#overview)
 * [Installation](https://github.com/openscilab/pymilo#installation)
 * [Usage](https://github.com/openscilab/pymilo#usage)
-  <!-- * [Scikit-learn](https://github.com/openscilab/pymilo#sciki-learn) -->
-<!-- * [Document](https://github.com/openscilab/pymilo/tree/master/Document) -->
 * [Issues & Bug Reports](https://github.com/openscilab/pymilo#issues--bug-reports)
 * [Todo](https://github.com/openscilab/pymilo/blob/master/TODO.md)
 * [Contribution](https://github.com/openscilab/pymilo/blob/master/.github/CONTRIBUTING.md)
-<!-- * [Cite](https://github.com/openscilab/pymilo#cite) -->
 * [Authors](https://github.com/openscilab/pymilo/blob/master/AUTHORS.md)
 * [License](https://github.com/openscilab/pymilo/blob/master/LICENSE)
 * [Show Your Support](https://github.com/openscilab/pymilo#show-your-support)
@@ -43,6 +40,69 @@
 
 
 ## Overview
+
+<table>
+	<tr>
+		<td align="center">Open Hub</td>
+		<td align="center">
+            <a href="https://www.openhub.net/p/pymilo">
+                <img src="https://www.openhub.net/p/pymilo/widgets/project_thin_badge.gif">
+            </a>
+        </td>
+	</tr>
+	<tr>
+		<td align="center">PyPI Counter</td>
+		<td align="center">
+            <a href="http://pepy.tech/project/pymilo">
+                <img src="http://pepy.tech/badge/pymilo">
+            </a>
+        </td>
+	</tr>
+	<tr>
+		<td align="center">Github Stars</td>
+		<td align="center">
+            <a href="https://github.com/openscilab/pymilo">
+                <img src="https://img.shields.io/github/stars/openscilab/pymilo.svg?style=social&label=Stars">
+            </a>
+        </td>
+	</tr>
+</table>
+
+
+
+<table>
+	<tr> 
+		<td align="center">Branch</td>
+		<td align="center">master</td>
+		<td align="center">dev</td>
+	</tr>
+    <tr>
+		<td align="center">CI</td>
+		<td align="center">
+            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=master">
+        </td>
+		<td align="center">
+            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=dev">
+            </td>
+	</tr>
+</table>
+
+
+<table>
+	<tr> 
+		<td align="center">Code Quality</td>
+		<td align="center">
+            <a class="badge-align" href="https://www.codacy.com/app/openscilab/pymilo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=openscilab/pymilo&amp;utm_campaign=Badge_Grade">
+                <img src="https://api.codacy.com/project/badge/Grade/5d9463998a0040d09afc2b80c389365c"/>
+            </a>
+        </td>
+		<td align="center">
+            <a href="https://www.codefactor.io/repository/github/openscilab/pymilo/overview/dev">
+                <img src="https://www.codefactor.io/repository/github/openscilab/pymilo/badge/dev" alt="CodeFactor"/>
+            </a>
+        </td>
+    </tr>
+</table>
 
 
 ## Installation
@@ -76,11 +136,6 @@
 1. Fill an issue and describe it. We'll check it ASAP!
     - Please complete the issue template
 2. Discord : [https://discord.gg/mtuMS8AjDS](https://discord.gg/mtuMS8AjDS)
-<!-- 3. Website : [https://www.ascii-art.site](https://www.ascii-art.site) -->
-<!-- 4. Email : [info@ascii-art.site](mailto:info@ascii-art.site "info@ascii-art.site") -->
-
-
-<!-- ## Cite -->
 
 
 ## Show Your Support
