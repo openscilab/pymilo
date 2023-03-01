@@ -40,7 +40,7 @@
 
 
 ## Overview
-<center>
+<div align="center">
     <table>
         <tr>
             <td align="center">Open Hub</td>
@@ -67,9 +67,6 @@
             </td>
         </tr>
     </table>
-</center>
-
-<center>
     <table>
         <tr> 
             <td align="center">Branch</td>
@@ -86,9 +83,6 @@
                 </td>
         </tr>
     </table>
-</center>
-
-<center>
     <table>
         <tr> 
             <td align="center">Code Quality</td>
@@ -104,7 +98,7 @@
             </td>
         </tr>
     </table>
-</center>
+</div>
 
 ## Installation
 
