@@ -1,9 +1,9 @@
 <div align="center">
-    <img src="https://github.com/openscilab/pymilo/raw/master/otherfiles/logo.png" width="550">
+    <img src="https://github.com/openscilab/pymilo/raw/main/otherfiles/logo.png" width="550">
     <br/>
     <br/>
     <a href="https://codecov.io/gh/openscilab/pymilo">
-        <img src="https://codecov.io/gh/openscilab/pymilo/branch/master/graph/badge.svg" alt="Codecov"/>
+        <img src="https://codecov.io/gh/openscilab/pymilo/branch/main/graph/badge.svg" alt="Codecov"/>
     </a>
     <a href="https://badge.fury.io/py/pymilo">
         <img src="https://badge.fury.io/py/pymilo.svg" alt="PyPI version" height="18">
@@ -14,7 +14,7 @@
     <a href="https://anaconda.org/openscilab/pymilo">
         <img src="https://anaconda.org/openscilab/pymilo/badges/version.svg">
     </a>
-    <a href="https://colab.research.google.com/github/openscilab/pymilo/blob/master">
+    <a href="https://colab.research.google.com/github/openscilab/pymilo/blob/main">
         <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Pymilo-Colab"/>
     </a>
     <a href="https://discord.gg/mtuMS8AjDS">
@@ -30,13 +30,13 @@
 * [Installation](https://github.com/openscilab/pymilo#installation)
 * [Usage](https://github.com/openscilab/pymilo#usage)
 * [Issues & Bug Reports](https://github.com/openscilab/pymilo#issues--bug-reports)
-* [Todo](https://github.com/openscilab/pymilo/blob/master/TODO.md)
-* [Contribution](https://github.com/openscilab/pymilo/blob/master/.github/CONTRIBUTING.md)
-* [Authors](https://github.com/openscilab/pymilo/blob/master/AUTHORS.md)
-* [License](https://github.com/openscilab/pymilo/blob/master/LICENSE)
+* [Todo](https://github.com/openscilab/pymilo/blob/main/TODO.md)
+* [Contribution](https://github.com/openscilab/pymilo/blob/main/.github/CONTRIBUTING.md)
+* [Authors](https://github.com/openscilab/pymilo/blob/main/AUTHORS.md)
+* [License](https://github.com/openscilab/pymilo/blob/main/LICENSE)
 * [Show Your Support](https://github.com/openscilab/pymilo#show-your-support)
-* [Changelog](https://github.com/openscilab/pymilo/blob/master/CHANGELOG.md)
-* [Code of Conduct](https://github.com/openscilab/pymilo/blob/master/.github/CODE_OF_CONDUCT.md)
+* [Changelog](https://github.com/openscilab/pymilo/blob/main/CHANGELOG.md)
+* [Code of Conduct](https://github.com/openscilab/pymilo/blob/main/.github/CODE_OF_CONDUCT.md)
 
 
 ## Overview
@@ -73,13 +73,13 @@
 <table>
 	<tr> 
 		<td align="center">Branch</td>
-		<td align="center">master</td>
+		<td align="center">main</td>
 		<td align="center">dev</td>
 	</tr>
     <tr>
 		<td align="center">CI</td>
 		<td align="center">
-            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=master">
+            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=main">
         </td>
 		<td align="center">
             <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=dev">
