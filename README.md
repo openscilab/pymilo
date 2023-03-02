@@ -40,65 +40,65 @@
 
 
 ## Overview
-<div align="center">
-    <table>
-        <tr>
-            <td align="center">Open Hub</td>
-            <td align="center">
-                <a href="https://www.openhub.net/p/pymilo">
-                    <img src="https://www.openhub.net/p/pymilo/widgets/project_thin_badge.gif">
-                </a>
+
+<table>
+    <tr>
+        <td align="center">Open Hub</td>
+        <td align="center">
+            <a href="https://www.openhub.net/p/pymilo">
+                <img src="https://www.openhub.net/p/pymilo/widgets/project_thin_badge.gif">
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">PyPI Counter</td>
+        <td align="center">
+            <a href="http://pepy.tech/project/pymilo">
+                <img src="http://pepy.tech/badge/pymilo">
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">Github Stars</td>
+        <td align="center">
+            <a href="https://github.com/openscilab/pymilo">
+                <img src="https://img.shields.io/github/stars/openscilab/pymilo.svg?style=social&label=Stars">
+            </a>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr> 
+        <td align="center">Branch</td>
+        <td align="center">main</td>
+        <td align="center">dev</td>
+    </tr>
+    <tr>
+        <td align="center">CI</td>
+        <td align="center">
+            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=main">
+        </td>
+        <td align="center">
+            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=dev">
             </td>
-        </tr>
-        <tr>
-            <td align="center">PyPI Counter</td>
-            <td align="center">
-                <a href="http://pepy.tech/project/pymilo">
-                    <img src="http://pepy.tech/badge/pymilo">
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td align="center">Github Stars</td>
-            <td align="center">
-                <a href="https://github.com/openscilab/pymilo">
-                    <img src="https://img.shields.io/github/stars/openscilab/pymilo.svg?style=social&label=Stars">
-                </a>
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr> 
-            <td align="center">Branch</td>
-            <td align="center">main</td>
-            <td align="center">dev</td>
-        </tr>
-        <tr>
-            <td align="center">CI</td>
-            <td align="center">
-                <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=main">
-            </td>
-            <td align="center">
-                <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=dev">
-                </td>
-        </tr>
-    </table>
-    <table>
-        <tr> 
-            <td align="center">Code Quality</td>
-            <td align="center">
-                <a class="badge-align" href="https://www.codacy.com/app/openscilab/pymilo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=openscilab/pymilo&amp;utm_campaign=Badge_Grade">
-                    <img src="https://api.codacy.com/project/badge/Grade/5d9463998a0040d09afc2b80c389365c"/>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://www.codefactor.io/repository/github/openscilab/pymilo/overview/dev">
-                    <img src="https://www.codefactor.io/repository/github/openscilab/pymilo/badge/dev" alt="CodeFactor"/>
-                </a>
-            </td>
-        </tr>
-    </table>
-</div>
+    </tr>
+</table>
+<table>
+    <tr> 
+        <td align="center">Code Quality</td>
+        <td align="center">
+            <a class="badge-align" href="https://www.codacy.com/app/openscilab/pymilo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=openscilab/pymilo&amp;utm_campaign=Badge_Grade">
+                <img src="https://api.codacy.com/project/badge/Grade/5d9463998a0040d09afc2b80c389365c"/>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://www.codefactor.io/repository/github/openscilab/pymilo/overview/dev">
+                <img src="https://www.codefactor.io/repository/github/openscilab/pymilo/badge/dev" alt="CodeFactor"/>
+            </a>
+        </td>
+    </tr>
+</table>
+
 
 ## Installation
 
