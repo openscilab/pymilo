@@ -30,3 +30,16 @@ class PymiloDeserializationException(Exception):
         pymilo_report['object']['json_file'] = self.meta_data['json_file'] 
         return pymilo_report
     
+    def to_pymilo_issue(self):
+        pymilo_report = self.to_pymilo_log()
+        discription = "#### Description\n" + "Pymilo Import failed."
+        steps_to_produce = "#### Steps/Code to Reproduce\n" + "It is auto-reported from the pymilo logger."
+        expected_behaviour = "#### Expected Behavior\n" + "A successfull Pymilo Import."
+        actual_behaviour = "#### Actual Behavior\n" + "Pymilo Import failed."
+        operating_system = "#### Operating System\n" + pymilo_report['os']['full-description']
+        python_version = "#### Python Version\n" + pymilo_report['versions']["python-version"]
+        pymilo_version = "#### PyMilo Version\n" + pymilo_report['versions']["pymilo-version"]
+        gathered_data = "#### Logged Data\n" + pymilo_report
+
+        full_issue_form = discription + steps_to_produce + expected_behaviour + actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
+        return full_issue_form

@@ -25,3 +25,16 @@ class PymiloSerializationException(Exception):
         pymilo_report = super().to_pymilo_log()
         # TODO add any serializable field to `object` field of pymilo_report
         return pymilo_report
+    
+    def to_pymilo_issue(self):
+        pymilo_report = self.to_pymilo_log()
+        discription = "#### Description\n" + "Pymilo Export failed."
+        steps_to_produce = "\n#### Steps/Code to Reproduce\n" + "It is auto-reported from the pymilo logger."
+        expected_behaviour = "\n#### Expected Behavior\n" + "A successfull Pymilo Export."
+        actual_behaviour = "\n#### Actual Behavior\n" + "Pymilo Export failed."
+        operating_system = "\n#### Operating System\n" + pymilo_report['os']['full-description']
+        python_version = "\n#### Python Version\n" + pymilo_report['versions']["python-version"]
+        pymilo_version = "\n#### PyMilo Version\n" + pymilo_report['versions']["pymilo-version"]
+        gathered_data = "\n#### Logged Data\n" + pymilo_report
+
+        full_issue_form = discription + steps_to_produce + expected_behaviour + actual_behaviour + operating_system + python_version + pymilo_version + gathered_data

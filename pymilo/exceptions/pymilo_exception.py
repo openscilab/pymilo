@@ -2,7 +2,8 @@ import pymilo
 import sklearn
 import platform
 from datetime import datetime
-class PymiloException(Exception):
+from abc import ABC, abstractmethod
+class PymiloException(Exception, ABC):
     def __init__(self, message, meta_data):            
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
@@ -33,3 +34,7 @@ class PymiloException(Exception):
             }
         }
         return pymilo_report
+    
+    @abstractmethod
+    def to_pymilo_issue(self):
+        pass
