@@ -95,7 +95,7 @@ def deserialize_linear_model(linear_model_json, is_inner_model):
 
 def validate_input(model, command):
     if(command == Command.SERIALIZE):
-        if(type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys()):
+        if(get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys()):
             return 
         else: 
             raise PymiloSerializationException(
