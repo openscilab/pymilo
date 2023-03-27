@@ -3,6 +3,7 @@ import sklearn
 import platform
 from datetime import datetime
 from abc import ABC, abstractmethod
+
 class PymiloException(Exception, ABC):
     def __init__(self, message, meta_data):            
         # Call the base class constructor with the parameters it needs
@@ -21,7 +22,6 @@ class PymiloException(Exception, ABC):
             },
             'versions': {
                 'pymilo-version': pymilo.__version__,
-                # TODO generalize framework handling.
                 'scikit-version': sklearn.__version__,
                 'python-version': platform.python_version()
             },
@@ -30,9 +30,11 @@ class PymiloException(Exception, ABC):
             }, 
             'error': {
                 'date-utc': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
-                'message': self.meta_data['error'] if self.meta_data['error'] != None else self.message 
+                'pymilo-error': self.message, 
+                'inner-error': self.meta_data['error'] if self.meta_data['error'] != None else ""
             }
         }
+
         return pymilo_report
     
     @abstractmethod

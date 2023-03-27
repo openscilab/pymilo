@@ -59,7 +59,7 @@ try:
 except:
     ""
     
-from pymilo.pymilo_param import SKLEARN_MODEL_TABLE, NOT_SUPPORTED
+from pymilo.pymilo_param import SKLEARN_LINEAR_MODEL_TABLE, NOT_SUPPORTED
 class TestStringMethods(unittest.TestCase):
 
     LINEAR_MODELS = {
@@ -93,13 +93,13 @@ class TestStringMethods(unittest.TestCase):
             test_logistic_regression,
             test_logistic_regression_cv],
         "GLM": [
-            test_tweedie_regression if SKLEARN_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else (None,"TweedieRegressor"),
-            test_poisson_regression if SKLEARN_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else (None,"PoissonRegressor"),
-            test_gamma_regression if SKLEARN_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else (None,"GammaRegressor")],
+            test_tweedie_regression if SKLEARN_LINEAR_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else (None,"TweedieRegressor"),
+            test_poisson_regression if SKLEARN_LINEAR_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else (None,"PoissonRegressor"),
+            test_gamma_regression if SKLEARN_LINEAR_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else (None,"GammaRegressor")],
         "SGD": [
             test_sgd_regression,
             test_sgd_classifier,
-            test_sgd_oneclass_svm if SKLEARN_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else (None,"SGDOneClassSVM")],
+            test_sgd_oneclass_svm if SKLEARN_LINEAR_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else (None,"SGDOneClassSVM")],
         "PERCEPTRON": [test_perceptron],
         "PASSIVE_AGGRESSIVE_REGRESSION_AND_CLASSIFIER": [
             test_passive_agressive_regressor,
@@ -108,7 +108,7 @@ class TestStringMethods(unittest.TestCase):
             test_ransac_regression,
             test_theil_sen_regression,
             test_huber_regression],
-        "QUANTILE_REGRESSION": [test_quantile_regressor if SKLEARN_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else (None,"QuantileRegressor")]}
+        "QUANTILE_REGRESSION": [test_quantile_regressor if SKLEARN_LINEAR_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else (None,"QuantileRegressor")]}
 
     def reset_exported_models_directory(self):
         exported_models_directory = os.path.join(

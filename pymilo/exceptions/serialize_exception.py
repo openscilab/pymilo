@@ -1,8 +1,5 @@
 from enum import Enum
-import pymilo
-import sklearn
-import platform
-from datetime import datetime
+
 class SerilaizatoinErrorTypes(Enum):
     INVALID_MODEL = 1
     VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2
@@ -38,3 +35,4 @@ class PymiloSerializationException(Exception):
         gathered_data = "\n#### Logged Data\n" + pymilo_report
 
         full_issue_form = discription + steps_to_produce + expected_behaviour + actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
+        return full_issue_form

@@ -81,7 +81,7 @@ except:
 
 PYMILO_VERSION = "0.1"
 
-SKLEARN_MODEL_TABLE = {
+SKLEARN_LINEAR_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
 
     "Ridge": Ridge,
