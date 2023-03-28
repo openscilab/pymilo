@@ -1,11 +1,12 @@
 from enum import Enum
+from .pymilo_exception import PymiloException
 
 class SerilaizatoinErrorTypes(Enum):
     INVALID_MODEL = 1
     VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2
     UNKNOWN = 3
 
-class PymiloSerializationException(Exception):
+class PymiloSerializationException(PymiloException):
     def __init__(self, meta_data):            
         # Call the base class constructor with the parameters it needs
         message = "Pymilo Serialization failed since "
@@ -25,6 +26,7 @@ class PymiloSerializationException(Exception):
     
     def to_pymilo_issue(self):
         pymilo_report = self.to_pymilo_log()
+        help_request = "\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
         discription = "#### Description\n" + "Pymilo Export failed."
         steps_to_produce = "\n#### Steps/Code to Reproduce\n" + "It is auto-reported from the pymilo logger."
         expected_behaviour = "\n#### Expected Behavior\n" + "A successfull Pymilo Export."
@@ -32,7 +34,7 @@ class PymiloSerializationException(Exception):
         operating_system = "\n#### Operating System\n" + pymilo_report['os']['full-description']
         python_version = "\n#### Python Version\n" + pymilo_report['versions']["python-version"]
         pymilo_version = "\n#### PyMilo Version\n" + pymilo_report['versions']["pymilo-version"]
-        gathered_data = "\n#### Logged Data\n" + pymilo_report
+        gathered_data = "\n#### Logged Data\n" + str(pymilo_report)
 
-        full_issue_form = discription + steps_to_produce + expected_behaviour + actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
+        full_issue_form = help_request + discription + steps_to_produce + expected_behaviour + actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
         return full_issue_form

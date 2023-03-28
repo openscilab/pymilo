@@ -9,6 +9,7 @@ class PymiloException(Exception, ABC):
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
         # gathered meta_data
+        self.message = message
         self.meta_data = meta_data
 
     # collect All pymilo related data.
@@ -31,7 +32,7 @@ class PymiloException(Exception, ABC):
             'error': {
                 'date-utc': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
                 'pymilo-error': self.message, 
-                'inner-error': self.meta_data['error'] if self.meta_data['error'] != None else ""
+                'inner-error': self.meta_data['error'] if "error" in self.meta_data else ""
             }
         }
 
@@ -40,3 +41,6 @@ class PymiloException(Exception, ABC):
     @abstractmethod
     def to_pymilo_issue(self):
         pass
+
+    def __str__(self):
+        return self.to_pymilo_issue()
