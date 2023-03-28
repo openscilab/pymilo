@@ -5,6 +5,8 @@ from .utils.util import get_sklearn_type
 from .pymilo_param import PYMILO_VERSION
 import json
 
+from pymilo.exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+from traceback import format_exc
 
 class Export:
     """
@@ -49,14 +51,26 @@ class Import:
 
     def __init__(self, file_adr, json_dump=None):
         serialized_model_obj = None
-        if json_dump and isinstance(json_dump, str):
-            serialized_model_obj = json.loads(json_dump)
-        else:
-            with open(file_adr, 'r') as fp:
-                serialized_model_obj = json.load(fp)
-        self.data = serialized_model_obj["data"]
-        self.version = serialized_model_obj["sklearn_version"]
-        self.type = serialized_model_obj["model_type"]
+        try:
+            if json_dump and isinstance(json_dump, str):
+                serialized_model_obj = json.loads(json_dump)
+            else:
+                with open(file_adr, 'r') as fp:
+                    serialized_model_obj = json.load(fp)
+            self.data = serialized_model_obj["data"]
+            self.version = serialized_model_obj["sklearn_version"]
+            self.type = serialized_model_obj["model_type"]
+        except Exception as e:
+            raise PymiloDeserializationException(
+                {
+                    'error_type': DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE,
+                    'error': {
+                        'Exception': repr(e),
+                        'Traceback': format_exc()
+                    },
+                    'object': serialized_model_obj
+                }
+            )
 
     def to_model(self):
         """

@@ -9,6 +9,7 @@ from ..pymilo_param import SKLEARN_LINEAR_MODEL_TABLE
 from ..utils.util import get_sklearn_type, is_iterable
 
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
+from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
 from traceback import format_exc
 
 
@@ -31,7 +32,8 @@ def is_deserialized_linear_model(content):
 
 def transport_linear_model(request, command, is_inner_model=False):
 
-    validate_input(request, command)
+    if(not(is_inner_model)):
+        validate_input(request, command, is_inner_model)
 
     if (command == Command.SERIALIZE):
         try:
@@ -49,8 +51,20 @@ def transport_linear_model(request, command, is_inner_model=False):
             )
         
     elif command == Command.DESERIALZIE:
-        return deserialize_linear_model(request, is_inner_model)
-
+        try:
+            return deserialize_linear_model(request, is_inner_model)
+        except Exception as e:
+            raise PymiloDeserializationException(
+                {
+                    'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
+                    'error': {
+                        'Exception': repr(e),
+                        'Traceback': format_exc()
+                    },
+                    'object': request
+                }
+            )
+        
 def serialize_linear_model(linear_model_object):
     # first serializing the inner linear models...
     for key in linear_model_object.__dict__.keys():
@@ -67,15 +81,15 @@ def serialize_linear_model(linear_model_object):
     return linear_model_object.__dict__
 
 
-def deserialize_linear_model(linear_model_json, is_inner_model):
+def deserialize_linear_model(linear_model, is_inner_model):
     raw_model = None
     data = None
     if (is_inner_model):
-        raw_model = SKLEARN_LINEAR_MODEL_TABLE[linear_model_json["type"]]()
-        data = linear_model_json["data"]
+        raw_model = SKLEARN_LINEAR_MODEL_TABLE[linear_model["type"]]()
+        data = linear_model["data"]
     else:
-        raw_model = SKLEARN_LINEAR_MODEL_TABLE[linear_model_json.type]()
-        data = linear_model_json.data
+        raw_model = SKLEARN_LINEAR_MODEL_TABLE[linear_model.type]()
+        data = linear_model.data
     # first deserializing the inner linear models(one depth inner linear
     # models have been deserialized -> TODO full depth).
     for key in data.keys():
@@ -87,13 +101,13 @@ def deserialize_linear_model(linear_model_json, is_inner_model):
     # now deserializing non-linear models fields
     for transporter in LINEAR_MODEL_CHAIN.keys():
         LINEAR_MODEL_CHAIN[transporter].transport(
-            linear_model_json, Command.DESERIALZIE, is_inner_model)
+            linear_model, Command.DESERIALZIE, is_inner_model)
     for item in data.keys():
         setattr(raw_model, item, data[item])
     return raw_model
 
 
-def validate_input(model, command):
+def validate_input(model, command, is_inner_model):
     if(command == Command.SERIALIZE):
         if(get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys()):
             return 
@@ -105,5 +119,14 @@ def validate_input(model, command):
                 }
             )
     elif(command == Command.DESERIALZIE):
-        return "TODO"
+        model_type = model["type"] if is_inner_model else model.type
+        if(model_type in SKLEARN_LINEAR_MODEL_TABLE.keys()):
+            return
+        else:
+            raise PymiloDeserializationException(
+                {
+                    'error_type': DeSerilaizatoinErrorTypes.INVALID_MODEL,
+                    'object': model 
+                }
+            )
     
