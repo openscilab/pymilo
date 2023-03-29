@@ -24,7 +24,8 @@ class PymiloDeserializationException(PymiloException):
 
     def to_pymilo_log(self):
         pymilo_report = super().to_pymilo_log()
-        pymilo_report['object']['json_file'] = self.meta_data['json_file'] 
+        if(self.meta_data['error_type'] == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE):
+            pymilo_report['object']['json_file'] = self.meta_data['json_file'] 
         return pymilo_report
     
     def to_pymilo_issue(self):

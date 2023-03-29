@@ -61,8 +61,15 @@ class Import:
             self.version = serialized_model_obj["sklearn_version"]
             self.type = serialized_model_obj["model_type"]
         except Exception as e:
+            json_content = None
+            if json_dump and isinstance(json_dump, str):
+                json_content = json_dump
+            else:
+                with open(file_adr) as f:
+                    json_content = f.readlines()
             raise PymiloDeserializationException(
                 {
+                    'json_file': json_content,
                     'error_type': DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE,
                     'error': {
                         'Exception': repr(e),
