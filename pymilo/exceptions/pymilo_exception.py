@@ -27,7 +27,8 @@ class PymiloException(Exception, ABC):
                 'python-version': platform.python_version()
             },
             'object' : {
-                'type': type(self.meta_data['object']),                
+                'type': type(self.meta_data['object']), 
+                'content': self.meta_data['object']
             }, 
             'error': {
                 'date-utc': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),

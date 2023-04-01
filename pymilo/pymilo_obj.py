@@ -6,6 +6,7 @@ from .pymilo_param import PYMILO_VERSION
 import json
 
 from pymilo.exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+from pymilo.exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from traceback import format_exc
 
 class Export:
@@ -17,7 +18,7 @@ class Export:
         self.data = get_sklearn_data(model)
         self.version = get_sklearn_version()
         self.type = get_sklearn_type(model)
-
+   
     def save(self, file_adr):
         """
         Save model in a file.
@@ -34,15 +35,32 @@ class Export:
         Return a json-like representation of model.
         :return: model's representation as str
         """
-        return json.dumps(
-            {
-                "data": self.data,
-                "sklearn_version": self.version,
-                "pymilo_version": PYMILO_VERSION,
-                "model_type": self.type
-            },
-            indent=4
-        )
+        try:
+            return json.dumps(
+                {
+                    "data": self.data,
+                    "sklearn_version": self.version,
+                    "pymilo_version": PYMILO_VERSION,
+                    "model_type": self.type
+                },
+                indent=4
+            )
+        except Exception as e:
+            raise PymiloSerializationException(
+                {
+                    'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
+                    'error': {
+                        'Exception': repr(e),
+                        'Traceback': format_exc()
+                    },
+                    'object': {
+                        "data": self.data,
+                        "sklearn_version": self.version,
+                        "pymilo_version": PYMILO_VERSION,
+                        "model_type": self.type
+                    },
+                }
+            )
 
 class Import:
     """

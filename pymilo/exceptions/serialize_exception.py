@@ -4,7 +4,6 @@ from .pymilo_exception import PymiloException
 class SerilaizatoinErrorTypes(Enum):
     INVALID_MODEL = 1
     VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2
-    UNKNOWN = 3
 
 class PymiloSerializationException(PymiloException):
     def __init__(self, meta_data):            
@@ -15,8 +14,6 @@ class PymiloSerializationException(PymiloException):
             message += 'the given model is not supported or is not a valid model.'
         elif(error_type == SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE):
             message += 'the given model has some non-standard customized internal objects or functions.'
-        elif(error_type == SerilaizatoinErrorTypes.UNKNOWN):
-            message =  'an unknown error populated(please report).'
         super().__init__(message, meta_data)
 
     def to_pymilo_log(self):
@@ -26,7 +23,7 @@ class PymiloSerializationException(PymiloException):
     
     def to_pymilo_issue(self):
         pymilo_report = self.to_pymilo_log()
-        help_request = "\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
+        help_request = "\n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
         discription = "#### Description\n" + "Pymilo Export failed."
         steps_to_produce = "\n#### Steps/Code to Reproduce\n" + "It is auto-reported from the pymilo logger."
         expected_behaviour = "\n#### Expected Behavior\n" + "A successfull Pymilo Export."

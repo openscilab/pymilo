@@ -60,7 +60,7 @@ except:
     ""
     
 from pymilo.pymilo_param import SKLEARN_LINEAR_MODEL_TABLE, NOT_SUPPORTED
-class TestStringMethods(unittest.TestCase):
+class TestLinearModels(unittest.TestCase):
 
     LINEAR_MODELS = {
         "LINEAR_REGRESSION": [test_linear_regression],

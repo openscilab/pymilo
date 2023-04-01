@@ -5,7 +5,6 @@ class DeSerilaizatoinErrorTypes(Enum):
     CORRUPTED_JSON_FILE = 1
     INVALID_MODEL = 2
     VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 3
-    UNKNOWN = 4
 
 class PymiloDeserializationException(PymiloException):
     def __init__(self, meta_data):            
@@ -18,8 +17,6 @@ class PymiloDeserializationException(PymiloException):
             message += 'the given model is not supported or is not a valid model.'
         elif(error_type == DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE):
             message += 'the given model has some non-standard customized internal objects or functions.'
-        elif(error_type == DeSerilaizatoinErrorTypes.UNKNOWN):
-            message =  'an unknown error populated(please report).'
         super().__init__(message, meta_data)
 
     def to_pymilo_log(self):
@@ -30,7 +27,7 @@ class PymiloDeserializationException(PymiloException):
     
     def to_pymilo_issue(self):
         pymilo_report = self.to_pymilo_log()
-        help_request = "\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
+        help_request = "\n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
         discription = "#### Description\n" + "Pymilo Import failed."
         steps_to_produce = "#### Steps/Code to Reproduce\n" + "It is auto-reported from the pymilo logger."
         expected_behaviour = "#### Expected Behavior\n" + "A successfull Pymilo Import."
