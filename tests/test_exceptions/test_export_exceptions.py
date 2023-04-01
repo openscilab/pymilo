@@ -6,7 +6,7 @@ from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.utils.test_pymilo import test_pymilo_regression
 
 from sklearn.linear_model import LinearRegression
-from sklearn._loss.glm_distribution import TweedieDistribution
+from custom_models import TweedieDistribution
 
 import numpy as np
 
