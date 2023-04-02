@@ -10,9 +10,9 @@ class PymiloSerializationException(PymiloException):
         # Call the base class constructor with the parameters it needs
         message = "Pymilo Serialization failed since "
         error_type = meta_data['error_type']
-        if(error_type == SerilaizatoinErrorTypes.INVALID_MODEL):
+        if error_type == SerilaizatoinErrorTypes.INVALID_MODEL:
             message += 'the given model is not supported or is not a valid model.'
-        elif(error_type == SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE):
+        elif error_type == SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
             message += 'the given model has some non-standard customized internal objects or functions.'
         super().__init__(message, meta_data)
 

@@ -127,7 +127,7 @@ class TestLinearModels(unittest.TestCase):
         for category in self.LINEAR_MODELS.keys():
             category_all_test_pass = True
             for model in self.LINEAR_MODELS[category]:
-                if(isinstance(model, tuple)):
+                if isinstance(model, tuple):
                     func, model_name = model
                     if func == None:
                         print("Model: " + model_name + " is not supported in this python version.")

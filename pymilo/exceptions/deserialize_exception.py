@@ -11,17 +11,17 @@ class PymiloDeserializationException(PymiloException):
         # Call the base class constructor with the parameters it needs
         message = "Pymilo Deserialization failed since "
         error_type = meta_data['error_type']
-        if(error_type == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE):
+        if error_type == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
             message += 'the given json file is not a valid .json file.'
-        elif(error_type == DeSerilaizatoinErrorTypes.INVALID_MODEL):
+        elif error_type == DeSerilaizatoinErrorTypes.INVALID_MODEL:
             message += 'the given model is not supported or is not a valid model.'
-        elif(error_type == DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE):
+        elif error_type == DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
             message += 'the given model has some non-standard customized internal objects or functions.'
         super().__init__(message, meta_data)
 
     def to_pymilo_log(self):
         pymilo_report = super().to_pymilo_log()
-        if(self.meta_data['error_type'] == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE):
+        if self.meta_data['error_type'] == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
             pymilo_report['object']['json_file'] = self.meta_data['json_file'] 
         return pymilo_report
     

@@ -32,7 +32,7 @@ def is_deserialized_linear_model(content):
 
 def transport_linear_model(request, command, is_inner_model=False):
 
-    if(not(is_inner_model)):
+    if not(is_inner_model):
         validate_input(request, command, is_inner_model)
 
     if (command == Command.SERIALIZE):
@@ -108,8 +108,8 @@ def deserialize_linear_model(linear_model, is_inner_model):
 
 
 def validate_input(model, command, is_inner_model):
-    if(command == Command.SERIALIZE):
-        if(get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys()):
+    if command == Command.SERIALIZE :
+        if get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys():
             return 
         else: 
             raise PymiloSerializationException(
@@ -118,9 +118,9 @@ def validate_input(model, command, is_inner_model):
                     'object': model
                 }
             )
-    elif(command == Command.DESERIALZIE):
+    elif command == Command.DESERIALZIE :
         model_type = model["type"] if is_inner_model else model.type
-        if(model_type in SKLEARN_LINEAR_MODEL_TABLE.keys()):
+        if model_type in SKLEARN_LINEAR_MODEL_TABLE.keys():
             return
         else:
             raise PymiloDeserializationException(

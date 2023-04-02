@@ -50,8 +50,8 @@ class BaseLossTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
         # bypass when it's not supported
         # special legacy mode.
-        if(model_type in glm_models):
-            if(not(legacy_version)):
+        if model_type in glm_models:
+            if not(legacy_version):
                 # Handling latest GLMs with Loss function of GLMs 
                 if isinstance(data[key], BaseLoss):
                     if model_type == "TweedieRegressor":
@@ -74,7 +74,7 @@ class BaseLossTransporter(AbstractTransporter):
             
             else:
                 # it's legacy version of GLMs
-                if(key == "_family_instance"):
+                if key == "_family_instance":
                     if model_type == "TweedieRegressor":
                         data["_family_instance"] = {
                                 "family": {
@@ -100,17 +100,17 @@ class BaseLossTransporter(AbstractTransporter):
                         }
                     return data["_family_instance"]
 
-                elif(key == "_link_instance"):
+                elif key == "_link_instance":
                     return "sklean-mirror-link"                        
-                elif(key == "link"):
-                    if(data[key] in ['auto', 'identity', 'log']):
+                elif key == "link":
+                    if data[key] in ['auto', 'identity', 'log']:
                         data[key] = {
                             'state': 'direct-serializable',
                             'value': data[key]
                         }
                         return data[key]
                     else:
-                        if(isinstance(data[key], LogLink)):
+                        if isinstance(data[key], LogLink):
                             data[key] = {
                                 'state': 'not-direct-serializable',
                                 'value': { 
@@ -119,7 +119,7 @@ class BaseLossTransporter(AbstractTransporter):
                             }
                             return data[key]
                         
-                        elif(isinstance(data[key], IdentityLink)):
+                        elif isinstance(data[key], IdentityLink):
                             data[key] = {
                                 'state': 'not-direct-serializable',
                                 'value': { 
@@ -160,8 +160,8 @@ class BaseLossTransporter(AbstractTransporter):
     def deserialize(self, data, key, model_type):
         # bypass when it's not supported
         # special legacy mode.
-        if(model_type in glm_models):
-            if(not(legacy_version)):
+        if model_type in glm_models:
+            if not(legacy_version):
                 # latest GLMs or irrelavant models.
                 content = data[key]
                 if not (check_str_in_iterable(
@@ -170,15 +170,15 @@ class BaseLossTransporter(AbstractTransporter):
                 return self.get_deserialized_base_loss(model_type, content)
             else:
                 # it's legacy version of GLMs
-                if(key == "_family_instance"):
+                if key == "_family_instance":
                         # family field retrieval... 
                         family = data["_family_instance"]["family"]
-                        if(family['state'] == 'direct-serializable'):
+                        if family['state'] == 'direct-serializable':
                             family = family['value']
                         else:
                             family = TweedieDistribution(power=family['value']['power'])
 
-                        if(isinstance(family, ExponentialDispersionModel)):
+                        if isinstance(family, ExponentialDispersionModel):
                             return family
                         elif family in EDM_DISTRIBUTIONS:
                             return EDM_DISTRIBUTIONS[family]()
@@ -189,8 +189,8 @@ class BaseLossTransporter(AbstractTransporter):
                                 " ['normal', 'poisson', 'gamma', 'inverse-gaussian']"
                                 "; got (family={0})".format(family)
                             )
-                elif(key == "link"):
-                    if(data[key]['state'] == 'direct-serializable'):
+                elif key == "link":
+                    if data[key]['state'] == 'direct-serializable':
                         data[key] = data[key]['value']
                         return data[key]
                     else:
@@ -200,7 +200,7 @@ class BaseLossTransporter(AbstractTransporter):
                             'BaseLink': BaseLink
                         }
                         return innerMap[data[key]['value']['abstract-class']]()
-                elif(key == "_link_instance"):
+                elif key == "_link_instance":
                     # make sure it has been deserialized.
                     try:
                         data["link"]["state"]
