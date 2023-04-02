@@ -9,6 +9,7 @@ from pymilo.exceptions.deserialize_exception import PymiloDeserializationExcepti
 from pymilo.exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from traceback import format_exc
 
+
 class Export:
     """
     TODO: Complete docstring.
@@ -18,7 +19,7 @@ class Export:
         self.data = get_sklearn_data(model)
         self.version = get_sklearn_version()
         self.type = get_sklearn_type(model)
-   
+
     def save(self, file_adr):
         """
         Save model in a file.
@@ -51,16 +52,14 @@ class Export:
                     'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
-                        'Traceback': format_exc()
-                    },
+                        'Traceback': format_exc()},
                     'object': {
                         "data": self.data,
                         "sklearn_version": self.version,
                         "pymilo_version": PYMILO_VERSION,
-                        "model_type": self.type
-                    },
-                }
-            )
+                        "model_type": self.type},
+                })
+
 
 class Import:
     """
@@ -91,11 +90,8 @@ class Import:
                     'error_type': DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE,
                     'error': {
                         'Exception': repr(e),
-                        'Traceback': format_exc()
-                    },
-                    'object': serialized_model_obj
-                }
-            )
+                        'Traceback': format_exc()},
+                    'object': serialized_model_obj})
 
     def to_model(self):
         """

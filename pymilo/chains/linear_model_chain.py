@@ -32,7 +32,7 @@ def is_deserialized_linear_model(content):
 
 def transport_linear_model(request, command, is_inner_model=False):
 
-    if not(is_inner_model):
+    if not (is_inner_model):
         validate_input(request, command, is_inner_model)
 
     if (command == Command.SERIALIZE):
@@ -44,12 +44,9 @@ def transport_linear_model(request, command, is_inner_model=False):
                     'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
-                        'Traceback': format_exc()
-                    },
-                    'object': request
-                }
-            )
-        
+                        'Traceback': format_exc()},
+                    'object': request})
+
     elif command == Command.DESERIALZIE:
         try:
             return deserialize_linear_model(request, is_inner_model)
@@ -59,12 +56,10 @@ def transport_linear_model(request, command, is_inner_model=False):
                     'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
-                        'Traceback': format_exc()
-                    },
-                    'object': request
-                }
-            )
-        
+                        'Traceback': format_exc()},
+                    'object': request})
+
+
 def serialize_linear_model(linear_model_object):
     # first serializing the inner linear models...
     for key in linear_model_object.__dict__.keys():
@@ -108,17 +103,17 @@ def deserialize_linear_model(linear_model, is_inner_model):
 
 
 def validate_input(model, command, is_inner_model):
-    if command == Command.SERIALIZE :
+    if command == Command.SERIALIZE:
         if get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys():
-            return 
-        else: 
+            return
+        else:
             raise PymiloSerializationException(
                 {
                     'error_type': SerilaizatoinErrorTypes.INVALID_MODEL,
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE :
+    elif command == Command.DESERIALZIE:
         model_type = model["type"] if is_inner_model else model.type
         if model_type in SKLEARN_LINEAR_MODEL_TABLE.keys():
             return
@@ -126,7 +121,6 @@ def validate_input(model, command, is_inner_model):
             raise PymiloDeserializationException(
                 {
                     'error_type': DeSerilaizatoinErrorTypes.INVALID_MODEL,
-                    'object': model 
+                    'object': model
                 }
             )
-    

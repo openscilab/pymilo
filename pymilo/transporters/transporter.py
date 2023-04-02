@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from ..utils.util import is_primitive, check_str_in_iterable
 
+
 class Command(Enum):
     SERIALIZE = 1
     DESERIALZIE = 2
