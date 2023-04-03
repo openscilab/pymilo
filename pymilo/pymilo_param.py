@@ -102,13 +102,13 @@ SKLEARN_LINEAR_MODEL_TABLE = {
     "LogisticRegression": LogisticRegression,
     "LogisticRegressionCV": LogisticRegressionCV,
 
-    "TweedieRegressor": NOT_SUPPORTED if not (glm_support['TweedieRegressor']) else TweedieRegressor,
-    "PoissonRegressor": NOT_SUPPORTED if not (glm_support['PoissonRegressor']) else PoissonRegressor,
-    "GammaRegressor": NOT_SUPPORTED if not (glm_support['GammaRegressor']) else GammaRegressor,
+    "TweedieRegressor": NOT_SUPPORTED if not glm_support['TweedieRegressor'] else TweedieRegressor,
+    "PoissonRegressor": NOT_SUPPORTED if not glm_support['PoissonRegressor'] else PoissonRegressor,
+    "GammaRegressor": NOT_SUPPORTED if not glm_support['GammaRegressor'] else GammaRegressor,
 
     "SGDRegressor": SGDRegressor,
     "SGDClassifier": SGDClassifier,
-    "SGDOneClassSVM": NOT_SUPPORTED if not (sgd_one_class_svm_support) else SGDOneClassSVM,
+    "SGDOneClassSVM": NOT_SUPPORTED if not sgd_one_class_svm_support else SGDOneClassSVM,
 
     "Perceptron": Perceptron,
 
@@ -119,7 +119,7 @@ SKLEARN_LINEAR_MODEL_TABLE = {
     "TheilSenRegressor": TheilSenRegressor,
     "HuberRegressor": HuberRegressor,
 
-    "QuantileRegressor": NOT_SUPPORTED if not (quantile_regressor_support) else QuantileRegressor
+    "QuantileRegressor": NOT_SUPPORTED if not quantile_regressor_support else QuantileRegressor
 
 }
 

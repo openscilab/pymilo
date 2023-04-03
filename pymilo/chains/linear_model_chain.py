@@ -32,10 +32,10 @@ def is_deserialized_linear_model(content):
 
 def transport_linear_model(request, command, is_inner_model=False):
 
-    if not (is_inner_model):
+    if not is_inner_model:
         validate_input(request, command, is_inner_model)
 
-    if (command == Command.SERIALIZE):
+    if command == Command.SERIALIZE:
         try:
             return serialize_linear_model(request)
         except Exception as e:
@@ -79,7 +79,7 @@ def serialize_linear_model(linear_model_object):
 def deserialize_linear_model(linear_model, is_inner_model):
     raw_model = None
     data = None
-    if (is_inner_model):
+    if is_inner_model:
         raw_model = SKLEARN_LINEAR_MODEL_TABLE[linear_model["type"]]()
         data = linear_model["data"]
     else:

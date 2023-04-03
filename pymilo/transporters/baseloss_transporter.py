@@ -53,7 +53,7 @@ class BaseLossTransporter(AbstractTransporter):
         # bypass when it's not supported
         # special legacy mode.
         if model_type in glm_models:
-            if not (legacy_version):
+            if not legacy_version:
                 # Handling latest GLMs with Loss function of GLMs
                 if isinstance(data[key], BaseLoss):
                     if model_type == "TweedieRegressor":
@@ -163,11 +163,11 @@ class BaseLossTransporter(AbstractTransporter):
         # bypass when it's not supported
         # special legacy mode.
         if model_type in glm_models:
-            if not (legacy_version):
+            if not legacy_version:
                 # latest GLMs or irrelavant models.
                 content = data[key]
-                if not (check_str_in_iterable(
-                        "pymilo_glm_base_loss", content)):
+                if not check_str_in_iterable(
+                        "pymilo_glm_base_loss", content):
                     return content
                 return self.get_deserialized_base_loss(model_type, content)
             else:
