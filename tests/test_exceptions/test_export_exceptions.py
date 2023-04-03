@@ -6,7 +6,7 @@ from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.utils.test_pymilo import test_pymilo_regression
 
 from sklearn.linear_model import LinearRegression
-from custom_models import TweedieDistribution
+from custom_models import CustomizedTweedieDistribution
 
 import numpy as np
 
@@ -41,7 +41,7 @@ def test_valid_model_invalid_structure(print_output = False):
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     # Create linear regression object
     linear_regression = LinearRegression()
-    linear_regression.__dict__["invalid_field"] = TweedieDistribution(power= 1.5)
+    linear_regression.__dict__["invalid_field"] = CustomizedTweedieDistribution(power= 1.5)
     # Train the model using the training sets
     linear_regression.fit(x_train, y_train)
     try:
