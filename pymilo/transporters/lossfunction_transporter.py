@@ -25,7 +25,7 @@ class LossFunctionTransporter(AbstractTransporter):
         content = data[key]
         if is_primitive(content) or isinstance(content, type(None)):
             return content
-        if not (check_str_in_iterable("loss", content)):
+        if not check_str_in_iterable("loss", content):
             return content
         return SGDClassifier(
             loss=content["loss"])._get_loss_function(
