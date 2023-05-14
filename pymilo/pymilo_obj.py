@@ -12,10 +12,20 @@ from traceback import format_exc
 
 class Export:
     """
-    TODO: Complete docstring.
-    """
+    The Pymilo Export class facilitates exporting of models to json files.
 
+    >>> exported_model = Export(model) # the model could be any sklearn linear model.
+    >>> exported_model_serialized_path = os.path.join(os.getcwd(), "MODEL_NAME.json")
+    >>> exported_model.save(exported_model_serialized_path)
+    """
     def __init__(self, model):
+        """
+        initializes the Pymilo Export instance.
+
+        :param model: given model(any sklearn linear model)
+        :type file_adr: any class of the sklearn's linear models 
+        :return: an intance of the Pymilo Export class
+        """
         self.data = get_sklearn_data(model)
         self.version = get_sklearn_version()
         self.type = get_sklearn_type(model)
@@ -34,6 +44,7 @@ class Export:
     def to_json(self):
         """
         Return a json-like representation of model.
+        
         :return: model's representation as str
         """
         try:
@@ -63,10 +74,22 @@ class Export:
 
 class Import:
     """
-    TODO: Complete docstring.
-    """
+    The Pymilo Import class facilitates importing of serialized models from either a designated file path or a JSON string dump.
 
+    >>> imported_model = Import(exported_model_serialized_path)
+    >>> imported_sklearn_model = imported_model.to_model()
+    >>> imported_sklearn_model.predict(x_test)
+    """
     def __init__(self, file_adr, json_dump=None):
+        """
+        initializes the Pymilo Import instance.
+
+        :param file_adr: This refers to the file path where the serialized model's JSON file is located.
+        :type file_adr: string
+        :param json_dump: The json dump of the associated model, it can be None(reading from the file_adr)
+        :type json_dump: str or None
+        :return: an intance of the Pymilo Import class
+        """
         serialized_model_obj = None
         try:
             if json_dump and isinstance(json_dump, str):
