@@ -22,17 +22,13 @@ class PymiloDeserializationException(PymiloException):
         3-VALID_MODEL_INVALID_INTERNAL_STRUCTURE: This error occurs when attempting to load a JSON file or object that 
         does not conform to the expected format of a serialized scikit-learn linear model. 
         The file may have been modified after being exported from Pymilo Export, causing it to become invalid.
-
-    :param model: given model
-    :type model: any object
-    :return: True if model is a sklearn's linear model and False otherwise. 
     """
     def __init__(self, meta_data):
         """
         initializes the PymiloDeserializationException instance.
 
-        :param meta_data: This refers to the file path where the serialized model's JSON file is located.
-        :type meta_data: details pertain to the populated error.
+        :param meta_data: Details pertain to the populated error.
+        :type meta_data: dictionary[str:str]
         :return: an intance of the PymiloDeserializationException class
         """
         # Call the base class constructor with the parameters it needs

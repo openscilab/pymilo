@@ -6,7 +6,19 @@ from abc import ABC, abstractmethod
 
 
 class PymiloException(Exception, ABC):
+    """
+    PymiloException is an abstract class for handling pymilo associated exceptions.
+    """
     def __init__(self, message, meta_data):
+        """
+        initializes the PymiloException instance.
+
+        :param meta_data: Details pertain to the populated error.
+        :type meta_data: dictionary[str:str]
+        :param message: Error message associated with the populated error.
+        :type message: str
+        :return: an intance of the PymiloDeserializationException class
+        """
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
         # gathered meta_data
@@ -15,6 +27,11 @@ class PymiloException(Exception, ABC):
 
     # collect All pymilo related data.
     def to_pymilo_log(self):
+        """
+        Generates a comprehensive report of the populated error.
+
+        :return: a dictionary of error's details.
+        """
         pymilo_report = {
             'os': {
                 'name': platform.system(),
@@ -42,6 +59,11 @@ class PymiloException(Exception, ABC):
 
     @abstractmethod
     def to_pymilo_issue(self):
+        """
+        Generates an issue form from the populated error.
+
+        :return: issue form of the associated error as a string
+        """
         pass
 
     def __str__(self):
