@@ -42,14 +42,11 @@ except BaseException:
 
 # print("LEGACY-VERSION: ",legacy_version)
 
-# Handling BaseLoss function in GLMs.
-# BaseLoss function in Tweedie regression
-# BaseLoss function in Poisson regression
-# BaseLoss function in Gamma regression
-
-
 class BaseLossTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
+        """
+        serializes the special by-default unserializable BaseLoss field of the Tweedie, Poisson and Gamma regression.
+        """
         # bypass when it's not supported
         # special legacy mode.
         if model_type in glm_models:
@@ -145,6 +142,9 @@ class BaseLossTransporter(AbstractTransporter):
             return data[key]
 
     def get_deserialized_base_loss(self, model_type, content):
+        """
+        extracts the original BaseLoss object out of the associated core data recorded by pymilo.
+        """
         if model_type == "TweedieRegressor":
             if not ("power" in content and "link" in content):
                 return None  # TODO EXCEPTION HANDLING
@@ -160,6 +160,9 @@ class BaseLossTransporter(AbstractTransporter):
             return content
 
     def deserialize(self, data, key, model_type):
+        """
+        deserializes the previously pymilo made serializable BaseLoss field to it's original form.
+        """
         # bypass when it's not supported
         # special legacy mode.
         if model_type in glm_models:
