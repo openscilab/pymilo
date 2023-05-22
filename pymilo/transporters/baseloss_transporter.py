@@ -144,6 +144,11 @@ class BaseLossTransporter(AbstractTransporter):
     def get_deserialized_base_loss(self, model_type, content):
         """
         extracts the original BaseLoss object out of the associated core data recorded by pymilo.
+        :param model_type: the model type of the ML model, which it's data dictionary is given as the data param.
+        :type model_type: str
+        :param content: the internal data dictionary of the given model
+        :type content: dictionary
+        :return: original BaseLoss field 
         """
         if model_type == "TweedieRegressor":
             if not ("power" in content and "link" in content):
