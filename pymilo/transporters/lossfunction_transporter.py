@@ -9,6 +9,9 @@ class LossFunctionTransporter(AbstractTransporter):
 
     # SERIALIZATION
     def serialize(self, data, key, model_type):
+        """
+        serializes the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
+        """
         if (
             (model_type == "SGDClassifier" and key == "loss_function_") or
             (model_type == "SGDOneClassSVM" and key == "loss_function_") or
@@ -22,6 +25,11 @@ class LossFunctionTransporter(AbstractTransporter):
 
     # DESERIALIZATION
     def deserialize(self, data, key, model_type):
+        """
+        deserializes the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
+        the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 
+        with enough feeding of the needed inputs.
+        """
         content = data[key]
         if is_primitive(content) or isinstance(content, type(None)):
             return content
