@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""PyMilo Abstract Exception Class."""
+
 import pymilo
 import sklearn
 import platform
@@ -6,12 +9,11 @@ from abc import ABC, abstractmethod
 
 
 class PymiloException(Exception, ABC):
-    """
-    PymiloException is an abstract class for handling pymilo associated exceptions.
-    """
+    """PymiloException is an abstract class for handling pymilo associated exceptions."""
+
     def __init__(self, message, meta_data):
         """
-        initialize the PymiloException instance.
+        Initialize the PymiloException instance.
 
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dictionary[str:str]
@@ -67,4 +69,9 @@ class PymiloException(Exception, ABC):
         pass
 
     def __str__(self):
+        """
+        Override the base __str__ function.
+
+        :return: issue form of the associated error as a string
+        """
         return self.to_pymilo_issue()

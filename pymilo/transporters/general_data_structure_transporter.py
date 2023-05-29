@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo GeneralDataStructure transporter."""
 import numpy as np
 from ..pymilo_param import NUMPY_TYPE_DICT
 from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
@@ -5,14 +7,16 @@ from .transporter import AbstractTransporter
 
 
 class GeneralDataStructureTransporter(AbstractTransporter):
+    """Customized PyMilo Transporter developed to handle fields with general datastructures."""
 
     # dict serializer for Logistic regression CV
     def serialize_dict(self, dictionary):
         """
-        make all the fields of the given dictionary serializable 
-        by 
+        Make all the fields of the given dictionary serializable.
+
             1. Changing ndarray values to list, 
-            2. save unserializable values of numpy.int32|int64 types in an serializable custom object form.    
+            2. save unserializable values of numpy.int32|int64 types in an serializable custom object form. 
+               
         :param dictionary: given dictionary
         :type dictionary: dict
         :return: fully serializable dictionary 
@@ -45,6 +49,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
         """
         Serialize the general datastructures.
+
             1. Handling numpy infinity(which is an issue in ransac model)
             2. unserializable type numpy.int32
             3. unserializable type numpy.int64
@@ -108,7 +113,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        deserialize the general datastructures.
+        Deserialize the general datastructures.
+
             1. Dictionary deserialization
             2. Convert lists to numpy.ndarray class
             3. Convert custom serializable object of np.int32|int64 to the main np.int32|int64 type
@@ -146,9 +152,11 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     # numpy.int32|int64 types.
     def get_deserialized_dict(self, content):
         """
-        deserialize the given previously made serializable dictionary. 
+        Deserialize the given previously made serializable dictionary.
+
             1. convert numpy types values which previously made serializable to it's origianl form
             2. convert list values to nd arrays
+
         :param content: given dictionary
         :type content: dict
         :return: the original dictionary 
@@ -173,9 +181,11 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     # active_ array in Lasso Lars
     def get_deserialized_list(self, content):
         """
-        deserialize the given list to it's original form.
+        Deserialize the given list to it's original form.
+
             1. convert previously made serializable numpy types to it's original form
             2. convert list to nd array
+
         :param content: given list to get 
         :type content: list
         :return: the original list 
@@ -195,10 +205,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def get_deserialized_regular_primary_types(self, content):
         """
-        deserialize the given item to it's original form.
+        Deserialize the given item to it's original form.
+
             1. handling np.int32 type
             2. handling np.int64 type
             3. handling np.infinity type
+
         :param content: given item needed to get back to it's original form
         :type content: object
         :return: the associated np.int32|np.int64|np.inf
@@ -208,7 +220,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def is_numpy_primary_type(self, content):
         """
-        check whether the given object is a numpy primary type.
+        Check whether the given object is a numpy primary type.
+        
         :type content: given object to get checked whether it is a numpy primary type or not
         :return: boolean representing whether the associated content is a numpy primary type or not
         """

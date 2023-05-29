@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo Transporter."""
 from ..utils.util import get_sklearn_type
 from abc import ABC, abstractmethod
 from enum import Enum
@@ -5,9 +7,8 @@ from ..utils.util import is_primitive, check_str_in_iterable
 
 
 class Command(Enum):
-    """
-    Command is an enum class used to determine the type of transportation.
-    """
+    """Command is an enum class used to determine the type of transportation."""
+
     SERIALIZE = 1
     DESERIALZIE = 2
 
@@ -15,12 +16,18 @@ class Command(Enum):
 
 
 class Transporter(ABC):
+    """
+    Transporter Interface.
+
+    Each Transporter transports(either serializes or deserializes) the input according to the given command.
+    """
 
     @abstractmethod
 
     def serialize(self, data, key, model_type):
         """
         Serialize the data[key] of the given model which it's type is model_type.
+        
         basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
         pass it through the chain of associated transporters to get fully serialized.
 
@@ -37,7 +44,8 @@ class Transporter(ABC):
     @abstractmethod
     def deserialize(self, data, key, model_type):
         """
-        deserialize the data[key] of the given model which it's type is model_type.
+        Deserialize the data[key] of the given model which it's type is model_type.
+        
         basically in order to fully deserialize a model, we should traverse over all the keys of it's serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
@@ -55,7 +63,8 @@ class Transporter(ABC):
     @abstractmethod
     def transport(self, request, command):
         """
-        transport(either serializes or deserializes) the request according to the given command.
+        Either serializes or deserializes the request according to the given command.
+        
         basically in order to fully transport a request, we should traverse over all the keys of it's internal data dictionary and
         pass it through the chain of associated transporters to get fully transported.
 
@@ -69,10 +78,12 @@ class Transporter(ABC):
 
 
 class AbstractTransporter(Transporter):
+    """Abstract Transporter with the implementation of the traversing through the given input according to the associated command."""
 
     def bypass(self, content):
         """
-        determine whether to bypass transporting on this content or not.
+        Determine whether to bypass transporting on this content or not.
+        
         :param content: either a ML model object's internal data dictionary or an object associated with the json string of a pymilo serialized ML model.
         :type content: object
         :return: boolean, whether to bypass or not
@@ -87,7 +98,8 @@ class AbstractTransporter(Transporter):
 
     def transport(self, request, command, is_inner_model=False):
         """
-        transport(either serializes or deserializes) the request according to the given command.
+        Either serializes or deserializes the request according to the given command.
+        
         basically in order to fully transport a request, we should traverse over all the keys of it's internal data dictionary and
         pass it through the chain of associated transporters to get fully transported.
 

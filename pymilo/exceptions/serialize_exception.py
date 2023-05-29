@@ -1,8 +1,13 @@
+# -*- coding: utf-8 -*-
+"""PyMilo Serialization Exception."""
+
 from enum import Enum
 from .pymilo_exception import PymiloException
 
 
 class SerilaizatoinErrorTypes(Enum):
+    """SerilaizatoinErrorTypes is an enum class used to determine the type of serialization errors."""
+    
     INVALID_MODEL = 1
     VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2
 
@@ -10,6 +15,7 @@ class SerilaizatoinErrorTypes(Enum):
 class PymiloSerializationException(PymiloException):
     """
     PymiloserializationException handles exceptions associated with Serializations.
+    
     There are 2 different types of serialization exceptions:
         
         1-INVALID_MODEL: This error type claims that the given model is not a valid sklearn's linear model.
@@ -17,9 +23,10 @@ class PymiloSerializationException(PymiloException):
         2-VALID_MODEL_INVALID_INTERNAL_STRUCTURE: This error occurs when attempting to serialize a model that 
         is one of the sklearn's linear models but it's internal structure has changed in a way that can't be serialized.
     """
+
     def __init__(self, meta_data):
         """
-        initialize the PymiloSerializationException instance.
+        Initialize the PymiloSerializationException instance.
 
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dictionary[str:str]

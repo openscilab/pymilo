@@ -1,7 +1,5 @@
-# TODO
-# sklearn doesn't have baseloss for glms in python 3.7.9
-# should do the imports dimensionally dynamic.
-
+# -*- coding: utf-8 -*-
+"""PyMilo Baseloss transporter."""
 
 # Handle python 3.5 issues.
 from .transporter import AbstractTransporter
@@ -43,9 +41,11 @@ except BaseException:
 # print("LEGACY-VERSION: ",legacy_version)
 
 class BaseLossTransporter(AbstractTransporter):
+    """Customized PyMilo Transporter developed to handle BaseLoss field."""
+
     def serialize(self, data, key, model_type):
         """
-        serialize the special by-default unserializable BaseLoss field of the Tweedie, Poisson and Gamma regression.
+        Serialize the special by-default unserializable BaseLoss field of the Tweedie, Poisson and Gamma regression.
 
         serialize the data[key] of the given model which it's type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
@@ -155,7 +155,8 @@ class BaseLossTransporter(AbstractTransporter):
 
     def get_deserialized_base_loss(self, model_type, content):
         """
-        extract the original BaseLoss object out of the associated core data recorded by pymilo.
+        Extract the original BaseLoss object out of the associated core data recorded by pymilo.
+        
         :param model_type: the model type of the ML model, which it's data dictionary is given as the data param.
         :type model_type: str
         :param content: the internal data dictionary of the given model
@@ -178,7 +179,7 @@ class BaseLossTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        deserialize the previously pymilo made serializable BaseLoss field to it's original form.
+        Deserialize the previously pymilo made serializable BaseLoss field to it's original form.
 
         deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
         the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 

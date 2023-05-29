@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo LabelBinarizer transporter."""
 from ..pymilo_param import KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION
 from sklearn import preprocessing
 import numpy as np
@@ -8,11 +10,12 @@ from .transporter import AbstractTransporter
 
 
 class LabelBinarizerTransporter(AbstractTransporter):
+    """Customized PyMilo Transporter developed to handle LabelBinarizer field."""
 
     # SERIALIZATION
     def serialize(self, data, key, model_type):
         """
-        serialize the LabelBinarizer field(if there is).
+        Serialize the LabelBinarizer field(if there is).
         
         serialize the data[key] of the given model which it's type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
@@ -32,7 +35,8 @@ class LabelBinarizerTransporter(AbstractTransporter):
 
     def get_serialized_label_binarizer(self, label_binarizer):
         """
-        serialize a LabelBinarizer object.
+        Serialize a LabelBinarizer object.
+        
         :param label_binarizer: a label_binarizer object
         :type label_binarizer: sklearn.preprocessing.LabelBinarizer
         :return: pymilo serialized output of label_binarizer object
@@ -46,7 +50,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
     # DESERIALIZATION
     def deserialize(self, data, key, model_type):
         """
-        deserialize the LabelBinarizer field(if there is).
+        Deserialize the LabelBinarizer field(if there is).
 
         deserialize the data[key] of the given model which it's type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of it's serialized data dictionary and
@@ -68,7 +72,8 @@ class LabelBinarizerTransporter(AbstractTransporter):
 
     def get_deserialized_label_binarizer(self, content):
         """
-        deserialize the pymilo serialized labelBinarizer field of the associated ML model.
+        Deserialize the pymilo serialized labelBinarizer field of the associated ML model.
+        
         :param content: a label_binarizer object
         :type content: sklearn.preprocessing.LabelBinarizer
         :return: a sklearn.preprocessing.LabelBinarizer instance derived from the 

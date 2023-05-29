@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+"""PyMilo Deserialization Exception."""
 from enum import Enum
 from .pymilo_exception import PymiloException
 
 
 class DeSerilaizatoinErrorTypes(Enum):
+    """DeSerilaizatoinErrorTypes is an enum class used to determine the type of deserialization errors."""
+    
     CORRUPTED_JSON_FILE = 1
     INVALID_MODEL = 2
     VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 3
@@ -11,6 +15,7 @@ class DeSerilaizatoinErrorTypes(Enum):
 class PymiloDeserializationException(PymiloException):
     """
     PymiloDeserializationException handles exceptions associated with Deserializations.
+    
     There are 3 different types of deserialization exceptions:
         
         1-CORRUPTED_JSON_FILE: This error type claims that the given json string file which is supposed to be an
@@ -23,9 +28,10 @@ class PymiloDeserializationException(PymiloException):
         does not conform to the expected format of a serialized scikit-learn linear model. 
         The file may have been modified after being exported from Pymilo Export, causing it to become invalid.
     """
+    
     def __init__(self, meta_data):
         """
-        initialize the PymiloDeserializationException instance.
+        Initialize the PymiloDeserializationException instance.
 
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dictionary[str:str]

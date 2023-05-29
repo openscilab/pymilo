@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo Loss function transporter."""
 from sklearn.linear_model._stochastic_gradient import SGDClassifier
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
@@ -6,11 +8,12 @@ from .transporter import AbstractTransporter
 
 
 class LossFunctionTransporter(AbstractTransporter):
+    """Customized PyMilo Transporter developed to handle Loss function field."""
 
     # SERIALIZATION
     def serialize(self, data, key, model_type):
         """
-        serialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
+        Serialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
         
         serialize the data[key] of the given model which it's type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
@@ -38,7 +41,8 @@ class LossFunctionTransporter(AbstractTransporter):
     # DESERIALIZATION
     def deserialize(self, data, key, model_type):
         """
-        deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
+        Deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
+        
         the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 
         with enough feeding of the needed inputs.
         
