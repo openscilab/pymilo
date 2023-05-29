@@ -86,6 +86,17 @@ class AbstractTransporter(Transporter):
             return False
 
     def transport(self, request, command, is_inner_model=False):
+        """
+        transport(either serializes or deserializes) the request according to the given command.
+        basically in order to fully transport a request, we should traverse over all the keys of it's internal data dictionary and
+        pass it through the chain of associated transporters to get fully transported.
+
+        :param request: either a ML model object itself(when command is serialize) or an object associated with the json string of a pymilo serialized ML model(when command is deserialize)
+        :type request: object
+        :param command: determines the type of transportation, it can be either Serialize or Deserialize.
+        :type command: Command class
+        :return: pymilo transported output of data[key]
+        """
         if command == Command.SERIALIZE:
             # request is a sklearn model
             data = request.__dict__

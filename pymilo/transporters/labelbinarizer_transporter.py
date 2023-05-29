@@ -13,6 +13,18 @@ class LabelBinarizerTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
         """
         serialize the LabelBinarizer field(if there is).
+        
+        serialize the data[key] of the given model which it's type is model_type.
+        basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
+        pass it through the chain of associated transporters to get fully serialized.
+
+        :param data: the internal data dictionary of the given model
+        :type data: dictionary
+        :param key: the special key of the data param, which we're going to serialize it's value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which it's data dictionary is given as the data param.
+        :type model_type: str
+        :return: pymilo serialized output of data[key]
         """
         if isinstance(data[key], preprocessing.LabelBinarizer):
             data[key] = self.get_serialized_label_binarizer(data[key])
@@ -35,6 +47,19 @@ class LabelBinarizerTransporter(AbstractTransporter):
     def deserialize(self, data, key, model_type):
         """
         deserialize the LabelBinarizer field(if there is).
+
+        deserialize the data[key] of the given model which it's type is model_type.
+        basically in order to fully deserialize a model, we should traverse over all the keys of it's serialized data dictionary and
+        pass it through the chain of associated transporters to get fully deserialized.
+
+        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
+        pymilo export.
+        :type data: dictionary
+        :param key: the special key of the data param, which we're going to deserialize it's value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which it's internal serialized data dictionary is given as the data param.
+        :type model_type: str
+        :return: pymilo deserialized output of data[key]
         """
         content = data[key]
         if key != "_label_binarizer":

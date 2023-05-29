@@ -11,6 +11,18 @@ class LossFunctionTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
         """
         serialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
+        
+        serialize the data[key] of the given model which it's type is model_type.
+        basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
+        pass it through the chain of associated transporters to get fully serialized.
+
+        :param data: the internal data dictionary of the given model
+        :type data: dictionary
+        :param key: the special key of the data param, which we're going to serialize it's value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which it's data dictionary is given as the data param.
+        :type model_type: str
+        :return: pymilo serialized output of data[key]
         """
         if (
             (model_type == "SGDClassifier" and key == "loss_function_") or
@@ -29,6 +41,19 @@ class LossFunctionTransporter(AbstractTransporter):
         deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
         the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 
         with enough feeding of the needed inputs.
+        
+        deserialize the data[key] of the given model which it's type is model_type.
+        basically in order to fully deserialize a model, we should traverse over all the keys of it's serialized data dictionary and
+        pass it through the chain of associated transporters to get fully deserialized.
+
+        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
+        pymilo export.
+        :type data: dictionary
+        :param key: the special key of the data param, which we're going to deserialize it's value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which it's internal serialized data dictionary is given as the data param.
+        :type model_type: str
+        :return: pymilo deserialized output of data[key]
         """
         content = data[key]
         if is_primitive(content) or isinstance(content, type(None)):
