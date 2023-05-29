@@ -17,7 +17,7 @@ def get_sklearn_version():
 
 def get_sklearn_data(model):
     """
-    Return sklearn data by serializing given model
+    Return sklearn data by serializing given model.
 
     :param model: given model
     :type model: any sklearn's model class
@@ -28,7 +28,7 @@ def get_sklearn_data(model):
 
 def to_sklearn_model(import_obj):
     """
-    Return sklearn model by deserializing imported object
+    Return sklearn model by deserializing imported object.
 
     :param import_obj: given object
     :type import_obj: pymilo.Import

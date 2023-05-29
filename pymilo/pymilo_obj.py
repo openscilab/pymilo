@@ -18,9 +18,10 @@ class Export:
     >>> exported_model_serialized_path = os.path.join(os.getcwd(), "MODEL_NAME.json")
     >>> exported_model.save(exported_model_serialized_path)
     """
+
     def __init__(self, model):
         """
-        initializes the Pymilo Export instance.
+        Initialize the Pymilo Export instance.
 
         :param model: given model(any sklearn linear model)
         :type file_adr: any class of the sklearn's linear models 
@@ -80,9 +81,10 @@ class Import:
     >>> imported_sklearn_model = imported_model.to_model()
     >>> imported_sklearn_model.predict(x_test)
     """
+
     def __init__(self, file_adr, json_dump=None):
         """
-        initializes the Pymilo Import instance.
+        Initialize the Pymilo Import instance.
 
         :param file_adr: This refers to the file path where the serialized model's JSON file is located.
         :type file_adr: string
