@@ -1,4 +1,3 @@
-# my_pydocstyle_config.ini
 [pydocstyle]
 match_dir = ^(?!(tests|build)).*
 match = .*\.py
