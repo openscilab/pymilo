@@ -9,7 +9,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     # dict serializer for Logistic regression CV
     def serialize_dict(self, dictionary):
         """
-        makes all the fields of the given dictionary serializable 
+        make all the fields of the given dictionary serializable 
         by 
             1. Changing ndarray values to list, 
             2. save unserializable values of numpy.int32|int64 types in an serializable custom object form.    
@@ -44,7 +44,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def serialize(self, data, key, model_type):
         """
-        Serializes the general datastructures.
+        Serialize the general datastructures.
             1. Handling numpy infinity(which is an issue in ransac model)
             2. unserializable type numpy.int32
             3. unserializable type numpy.int64
@@ -96,7 +96,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        deserializes the general datastructures.
+        deserialize the general datastructures.
             1. Dictionary deserialization
             2. Convert lists to numpy.ndarray class
             3. Convert custom serializable object of np.int32|int64 to the main np.int32|int64 type
@@ -117,7 +117,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     # numpy.int32|int64 types.
     def get_deserialized_dict(self, content):
         """
-        deserializes the given previously made serializable dictionary 
+        deserialize the given previously made serializable dictionary. 
             1. convert numpy types values which previously made serializable to it's origianl form
             2. convert list values to nd arrays
         :param content: given dictionary
@@ -144,7 +144,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     # active_ array in Lasso Lars
     def get_deserialized_list(self, content):
         """
-        deserializes the given list to it's original form
+        deserialize the given list to it's original form.
             1. convert previously made serializable numpy types to it's original form
             2. convert list to nd array
         :param content: given list to get 
@@ -166,7 +166,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def get_deserialized_regular_primary_types(self, content):
         """
-        deserializes the given item to it's original form
+        deserialize the given item to it's original form.
             1. handling np.int32 type
             2. handling np.int64 type
             3. handling np.infinity type
@@ -179,7 +179,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def is_numpy_primary_type(self, content):
         """
-        check whether the given object is a numpy primary type
+        check whether the given object is a numpy primary type.
         :type content: given object to get checked whether it is a numpy primary type or not
         :return: boolean representing whether the associated content is a numpy primary type or not
         """

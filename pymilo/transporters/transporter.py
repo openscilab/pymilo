@@ -20,7 +20,7 @@ class Transporter(ABC):
 
     def serialize(self, data, key, model_type):
         """
-        Serializes the data[key] of the given model which it's type is model_type.
+        Serialize the data[key] of the given model which it's type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
         pass it through the chain of associated transporters to get fully serialized.
 
@@ -37,7 +37,7 @@ class Transporter(ABC):
     @abstractmethod
     def deserialize(self, data, key, model_type):
         """
-        deserializes the data[key] of the given model which it's type is model_type.
+        deserialize the data[key] of the given model which it's type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of it's serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
@@ -55,7 +55,7 @@ class Transporter(ABC):
     @abstractmethod
     def transport(self, request, command):
         """
-        transports(either serializes or deserializes) the request according to the given command.
+        transport(either serializes or deserializes) the request according to the given command.
         basically in order to fully transport a request, we should traverse over all the keys of it's internal data dictionary and
         pass it through the chain of associated transporters to get fully transported.
 
@@ -72,7 +72,7 @@ class AbstractTransporter(Transporter):
 
     def bypass(self, content):
         """
-        determines whether to bypass transporting on this content or not
+        determine whether to bypass transporting on this content or not.
         :param content: either a ML model object's internal data dictionary or an object associated with the json string of a pymilo serialized ML model.
         :type content: object
         :return: boolean, whether to bypass or not

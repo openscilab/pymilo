@@ -11,7 +11,7 @@ class PymiloException(Exception, ABC):
     """
     def __init__(self, message, meta_data):
         """
-        initializes the PymiloException instance.
+        initialize the PymiloException instance.
 
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dictionary[str:str]
@@ -28,7 +28,7 @@ class PymiloException(Exception, ABC):
     # collect All pymilo related data.
     def to_pymilo_log(self):
         """
-        Generates a comprehensive report of the populated error.
+        Generate a comprehensive report of the populated error.
 
         :return: a dictionary of error's details.
         """
@@ -60,7 +60,7 @@ class PymiloException(Exception, ABC):
     @abstractmethod
     def to_pymilo_issue(self):
         """
-        Generates an issue form from the populated error.
+        Generate an issue form from the populated error.
 
         :return: issue form of the associated error as a string
         """

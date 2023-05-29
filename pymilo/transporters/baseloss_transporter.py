@@ -45,7 +45,7 @@ except BaseException:
 class BaseLossTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
         """
-        serializes the special by-default unserializable BaseLoss field of the Tweedie, Poisson and Gamma regression.
+        serialize the special by-default unserializable BaseLoss field of the Tweedie, Poisson and Gamma regression.
         """
         # bypass when it's not supported
         # special legacy mode.
@@ -143,7 +143,7 @@ class BaseLossTransporter(AbstractTransporter):
 
     def get_deserialized_base_loss(self, model_type, content):
         """
-        extracts the original BaseLoss object out of the associated core data recorded by pymilo.
+        extract the original BaseLoss object out of the associated core data recorded by pymilo.
         :param model_type: the model type of the ML model, which it's data dictionary is given as the data param.
         :type model_type: str
         :param content: the internal data dictionary of the given model
@@ -166,7 +166,7 @@ class BaseLossTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        deserializes the previously pymilo made serializable BaseLoss field to it's original form.
+        deserialize the previously pymilo made serializable BaseLoss field to it's original form.
         """
         # bypass when it's not supported
         # special legacy mode.

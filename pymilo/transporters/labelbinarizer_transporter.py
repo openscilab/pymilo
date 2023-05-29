@@ -12,7 +12,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
     # SERIALIZATION
     def serialize(self, data, key, model_type):
         """
-        serializes the LabelBinarizer field(if there is)
+        serialize the LabelBinarizer field(if there is).
         """
         if isinstance(data[key], preprocessing.LabelBinarizer):
             data[key] = self.get_serialized_label_binarizer(data[key])
@@ -20,7 +20,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
 
     def get_serialized_label_binarizer(self, label_binarizer):
         """
-        serializes a LabelBinarizer object
+        serialize a LabelBinarizer object.
         :param label_binarizer: a label_binarizer object
         :type label_binarizer: sklearn.preprocessing.LabelBinarizer
         :return: pymilo serialized output of label_binarizer object
@@ -34,7 +34,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
     # DESERIALIZATION
     def deserialize(self, data, key, model_type):
         """
-        deserializes the LabelBinarizer field(if there is)
+        deserialize the LabelBinarizer field(if there is).
         """
         content = data[key]
         if key != "_label_binarizer":
@@ -43,7 +43,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
 
     def get_deserialized_label_binarizer(self, content):
         """
-        deserializes the pymilo serialized labelBinarizer field of the associated ML model
+        deserialize the pymilo serialized labelBinarizer field of the associated ML model.
         :param content: a label_binarizer object
         :type content: sklearn.preprocessing.LabelBinarizer
         :return: a sklearn.preprocessing.LabelBinarizer instance derived from the 

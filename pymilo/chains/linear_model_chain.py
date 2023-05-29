@@ -22,7 +22,7 @@ LINEAR_MODEL_CHAIN = {
 
 def is_linear_model(model):
     """
-    Returns whether the associated model is a sklearn's linear model or not 
+    Return whether the associated model is a sklearn's linear model or not. 
 
     :param model: given model
     :type model: any object
@@ -33,7 +33,7 @@ def is_linear_model(model):
 
 def is_deserialized_linear_model(content):
     """
-    Returns whether the given content is a previously serialized model by Pymilo's Export or not.
+    Return whether the given content is a previously serialized model by Pymilo's Export or not.
 
     :param content: given object to be authorized as a valid pymilo exported serialized model
     :type content: any object 
@@ -46,7 +46,7 @@ def is_deserialized_linear_model(content):
 
 def transport_linear_model(request, command, is_inner_model=False):
     """
-    Returns the transported(Serialized or Deserialized) model
+    Return the transported(Serialized or Deserialized) model.
 
     :param request: given model to be transported
     :type request: any object
@@ -86,7 +86,7 @@ def transport_linear_model(request, command, is_inner_model=False):
 
 def serialize_linear_model(linear_model_object):
     """
-    Returns serialized json string of the given linear model
+    Return serialized json string of the given linear model.
 
     :param linear_model_object: given model to be get serialized
     :type linear_model_object: any sklearn linear model
@@ -109,7 +109,7 @@ def serialize_linear_model(linear_model_object):
 
 def deserialize_linear_model(linear_model, is_inner_model):
     """
-    Returns the associated sklearn linear model of the given linear_model
+    Return the associated sklearn linear model of the given linear_model.
 
     :param linear_model: given json string of a linear model to get deserialized to associated sklearn linear model
     :type linear_model: obj
