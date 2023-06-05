@@ -5,7 +5,7 @@ from .pymilo_exception import PymiloException
 
 
 class DeSerilaizatoinErrorTypes(Enum):
-    """DeSerilaizatoinErrorTypes is an enum class used to determine the type of deserialization errors."""
+    """An enum class to determine the type of deserialization errors."""
     
     CORRUPTED_JSON_FILE = 1
     INVALID_MODEL = 2
@@ -14,7 +14,7 @@ class DeSerilaizatoinErrorTypes(Enum):
 
 class PymiloDeserializationException(PymiloException):
     """
-    PymiloDeserializationException handles exceptions associated with Deserializations.
+    PymiloDeserializationException handle exceptions associated with Deserializations.
     
     There are 3 different types of deserialization exceptions:
         
@@ -55,7 +55,7 @@ class PymiloDeserializationException(PymiloException):
         """
         Generate a comprehensive report of the populated error.
 
-        :return: a dictionary of error's details.
+        :return: a dictionary of error details.
         """
         pymilo_report = super().to_pymilo_log()
         if self.meta_data['error_type'] == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
