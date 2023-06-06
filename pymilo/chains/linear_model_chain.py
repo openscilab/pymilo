@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo chain for linear models."""
 from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
@@ -21,17 +23,41 @@ LINEAR_MODEL_CHAIN = {
 
 
 def is_linear_model(model):
+    """
+    Check if the input model is a sklearn's linear model.
+
+    :param model: given model
+    :type model: any object
+    :return: check result as bool
+    """
     return type(model) in SKLEARN_LINEAR_MODEL_TABLE.values()
 
 
 def is_deserialized_linear_model(content):
+    """
+    Check if the given content is a previously serialized model by Pymilo's Export or not.
+
+    :param content: given object to be authorized as a valid pymilo exported serialized model
+    :type content: any object 
+    :return: check result as bool
+    """
     if not is_iterable(content):
         return False
     return "inner-model-type" in content and "inner-model-data" in content
 
 
 def transport_linear_model(request, command, is_inner_model=False):
+    """
+    Return the transported (Serialized or Deserialized) model.
 
+    :param request: given model to be transported
+    :type request: any object
+    :param command: command to specify whether the request should be serialized or deserialized
+    :type command: transporter.Command
+    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
+    :type is_inner_model: boolean
+    :return: the transported request as a json string or sklearn linear model
+    """
     if not is_inner_model:
         validate_input(request, command, is_inner_model)
 
@@ -61,6 +87,13 @@ def transport_linear_model(request, command, is_inner_model=False):
 
 
 def serialize_linear_model(linear_model_object):
+    """
+    Return the serialized json string of the given linear model.
+
+    :param linear_model_object: given model to be get serialized
+    :type linear_model_object: any sklearn linear model
+    :return: the serialized json string of the given linear model
+    """
     # first serializing the inner linear models...
     for key in linear_model_object.__dict__.keys():
         if is_linear_model(linear_model_object.__dict__[key]):
@@ -77,6 +110,15 @@ def serialize_linear_model(linear_model_object):
 
 
 def deserialize_linear_model(linear_model, is_inner_model):
+    """
+    Return the associated sklearn linear model of the given linear_model.
+
+    :param linear_model: given json string of a linear model to get deserialized to associated sklearn linear model
+    :type linear_model: obj
+    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
+    :type is_inner_model: boolean
+    :return: associated sklearn linear model
+    """
     raw_model = None
     data = None
     if is_inner_model:
@@ -103,6 +145,18 @@ def deserialize_linear_model(linear_model, is_inner_model):
 
 
 def validate_input(model, command, is_inner_model):
+    """
+    Check if the provided inputs are valid in relation to each other.
+    
+    :param model: given object to gets transported, whether a sklearn linear model to get serialized 
+    or a json string of a linear model to get deserialized to associated sklearn linear model
+    :type model: obj
+    :param command: command to specify whether the request should be serialized or deserialized
+    :type command: transporter.Command
+    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
+    :type is_inner_model: boolean
+    :return: None
+    """
     if command == Command.SERIALIZE:
         if get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys():
             return

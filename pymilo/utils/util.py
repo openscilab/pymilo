@@ -43,7 +43,13 @@ def is_iterable(obj):
 
 def check_str_in_iterable(field, content):
     """
-    TODO: Complete docstring.
+    Check if the specified string field exists in content, which is supposed to be an iterable object.
+
+    :param field: given string field
+    :type field: str
+    :param content: given supposed to be an iterable object
+    :type content: obj
+    :return: True if associated field is an iterable string in content and False otherwise.
     """
     if not is_iterable(content):
         return False

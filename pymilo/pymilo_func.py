@@ -17,7 +17,7 @@ def get_sklearn_version():
 
 def get_sklearn_data(model):
     """
-    Return sklearn data by serializing given model
+    Return sklearn data by serializing given model.
 
     :param model: given model
     :type model: any sklearn's model class
@@ -28,7 +28,7 @@ def get_sklearn_data(model):
 
 def to_sklearn_model(import_obj):
     """
-    Return sklearn model by deserializing imported object
+    Deserialize the imported object as a sklearn model.
 
     :param import_obj: given object
     :type import_obj: pymilo.Import
@@ -41,7 +41,7 @@ def compare_model_outputs(exported_output,
                           imported_output,
                           epsilon_error=10**(-8)):
     """
-    Compare given models outputs.
+    Check if the given models outputs are the same.
 
     :param exported_output: exported model output
     :type exported_output: dict
@@ -49,7 +49,7 @@ def compare_model_outputs(exported_output,
     :type imported_output: dict
     :param epsilon_error: error threshold for numeric comparisons
     :type epsilon_error: float
-    :return: True if two outputs are the same
+    :return: check result as bool
     """
     if len(exported_output.keys()) != len(imported_output.keys()):
         return False  # TODO: throw exception

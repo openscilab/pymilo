@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo GeneralDataStructure transporter."""
 import numpy as np
 from ..pymilo_param import NUMPY_TYPE_DICT
 from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
@@ -5,11 +7,20 @@ from .transporter import AbstractTransporter
 
 
 class GeneralDataStructureTransporter(AbstractTransporter):
+    """Customized PyMilo Transporter developed to handle fields with general datastructures."""
 
     # dict serializer for Logistic regression CV
-    # change ndarray values to list, save unserializable values of
-    # numpy.int32|int64 types in an seriazable custom object form.
     def serialize_dict(self, dictionary):
+        """
+        Make all the fields of the given dictionary serializable.
+
+            1. Changing ndarray values to list, 
+            2. save unserializable values of numpy.int32|int64 types in an serializable custom object form. 
+               
+        :param dictionary: given dictionary
+        :type dictionary: dict
+        :return: fully serializable dictionary
+        """
         black_list_key_values = []
         for key in dictionary.keys():
             # check inner field as a np.ndarray
@@ -36,6 +47,28 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         return dictionary
 
     def serialize(self, data, key, model_type):
+        """
+        Serialize the general datastructures.
+
+            1. Handling numpy infinity(which is an issue in ransac model)
+            2. unserializable type numpy.int32
+            3. unserializable type numpy.int64
+            4. list type which may contain unserializable type numpy.int32|int64
+            5. object of  unserializable numpy.ndarray class
+            6. dictionary serialization
+
+        Serialize the data[key] of the given model which its type is model_type.
+        basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
+        pass it through the chain of associated transporters to get fully serialized.
+
+        :param data: the internal data dictionary of the given model
+        :type data: dict
+        :param key: the special key of the data param, which we're going to serialize its value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which its data dictionary is given as the data param.
+        :type model_type: str
+        :return: pymilo serialized output of data[key]
+        """
         # 1. Handling numpy infinity, ransac
         if isinstance(data[key], type(np.inf)):
             if np.inf == data[key]:
@@ -52,8 +85,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         elif isinstance(data[key], np.int64):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int64"}
 
-        # 4. list type which may containts unserializable type numpy.int32 |
-        # numpy.int64
+        # 4. list type which may containts unserializable type numpy.int32|int64
         elif isinstance(data[key], list):
             new_list = []
             for item in data[key]:
@@ -80,6 +112,30 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         return data[key]
 
     def deserialize(self, data, key, model_type):
+        """
+        Deserialize the general datastructures.
+
+            1. Dictionary deserialization
+            2. Convert lists to numpy.ndarray class
+            3. Convert custom serializable object of np.int32|int64 to the main np.int32|int64 type
+
+        deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
+        the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 
+        with enough feeding of the needed inputs.
+        
+        deserialize the data[key] of the given model which its type is model_type.
+        basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
+        pass it through the chain of associated transporters to get fully deserialized.
+
+        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
+        pymilo export.
+        :type data: dict
+        :param key: the special key of the data param, which we're going to deserialize its value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which its internal serialized data dictionary is given as the data param.
+        :type model_type: str
+        :return: pymilo deserialized output of data[key]
+        """
         if isinstance(data[key], dict):
             return self.get_deserialized_dict(data[key])
         elif isinstance(data[key], list):
@@ -95,6 +151,16 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     # change list values to ndarray, retrive unserializable values of
     # numpy.int32|int64 types.
     def get_deserialized_dict(self, content):
+        """
+        Deserialize the given previously made serializable dictionary.
+
+            1. convert numpy types values which previously made serializable to its origianl form
+            2. convert list values to nd arrays
+
+        :param content: given dictionary
+        :type content: dict
+        :return: the original dictionary
+        """
         black_list_key_values = []
         if not isinstance(content, dict):
             return content
@@ -114,6 +180,16 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     # active_ array in Lasso Lars
     def get_deserialized_list(self, content):
+        """
+        Deserialize the given list to its original form.
+
+            1. convert previously made serializable numpy types to its original form
+            2. convert list to nd array
+
+        :param content: given list to get 
+        :type content: list
+        :return: the original list
+        """
         if not isinstance(content, list):
             return None
         new_list = []
@@ -128,10 +204,27 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         return np.array(new_list)
 
     def get_deserialized_regular_primary_types(self, content):
+        """
+        Deserialize the given item to its original form.
+
+            1. handling np.int32 type
+            2. handling np.int64 type
+            3. handling np.infinity type
+
+        :param content: given item needed to get back to its original form
+        :type content: object
+        :return: the associated np.int32|np.int64|np.inf
+        """
         if "np-type" in content:
             return NUMPY_TYPE_DICT[content["np-type"]](content['value'])
 
     def is_numpy_primary_type(self, content):
+        """
+        Check whether the given object is a numpy primary type.
+        
+        :type content: given object to get checked whether it is a numpy primary type or not
+        :return: boolean representing whether the associated content is a numpy primary type or not
+        """
         if is_primitive(content):
             return False
         current_supported_primary_types = NUMPY_TYPE_DICT.values()

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo Transporter."""
 from ..utils.util import get_sklearn_type
 from abc import ABC, abstractmethod
 from enum import Enum
@@ -5,6 +7,8 @@ from ..utils.util import is_primitive, check_str_in_iterable
 
 
 class Command(Enum):
+    """Command is an enum class used to determine the type of transportation."""
+
     SERIALIZE = 1
     DESERIALZIE = 2
 
@@ -12,23 +16,78 @@ class Command(Enum):
 
 
 class Transporter(ABC):
+    """
+    Transporter Interface.
+
+    Each Transporter transports(either serializes or deserializes) the input according to the given command.
+    """
 
     @abstractmethod
+
     def serialize(self, data, key, model_type):
+        """
+        Serialize the data[key] of the given model which type is model_type.
+        
+        basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
+        pass it through the chain of associated transporters to get fully serialized.
+
+        :param data: the internal data dictionary of the given model
+        :type data: dict
+        :param key: the special key of the data param, which we're going to serialize its value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which data dictionary is given as the data param
+        :type model_type: str
+        :return: pymilo serialized output of data[key]
+        """
         pass
 
     @abstractmethod
     def deserialize(self, data, key, model_type):
+        """
+        Deserialize the data[key] of the given model which type is model_type.
+        
+        basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
+        pass it through the chain of associated transporters to get fully deserialized.
+
+        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
+        pymilo export.
+        :type data: dict
+        :param key: the special key of the data param, which we're going to deserialize its value(data[key])
+        :type key: object
+        :param model_type: the model type of the ML model, which internal serialized data dictionary is given as the data param
+        :type model_type: str
+        :return: pymilo deserialized output of data[key]
+        """
         pass
 
     @abstractmethod
     def transport(self, request, command):
+        """
+        Either serializes or deserializes the request according to the given command.
+        
+        basically in order to fully transport a request, we should traverse over all the keys of its internal data dictionary and
+        pass it through the chain of associated transporters to get fully transported.
+
+        :param request: either a ML model object itself(when command is serialize) or an object associated with the json string of a pymilo serialized ML model(when command is deserialize)
+        :type request: object
+        :param command: determines the type of transportation, it can be either Serialize or Deserialize
+        :type command: Command class
+        :return: pymilo transported output of data[key]
+        """
         pass
 
 
 class AbstractTransporter(Transporter):
+    """Abstract Transporter with the implementation of the traversing through the given input according to the associated command."""
 
     def bypass(self, content):
+        """
+        Determine whether to bypass transporting on this content or not.
+        
+        :param content: either a ML model object's internal data dictionary or an object associated with the json string of a pymilo serialized ML model.
+        :type content: object
+        :return: boolean, whether to bypass or not
+        """
         if is_primitive(content):
             return False
 
@@ -38,6 +97,18 @@ class AbstractTransporter(Transporter):
             return False
 
     def transport(self, request, command, is_inner_model=False):
+        """
+        Either serializes or deserializes the request according to the given command.
+        
+        basically in order to fully transport a request, we should traverse over all the keys of its internal data dictionary and
+        pass it through the chain of associated transporters to get fully transported.
+
+        :param request: either a ML model object itself(when command is serialize) or an object associated with the json string of a pymilo serialized ML model(when command is deserialize)
+        :type request: object
+        :param command: determines the type of transportation, it can be either Serialize or Deserialize
+        :type command: Command class
+        :return: pymilo transported output of data[key]
+        """
         if command == Command.SERIALIZE:
             # request is a sklearn model
             data = request.__dict__
