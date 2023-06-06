@@ -52,7 +52,7 @@ class BaseLossTransporter(AbstractTransporter):
         pass it through the chain of associated transporters to get fully serialized.
 
         :param data: the internal data dictionary of the given model
-        :type data: dictionary
+        :type data: dict
         :param key: the special key of the data param, which we're going to serialize its value(data[key])
         :type key: object
         :param model_type: the model type of the ML model, which data dictionary is given as the data param
@@ -160,7 +160,7 @@ class BaseLossTransporter(AbstractTransporter):
         :param model_type: the model type of the ML model, which data dictionary is given as the data param
         :type model_type: str
         :param content: the internal data dictionary of the given model
-        :type content: dictionary
+        :type content: dict
         :return: original BaseLoss field
         """
         if model_type == "TweedieRegressor":
@@ -191,7 +191,7 @@ class BaseLossTransporter(AbstractTransporter):
 
         :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
         pymilo export.
-        :type data: dictionary
+        :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object
         :param model_type: the model type of the ML model, which internal serialized data dictionary is given as the data param.
