@@ -14,7 +14,7 @@ class DeSerilaizatoinErrorTypes(Enum):
 
 class PymiloDeserializationException(PymiloException):
     """
-    PymiloDeserializationException handle exceptions associated with Deserializations.
+    Handle exceptions associated with Deserializations.
     
     There are 3 different types of deserialization exceptions:
         

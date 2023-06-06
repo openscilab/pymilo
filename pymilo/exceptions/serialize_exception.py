@@ -14,7 +14,7 @@ class SerilaizatoinErrorTypes(Enum):
 
 class PymiloSerializationException(PymiloException):
     """
-    PymiloserializationException handles exceptions associated with Serializations.
+    Handle exceptions associated with Serializations.
     
     There are 2 different types of serialization exceptions:
         
