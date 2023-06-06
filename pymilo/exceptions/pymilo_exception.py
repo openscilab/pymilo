@@ -9,16 +9,16 @@ from abc import ABC, abstractmethod
 
 
 class PymiloException(Exception, ABC):
-    """PymiloException is an abstract class for handling pymilo associated exceptions."""
+    """An abstract class for handling pymilo associated exceptions."""
 
     def __init__(self, message, meta_data):
         """
         Initialize the PymiloException instance.
 
-        :param meta_data: Details pertain to the populated error.
-        :type meta_data: dictionary[str:str]
         :param message: Error message associated with the populated error.
         :type message: str
+        :param meta_data: Details pertain to the populated error.
+        :type meta_data: dictionary[str:str]
         :return: an intance of the PymiloDeserializationException class
         """
         # Call the base class constructor with the parameters it needs
@@ -32,7 +32,7 @@ class PymiloException(Exception, ABC):
         """
         Generate a comprehensive report of the populated error.
 
-        :return: a dictionary of error's details.
+        :return: error's details as dictionary
         """
         pymilo_report = {
             'os': {
@@ -64,7 +64,7 @@ class PymiloException(Exception, ABC):
         """
         Generate an issue form from the populated error.
 
-        :return: issue form of the associated error as a string
+        :return: issue form of the associated error as string
         """
         pass
 
@@ -72,6 +72,6 @@ class PymiloException(Exception, ABC):
         """
         Override the base __str__ function.
 
-        :return: issue form of the associated error as a string
+        :return: issue form of the associated error as string
         """
         return self.to_pymilo_issue()
