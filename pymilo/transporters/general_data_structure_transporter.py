@@ -19,7 +19,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                
         :param dictionary: given dictionary
         :type dictionary: dict
-        :return: fully serializable dictionary 
+        :return: fully serializable dictionary
         """
         black_list_key_values = []
         for key in dictionary.keys():
@@ -53,17 +53,17 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             1. Handling numpy infinity(which is an issue in ransac model)
             2. unserializable type numpy.int32
             3. unserializable type numpy.int64
-            4. list type which may containts unserializable type numpy.int32|int64
+            4. list type which may contain unserializable type numpy.int32|int64
             5. object of  unserializable numpy.ndarray class
             6. dictionary serialization
 
         Serialize the data[key] of the given model which it's type is model_type.
-        basically in order to fully serialize a model, we should traverse over all the keys of it's data dictionary and
+        basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
         pass it through the chain of associated transporters to get fully serialized.
 
         :param data: the internal data dictionary of the given model
-        :type data: dictionary
-        :param key: the special key of the data param, which we're going to serialize it's value(data[key])
+        :type data: dict
+        :param key: the special key of the data param, which we're going to serialize its value(data[key])
         :type key: object
         :param model_type: the model type of the ML model, which it's data dictionary is given as the data param.
         :type model_type: str
@@ -129,10 +129,10 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
         pymilo export.
-        :type data: dictionary
-        :param key: the special key of the data param, which we're going to deserialize it's value(data[key])
+        :type data: dict
+        :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which it's internal serialized data dictionary is given as the data param.
+        :param model_type: the model type of the ML model, which its internal serialized data dictionary is given as the data param.
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
@@ -159,7 +159,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         :param content: given dictionary
         :type content: dict
-        :return: the original dictionary 
+        :return: the original dictionary
         """
         black_list_key_values = []
         if not isinstance(content, dict):
@@ -181,14 +181,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     # active_ array in Lasso Lars
     def get_deserialized_list(self, content):
         """
-        Deserialize the given list to it's original form.
+        Deserialize the given list to its original form.
 
-            1. convert previously made serializable numpy types to it's original form
+            1. convert previously made serializable numpy types to its original form
             2. convert list to nd array
 
         :param content: given list to get 
         :type content: list
-        :return: the original list 
+        :return: the original list
         """
         if not isinstance(content, list):
             return None
@@ -205,13 +205,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def get_deserialized_regular_primary_types(self, content):
         """
-        Deserialize the given item to it's original form.
+        Deserialize the given item to its original form.
 
             1. handling np.int32 type
             2. handling np.int64 type
             3. handling np.infinity type
 
-        :param content: given item needed to get back to it's original form
+        :param content: given item needed to get back to its original form
         :type content: object
         :return: the associated np.int32|np.int64|np.inf
         """
