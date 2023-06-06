@@ -24,8 +24,8 @@ class Export:
         Initialize the Pymilo Export instance.
 
         :param model: given model(any sklearn linear model)
-        :type file_adr: any class of the sklearn's linear models 
-        :return: an intance of the Pymilo Export class
+        :type model: any class of the sklearn's linear models
+        :return: an instance of the Pymilo Export class
         """
         self.data = get_sklearn_data(model)
         self.version = get_sklearn_version()
@@ -86,11 +86,11 @@ class Import:
         """
         Initialize the Pymilo Import instance.
 
-        :param file_adr: This refers to the file path where the serialized model's JSON file is located.
+        :param file_adr: the file path where the serialized model's JSON file is located.
         :type file_adr: string
-        :param json_dump: The json dump of the associated model, it can be None(reading from the file_adr)
+        :param json_dump: the json dump of the associated model, it can be None(reading from the file_adr)
         :type json_dump: str or None
-        :return: an intance of the Pymilo Import class
+        :return: an instance of the Pymilo Import class
         """
         serialized_model_obj = None
         try:
