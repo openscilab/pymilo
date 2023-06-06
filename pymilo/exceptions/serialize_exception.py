@@ -6,7 +6,7 @@ from .pymilo_exception import PymiloException
 
 
 class SerilaizatoinErrorTypes(Enum):
-    """SerilaizatoinErrorTypes is an enum class used to determine the type of serialization errors."""
+    """An enum class used to determine the type of serialization errors."""
     
     INVALID_MODEL = 1
     VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2
@@ -48,7 +48,7 @@ class PymiloSerializationException(PymiloException):
         """
         Generate a comprehensive report of the populated error.
 
-        :return: a dictionary of error's details.
+        :return: error's details as dictionary
         """
         pymilo_report = super().to_pymilo_log()
         # TODO add any serializable field to `object` field of pymilo_report
@@ -58,7 +58,7 @@ class PymiloSerializationException(PymiloException):
         """
         Generate an issue form from the populated error.
 
-        :return: issue form of the associated error as a string
+        :return: issue form of the associated error as string
         """
         pymilo_report = self.to_pymilo_log()
         help_request = "\n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
