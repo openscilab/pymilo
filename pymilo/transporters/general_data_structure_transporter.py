@@ -57,7 +57,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             5. object of  unserializable numpy.ndarray class
             6. dictionary serialization
 
-        Serialize the data[key] of the given model which it's type is model_type.
+        Serialize the data[key] of the given model which its type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
         pass it through the chain of associated transporters to get fully serialized.
 
@@ -65,7 +65,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :type data: dict
         :param key: the special key of the data param, which we're going to serialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which it's data dictionary is given as the data param.
+        :param model_type: the model type of the ML model, which its data dictionary is given as the data param.
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
@@ -123,8 +123,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 
         with enough feeding of the needed inputs.
         
-        deserialize the data[key] of the given model which it's type is model_type.
-        basically in order to fully deserialize a model, we should traverse over all the keys of it's serialized data dictionary and
+        deserialize the data[key] of the given model which its type is model_type.
+        basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
         :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
@@ -154,7 +154,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         Deserialize the given previously made serializable dictionary.
 
-            1. convert numpy types values which previously made serializable to it's origianl form
+            1. convert numpy types values which previously made serializable to its origianl form
             2. convert list values to nd arrays
 
         :param content: given dictionary
