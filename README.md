@@ -124,8 +124,14 @@
 
 
 ## Usage
-
-
+### Simple Linear Model 
+##### TODO
+### Scikit-Supported Customized Linear Model 
+##### TODO
+### Save Model 
+##### TODO
+### Load Model
+##### TODO
 ## Issues & bug reports
 
 1. Fill an issue and describe it. We'll check it ASAP!
