@@ -124,14 +124,38 @@
 
 
 ## Usage
-### Simple Linear Model 
-##### TODO
-### Scikit-Supported Customized Linear Model 
-##### TODO
+### Simple Linear Model Preparation 
+```pycon
+>>> from sklearn import datasets
+>>> from pymilo.pymilo_obj import Export, Import
+>>> from sklearn.linear_model import LinearRegression
+>>> import os
+
+>>> X, Y = datasets.load_diabetes(return_X_y=True)
+>>> threshold = 20
+>>> X_train, X_test = X[:-threshold], X[-threshold:]
+>>> Y_train, Y_test = Y[:-threshold], Y[-threshold:]
+>>> model = LinearRegression()
+>>> #### Train the model using the training sets
+>>> model.fit(X_train, Y_train)
+```
 ### Save Model 
-##### TODO
+```pycon
+>>> #### Export the fitted model to a transparent json file
+>>> exported_model = Export(model)
+>>> PATH_TO_JSON_FILE = os.path.join(os.getcwd(),"test.json")
+>>> exported_model.save(PATH_TO_JSON_FILE)
+```
 ### Load Model
-##### TODO
+```pycon
+>>> #### Import the pymilo-exported model and get a real scikit model
+>>> imported_model = Import(PATH_TO_JSON_FILE)
+```
+#### Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
+```pycon 
+>>> imported_sklearn_model = imported_model.to_model()
+```
+
 ## Issues & bug reports
 
 1. Fill an issue and describe it. We'll check it ASAP!
