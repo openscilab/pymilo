@@ -40,7 +40,9 @@
 
 
 ## Overview
-
+<p align="justify">
+Pymilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way. By this, the exported model can be used in other environments, transferred across different platforms, and shared with others. Pymilo allows the users to export the models that are trained using popular Python libraries like scikit-learn, and then use them in deployment environments, or share them without exposing the underlying code or dependencies. The transparency of the exported models ensures reliability and safety for the end users, as it eliminates the risks of binary or pickle formats.
+</p>
 <table>
     <tr>
         <td align="center">Open Hub</td>
@@ -151,10 +153,20 @@
 >>> #### Import the pymilo-exported model and get a real scikit model
 >>> imported_model = Import(PATH_TO_JSON_FILE)
 ```
-#### Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
+### Get the associated Scikit model
 ```pycon 
 >>> imported_sklearn_model = imported_model.to_model()
 ```
+#### Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
+
+## Supported ML Models
+| scikit-learn | PyTorch | 
+| ---------------- | ---------------- | 
+| Linear Models &#x2705; | - | 
+| Neural networks &#x274C; | -  | 
+| Clustering &#x274C; | -  | 
+| Trees &#x274C; | -  | 
+| Ensemble Models &#x274C; | - | 
 
 ## Issues & bug reports
 
@@ -163,6 +175,8 @@
 2. Discord : [https://discord.gg/mtuMS8AjDS](https://discord.gg/mtuMS8AjDS)
 
 
+## Social Media
+1. [Discord](https://discord.gg/6Ce6WuB2)
 ## Show Your Support
 
 
@@ -170,3 +184,7 @@
 
 Give a ⭐️ if this project helped you!
 
+### Donate to our project
+If you do like our project and we hope that you do, can you please support us? Our project is not and is never going to be working for profit. We need the money just so we can continue doing what we do ;-) .			
+
+<a href="https://openscilab.com/#donation" target="_blank"><img src="https://github.com/openscilab/static-assets/raw/main/buttons/donation.jpg" height="90px" width="270px" alt="OSL Donation"></a>
