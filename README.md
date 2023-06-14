@@ -120,11 +120,6 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 - Update Conda using `conda update conda` (Need root access)
 - Run `conda install -c openscilab pymilo` (Need root access)
 
-### Easy install
-
-- Run `easy_install --upgrade pymilo` (Need root access)
-
-
 ## Usage
 ### Simple Linear Model Preparation 
 ```pycon
@@ -169,9 +164,16 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 
 ## Issues & bug reports
 
-1. Fill an issue and describe it. We'll check it ASAP!
-    - Please complete the issue template
-2. Discord : [https://discord.gg/mtuMS8AjDS](https://discord.gg/mtuMS8AjDS)
+Just fill an issue and describe it. We'll check it ASAP! or send an email to [info@openscilab.com](mailto:info@openscilab.com "info@openscilab.com"). 
+
+- Please complete the issue template
+ 
+You can also join our discord server
+
+<a href="https://discord.gg/mtuMS8AjDS">
+  <img src="https://img.shields.io/discord/1064533716615049236.svg?style=for-the-badge" alt="Discord Channel">
+</a>
+
 
 
 ## Social Media
