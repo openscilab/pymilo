@@ -132,7 +132,6 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 >>> from pymilo.pymilo_obj import Export, Import
 >>> from sklearn.linear_model import LinearRegression
 >>> import os
-
 >>> X, Y = datasets.load_diabetes(return_X_y=True)
 >>> threshold = 20
 >>> X_train, X_test = X[:-threshold], X[-threshold:]
