@@ -176,7 +176,7 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 
 
 ## Social Media
-1. [Discord](https://discord.gg/6Ce6WuB2)
+1. [Discord](https://discord.gg/mtuMS8AjDS)
 ## Show Your Support
 
 
