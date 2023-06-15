@@ -46,5 +46,5 @@ jobs:
         if: matrix.python-version == env.TEST_PYTHON_VERSION
       - name: Version check
         run: |
-          python others/version_check.py
+          python otherfiles/version_check.py
         if: matrix.python-version == env.TEST_PYTHON_VERSION
