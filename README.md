@@ -121,7 +121,7 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 ### Simple Linear Model Preparation 
 ```pycon
 >>> from sklearn import datasets
->>> from pymilo.pymilo_obj import Export, Import
+>>> from pymilo import Export, Import
 >>> from sklearn.linear_model import LinearRegression
 >>> import os
 >>> X, Y = datasets.load_diabetes(return_X_y=True)
