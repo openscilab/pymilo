@@ -11,12 +11,6 @@
     <a href="https://www.python.org/">
         <img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3">
     </a>
-    <a href="https://anaconda.org/openscilab/pymilo">
-        <img src="https://anaconda.org/openscilab/pymilo/badges/version.svg">
-    </a>
-    <a href="https://colab.research.google.com/github/openscilab/pymilo/blob/main">
-        <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Pymilo-Colab"/>
-    </a>
     <a href="https://discord.gg/mtuMS8AjDS">
         <img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel">
     </a>
