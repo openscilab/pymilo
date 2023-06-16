@@ -45,14 +45,6 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 </p>
 <table>
     <tr>
-        <td align="center">Open Hub</td>
-        <td align="center">
-            <a href="https://www.openhub.net/p/pymilo">
-                <img src="https://www.openhub.net/p/pymilo/widgets/project_thin_badge.gif">
-            </a>
-        </td>
-    </tr>
-    <tr>
         <td align="center">PyPI Counter</td>
         <td align="center">
             <a href="http://pepy.tech/project/pymilo">
@@ -85,21 +77,6 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
             </td>
     </tr>
 </table>
-<table>
-    <tr> 
-        <td align="center">Code Quality</td>
-        <td align="center">
-            <a class="badge-align" href="https://www.codacy.com/app/openscilab/pymilo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=openscilab/pymilo&amp;utm_campaign=Badge_Grade">
-                <img src="https://api.codacy.com/project/badge/Grade/5d9463998a0040d09afc2b80c389365c"/>
-            </a>
-        </td>
-        <td align="center">
-            <a href="https://www.codefactor.io/repository/github/openscilab/pymilo/overview/dev">
-                <img src="https://www.codefactor.io/repository/github/openscilab/pymilo/badge/dev" alt="CodeFactor"/>
-            </a>
-        </td>
-    </tr>
-</table>
 
 
 ## Installation
@@ -107,15 +84,10 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==0.1` (Need root access)
+- Run `pip install pymilo==0.1`
 ### Source code
 - Download [Version 0.1](https://github.com/openscilab/pymilo/archive/v0.1.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
-- Run `pip install .` (Need root access)
-### Conda
-
-- Check [Conda Managing Package](https://conda.io/)
-- Update Conda using `conda update conda` (Need root access)
-- Run `conda install -c openscilab pymilo` (Need root access)
+- Run `pip install .`
 
 ## Usage
 ### Simple Linear Model Preparation 
