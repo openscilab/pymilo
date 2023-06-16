@@ -172,9 +172,6 @@ You can also join our discord server
 </a>
 
 
-
-## Social Media
-1. [Discord](https://discord.gg/mtuMS8AjDS)
 ## Show Your Support
 
 
