@@ -40,7 +40,9 @@
 
 
 ## Overview
-
+<p align="justify">
+Pymilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way. By this, the exported model can be used in other environments, transferred across different platforms, and shared with others. Pymilo allows the users to export the models that are trained using popular Python libraries like scikit-learn, and then use them in deployment environments, or share them without exposing the underlying code or dependencies. The transparency of the exported models ensures reliability and safety for the end users, as it eliminates the risks of binary or pickle formats.
+</p>
 <table>
     <tr>
         <td align="center">Open Hub</td>
@@ -102,37 +104,77 @@
 
 ## Installation
 
-### Source code
-- Download [Version 0.1](https://github.com/openscilab/pymilo/archive/v0.1.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
-- Run `pip install -r requirements.txt` or `pip3 install -r requirements.txt` (Need root access)
-- Run `python3 setup.py install` or `python setup.py install` (Need root access)
-
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==0.1` or `pip3 install pymilo==0.1` (Need root access)
-
+- Run `pip install pymilo==0.1` (Need root access)
+### Source code
+- Download [Version 0.1](https://github.com/openscilab/pymilo/archive/v0.1.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Run `pip install .` (Need root access)
 ### Conda
 
 - Check [Conda Managing Package](https://conda.io/)
 - Update Conda using `conda update conda` (Need root access)
 - Run `conda install -c openscilab pymilo` (Need root access)
 
-### Easy install
-
-- Run `easy_install --upgrade pymilo` (Need root access)
-
-
 ## Usage
+### Simple Linear Model Preparation 
+```pycon
+>>> from sklearn import datasets
+>>> from pymilo.pymilo_obj import Export, Import
+>>> from sklearn.linear_model import LinearRegression
+>>> import os
+>>> X, Y = datasets.load_diabetes(return_X_y=True)
+>>> threshold = 20
+>>> X_train, X_test = X[:-threshold], X[-threshold:]
+>>> Y_train, Y_test = Y[:-threshold], Y[-threshold:]
+>>> model = LinearRegression()
+>>> #### Train the model using the training sets
+>>> model.fit(X_train, Y_train)
+```
+### Save Model 
+```pycon
+>>> #### Export the fitted model to a transparent json file
+>>> exported_model = Export(model)
+>>> PATH_TO_JSON_FILE = os.path.join(os.getcwd(),"test.json")
+>>> exported_model.save(PATH_TO_JSON_FILE)
+```
+### Load Model
+```pycon
+>>> #### Import the pymilo-exported model and get a real scikit model
+>>> imported_model = Import(PATH_TO_JSON_FILE)
+```
+### Get the associated Scikit model
+```pycon 
+>>> imported_sklearn_model = imported_model.to_model()
+```
+#### Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
 
+## Supported ML Models
+| scikit-learn | PyTorch | 
+| ---------------- | ---------------- | 
+| Linear Models &#x2705; | - | 
+| Neural networks &#x274C; | -  | 
+| Clustering &#x274C; | -  | 
+| Trees &#x274C; | -  | 
+| Ensemble Models &#x274C; | - | 
 
 ## Issues & bug reports
 
-1. Fill an issue and describe it. We'll check it ASAP!
-    - Please complete the issue template
-2. Discord : [https://discord.gg/mtuMS8AjDS](https://discord.gg/mtuMS8AjDS)
+Just fill an issue and describe it. We'll check it ASAP! or send an email to [info@openscilab.com](mailto:info@openscilab.com "info@openscilab.com"). 
+
+- Please complete the issue template
+ 
+You can also join our discord server
+
+<a href="https://discord.gg/mtuMS8AjDS">
+  <img src="https://img.shields.io/discord/1064533716615049236.svg?style=for-the-badge" alt="Discord Channel">
+</a>
 
 
+
+## Social Media
+1. [Discord](https://discord.gg/mtuMS8AjDS)
 ## Show Your Support
 
 
@@ -140,3 +182,7 @@
 
 Give a ⭐️ if this project helped you!
 
+### Donate to our project
+If you do like our project and we hope that you do, can you please support us? Our project is not and is never going to be working for profit. We need the money just so we can continue doing what we do ;-) .			
+
+<a href="https://openscilab.com/#donation" target="_blank"><img src="https://github.com/openscilab/pymilo/raw/main/otherfiles/donation.png" height="90px" width="270px" alt="PyMilo Donation"></a>

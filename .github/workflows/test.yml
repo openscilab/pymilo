@@ -5,6 +5,10 @@ name: CI
 
 on: [push, pull_request]
 
+env:
+  TEST_PYTHON_VERSION: 3.9
+  TEST_OS: 'ubuntu-20.04'
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -39,4 +43,8 @@ jobs:
           python -m vulture pymilo/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
           python -m bandit -r pymilo -s B311
           python -m pydocstyle 
-        if: matrix.python-version == 3.8
+        if: matrix.python-version == env.TEST_PYTHON_VERSION
+      - name: Version check
+        run: |
+          python otherfiles/version_check.py
+        if: matrix.python-version == env.TEST_PYTHON_VERSION
