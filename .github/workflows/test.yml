@@ -28,13 +28,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           python setup.py install 
-      - name: Test with pytest 
-        run: |
-          python -m pytest tests --cov=pymilo --cov-report=term
       - name: Test requirements Installation
         run: |
           python otherfiles/requirements-splitter.py
           pip install --upgrade --upgrade-strategy=only-if-needed -r test-requirements.txt
+      - name: Test with pytest 
+        run: |
+          python -m pytest tests --cov=pymilo --cov-report=term
       - name: Other tests
         run: |
           python -m vulture pymilo/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
