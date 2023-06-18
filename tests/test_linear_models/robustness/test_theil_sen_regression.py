@@ -12,5 +12,5 @@ def test_theil_sen_regression():
     theilsen_regresion = TheilSenRegressor(random_state=theilsen_random_state)
     # Train the model using the training sets
     theilsen_regresion.fit(x_train, y_train)
-    return test_pymilo_regression(
-        theilsen_regresion, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        theilsen_regresion, MODEL_NAME, (x_test, y_test)) == True 

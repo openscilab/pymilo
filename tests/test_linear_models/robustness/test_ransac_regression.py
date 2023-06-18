@@ -12,5 +12,5 @@ def test_ransac_regression():
     ransac_regression = RANSACRegressor(random_state=ransac_random_state)
     # Train the model using the training sets
     ransac_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        ransac_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        ransac_regression, MODEL_NAME, (x_test, y_test)) == True 

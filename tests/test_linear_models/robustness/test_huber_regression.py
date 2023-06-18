@@ -11,5 +11,5 @@ def test_huber_regression():
     huber_regresion = HuberRegressor(max_iter=300)
     # Train the model using the training sets
     huber_regresion.fit(x_train, y_train)
-    return test_pymilo_regression(
-        huber_regresion, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        huber_regresion, MODEL_NAME, (x_test, y_test)) == True 
