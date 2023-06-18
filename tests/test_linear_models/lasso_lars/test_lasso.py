@@ -12,5 +12,5 @@ def test_lasso():
     lasso_regression = Lasso(lasso_alpha)
     # Train the model using the training sets
     lasso_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        lasso_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        lasso_regression, MODEL_NAME, (x_test, y_test)) == True 

@@ -12,5 +12,5 @@ def test_lasso_lars_cv():
     lasso_lars_cv_regression = LassoLarsCV(cv=lasso_cv)
     # Train the model using the training sets
     lasso_lars_cv_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        lasso_lars_cv_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        lasso_lars_cv_regression, MODEL_NAME, (x_test, y_test)) == True 

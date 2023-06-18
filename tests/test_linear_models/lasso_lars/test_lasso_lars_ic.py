@@ -12,5 +12,5 @@ def test_lasso_lars_ic():
     lass_lars_ic_regression = LassoLarsIC(criterion=lasso_criterian)
     # Train the model using the training sets
     lass_lars_ic_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        lass_lars_ic_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        lass_lars_ic_regression, MODEL_NAME, (x_test, y_test)) == True 

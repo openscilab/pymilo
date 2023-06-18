@@ -19,5 +19,5 @@ def test_multi_task_lasso_cv():
         cv=lasso_cv)
     # Train the model using the training sets
     multi_task_lasso_cv.fit(x_train, y_train)
-    return test_pymilo_regression(
-        multi_task_lasso_cv, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        multi_task_lasso_cv, MODEL_NAME, (x_test, y_test)) == True 

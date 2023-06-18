@@ -17,5 +17,5 @@ def test_multi_task_lasso():
         alpha=lasso_alpha)
     # Train the model using the training sets
     multi_task_lasso.fit(x_train, y_train)
-    return test_pymilo_regression(
-        multi_task_lasso, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        multi_task_lasso, MODEL_NAME, (x_test, y_test)) == True 

@@ -17,5 +17,5 @@ def test_lasso_cv():
         random_state=lasso_random_state)
     # Train the model using the training sets
     lasso_cv_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        lasso_cv_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        lasso_cv_regression, MODEL_NAME, (x_test, y_test)) == True 
