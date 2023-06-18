@@ -1,113 +1,113 @@
 import os
 import pytest
 
-from linear_regression.test_linear_regression import test_linear_regression
+from linear_regression.linear_regression import linear_regression
 
-from ridge.test_ridge_regression import test_ridge_regression
-from ridge.test_ridge_regression_cv import test_ridge_regression_cv
-from ridge.test_ridge_classifier import test_ridge_classifier
-from ridge.test_ridge_classifier_cv import test_ridge_classifier_cv
+from ridge.ridge_regression import ridge_regression
+from ridge.ridge_regression_cv import ridge_regression_cv
+from ridge.ridge_classifier import ridge_classifier
+from ridge.ridge_classifier_cv import ridge_classifier_cv
 
-from lasso_lars.test_lasso import test_lasso
-from lasso_lars.test_lasso_cv import test_lasso_cv
-from lasso_lars.test_lasso_lars import test_lasso_lars
-from lasso_lars.test_lasso_lars_cv import test_lasso_lars_cv
-from lasso_lars.test_lasso_lars_ic import test_lasso_lars_ic
-from lasso_lars.test_multi_task_lasso import test_multi_task_lasso
-from lasso_lars.test_multi_task_lasso_cv import test_multi_task_lasso_cv
+from lasso_lars.lasso import lasso
+from lasso_lars.lasso_cv import lasso_cv
+from lasso_lars.lasso_lars import lasso_lars
+from lasso_lars.lasso_lars_cv import lasso_lars_cv
+from lasso_lars.lasso_lars_ic import lasso_lars_ic
+from lasso_lars.multi_task_lasso import multi_task_lasso
+from lasso_lars.multi_task_lasso_cv import multi_task_lasso_cv
 
-from elasticnet.test_elastic_net import test_elastic_net
-from elasticnet.test_elastic_net_cv import test_elastic_net_cv
-from elasticnet.test_multi_task_elastic_net import test_multi_task_elastic_net
-from elasticnet.test_multi_task_elastic_net_cv import test_multi_task_elastic_net_cv
+from elasticnet.elastic_net import elastic_net
+from elasticnet.elastic_net_cv import elastic_net_cv
+from elasticnet.multi_task_elastic_net import multi_task_elastic_net
+from elasticnet.multi_task_elastic_net_cv import multi_task_elastic_net_cv
 
-from omp.test_omp import test_omp
-from omp.test_omp_cv import test_omp_cv
+from omp.omp import omp
+from omp.omp_cv import omp_cv
 
-from bayesian.test_bayesian_regression import test_bayesian_regression
-from bayesian.test_ard_regression import test_ard_regression
+from bayesian.bayesian_regression import bayesian_regression
+from bayesian.ard_regression import ard_regression
 
-from logistic.test_logistic_regression import test_logistic_regression
-from logistic.test_logistic_regression_cv import test_logistic_regression_cv
+from logistic.logistic_regression import logistic_regression
+from logistic.logistic_regression_cv import logistic_regression_cv
 
 try: 
-    from glm.test_tweedie_regression import test_tweedie_regression
-    from glm.test_poisson_regression import test_poisson_regression
-    from glm.test_gamma_regression import test_gamma_regression
+    from glm.tweedie_regression import tweedie_regression
+    from glm.poisson_regression import poisson_regression
+    from glm.gamma_regression import gamma_regression
 except: 
     ""
 
-from sgd.test_sgd_regression import test_sgd_regression
-from sgd.test_sgd_classifier import test_sgd_classifier
+from sgd.sgd_regression import sgd_regression
+from sgd.sgd_classifier import sgd_classifier
 
 try:
-    from sgd.test_sgd_oneclass_svm import test_sgd_oneclass_svm
+    from sgd.sgd_oneclass_svm import sgd_oneclass_svm
 except:
     ""
     
-from perceptron.test_perception import test_perceptron
+from perceptron.perception import perceptron
 
-from passive_aggressive.test_passive_aggressive_regressor import test_passive_agressive_regressor
-from passive_aggressive.test_passive_aggressive_classifier import test_passive_aggressive_classifier
+from passive_aggressive.passive_aggressive_regressor import passive_agressive_regressor
+from passive_aggressive.passive_aggressive_classifier import passive_aggressive_classifier
 
-from robustness.test_ransac_regression import test_ransac_regression
-from robustness.test_theil_sen_regression import test_theil_sen_regression
-from robustness.test_huber_regression import test_huber_regression
+from robustness.ransac_regression import ransac_regression
+from robustness.theil_sen_regression import theil_sen_regression
+from robustness.huber_regression import huber_regression
 
 try:
-    from quantile.test_quantile import test_quantile_regressor
+    from quantile.quantile import quantile_regressor
 except:
     ""
     
 from pymilo.pymilo_param import SKLEARN_LINEAR_MODEL_TABLE, NOT_SUPPORTED
 
 LINEAR_MODELS = {
-    "LINEAR_REGRESSION": [test_linear_regression],
+    "LINEAR_REGRESSION": [linear_regression],
     "RIDGE_REGRESSION_AND_CLASSIFICATION": [
-        test_ridge_regression,
-        test_ridge_regression_cv,
-        test_ridge_classifier,
-        test_ridge_classifier_cv],
+        ridge_regression,
+        ridge_regression_cv,
+        ridge_classifier,
+        ridge_classifier_cv],
     "LASSO_AND_LARS": [
-        test_lasso,
-        test_lasso_cv,
-        test_lasso_lars,
-        test_lasso_lars_cv,
-        test_lasso_lars_ic,
-        test_multi_task_lasso,
-        test_multi_task_lasso_cv],
+        lasso,
+        lasso_cv,
+        lasso_lars,
+        lasso_lars_cv,
+        lasso_lars_ic,
+        multi_task_lasso,
+        multi_task_lasso_cv],
     "ELASTIC_NET": [
-        test_elastic_net,
-        test_elastic_net_cv],
+        elastic_net,
+        elastic_net_cv],
     "MULTI_CLASS_ELASTIC_NET": [
-        test_multi_task_elastic_net,
-        test_multi_task_elastic_net_cv],
+        multi_task_elastic_net,
+        multi_task_elastic_net_cv],
     "OMP": [
-        test_omp,
-        test_omp_cv],
+        omp,
+        omp_cv],
     "BAYESIAN_REGRESSION": [
-        test_bayesian_regression,
-        test_ard_regression],
+        bayesian_regression,
+        ard_regression],
     "LOGISTIC_REGRESSION": [
-        test_logistic_regression,
-        test_logistic_regression_cv],
+        logistic_regression,
+        logistic_regression_cv],
     "GLM": [
-        test_tweedie_regression if SKLEARN_LINEAR_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else (None,"TweedieRegressor"),
-        test_poisson_regression if SKLEARN_LINEAR_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else (None,"PoissonRegressor"),
-        test_gamma_regression if SKLEARN_LINEAR_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else (None,"GammaRegressor")],
+        tweedie_regression if SKLEARN_LINEAR_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else (None,"TweedieRegressor"),
+        poisson_regression if SKLEARN_LINEAR_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else (None,"PoissonRegressor"),
+        gamma_regression if SKLEARN_LINEAR_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else (None,"GammaRegressor")],
     "SGD": [
-        test_sgd_regression,
-        test_sgd_classifier,
-        test_sgd_oneclass_svm if SKLEARN_LINEAR_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else (None,"SGDOneClassSVM")],
-    "PERCEPTRON": [test_perceptron],
+        sgd_regression,
+        sgd_classifier,
+        sgd_oneclass_svm if SKLEARN_LINEAR_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else (None,"SGDOneClassSVM")],
+    "PERCEPTRON": [perceptron],
     "PASSIVE_AGGRESSIVE_REGRESSION_AND_CLASSIFIER": [
-        test_passive_agressive_regressor,
-        test_passive_aggressive_classifier],
+        passive_agressive_regressor,
+        passive_aggressive_classifier],
     "ROBUSTNESS_REGRESSION": [
-        test_ransac_regression,
-        test_theil_sen_regression,
-        test_huber_regression],
-    "QUANTILE_REGRESSION": [test_quantile_regressor if SKLEARN_LINEAR_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else (None,"QuantileRegressor")]}
+        ransac_regression,
+        theil_sen_regression,
+        huber_regression],
+    "QUANTILE_REGRESSION": [quantile_regressor if SKLEARN_LINEAR_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else (None,"QuantileRegressor")]}
 
 @pytest.fixture(scope="session", autouse=True)
 def reset_exported_models_directory():

@@ -34,7 +34,7 @@ jobs:
           pip install --upgrade --upgrade-strategy=only-if-needed -r test-requirements.txt
       - name: Test with pytest 
         run: |
-          python -m pytest tests/test_linear_models/test_linear_models.py tests/test_exceptions/test_exceptions.py --cov=pymilo --cov-report=term
+          python -m pytest . --cov=pymilo --cov-report=term
       - name: Other tests
         run: |
           python -m vulture pymilo/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
