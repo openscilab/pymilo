@@ -11,5 +11,5 @@ def test_quantile_regressor():
     quantile_regression = QuantileRegressor(quantile=0.8, solver="highs")
     # Train the model using the training sets
     quantile_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        quantile_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        quantile_regression, MODEL_NAME, (x_test, y_test)) == True 
