@@ -12,5 +12,5 @@ def test_omp_cv():
     omp_cv_regression = OrthogonalMatchingPursuitCV(cv=omp_cv)
     # Train the model using the training sets
     omp_cv_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        omp_cv_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        omp_cv_regression, MODEL_NAME, (x_test, y_test)) == True 

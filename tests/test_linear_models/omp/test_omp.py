@@ -13,4 +13,5 @@ def test_omp():
         n_nonzero_coefs=omp_n_nonzero_coefs)
     # Train the model using the training sets
     omp_regression.fit(x_train, y_train)
-    return test_pymilo_regression(omp_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        omp_regression, MODEL_NAME, (x_test, y_test)) == True 
