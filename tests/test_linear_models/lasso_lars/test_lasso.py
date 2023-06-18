@@ -1,5 +1,5 @@
 from sklearn.linear_model import Lasso
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 MODEL_NAME = "Lasso-Regression"
@@ -12,5 +12,5 @@ def test_lasso():
     lasso_regression = Lasso(lasso_alpha)
     # Train the model using the training sets
     lasso_regression.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         lasso_regression, MODEL_NAME, (x_test, y_test)) == True 

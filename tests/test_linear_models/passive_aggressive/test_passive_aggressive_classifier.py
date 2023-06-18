@@ -1,5 +1,5 @@
 from sklearn.linear_model import PassiveAggressiveClassifier
-from pymilo.utils.test_pymilo import test_pymilo_classification
+from pymilo.utils.test_pymilo import pymilo_classification_test
 from pymilo.utils.data_exporter import prepare_simple_classification_datasets
 
 MODEL_NAME = "Passive-Aggressive-Classifier"
@@ -15,5 +15,5 @@ def test_passive_aggressive_classifier():
         max_iter=pac_max_iter, random_state=pac_random_state, tol=pac_tol)
     # Train the model using the training sets
     passive_aggressive_classifier.fit(x_train, y_train)
-    assert test_pymilo_classification(
+    assert pymilo_classification_test(
         passive_aggressive_classifier, MODEL_NAME, (x_test, y_test)) == True 

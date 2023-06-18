@@ -1,5 +1,5 @@
 from sklearn.linear_model import LassoCV
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 MODEL_NAME = "Lasso-Regression-CV"
@@ -17,5 +17,5 @@ def test_lasso_cv():
         random_state=lasso_random_state)
     # Train the model using the training sets
     lasso_cv_regression.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         lasso_cv_regression, MODEL_NAME, (x_test, y_test)) == True 

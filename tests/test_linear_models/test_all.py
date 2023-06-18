@@ -125,15 +125,13 @@ class TestLinearModels(unittest.TestCase):
     def test_full(self):
         self.reset_exported_models_directory()
         for category in self.LINEAR_MODELS.keys():
-            category_all_test_pass = True
             for model in self.LINEAR_MODELS[category]:
                 if isinstance(model, tuple):
                     func, model_name = model
                     if func == None:
                         print("Model: " + model_name + " is not supported in this python version.")
                         continue
-                category_all_test_pass = category_all_test_pass and model()
-                self.assertTrue(category_all_test_pass)
+                model()
 
 if __name__ == '__main__':
     unittest.main()

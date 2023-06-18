@@ -1,5 +1,5 @@
 from sklearn.linear_model import MultiTaskLassoCV
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 MODEL_NAME = "Multi-Task-Lasso-CV-Regression"
@@ -19,5 +19,5 @@ def test_multi_task_lasso_cv():
         cv=lasso_cv)
     # Train the model using the training sets
     multi_task_lasso_cv.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         multi_task_lasso_cv, MODEL_NAME, (x_test, y_test)) == True 

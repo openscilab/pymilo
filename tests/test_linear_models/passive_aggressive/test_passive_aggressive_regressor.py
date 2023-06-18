@@ -1,5 +1,5 @@
 from sklearn.linear_model import PassiveAggressiveRegressor
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 MODEL_NAME = "Passive-Aggressive-Regressor"
@@ -14,5 +14,5 @@ def test_passive_agressive_regressor():
         max_iter=par_max_iter, random_state=par_random_state)
     # Train the model using the training sets
     passive_aggressive_regression.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         passive_aggressive_regression, MODEL_NAME, (x_test, y_test)) == True 

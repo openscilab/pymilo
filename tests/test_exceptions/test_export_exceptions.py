@@ -1,9 +1,9 @@
 # INVALID_MODEL = 1 -> tested.
 # VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2 -> tested.
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 
 from sklearn.linear_model import LinearRegression
 from custom_models import CustomizedTweedieDistribution
@@ -29,7 +29,7 @@ def test_invalid_model(print_output = False):
     # Train the model using the training sets
     model.fit(x_train, y_train)
     try:
-      test_pymilo_regression(
+      pymilo_regression_test(
         model, model.name , (x_test, y_test))
       return False
     except Exception as e:        
@@ -45,7 +45,7 @@ def test_valid_model_invalid_structure(print_output = False):
     # Train the model using the training sets
     linear_regression.fit(x_train, y_train)
     try:
-      test_pymilo_regression(
+      pymilo_regression_test(
         linear_regression, MODEL_NAME, (x_test, y_test))
       return False
     except Exception as e:        

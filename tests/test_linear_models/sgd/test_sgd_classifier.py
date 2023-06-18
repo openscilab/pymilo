@@ -1,6 +1,6 @@
 from sklearn.linear_model import SGDClassifier
 from pymilo.utils.data_exporter import prepare_simple_classification_datasets
-from pymilo.utils.test_pymilo import test_pymilo_classification
+from pymilo.utils.test_pymilo import pymilo_classification_test
 MODEL_NAME = "SGD-Classifier"
 
 
@@ -12,5 +12,5 @@ def test_sgd_classifier():
     sgd_classifier = SGDClassifier(max_iter=sgd_max_iter, tol=sgd_tol)
     # Train the model using the training sets
     sgd_classifier.fit(x_train, y_train)
-    assert test_pymilo_classification(
+    assert pymilo_classification_test(
         sgd_classifier, MODEL_NAME, (x_test, y_test)) == True 

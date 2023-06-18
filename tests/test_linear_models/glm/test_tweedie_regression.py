@@ -1,6 +1,6 @@
 from sklearn.linear_model import TweedieRegressor
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 
 MODEL_NAME = "Tweedie-Regression"
 
@@ -17,5 +17,5 @@ def test_tweedie_regression():
         link=tweedie_link)
     # Train the model using the training sets
     tweedie_regression.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         tweedie_regression, MODEL_NAME, (x_test, y_test)) == True 

@@ -1,5 +1,5 @@
 from sklearn.linear_model import PoissonRegressor
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 MODEL_NAME = "Poisson-Regression"
@@ -12,5 +12,5 @@ def test_poisson_regression():
     poisson_regression = PoissonRegressor(alpha=poisson_alpha)
     # Train the model using the training sets
     poisson_regression.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         poisson_regression, MODEL_NAME, (x_test, y_test)) == True 

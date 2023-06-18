@@ -1,6 +1,6 @@
 from sklearn.linear_model import SGDOneClassSVM
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 
 MODEL_NAME = "SGD-OneClass-Regression"
 
@@ -12,5 +12,5 @@ def test_sgd_oneclass_svm():
     sgd_oneclass_svm = SGDOneClassSVM(random_state=sgd_random_state)
     # Train the model using the training sets
     sgd_oneclass_svm.fit(x_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         sgd_oneclass_svm, MODEL_NAME, (x_test, y_test)) == True

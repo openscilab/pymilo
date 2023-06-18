@@ -1,5 +1,5 @@
 from sklearn.linear_model import ElasticNetCV
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 MODEL_NAME = "Elastic-Net-CV-Regression"
@@ -17,5 +17,5 @@ def test_elastic_net_cv():
         random_state=elasticnet_random_state)
     # Train the model using the training sets
     elasticnet_cv_regression.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         elasticnet_cv_regression, MODEL_NAME, (x_test, y_test)) == True 

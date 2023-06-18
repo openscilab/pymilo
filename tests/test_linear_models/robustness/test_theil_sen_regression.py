@@ -1,6 +1,6 @@
 from sklearn.linear_model import TheilSenRegressor
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
-from pymilo.utils.test_pymilo import test_pymilo_regression
+from pymilo.utils.test_pymilo import pymilo_regression_test
 
 MODEL_NAME = "Theil-Sen-Regressor"
 
@@ -12,5 +12,5 @@ def test_theil_sen_regression():
     theilsen_regresion = TheilSenRegressor(random_state=theilsen_random_state)
     # Train the model using the training sets
     theilsen_regresion.fit(x_train, y_train)
-    assert test_pymilo_regression(
+    assert pymilo_regression_test(
         theilsen_regresion, MODEL_NAME, (x_test, y_test)) == True 
