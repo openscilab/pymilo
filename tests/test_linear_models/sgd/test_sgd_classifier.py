@@ -12,5 +12,5 @@ def test_sgd_classifier():
     sgd_classifier = SGDClassifier(max_iter=sgd_max_iter, tol=sgd_tol)
     # Train the model using the training sets
     sgd_classifier.fit(x_train, y_train)
-    return test_pymilo_classification(
-        sgd_classifier, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_classification(
+        sgd_classifier, MODEL_NAME, (x_test, y_test)) == True 

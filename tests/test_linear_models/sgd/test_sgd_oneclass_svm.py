@@ -12,5 +12,5 @@ def test_sgd_oneclass_svm():
     sgd_oneclass_svm = SGDOneClassSVM(random_state=sgd_random_state)
     # Train the model using the training sets
     sgd_oneclass_svm.fit(x_train)
-    return test_pymilo_regression(
-        sgd_oneclass_svm, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        sgd_oneclass_svm, MODEL_NAME, (x_test, y_test)) == True

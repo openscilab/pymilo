@@ -13,4 +13,5 @@ def test_sgd_regression():
     sgd_regression = SGDRegressor(max_iter=sgd_max_iter, tol=sgd_tol)
     # Train the model using the training sets
     sgd_regression.fit(x_train, y_train)
-    return test_pymilo_regression(sgd_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        sgd_regression, MODEL_NAME, (x_test, y_test)) == True 
