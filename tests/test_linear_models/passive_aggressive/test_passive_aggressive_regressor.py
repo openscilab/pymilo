@@ -14,5 +14,5 @@ def test_passive_agressive_regressor():
         max_iter=par_max_iter, random_state=par_random_state)
     # Train the model using the training sets
     passive_aggressive_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        passive_aggressive_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        passive_aggressive_regression, MODEL_NAME, (x_test, y_test)) == True 
