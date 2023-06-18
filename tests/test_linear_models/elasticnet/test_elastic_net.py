@@ -15,5 +15,5 @@ def test_elastic_net():
         alpha=elasticnet_alpha)
     # Train the model using the training sets
     elasticnet_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        elasticnet_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        elasticnet_regression, MODEL_NAME, (x_test, y_test)) == True 

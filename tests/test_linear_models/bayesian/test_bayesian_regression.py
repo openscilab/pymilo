@@ -11,4 +11,5 @@ def test_bayesian_regression():
     bayesian_ridge_regression = BayesianRidge()
     # Train the model using the training sets
     bayesian_ridge_regression.fit(x_train, y_train)
-    assert test_pymilo_regression(bayesian_ridge_regression, MODEL_NAME, (x_test, y_test)) == True 
+    assert test_pymilo_regression(
+        bayesian_ridge_regression, MODEL_NAME, (x_test, y_test)) == True 

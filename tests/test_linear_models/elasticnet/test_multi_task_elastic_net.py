@@ -16,5 +16,5 @@ def test_multi_task_elastic_net():
         random_state=elasticnet_random_state, alpha=elasticnet_alpha)
     # Train the model using the training sets
     multitask_elasticnet_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        multitask_elasticnet_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        multitask_elasticnet_regression, MODEL_NAME, (x_test, y_test)) == True 
