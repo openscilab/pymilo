@@ -1,5 +1,5 @@
 import os
-import unittest
+import pytest
 
 from linear_regression.test_linear_regression import test_linear_regression
 
@@ -60,78 +60,74 @@ except:
     ""
     
 from pymilo.pymilo_param import SKLEARN_LINEAR_MODEL_TABLE, NOT_SUPPORTED
-class TestLinearModels(unittest.TestCase):
 
-    LINEAR_MODELS = {
-        "LINEAR_REGRESSION": [test_linear_regression],
-        "RIDGE_REGRESSION_AND_CLASSIFICATION": [
-            test_ridge_regression,
-            test_ridge_regression_cv,
-            test_ridge_classifier,
-            test_ridge_classifier_cv],
-        "LASSO_AND_LARS": [
-            test_lasso,
-            test_lasso_cv,
-            test_lasso_lars,
-            test_lasso_lars_cv,
-            test_lasso_lars_ic,
-            test_multi_task_lasso,
-            test_multi_task_lasso_cv],
-        "ELASTIC_NET": [
-            test_elastic_net,
-            test_elastic_net_cv],
-        "MULTI_CLASS_ELASTIC_NET": [
-            test_multi_task_elastic_net,
-            test_multi_task_elastic_net_cv],
-        "OMP": [
-            test_omp,
-            test_omp_cv],
-        "BAYESIAN_REGRESSION": [
-            test_bayesian_regression,
-            test_ard_regression],
-        "LOGISTIC_REGRESSION": [
-            test_logistic_regression,
-            test_logistic_regression_cv],
-        "GLM": [
-            test_tweedie_regression if SKLEARN_LINEAR_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else (None,"TweedieRegressor"),
-            test_poisson_regression if SKLEARN_LINEAR_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else (None,"PoissonRegressor"),
-            test_gamma_regression if SKLEARN_LINEAR_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else (None,"GammaRegressor")],
-        "SGD": [
-            test_sgd_regression,
-            test_sgd_classifier,
-            test_sgd_oneclass_svm if SKLEARN_LINEAR_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else (None,"SGDOneClassSVM")],
-        "PERCEPTRON": [test_perceptron],
-        "PASSIVE_AGGRESSIVE_REGRESSION_AND_CLASSIFIER": [
-            test_passive_agressive_regressor,
-            test_passive_aggressive_classifier],
-        "ROBUSTNESS_REGRESSION": [
-            test_ransac_regression,
-            test_theil_sen_regression,
-            test_huber_regression],
-        "QUANTILE_REGRESSION": [test_quantile_regressor if SKLEARN_LINEAR_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else (None,"QuantileRegressor")]}
+LINEAR_MODELS = {
+    "LINEAR_REGRESSION": [test_linear_regression],
+    "RIDGE_REGRESSION_AND_CLASSIFICATION": [
+        test_ridge_regression,
+        test_ridge_regression_cv,
+        test_ridge_classifier,
+        test_ridge_classifier_cv],
+    "LASSO_AND_LARS": [
+        test_lasso,
+        test_lasso_cv,
+        test_lasso_lars,
+        test_lasso_lars_cv,
+        test_lasso_lars_ic,
+        test_multi_task_lasso,
+        test_multi_task_lasso_cv],
+    "ELASTIC_NET": [
+        test_elastic_net,
+        test_elastic_net_cv],
+    "MULTI_CLASS_ELASTIC_NET": [
+        test_multi_task_elastic_net,
+        test_multi_task_elastic_net_cv],
+    "OMP": [
+        test_omp,
+        test_omp_cv],
+    "BAYESIAN_REGRESSION": [
+        test_bayesian_regression,
+        test_ard_regression],
+    "LOGISTIC_REGRESSION": [
+        test_logistic_regression,
+        test_logistic_regression_cv],
+    "GLM": [
+        test_tweedie_regression if SKLEARN_LINEAR_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED else (None,"TweedieRegressor"),
+        test_poisson_regression if SKLEARN_LINEAR_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED else (None,"PoissonRegressor"),
+        test_gamma_regression if SKLEARN_LINEAR_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED else (None,"GammaRegressor")],
+    "SGD": [
+        test_sgd_regression,
+        test_sgd_classifier,
+        test_sgd_oneclass_svm if SKLEARN_LINEAR_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED else (None,"SGDOneClassSVM")],
+    "PERCEPTRON": [test_perceptron],
+    "PASSIVE_AGGRESSIVE_REGRESSION_AND_CLASSIFIER": [
+        test_passive_agressive_regressor,
+        test_passive_aggressive_classifier],
+    "ROBUSTNESS_REGRESSION": [
+        test_ransac_regression,
+        test_theil_sen_regression,
+        test_huber_regression],
+    "QUANTILE_REGRESSION": [test_quantile_regressor if SKLEARN_LINEAR_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED else (None,"QuantileRegressor")]}
 
-    def reset_exported_models_directory(self):
-        exported_models_directory = os.path.join(
-            os.getcwd(), "tests", "exported_models")
-        if not os.path.isdir(exported_models_directory):
-            os.mkdir(exported_models_directory)
-            return
-        for file_name in os.listdir(exported_models_directory):
-            # construct full file path
-            json_file = os.path.join(exported_models_directory, file_name)
-            if os.path.isfile(json_file):
-                os.remove(json_file)
+@pytest.fixture(scope="session", autouse=True)
+def reset_exported_models_directory():
+    exported_models_directory = os.path.join(
+        os.getcwd(), "tests", "exported_models")
+    if not os.path.isdir(exported_models_directory):
+        os.mkdir(exported_models_directory)
+        return
+    for file_name in os.listdir(exported_models_directory):
+        # construct full file path
+        json_file = os.path.join(exported_models_directory, file_name)
+        if os.path.isfile(json_file):
+            os.remove(json_file)
 
-    def test_full(self):
-        self.reset_exported_models_directory()
-        for category in self.LINEAR_MODELS.keys():
-            for model in self.LINEAR_MODELS[category]:
-                if isinstance(model, tuple):
-                    func, model_name = model
-                    if func == None:
-                        print("Model: " + model_name + " is not supported in this python version.")
-                        continue
-                model()
-
-if __name__ == '__main__':
-    unittest.main()
+def test_full():
+    for category in LINEAR_MODELS.keys():
+        for model in LINEAR_MODELS[category]:
+            if isinstance(model, tuple):
+                func, model_name = model
+                if func == None:
+                    print("Model: " + model_name + " is not supported in this python version.")
+                    continue
+            model()
