@@ -5,7 +5,7 @@ from pymilo.pymilo_obj import Import
 
 import os
 
-def test_invalid_json(print_output = False):
+def invalid_json(print_output = False):
     json_files = ["corrupted", "unknown-model"]
     for json_file in json_files:
       json_path = os.path.join(os.getcwd(), "tests", "test_exceptions", "invalid_jsons", json_file + '.json')

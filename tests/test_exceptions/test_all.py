@@ -1,14 +1,14 @@
 import os
 import unittest
 
-from test_export_exceptions import test_invalid_model, test_valid_model_invalid_structure
-from test_import_exceptions import test_invalid_json
+from test_export_exceptions import invalid_model, valid_model_invalid_structure
+from test_import_exceptions import invalid_json
 
 class TestExceptionalCases(unittest.TestCase):
 
     EXCEPTION_TESTS = {
-        'IMPORT': [test_invalid_json],
-        'EXPORT': [test_invalid_model, test_valid_model_invalid_structure]
+        'IMPORT': [invalid_json],
+        'EXPORT': [invalid_model, valid_model_invalid_structure]
     }
 
     def test_full(self):

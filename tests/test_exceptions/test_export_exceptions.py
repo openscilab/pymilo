@@ -22,7 +22,7 @@ class InvalidModel:
   def predict(self, x):
      return [0 for _ in range(np.shape(x)[0])]
 
-def test_invalid_model(print_output = False):
+def invalid_model(print_output = False):
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     # Create linear regression object
     model = InvalidModel()
@@ -36,7 +36,7 @@ def test_invalid_model(print_output = False):
       if print_output: print("An Exception occured\n", e)
       return True
 
-def test_valid_model_invalid_structure(print_output = False):
+def valid_model_invalid_structure(print_output = False):
     MODEL_NAME = "LinearRegression"
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     # Create linear regression object
