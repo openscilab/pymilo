@@ -17,5 +17,5 @@ def test_tweedie_regression():
         link=tweedie_link)
     # Train the model using the training sets
     tweedie_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        tweedie_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        tweedie_regression, MODEL_NAME, (x_test, y_test)) == True 

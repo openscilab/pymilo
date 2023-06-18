@@ -12,5 +12,5 @@ def test_poisson_regression():
     poisson_regression = PoissonRegressor(alpha=poisson_alpha)
     # Train the model using the training sets
     poisson_regression.fit(x_train, y_train)
-    return test_pymilo_regression(
-        poisson_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        poisson_regression, MODEL_NAME, (x_test, y_test)) == True 
