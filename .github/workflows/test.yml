@@ -30,10 +30,10 @@ jobs:
           python setup.py install 
       - name: Test Linear Models
         run: |
-          python tests/test_linear_models/test_all.py
+          python tests/test_linear_models/test_linear_models.py
       - name: Test Pymilo Exceptions
         run: |
-          python tests/test_exceptions/test_all.py
+          python tests/test_exceptions/test_exceptions.py
       - name: Test requirements Installation
         run: |
           python otherfiles/requirements-splitter.py

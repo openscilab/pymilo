@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from test_export_exceptions import invalid_model, valid_model_invalid_structure
