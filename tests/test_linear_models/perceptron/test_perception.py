@@ -16,4 +16,5 @@ def test_perceptron():
         tol=perceptron_tol)
     # Train the model using the training sets
     perceptron.fit(x_train, y_train)
-    return test_pymilo_regression(perceptron, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        perceptron, MODEL_NAME, (x_test, y_test)) == True 
