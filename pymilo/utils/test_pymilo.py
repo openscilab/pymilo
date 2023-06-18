@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """pymilo test modules."""
 import os
+import pytest 
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
@@ -10,7 +11,7 @@ from sklearn.metrics import accuracy_score, hinge_loss
 
 from ..pymilo_func import compare_model_outputs
 
-
+@pytest.mark.skip
 def test_pymilo(model, model_name, test_data):
     """
     Return the pymilo imported model's outputs for given test_data.
@@ -34,7 +35,7 @@ def test_pymilo(model, model_name, test_data):
     imported_sklearn_model = imported_model.to_model()
     return imported_sklearn_model.predict(x_test)
 
-
+@pytest.mark.skip
 def test_pymilo_regression(regressor, model_name, test_data):
     """
     Test the package's main structure in regression task.
@@ -64,7 +65,7 @@ def test_pymilo_regression(regressor, model_name, test_data):
     report_status(comparison_result, model_name)
     return comparison_result
 
-
+@pytest.mark.skip
 def test_pymilo_classification(classifier, model_name, test_data):
     """
     Test the package's main structure in classification task.
