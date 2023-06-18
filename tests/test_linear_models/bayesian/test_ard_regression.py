@@ -11,4 +11,4 @@ def test_ard_regression():
     ard_regression = ARDRegression()
     # Train the model using the training sets
     ard_regression.fit(x_train, y_train)
-    return test_pymilo_regression(ard_regression, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(ard_regression, MODEL_NAME, (x_test, y_test)) == True 
