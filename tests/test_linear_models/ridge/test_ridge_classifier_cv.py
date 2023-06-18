@@ -12,5 +12,5 @@ def test_ridge_classifier_cv():
     ridge_classifier = RidgeClassifierCV(alphas=ridge_cv_alphas)
     # Train the model using the training sets
     ridge_classifier.fit(x_train, y_train)
-    return test_pymilo_classification(
-        ridge_classifier, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_classification(
+        ridge_classifier, MODEL_NAME, (x_test, y_test)) == True 
