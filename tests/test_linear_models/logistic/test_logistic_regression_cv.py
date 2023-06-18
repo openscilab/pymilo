@@ -15,5 +15,5 @@ def test_logistic_regression_cv():
         random_state=logistic_regression_random_state)
     # Train the model using the training sets
     logistic_regression_cv.fit(x_train, y_train)
-    return test_pymilo_regression(
-        logistic_regression_cv, MODEL_NAME, (x_test, y_test))
+    assert test_pymilo_regression(
+        logistic_regression_cv, MODEL_NAME, (x_test, y_test)) == True 
