@@ -10,6 +10,7 @@ glm_models = [
     'TweedieRegressor'
 ]
 legacy_version = False
+# pragma: no cover
 try:
     from sklearn._loss.loss import BaseLoss
     # So the python version is >= 3.8
@@ -40,6 +41,7 @@ except BaseException:
 
 # print("LEGACY-VERSION: ",legacy_version)
 
+# pragma: no cover
 class BaseLossTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle BaseLoss field."""
 

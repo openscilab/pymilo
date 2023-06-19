@@ -81,7 +81,7 @@ class PymiloDeserializationException(PymiloException):
         pymilo_version = "#### PyMilo Version\n {pymilo_version}".format(
             pymilo_version=pymilo_report['versions']["pymilo-version"])
         gathered_data = "#### Logged Data\n {logged_data}".format(
-            str(logged_data=pymilo_report))
+            logged_data=str(pymilo_report))
 
         full_issue_form = help_request + discription + steps_to_produce + expected_behaviour + \
             actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
