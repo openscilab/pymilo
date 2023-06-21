@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/openscilab/pymilo/raw/main/otherfiles/logo.png" width="550">
+    <img src="https://github.com/openscilab/pymilo/raw/main/otherfiles/logo.png" width="500" height="300">
     <br/>
     <br/>
     <a href="https://codecov.io/gh/openscilab/pymilo">
