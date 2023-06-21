@@ -10,8 +10,7 @@ from sklearn.metrics import accuracy_score, hinge_loss
 
 from ..pymilo_func import compare_model_outputs
 
-
-def test_pymilo(model, model_name, test_data):
+def pymilo_test(model, model_name, test_data):
     """
     Return the pymilo imported model's outputs for given test_data.
 
@@ -34,8 +33,7 @@ def test_pymilo(model, model_name, test_data):
     imported_sklearn_model = imported_model.to_model()
     return imported_sklearn_model.predict(x_test)
 
-
-def test_pymilo_regression(regressor, model_name, test_data):
+def pymilo_regression_test(regressor, model_name, test_data):
     """
     Test the package's main structure in regression task.
 
@@ -53,7 +51,7 @@ def test_pymilo_regression(regressor, model_name, test_data):
         "mean-error": mean_squared_error(y_test, pre_pymilo_model_y_pred),
         "r2-score": r2_score(y_test, pre_pymilo_model_y_pred)
     }
-    post_pymilo_model_y_pred = test_pymilo(regressor, model_name, test_data)
+    post_pymilo_model_y_pred = pymilo_test(regressor, model_name, test_data)
     post_pymilo_model_prediction_outputs = {
         "mean-error": mean_squared_error(y_test, post_pymilo_model_y_pred),
         "r2-score": r2_score(y_test, post_pymilo_model_y_pred)
@@ -64,8 +62,7 @@ def test_pymilo_regression(regressor, model_name, test_data):
     report_status(comparison_result, model_name)
     return comparison_result
 
-
-def test_pymilo_classification(classifier, model_name, test_data):
+def pymilo_classification_test(classifier, model_name, test_data):
     """
     Test the package's main structure in classification task.
 
@@ -83,7 +80,7 @@ def test_pymilo_classification(classifier, model_name, test_data):
         "accuracy-score": accuracy_score(y_test, pre_pymilo_model_y_pred),
         "hinge-loss": hinge_loss(y_test, pre_pymilo_model_y_pred)
     }
-    post_pymilo_model_y_pred = test_pymilo(classifier, model_name, test_data)
+    post_pymilo_model_y_pred = pymilo_test(classifier, model_name, test_data)
     post_pymilo_model_prediction_outputs = {
         "accuracy-score": accuracy_score(y_test, post_pymilo_model_y_pred),
         "hinge-loss": hinge_loss(y_test, post_pymilo_model_y_pred)

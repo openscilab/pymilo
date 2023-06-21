@@ -10,13 +10,13 @@ glm_models = [
     'TweedieRegressor'
 ]
 legacy_version = False
-try:
+try: 
     from sklearn._loss.loss import BaseLoss
     # So the python version is >= 3.8
     from sklearn.linear_model._glm import GammaRegressor
     from sklearn.linear_model._glm import PoissonRegressor
     from sklearn.linear_model._glm import TweedieRegressor
-except BaseException:
+except BaseException: # pragma: no cover
     # if all bypasses are true, then we either don't have
     # TweedieRegression(3.5) or we have other kind of TweedieRegreesion(3.7)
     try:
@@ -40,10 +40,10 @@ except BaseException:
 
 # print("LEGACY-VERSION: ",legacy_version)
 
-class BaseLossTransporter(AbstractTransporter):
+class BaseLossTransporter(AbstractTransporter): # pragma: no cover
     """Customized PyMilo Transporter developed to handle BaseLoss field."""
 
-    def serialize(self, data, key, model_type):
+    def serialize(self, data, key, model_type): 
         """
         Serialize the special by-default unserializable BaseLoss field of the Tweedie, Poisson and Gamma regression.
 
@@ -153,7 +153,7 @@ class BaseLossTransporter(AbstractTransporter):
         else:
             return data[key]
 
-    def get_deserialized_base_loss(self, model_type, content):
+    def get_deserialized_base_loss(self, model_type, content): 
         """
         Extract the original BaseLoss object out of the associated core data recorded by pymilo.
         
@@ -177,7 +177,7 @@ class BaseLossTransporter(AbstractTransporter):
             # TODO
             return content
 
-    def deserialize(self, data, key, model_type):
+    def deserialize(self, data, key, model_type): 
         """
         Deserialize the previously pymilo made serializable BaseLoss field to its original form.
 
