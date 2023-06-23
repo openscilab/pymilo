@@ -10,13 +10,13 @@ glm_models = [
     'TweedieRegressor'
 ]
 legacy_version = False
-try: 
+try:
     from sklearn._loss.loss import BaseLoss
     # So the python version is >= 3.8
     from sklearn.linear_model._glm import GammaRegressor
     from sklearn.linear_model._glm import PoissonRegressor
     from sklearn.linear_model._glm import TweedieRegressor
-except BaseException: # pragma: no cover
+except BaseException:  # pragma: no cover
     # if all bypasses are true, then we either don't have
     # TweedieRegression(3.5) or we have other kind of TweedieRegreesion(3.7)
     try:
@@ -40,10 +40,11 @@ except BaseException: # pragma: no cover
 
 # print("LEGACY-VERSION: ",legacy_version)
 
-class BaseLossTransporter(AbstractTransporter): # pragma: no cover
+
+class BaseLossTransporter(AbstractTransporter):  # pragma: no cover
     """Customized PyMilo Transporter developed to handle BaseLoss field."""
 
-    def serialize(self, data, key, model_type): 
+    def serialize(self, data, key, model_type):
         """
         Serialize the special by-default unserializable BaseLoss field of the Tweedie, Poisson and Gamma regression.
 
@@ -153,10 +154,10 @@ class BaseLossTransporter(AbstractTransporter): # pragma: no cover
         else:
             return data[key]
 
-    def get_deserialized_base_loss(self, model_type, content): 
+    def get_deserialized_base_loss(self, model_type, content):
         """
         Extract the original BaseLoss object out of the associated core data recorded by pymilo.
-        
+
         :param model_type: the model type of the ML model, which data dictionary is given as the data param
         :type model_type: str
         :param content: the internal data dictionary of the given model
@@ -177,19 +178,19 @@ class BaseLossTransporter(AbstractTransporter): # pragma: no cover
             # TODO
             return content
 
-    def deserialize(self, data, key, model_type): 
+    def deserialize(self, data, key, model_type):
         """
         Deserialize the previously pymilo made serializable BaseLoss field to its original form.
 
         deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
-        the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 
+        the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function
         with enough feeding of the needed inputs.
-        
+
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
-        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
+        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by
         pymilo export.
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])

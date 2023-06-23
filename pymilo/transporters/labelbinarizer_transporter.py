@@ -16,7 +16,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
     def serialize(self, data, key, model_type):
         """
         Serialize the LabelBinarizer field(if there is).
-        
+
         serialize the data[key] of the given model which type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
         pass it through the chain of associated transporters to get fully serialized.
@@ -36,7 +36,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
     def get_serialized_label_binarizer(self, label_binarizer):
         """
         Serialize a LabelBinarizer object.
-        
+
         :param label_binarizer: a label_binarizer object
         :type label_binarizer: sklearn.preprocessing.LabelBinarizer
         :return: pymilo serialized output of label_binarizer object
@@ -56,7 +56,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
-        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
+        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by
         pymilo export.
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
@@ -73,10 +73,10 @@ class LabelBinarizerTransporter(AbstractTransporter):
     def get_deserialized_label_binarizer(self, content):
         """
         Deserialize the pymilo serialized labelBinarizer field of the associated ML model.
-        
+
         :param content: a label_binarizer object
         :type content: sklearn.preprocessing.LabelBinarizer
-        :return: a sklearn.preprocessing.LabelBinarizer instance derived from the 
+        :return: a sklearn.preprocessing.LabelBinarizer instance derived from the
         pymilo deserialized output of the previously pymilo serialized label_binarizer field.
         """
         raw_lb = KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION["_label_binarizer"](
