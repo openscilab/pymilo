@@ -10,7 +10,6 @@ from .transporter import AbstractTransporter
 class LossFunctionTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle Loss function field."""
 
-    # SERIALIZATION
     def serialize(self, data, key, model_type):
         """
         Serialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
@@ -38,13 +37,12 @@ class LossFunctionTransporter(AbstractTransporter):
             }
         return data[key]
 
-    # DESERIALIZATION
     def deserialize(self, data, key, model_type):
         """
         Deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
 
-        the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function
-        with enough feeding of the needed inputs.
+        the associated loss_function_ field of the pymilo serialized model, is extracted through
+        the SGDClassifier's _get_loss_function function with enough feeding of the needed inputs.
 
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and

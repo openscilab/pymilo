@@ -12,8 +12,6 @@ class Command(Enum):
     SERIALIZE = 1
     DESERIALZIE = 2
 
-# Transporter Interface
-
 
 class Transporter(ABC):
     """
@@ -48,8 +46,8 @@ class Transporter(ABC):
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
-        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by
-        pymilo export.
+        :param data: the internal data dictionary of the associated json file of the ML model
+            which is generated previously by pymilo export.
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object

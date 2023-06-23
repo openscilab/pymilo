@@ -12,7 +12,6 @@ from .transporter import AbstractTransporter
 class LabelBinarizerTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle LabelBinarizer field."""
 
-    # SERIALIZATION
     def serialize(self, data, key, model_type):
         """
         Serialize the LabelBinarizer field(if there is).
@@ -47,7 +46,6 @@ class LabelBinarizerTransporter(AbstractTransporter):
                 data[key] = data[key].tolist()
         return data
 
-    # DESERIALIZATION
     def deserialize(self, data, key, model_type):
         """
         Deserialize the LabelBinarizer field(if there is).
@@ -56,8 +54,8 @@ class LabelBinarizerTransporter(AbstractTransporter):
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
-        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by
-        pymilo export.
+        :param data: the internal data dictionary of the associated json file
+            of the ML model which is generated previously by pymilo export.
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object

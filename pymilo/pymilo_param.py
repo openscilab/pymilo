@@ -107,7 +107,8 @@ SKLEARN_LINEAR_MODEL_TABLE = {
     "RANSACRegressor": RANSACRegressor,
     "TheilSenRegressor": TheilSenRegressor,
     "HuberRegressor": HuberRegressor,
-    "QuantileRegressor": NOT_SUPPORTED if not quantile_regressor_support else QuantileRegressor}
+    "QuantileRegressor": NOT_SUPPORTED if not quantile_regressor_support else QuantileRegressor,
+}
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier

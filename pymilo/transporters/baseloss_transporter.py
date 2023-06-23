@@ -35,10 +35,8 @@ except BaseException:  # pragma: no cover
         from sklearn.linear_model._glm import TweedieRegressor
         legacy_version = True
     except BaseException:
-        # there is not glm models.
+        # there is no glm models.
         legacy_version
-
-# print("LEGACY-VERSION: ",legacy_version)
 
 
 class BaseLossTransporter(AbstractTransporter):  # pragma: no cover
@@ -174,8 +172,6 @@ class BaseLossTransporter(AbstractTransporter):  # pragma: no cover
         elif model_type == "GammaRegressor":
             return GammaRegressor()._get_loss()
         else:
-            # print("NOT IMPLEMENTED YET")
-            # TODO
             return content
 
     def deserialize(self, data, key, model_type):

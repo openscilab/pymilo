@@ -77,16 +77,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     "value": "infinite"  # added for compatibility
                 }
 
-        # 2. unserializable type numpy.int32
         elif isinstance(data[key], np.int32):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int32"}
 
-        # 3. unserializable type numpy.int64
         elif isinstance(data[key], np.int64):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int64"}
 
-        # 4. list type which may containts unserializable type
-        # numpy.int32|int64
         elif isinstance(data[key], list):
             new_list = []
             for item in data[key]:
@@ -100,13 +96,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     new_list.append(item)
             data[key] = new_list
 
-        # 5. object of  unserializable numpy.ndarray class
-        # TODO integrate with above list serialization, may containt np.int32
-        # or np.int64 later
         elif isinstance(data[key], np.ndarray):
             data[key] = data[key].tolist()
 
-        # 6. dictionary serialization
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
 
@@ -147,16 +139,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             # TODO
             return data[key]
 
-    # used for scores_ field in Logistic regression([+CV])
-    # dict deserializer for Logistic regression CV
-    # change list values to ndarray, retrive unserializable values of
-    # numpy.int32|int64 types.
     def get_deserialized_dict(self, content):
         """
         Deserialize the given previously made serializable dictionary.
 
             1. convert numpy types values which previously made serializable to its origianl form
             2. convert list values to nd arrays
+
+        It is mainly used in serializing/deserialzing the "scores_" field in Logistic regression([+CV]).
 
         :param content: given dictionary
         :type content: dict
@@ -179,13 +169,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             content[new_key] = new_value
         return content
 
-    # active_ array in Lasso Lars
     def get_deserialized_list(self, content):
         """
         Deserialize the given list to its original form.
 
             1. convert previously made serializable numpy types to its original form
             2. convert list to nd array
+
+        It is mainly used in serializing/deserialzing the "active_" array field in Lasso Lars.
 
         :param content: given list to get
         :type content: list
