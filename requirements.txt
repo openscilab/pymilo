@@ -1,3 +1,2 @@
-numpy
-scikit-learn
-setuptools
+numpy>=1.9.0
+scikit-learn>=0.22.2
