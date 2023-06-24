@@ -14,9 +14,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         Make all the fields of the given dictionary serializable.
 
-            1. Changing ndarray values to list, 
-            2. save unserializable values of numpy.int32|int64 types in an serializable custom object form. 
-               
+            1. Changing ndarray values to list,
+            2. save unserializable values of numpy.int32|int64 types in an serializable custom object form.
+
         :param dictionary: given dictionary
         :type dictionary: dict
         :return: fully serializable dictionary
@@ -77,15 +77,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     "value": "infinite"  # added for compatibility
                 }
 
-        # 2. unserializable type numpy.int32
         elif isinstance(data[key], np.int32):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int32"}
 
-        # 3. unserializable type numpy.int64
         elif isinstance(data[key], np.int64):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int64"}
 
-        # 4. list type which may containts unserializable type numpy.int32|int64
         elif isinstance(data[key], list):
             new_list = []
             for item in data[key]:
@@ -99,13 +96,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     new_list.append(item)
             data[key] = new_list
 
-        # 5. object of  unserializable numpy.ndarray class
-        # TODO integrate with above list serialization, may containt np.int32
-        # or np.int64 later
         elif isinstance(data[key], np.ndarray):
             data[key] = data[key].tolist()
 
-        # 6. dictionary serialization
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
 
@@ -120,14 +113,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             3. Convert custom serializable object of np.int32|int64 to the main np.int32|int64 type
 
         deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
-        the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function 
+        the associated loss_function_ field of the pymilo serialized model, is extracted through the SGDClassifier's _get_loss_function function
         with enough feeding of the needed inputs.
-        
+
         deserialize the data[key] of the given model which its type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
-        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
+        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by
         pymilo export.
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
@@ -146,16 +139,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             # TODO
             return data[key]
 
-    # used for scores_ field in Logistic regression([+CV])
-    # dict deserializer for Logistic regression CV
-    # change list values to ndarray, retrive unserializable values of
-    # numpy.int32|int64 types.
     def get_deserialized_dict(self, content):
         """
         Deserialize the given previously made serializable dictionary.
 
             1. convert numpy types values which previously made serializable to its origianl form
             2. convert list values to nd arrays
+
+        It is mainly used in serializing/deserialzing the "scores_" field in Logistic regression([+CV]).
 
         :param content: given dictionary
         :type content: dict
@@ -178,7 +169,6 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             content[new_key] = new_value
         return content
 
-    # active_ array in Lasso Lars
     def get_deserialized_list(self, content):
         """
         Deserialize the given list to its original form.
@@ -186,7 +176,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             1. convert previously made serializable numpy types to its original form
             2. convert list to nd array
 
-        :param content: given list to get 
+        It is mainly used in serializing/deserialzing the "active_" array field in Lasso Lars.
+
+        :param content: given list to get
         :type content: list
         :return: the original list
         """
@@ -221,7 +213,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
     def is_numpy_primary_type(self, content):
         """
         Check whether the given object is a numpy primary type.
-        
+
         :type content: given object to get checked whether it is a numpy primary type or not
         :return: boolean representing whether the associated content is a numpy primary type or not
         """

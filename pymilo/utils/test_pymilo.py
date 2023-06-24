@@ -10,6 +10,7 @@ from sklearn.metrics import accuracy_score, hinge_loss
 
 from ..pymilo_func import compare_model_outputs
 
+
 def pymilo_test(model, model_name, test_data):
     """
     Return the pymilo imported model's outputs for given test_data.
@@ -32,6 +33,7 @@ def pymilo_test(model, model_name, test_data):
     imported_model = Import(exported_model_serialized_path)
     imported_sklearn_model = imported_model.to_model()
     return imported_sklearn_model.predict(x_test)
+
 
 def pymilo_regression_test(regressor, model_name, test_data):
     """
@@ -61,6 +63,7 @@ def pymilo_regression_test(regressor, model_name, test_data):
         post_pymilo_model_prediction_outputs)
     report_status(comparison_result, model_name)
     return comparison_result
+
 
 def pymilo_classification_test(classifier, model_name, test_data):
     """

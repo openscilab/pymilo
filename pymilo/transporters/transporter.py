@@ -12,8 +12,6 @@ class Command(Enum):
     SERIALIZE = 1
     DESERIALZIE = 2
 
-# Transporter Interface
-
 
 class Transporter(ABC):
     """
@@ -23,11 +21,10 @@ class Transporter(ABC):
     """
 
     @abstractmethod
-
     def serialize(self, data, key, model_type):
         """
         Serialize the data[key] of the given model which type is model_type.
-        
+
         basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
         pass it through the chain of associated transporters to get fully serialized.
 
@@ -45,12 +42,12 @@ class Transporter(ABC):
     def deserialize(self, data, key, model_type):
         """
         Deserialize the data[key] of the given model which type is model_type.
-        
+
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
-        :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by 
-        pymilo export.
+        :param data: the internal data dictionary of the associated json file of the ML model
+            which is generated previously by pymilo export.
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object
@@ -64,7 +61,7 @@ class Transporter(ABC):
     def transport(self, request, command):
         """
         Either serializes or deserializes the request according to the given command.
-        
+
         basically in order to fully transport a request, we should traverse over all the keys of its internal data dictionary and
         pass it through the chain of associated transporters to get fully transported.
 
@@ -83,7 +80,7 @@ class AbstractTransporter(Transporter):
     def bypass(self, content):
         """
         Determine whether to bypass transporting on this content or not.
-        
+
         :param content: either a ML model object's internal data dictionary or an object associated with the json string of a pymilo serialized ML model.
         :type content: object
         :return: boolean, whether to bypass or not
@@ -99,7 +96,7 @@ class AbstractTransporter(Transporter):
     def transport(self, request, command, is_inner_model=False):
         """
         Either serializes or deserializes the request according to the given command.
-        
+
         basically in order to fully transport a request, we should traverse over all the keys of its internal data dictionary and
         pass it through the chain of associated transporters to get fully transported.
 

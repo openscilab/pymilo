@@ -45,7 +45,7 @@ class Export:
     def to_json(self):
         """
         Return a json-like representation of model.
-        
+
         :return: model's representation as str
         """
         try:
