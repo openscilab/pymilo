@@ -24,12 +24,12 @@
 	2. `git merge dev`
 	3. `git push origin main`
 	4. Wait for all CI pass
-7. Create a new release
+6. Create a new release
 	1. Target branch: `main`
 	2. Tag: `vx.x` (Example: `v0.1`)
 	3. Title: `Version x.x` (Example: `Version 0.1`)
 	4. Copy changelogs
 	5. Tag all related issues
-8. Bump!!
-9. Close this version issues
-10. Close milestone
+7. Bump!!
+8. Close this version issues
+9. Close milestone
