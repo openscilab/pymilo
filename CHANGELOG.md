@@ -5,11 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
-### Changed
 ## [0.1] - 2022-08-17
 ### Added
-### Changed
+- scikit-learn linear models support
+- `Export` class
+- `Import` class
 
 
 [Unreleased]: https://github.com/openscilab/pymilo/compare/v0.1...dev
