@@ -34,8 +34,9 @@ from numpy import int64
 from numpy import int32
 from sklearn.preprocessing import LabelBinarizer
 import numpy as np
-NOT_SUPPORTED = "NOT_SUPPORTED"
 
+PYMILO_VERSION = "0.1"
+NOT_SUPPORTED = "NOT_SUPPORTED"
 
 # Handle python 3.5.4 issues.
 glm_support = {
@@ -69,8 +70,6 @@ try:
     from sklearn.linear_model import QuantileRegressor
 except BaseException:
     quantile_regressor_support = False
-
-PYMILO_VERSION = "0.1"
 
 SKLEARN_LINEAR_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
