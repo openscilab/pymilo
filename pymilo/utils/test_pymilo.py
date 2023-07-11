@@ -10,6 +10,8 @@ from sklearn.metrics import accuracy_score, hinge_loss
 
 from ..pymilo_func import compare_model_outputs
 
+from ..chains.linear_model_chain import is_linear_model
+from ..chains.neural_network_chain import is_neural_network
 
 def pymilo_test(model, model_name, test_data):
     """
@@ -25,9 +27,10 @@ def pymilo_test(model, model_name, test_data):
     """
     x_test, _ = test_data
 
+    export_model_path = "exported_linear_models" if is_linear_model(model) else "exported_neural_networks" if is_neural_network(model) else None
     exported_model = Export(model)
     exported_model_serialized_path = os.path.join(
-        os.getcwd(), "tests", "exported_models", model_name + '.json')
+        os.getcwd(), "tests", export_model_path, model_name + '.json')
     exported_model.save(exported_model_serialized_path)
 
     imported_model = Import(exported_model_serialized_path)
