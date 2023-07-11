@@ -226,3 +226,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return True
         else:
             return False
+    def deep_ndarray_to_list_serializer(self, ndarray_item):
+        if isinstance(ndarray_item, np.ndarray):
+            listed_ndarray = ndarray_item.tolist()
+            new_list = []
+            for item in listed_ndarray:
+                new_list.append(self.deep_ndarray_to_list_serializer(item))
+            return new_list
+        else:
+            return ndarray_item
