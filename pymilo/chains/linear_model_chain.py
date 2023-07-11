@@ -26,11 +26,14 @@ def is_linear_model(model):
     """
     Check if the input model is a sklearn's linear model.
 
-    :param model: given model
+    :param model: is a string name of a linear model or a sklearn object of it
     :type model: any object
     :return: check result as bool
     """
-    return type(model) in SKLEARN_LINEAR_MODEL_TABLE.values()
+    if(isinstance(model, str)):
+        return model in SKLEARN_LINEAR_MODEL_TABLE.keys()
+    else:
+        return type(model) in SKLEARN_LINEAR_MODEL_TABLE.values()
 
 
 def is_deserialized_linear_model(content):
@@ -158,8 +161,8 @@ def validate_input(model, command, is_inner_model):
     :return: None
     """
     if command == Command.SERIALIZE:
-        if get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys():
-            return
+        if is_linear_model(model):
+            return 
         else:
             raise PymiloSerializationException(
                 {
@@ -169,7 +172,7 @@ def validate_input(model, command, is_inner_model):
             )
     elif command == Command.DESERIALZIE:
         model_type = model["type"] if is_inner_model else model.type
-        if model_type in SKLEARN_LINEAR_MODEL_TABLE.keys():
+        if is_linear_model(model_type):
             return
         else:
             raise PymiloDeserializationException(
