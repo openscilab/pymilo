@@ -234,4 +234,16 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_list.append(self.deep_ndarray_to_list_serializer(item))
             return new_list
         else:
-            return ndarray_item
+    def deep_list_to_ndarray_deserializer(self, list_item):
+        if isinstance(list_item, list):
+            new_list = []
+            for item in list_item:
+                new_list.append(self.deep_list_to_ndarray_deserializer(item))
+            return np.asarray(new_list)
+        else:
+            if is_primitive(list_item):
+                return list_item
+            elif "np-type" in item.keys():
+                return NUMPY_TYPE_DICT[list_item["np-type"]](list_item['value'])
+            else:
+                return list_item
