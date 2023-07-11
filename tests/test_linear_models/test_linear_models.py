@@ -112,7 +112,7 @@ LINEAR_MODELS = {
 @pytest.fixture(scope="session", autouse=True)
 def reset_exported_models_directory():
     exported_models_directory = os.path.join(
-        os.getcwd(), "tests", "exported_models")
+        os.getcwd(), "tests", "exported_linear_models")
     if not os.path.isdir(exported_models_directory):
         os.mkdir(exported_models_directory)
         return
