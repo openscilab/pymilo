@@ -2,7 +2,10 @@
 """Functions."""
 import numpy as np
 import sklearn
-from .chains.linear_model_chain import transport_linear_model
+
+from .chains.linear_model_chain import transport_linear_model, is_linear_model
+from .chains.neural_network_chain import transport_neural_network, is_neural_network
+
 from .transporters.transporter import Command
 
 
@@ -23,7 +26,12 @@ def get_sklearn_data(model):
     :type model: any sklearn's model class
     :return: sklearn data
     """
-    return transport_linear_model(model, Command.SERIALIZE)
+    if is_linear_model(model):
+        return transport_linear_model(model, Command.SERIALIZE)
+    elif is_neural_network(model):
+        return transport_neural_network(model, Command.SERIALIZE)
+    else:
+        return None 
 
 
 def to_sklearn_model(import_obj):
@@ -34,7 +42,13 @@ def to_sklearn_model(import_obj):
     :type import_obj: pymilo.Import
     :return: sklearn model
     """
-    return transport_linear_model(import_obj, Command.DESERIALZIE)
+    if is_linear_model(import_obj.type):
+        return transport_linear_model(import_obj, Command.DESERIALZIE)
+    elif is_neural_network(import_obj.type):
+        return transport_neural_network(import_obj, Command.DESERIALZIE)
+    else:
+        return None 
+
 
 
 def compare_model_outputs(exported_output,
