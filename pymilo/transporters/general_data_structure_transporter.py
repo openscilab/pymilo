@@ -111,7 +111,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         Deserialize the general datastructures.
 
             1. Dictionary deserialization
-            2. Convert lists to numpy.ndarray class
+            2. Deep Convertion of lists to numpy.ndarray class
             3. Convert custom serializable object of np.int32|int64 to the main np.int32|int64 type
 
         deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
@@ -146,7 +146,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         Deserialize the given previously made serializable dictionary.
 
             1. convert numpy types values which previously made serializable to its origianl form
-            2. convert list values to nd arrays
+            2. deep convertion of list values to nd arrays
 
         It is mainly used in serializing/deserialzing the "scores_" field in Logistic regression([+CV]).
 
@@ -230,6 +230,16 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return False
 
     def deep_ndarray_to_list_serializer(self, ndarray_item):
+        """
+        Serialize deeply the given ndarray to its fully listed format.
+
+            1. convert itself to a list
+            2. iterate over it's elements and apply nd2list serialization if it's eligible
+
+        :param ndarray_item: given ndarray needed to get serialized to it's fully listed form
+        :type ndarray_item: numpy.ndarray
+        :return: list
+        """
         if isinstance(ndarray_item, np.ndarray):
             listed_ndarray = ndarray_item.tolist()
             new_list = []
@@ -240,6 +250,16 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return ndarray_item
         
     def deep_list_to_ndarray_deserializer(self, list_item):
+        """
+        Deserialize deeply the given list to its fully ndarray format.
+
+            1. iterate over it's elements and apply list2nd deserialization if it's eligible
+            2. convert the coarse-grained list to ndarray
+
+        :param list_item: given list needed to get deserialized to it's np.ndarray form
+        :type list_item: list
+        :return: numpy.ndarray  
+        """
         if isinstance(list_item, list):
             new_list = []
             for item in list_item:
