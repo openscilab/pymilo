@@ -25,7 +25,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         for key in dictionary.keys():
             # check inner field as a np.ndarray
             if isinstance(dictionary[key], np.ndarray):
-                dictionary[key] = dictionary[key].tolist()
+                dictionary[key] = self.ndarray_to_list(dictionary[key])
             # check inner field as np.int32
             if isinstance(key, np.int32):
                 new_value = {
@@ -92,12 +92,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 elif isinstance(item, np.int64):
                     new_list.append(
                         {"value": int(item), "np-type": "numpy.int64"})
+                elif isinstance(item, np.ndarray):
+                    new_list.append(self.ndarray_to_list(item))
                 else:
                     new_list.append(item)
             data[key] = new_list
 
         elif isinstance(data[key], np.ndarray):
-            data[key] = data[key].tolist()
+            data[key] = self.ndarray_to_list(data[key])
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
@@ -109,7 +111,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         Deserialize the general datastructures.
 
             1. Dictionary deserialization
-            2. Convert lists to numpy.ndarray class
+            2. Deep Convertion of lists to numpy.ndarray class
             3. Convert custom serializable object of np.int32|int64 to the main np.int32|int64 type
 
         deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
@@ -132,7 +134,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if isinstance(data[key], dict):
             return self.get_deserialized_dict(data[key])
         elif isinstance(data[key], list):
-            return self.get_deserialized_list(data[key])
+            return self.list_to_ndarray(data[key])
         elif self.is_numpy_primary_type(data[key]):
             return self.get_deserialized_regular_primary_types(data[key])
         else:
@@ -144,7 +146,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         Deserialize the given previously made serializable dictionary.
 
             1. convert numpy types values which previously made serializable to its origianl form
-            2. convert list values to nd arrays
+            2. deep convertion of list values to nd arrays
 
         It is mainly used in serializing/deserialzing the "scores_" field in Logistic regression([+CV]).
 
@@ -157,7 +159,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return content
         for key in content:
             if isinstance(content[key], list):
-                content[key] = self.get_deserialized_list(content[key])
+                content[key] = self.list_to_ndarray(content[key])
             if check_str_in_iterable(
                     "np-type", content[key]):
                 new_key = NUMPY_TYPE_DICT[content[key]["np-type"]](key)
@@ -226,3 +228,47 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return True
         else:
             return False
+
+    def ndarray_to_list(self, ndarray_item):
+        """
+        Serialize deeply the given ndarray to its fully listed format.
+
+            1. convert itself to a list
+            2. iterate over it's elements and apply nd2list serialization if it's eligible
+
+        :param ndarray_item: given ndarray needed to get serialized to it's fully listed form
+        :type ndarray_item: numpy.ndarray
+        :return: list
+        """
+        if isinstance(ndarray_item, np.ndarray):
+            listed_ndarray = ndarray_item.tolist()
+            new_list = []
+            for item in listed_ndarray:
+                new_list.append(self.ndarray_to_list(item))
+            return new_list
+        else:
+            return ndarray_item
+        
+    def list_to_ndarray(self, list_item):
+        """
+        Deserialize deeply the given list to its fully ndarray format.
+
+            1. iterate over it's elements and apply list2nd deserialization if it's eligible
+            2. convert the coarse-grained list to ndarray
+
+        :param list_item: given list needed to get deserialized to it's np.ndarray form
+        :type list_item: list
+        :return: numpy.ndarray  
+        """
+        if isinstance(list_item, list):
+            new_list = []
+            for item in list_item:
+                new_list.append(self.list_to_ndarray(item))
+            return np.asarray(new_list)
+        else:
+            if is_primitive(list_item):
+                return list_item
+            elif "np-type" in item.keys():
+                return NUMPY_TYPE_DICT[list_item["np-type"]](list_item['value'])
+            else:
+                return list_item

@@ -77,11 +77,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
         :return: a sklearn.preprocessing.LabelBinarizer instance derived from the
         pymilo deserialized output of the previously pymilo serialized label_binarizer field.
         """
-        raw_lb = KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION["_label_binarizer"](
-        )
-        for key in content.keys():
-            if isinstance(content[key], list):
-                content[key] = np.array(content[key])
+        raw_lb = KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION["_label_binarizer"]()
         for item in content.keys():
             setattr(raw_lb, item, content[item])
         return raw_lb
