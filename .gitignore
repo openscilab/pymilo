@@ -99,5 +99,5 @@ ENV/
 out
 gen
 
-/tests/exported_models 
+/tests/exported_linear_models 
 /.VSCodeCounter
