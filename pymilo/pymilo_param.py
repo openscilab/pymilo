@@ -30,6 +30,9 @@ from sklearn.linear_model import RidgeClassifier
 from sklearn.linear_model import RidgeCV
 from sklearn.linear_model import Ridge
 from sklearn.linear_model import LinearRegression
+
+from sklearn.neural_network import MLPRegressor
+
 from numpy import int64
 from numpy import int32
 from sklearn.preprocessing import LabelBinarizer
@@ -109,6 +112,9 @@ SKLEARN_LINEAR_MODEL_TABLE = {
     "QuantileRegressor": NOT_SUPPORTED if not quantile_regressor_support else QuantileRegressor,
 }
 
+SKLEARN_NEURAL_NETWORK_TABLE = {
+    "MLPRegressor": MLPRegressor
+}
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
