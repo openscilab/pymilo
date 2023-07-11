@@ -25,7 +25,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         for key in dictionary.keys():
             # check inner field as a np.ndarray
             if isinstance(dictionary[key], np.ndarray):
-                dictionary[key] = self.deep_ndarray_to_list_serializer(dictionary[key])
+                dictionary[key] = self.ndarray_to_list(dictionary[key])
             # check inner field as np.int32
             if isinstance(key, np.int32):
                 new_value = {
@@ -93,13 +93,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     new_list.append(
                         {"value": int(item), "np-type": "numpy.int64"})
                 elif isinstance(item, np.ndarray):
-                    new_list.append(self.deep_ndarray_to_list_serializer(item))
+                    new_list.append(self.ndarray_to_list(item))
                 else:
                     new_list.append(item)
             data[key] = new_list
 
         elif isinstance(data[key], np.ndarray):
-            data[key] = self.deep_ndarray_to_list_serializer(data[key])
+            data[key] = self.ndarray_to_list(data[key])
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
@@ -134,7 +134,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if isinstance(data[key], dict):
             return self.get_deserialized_dict(data[key])
         elif isinstance(data[key], list):
-            return self.deep_list_to_ndarray_deserializer(data[key])
+            return self.list_to_ndarray(data[key])
         elif self.is_numpy_primary_type(data[key]):
             return self.get_deserialized_regular_primary_types(data[key])
         else:
@@ -159,7 +159,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return content
         for key in content:
             if isinstance(content[key], list):
-                content[key] = self.deep_list_to_ndarray_deserializer(content[key])
+                content[key] = self.list_to_ndarray(content[key])
             if check_str_in_iterable(
                     "np-type", content[key]):
                 new_key = NUMPY_TYPE_DICT[content[key]["np-type"]](key)
@@ -229,7 +229,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         else:
             return False
 
-    def deep_ndarray_to_list_serializer(self, ndarray_item):
+    def ndarray_to_list(self, ndarray_item):
         """
         Serialize deeply the given ndarray to its fully listed format.
 
@@ -244,12 +244,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             listed_ndarray = ndarray_item.tolist()
             new_list = []
             for item in listed_ndarray:
-                new_list.append(self.deep_ndarray_to_list_serializer(item))
+                new_list.append(self.ndarray_to_list(item))
             return new_list
         else:
             return ndarray_item
         
-    def deep_list_to_ndarray_deserializer(self, list_item):
+    def list_to_ndarray(self, list_item):
         """
         Deserialize deeply the given list to its fully ndarray format.
 
@@ -263,7 +263,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if isinstance(list_item, list):
             new_list = []
             for item in list_item:
-                new_list.append(self.deep_list_to_ndarray_deserializer(item))
+                new_list.append(self.list_to_ndarray(item))
             return np.asarray(new_list)
         else:
             if is_primitive(list_item):
