@@ -6,11 +6,11 @@ def is_neural_network(model):
     """
     Check if the input model is a sklearn's neural network.
 
-    :param model: is a string name of a neural netowrk or a sklearn object of it
+    :param model: is a string name of a neural network or a sklearn object of it
     :type model: any object
     :return: check result as bool
     """
-    if(isinstance(model, str)):
+    if isinstance(model, str):
         return model in SKLEARN_NEURAL_NETWORK_TABLE.keys()
     else:
         return type(model) in SKLEARN_NEURAL_NETWORK_TABLE.values()
