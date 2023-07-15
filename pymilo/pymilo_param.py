@@ -130,3 +130,8 @@ NUMPY_TYPE_DICT = {
     "numpy.int64": int64,
     "numpy.infinity": lambda _: np.inf
 }
+
+EXPORTED_MODELS_PATH = {
+    "LINEAR_MODEL": "exported_linear_models",
+    "NEURAL_NETWORK": "exported_neural_networks"
+}
