@@ -15,6 +15,7 @@ from ..chains.neural_network_chain import is_neural_network
 
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
+
 def pymilo_export_path(model):
     model_type = None
     if is_linear_model(model):
@@ -22,8 +23,9 @@ def pymilo_export_path(model):
     elif is_neural_network(model):
         model_type = "NEURAL_NETWORK"
     else:
-        model_type = None 
+        model_type = None
     return EXPORTED_MODELS_PATH[model_type]
+
 
 def pymilo_test(model, model_name, test_data):
     """

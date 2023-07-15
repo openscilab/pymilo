@@ -31,7 +31,7 @@ def get_sklearn_data(model):
     elif is_neural_network(model):
         return transport_neural_network(model, Command.SERIALIZE)
     else:
-        return None 
+        return None
 
 
 def to_sklearn_model(import_obj):
@@ -47,8 +47,7 @@ def to_sklearn_model(import_obj):
     elif is_neural_network(import_obj.type):
         return transport_neural_network(import_obj, Command.DESERIALZIE)
     else:
-        return None 
-
+        return None
 
 
 def compare_model_outputs(exported_output,

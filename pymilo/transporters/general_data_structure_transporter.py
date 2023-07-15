@@ -248,7 +248,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return new_list
         else:
             return ndarray_item
-        
+
     def list_to_ndarray(self, list_item):
         """
         Deserialize deeply the given list to its fully ndarray format.
@@ -258,7 +258,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         :param list_item: given list needed to get deserialized to it's np.ndarray form
         :type list_item: list
-        :return: numpy.ndarray  
+        :return: numpy.ndarray
         """
         if isinstance(list_item, list):
             new_list = []
@@ -269,6 +269,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             if is_primitive(list_item):
                 return list_item
             elif "np-type" in item.keys():
-                return NUMPY_TYPE_DICT[list_item["np-type"]](list_item['value'])
+                return NUMPY_TYPE_DICT[list_item["np-type"]
+                                       ](list_item['value'])
             else:
                 return list_item
