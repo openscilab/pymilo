@@ -111,6 +111,7 @@ def deserialize_neural_network(linear_model):
         setattr(raw_model, item, data[item])
     return raw_model
 
+
 def validate_input(model, command):
     if command == Command.SERIALIZE:
         if is_neural_network(model):
@@ -124,7 +125,7 @@ def validate_input(model, command):
             )
     elif command == Command.DESERIALZIE:
         if is_neural_network(model.type):
-            return 
+            return
         else:
             raise PymiloDeserializationException(
                 {
