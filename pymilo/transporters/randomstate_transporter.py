@@ -60,9 +60,11 @@ class RandomStateTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
+
+        if(key != "_random_state"):
+            return content 
+        
         if is_primitive(content) or isinstance(content, type(None)):
-            return content
-        if not check_str_in_iterable("_random_state", content):
             return content
 
         rng_state = content['state']
