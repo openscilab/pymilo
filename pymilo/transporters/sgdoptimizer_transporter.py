@@ -58,9 +58,11 @@ class SGDOptimizerTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
+
+        if(key != "_optimizer"):
+            return content 
+
         if is_primitive(content) or isinstance(content, type(None)):
-            return content
-        if not check_str_in_iterable("_optimizer", content):
             return content
 
         optimizer = content['params']
