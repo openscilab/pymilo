@@ -262,21 +262,23 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: numpy.ndarray
         """
         if isinstance(list_item, list):
-            
-            if(len(list_item) == 0):
+
+            if (len(list_item) == 0):
                 return np.asarray(list_item)
-            
+
             new_list = []
             for item in list_item:
                 new_list.append(self.list_to_ndarray(item))
 
-            is_homogeneous_type, the_homogeneous_type = get_homogeneous_type(new_list)
-            if is_homogeneous_type: 
+            is_homogeneous_type, the_homogeneous_type = get_homogeneous_type(
+                new_list)
+            if is_homogeneous_type:
                 if the_homogeneous_type in [int, float, str, bool]:
                     return np.asarray(new_list)
                 elif the_homogeneous_type == np.ndarray:
-                    is_homogeneous_type, _ = get_homogeneous_type([x.dtype for x in new_list])
-                    if(is_homogeneous_type):
+                    is_homogeneous_type, _ = get_homogeneous_type(
+                        [x.dtype for x in new_list])
+                    if (is_homogeneous_type):
                         if all_same([len(x) for x in new_list]):
                             return np.asarray(new_list)
 
@@ -286,6 +288,6 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 return list_item
             elif "np-type" in item.keys():
                 return NUMPY_TYPE_DICT[list_item["np-type"]
-                                        ](list_item['value'])
+                                       ](list_item['value'])
             else:
                 return list_item
