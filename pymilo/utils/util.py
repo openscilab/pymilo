@@ -58,3 +58,17 @@ def check_str_in_iterable(field, content):
         return False
     else:
         return field in content
+
+def get_homogeneous_type(seq):
+    """
+    Check if the given sequence's inner items have the same type or not and if they do, return the associated type.
+
+    :param seq: given sequence
+    :type seq: sequence
+
+    :return: Tuple of (True, inner_type) or (False, None)
+    """
+    iseq = iter(seq)
+    first_type = type(next(iseq))
+    return (True, first_type) if all( (type(x) is first_type) for x in iseq ) else (False, None)
+
