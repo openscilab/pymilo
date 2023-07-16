@@ -8,7 +8,6 @@ from ..transporters.sgdoptimizer_transporter import SGDOptimizerTransporter
 from ..transporters.adamoptimizer_transporter import AdamOptimizerTransporter
 
 from ..pymilo_param import SKLEARN_NEURAL_NETWORK_TABLE
-from ..utils.util import get_sklearn_type, is_iterable
 
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
@@ -113,6 +112,16 @@ def deserialize_neural_network(linear_model):
 
 
 def validate_input(model, command):
+    """
+    Check if the provided inputs are valid in relation to each other.
+
+    :param model: given object to gets transported, whether a sklearn neural network model to get serialized
+    or a json string of a neural network model to get deserialized to associated sklearn neural network model
+    :type model: obj
+    :param command: command to specify whether the request should be serialized or deserialized
+    :type command: transporter.Command
+    :return: None
+    """
     if command == Command.SERIALIZE:
         if is_neural_network(model):
             return
