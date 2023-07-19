@@ -82,7 +82,7 @@ def get_homogeneous_type(seq):
 def all_same(arr):
     """
     Check if the given array's items are the same or not.
-    
+
     :param arr: given array
     :type arr: array
 
