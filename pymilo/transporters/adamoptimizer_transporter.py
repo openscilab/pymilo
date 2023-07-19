@@ -60,15 +60,15 @@ class AdamOptimizerTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if(key == "_optimizer" and model_type == "MLPRegressor"):
+        if (key == "_optimizer" and model_type == "MLPRegressor"):
             optimizer = content['params']
-            if(optimizer["type"] == "SGDOptimizer"):
+            if (optimizer["type"] == "SGDOptimizer"):
                 return AdamOptimizer(
                     learning_rate=optimizer['learning_rate'],
                     beta_1=optimizer['beta_1'],
                     beta_2=optimizer['beta_2'],
                     epsilon=optimizer['epsilon'])
             else:
-                return content 
+                return content
         else:
-            return content 
+            return content
