@@ -60,8 +60,8 @@ class RandomStateTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        
-        if(key == "_random_state" and model_type == "MLPRegressor"):
+
+        if (key == "_random_state" and model_type == "MLPRegressor"):
             rng_state = content['state']
             rng_state = (
                 rng_state[0],
@@ -74,4 +74,4 @@ class RandomStateTransporter(AbstractTransporter):
             _rng.set_state(rng_state)
             return _rng
         else:
-            return content 
+            return content
