@@ -60,21 +60,18 @@ class RandomStateTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-
-        if(key != "_random_state"):
-            return content 
         
-        if is_primitive(content) or isinstance(content, type(None)):
-            return content
-
-        rng_state = content['state']
-        rng_state = (
-            rng_state[0],
-            np.array(rng_state[1]),
-            rng_state[2],
-            rng_state[3],
-            rng_state[4]
-        )
-        _rng = np.random.RandomState()
-        _rng.set_state(rng_state)
-        return _rng
+        if(key == "_random_state" and model_type == "MLPRegressor"):
+            rng_state = content['state']
+            rng_state = (
+                rng_state[0],
+                np.array(rng_state[1]),
+                rng_state[2],
+                rng_state[3],
+                rng_state[4]
+            )
+            _rng = np.random.RandomState()
+            _rng.set_state(rng_state)
+            return _rng
+        else:
+            return content 
