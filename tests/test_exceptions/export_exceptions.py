@@ -63,7 +63,7 @@ def valid_model_irrelevant_chain(print_output = True):
     # Train the model using the training sets
     linear_regression.fit(x_train, y_train)
     try:
-      transport_neural_network(linear_regression, Command.Serialize)
+      transport_neural_network(linear_regression, Command.SERIALIZE)
       return False
     except Exception as e:        
       if print_output: print("An Exception occured\n", e)
