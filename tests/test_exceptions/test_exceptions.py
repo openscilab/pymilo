@@ -1,9 +1,14 @@
-from export_exceptions import invalid_model, valid_model_invalid_structure, valid_model_irrelevant_chain
+from export_exceptions import invalid_model, valid_model_invalid_structure_linear_model, valid_model_invalid_structure_neural_network, valid_model_irrelevant_chain
 from import_exceptions import invalid_json
 
 EXCEPTION_TESTS = {
     'IMPORT': [invalid_json],
-    'EXPORT': [invalid_model, valid_model_invalid_structure, valid_model_irrelevant_chain]
+    'EXPORT': [
+        invalid_model,
+        valid_model_invalid_structure_linear_model,
+        valid_model_invalid_structure_neural_network, 
+        valid_model_irrelevant_chain
+        ]
 }
 
 def test_full():
