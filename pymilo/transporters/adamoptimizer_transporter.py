@@ -29,6 +29,7 @@ class AdamOptimizerTransporter(AbstractTransporter):
             optimizer = data[key]
             data[key] = {
                 'params': {
+                    'type': "AdamOptimizer",
                     'learning_rate': optimizer.learning_rate,
                     'beta_1': optimizer.beta_1,
                     'beta_2': optimizer.beta_2,
@@ -59,15 +60,15 @@ class AdamOptimizerTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if(key != "_optimizer"):
+        if(key == "_optimizer" and model_type == "MLPRegressor"):
+            optimizer = content['params']
+            if(optimizer["type"] == "SGDOptimizer"):
+                return AdamOptimizer(
+                    learning_rate=optimizer['learning_rate'],
+                    beta_1=optimizer['beta_1'],
+                    beta_2=optimizer['beta_2'],
+                    epsilon=optimizer['epsilon'])
+            else:
+                return content 
+        else:
             return content 
-        
-        if is_primitive(content) or isinstance(content, type(None)):
-            return content
-
-        optimizer = content['params']
-        return AdamOptimizer(
-            learning_rate=optimizer['learning_rate'],
-            beta_1=optimizer['beta_1'],
-            beta_2=optimizer['beta_2'],
-            epsilon=optimizer['epsilon'])
