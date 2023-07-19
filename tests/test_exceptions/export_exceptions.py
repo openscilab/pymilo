@@ -5,6 +5,10 @@ from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.utils.test_pymilo import pymilo_regression_test
 
+from pymilo.chains.neural_network_chain import transport_neural_network
+
+from pymilo.transporters.transporter import Command
+
 from sklearn.linear_model import LinearRegression
 from custom_models import CustomizedTweedieDistribution
 
@@ -51,3 +55,19 @@ def valid_model_invalid_structure(print_output = True):
     except Exception as e:        
       if print_output: print("An Exception occured\n", e)
       return True
+
+def valid_model_irrelevant_chain(print_output = True):
+    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
+    # Create linear regression object
+    linear_regression = LinearRegression()
+    # Train the model using the training sets
+    linear_regression.fit(x_train, y_train)
+    try:
+      transport_neural_network(linear_regression, Command.Serialize)
+      return False
+    except Exception as e:        
+      if print_output: print("An Exception occured\n", e)
+      return True
+
+
+
