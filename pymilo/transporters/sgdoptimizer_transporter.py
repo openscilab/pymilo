@@ -29,6 +29,7 @@ class SGDOptimizerTransporter(AbstractTransporter):
             optimizer = data[key]
             data[key] = {
                 'params': {
+                    'type': "SGDOptimizer",
                     'learning_rate': optimizer.learning_rate,
                     'momentum': optimizer.momentum,
                     'decay': optimizer.decay,
@@ -59,15 +60,15 @@ class SGDOptimizerTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if(key != "_optimizer"):
+        if(key == "_optimizer" and model_type == "MLPRegressor"):
+            optimizer = content['params']
+            if(optimizer["type"] == "SGDOptimizer"):
+                return SGDOptimizer(
+                    learning_rate=optimizer['learning_rate'],
+                    momentum=optimizer['momentum'],
+                    decay=optimizer['decay'],
+                    nesterov=optimizer['nesterov'])
+            else:
+                return content 
+        else:
             return content 
-
-        if is_primitive(content) or isinstance(content, type(None)):
-            return content
-
-        optimizer = content['params']
-        return SGDOptimizer(
-            learning_rate=optimizer['learning_rate'],
-            momentum=optimizer['momentum'],
-            decay=optimizer['decay'],
-            nesterov=optimizer['nesterov'])
