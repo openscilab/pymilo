@@ -72,7 +72,7 @@ def transport_neural_network(request, command):
                     'object': request})
 
 
-def serialize_neural_network(linear_model_object):
+def serialize_neural_network(neural_network_object):
     """
     Return the serialized json string of the given linear model.
 
@@ -83,29 +83,27 @@ def serialize_neural_network(linear_model_object):
     # now serializing non-linear model fields
     for transporter in NEURAL_NETWORK_CHAIN.keys():
         NEURAL_NETWORK_CHAIN[transporter].transport(
-            linear_model_object, Command.SERIALIZE)
-    return linear_model_object.__dict__
+            neural_network_object, Command.SERIALIZE)
+    return neural_network_object.__dict__
 
 
-def deserialize_neural_network(linear_model):
+def deserialize_neural_network(neural_network):
     """
-    Return the associated sklearn linear model of the given linear_model.
+    Return the associated sklearn neural network model of the given neural_network.
 
-    :param linear_model: given json string of a linear model to get deserialized to associated sklearn linear model
-    :type linear_model: obj
-    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
-    :type is_inner_model: boolean
-    :return: associated sklearn linear model
+    :param neural_network: given json string of a neural network model to get deserialized to associated sklearn NN model
+    :type neural_network: obj
+    :return: associated sklearn NN model
     """
     raw_model = None
     data = None
-    raw_model = SKLEARN_NEURAL_NETWORK_TABLE[linear_model.type]()
-    data = linear_model.data
+    raw_model = SKLEARN_NEURAL_NETWORK_TABLE[neural_network.type]()
+    data = neural_network.data
 
     # now deserializing non-linear models fields
     for transporter in NEURAL_NETWORK_CHAIN.keys():
         NEURAL_NETWORK_CHAIN[transporter].transport(
-            linear_model, Command.DESERIALZIE)
+            neural_network, Command.DESERIALZIE)
     for item in data.keys():
         setattr(raw_model, item, data[item])
     return raw_model
