@@ -18,7 +18,8 @@ NEURAL_NETWORK_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "RandomStateTransporter": RandomStateTransporter(),
     "SGDOptimizer": SGDOptimizerTransporter(),
-    "AdamOptimizerTransporter": AdamOptimizerTransporter()}
+    "AdamOptimizerTransporter": AdamOptimizerTransporter(),
+}
 
 
 def is_neural_network(model):
@@ -45,7 +46,7 @@ def transport_neural_network(request, command):
     :type command: transporter.Command
     :return: the transported request as a json string or sklearn neural network model
     """
-    validate_input(request, command)
+    _validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -56,8 +57,10 @@ def transport_neural_network(request, command):
                     'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
-                        'Traceback': format_exc()},
-                    'object': request})
+                        'Traceback': format_exc(),
+                    },
+                    'object': request,
+                })
 
     elif command == Command.DESERIALZIE:
         try:
@@ -68,19 +71,20 @@ def transport_neural_network(request, command):
                     'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
-                        'Traceback': format_exc()},
-                    'object': request})
+                        'Traceback': format_exc()
+                    },
+                    'object': request
+                })
 
 
 def serialize_neural_network(neural_network_object):
     """
-    Return the serialized json string of the given linear model.
+    Return the serialized json string of the given neural network model.
 
-    :param linear_model_object: given model to be get serialized
-    :type linear_model_object: any sklearn linear model
-    :return: the serialized json string of the given linear model
+    :param neural_network_object: given model to be get serialized
+    :type neural_network_object: any sklearn neural network model
+    :return: the serialized json string of the given neural network model
     """
-    # now serializing non-linear model fields
     for transporter in NEURAL_NETWORK_CHAIN.keys():
         NEURAL_NETWORK_CHAIN[transporter].transport(
             neural_network_object, Command.SERIALIZE)
@@ -100,7 +104,6 @@ def deserialize_neural_network(neural_network):
     raw_model = SKLEARN_NEURAL_NETWORK_TABLE[neural_network.type]()
     data = neural_network.data
 
-    # now deserializing non-linear models fields
     for transporter in NEURAL_NETWORK_CHAIN.keys():
         NEURAL_NETWORK_CHAIN[transporter].transport(
             neural_network, Command.DESERIALZIE)
@@ -109,7 +112,7 @@ def deserialize_neural_network(neural_network):
     return raw_model
 
 
-def validate_input(model, command):
+def _validate_input(model, command):
     """
     Check if the provided inputs are valid in relation to each other.
 
