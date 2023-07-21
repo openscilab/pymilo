@@ -54,7 +54,7 @@ class SGDOptimizerTransporter(AbstractTransporter):
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which internal serialized data dictionary is given as the data param
+        :param model_type: the model type of the ML model
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
