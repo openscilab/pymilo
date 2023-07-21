@@ -99,8 +99,6 @@ def deserialize_neural_network(neural_network):
     :type neural_network: obj
     :return: associated sklearn NN model
     """
-    raw_model = None
-    data = None
     raw_model = SKLEARN_NEURAL_NETWORK_TABLE[neural_network.type]()
     data = neural_network.data
 
