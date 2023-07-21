@@ -1,4 +1,8 @@
-from export_exceptions import invalid_model, valid_model_invalid_structure_linear_model, valid_model_invalid_structure_neural_network, valid_model_irrelevant_chain
+from export_exceptions import invalid_model
+from export_exceptions import valid_model_invalid_structure_linear_model
+from export_exceptions import valid_model_invalid_structure_neural_network
+from export_exceptions import valid_model_irrelevant_chain
+
 from import_exceptions import invalid_json
 
 EXCEPTION_TESTS = {
