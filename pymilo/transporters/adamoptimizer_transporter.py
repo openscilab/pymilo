@@ -4,6 +4,7 @@ from sklearn.neural_network._stochastic_optimizers import AdamOptimizer
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
+import numpy as np
 
 class AdamOptimizerTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle AdamOptimizer field."""
@@ -27,8 +28,8 @@ class AdamOptimizerTransporter(AbstractTransporter):
             optimizer = data[key]
             data[key] = {
                 'params': {
+                    "params": data["coefs_"] + data["intercepts_"],
                     'type': "AdamOptimizer",
-                    'learning_rate': optimizer.learning_rate,
                     'beta_1': optimizer.beta_1,
                     'beta_2': optimizer.beta_2,
                     'epsilon': optimizer.epsilon
@@ -62,7 +63,7 @@ class AdamOptimizerTransporter(AbstractTransporter):
             optimizer = content['params']
             if (optimizer["type"] == "AdamOptimizer"):
                 return AdamOptimizer(
-                    learning_rate=optimizer['learning_rate'],
+                    params=optimizer["params"],
                     beta_1=optimizer['beta_1'],
                     beta_2=optimizer['beta_2'],
                     epsilon=optimizer['epsilon'])
