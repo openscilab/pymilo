@@ -4,8 +4,6 @@ import numpy as np
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
-# Handling Numpy's RandomState
-
 
 class RandomStateTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle RandomState field."""
@@ -20,21 +18,21 @@ class RandomStateTransporter(AbstractTransporter):
         :type data: dict
         :param key: the special key of the data param, which we're going to serialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which its data dictionary is given as the data param.
+        :param model_type: the model type of the ML model
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
         if (
             (model_type == "MLPRegressor" and key == "_random_state")
         ):
-            rng = data[key]
+            inner_random_state = data[key]
             data[key] = {
                 'state': (
-                    rng.get_state()[0],
-                    rng.get_state()[1].tolist(),
-                    rng.get_state()[2],
-                    rng.get_state()[3],
-                    rng.get_state()[4]
+                    inner_random_state.get_state()[0],
+                    inner_random_state.get_state()[1].tolist(),
+                    inner_random_state.get_state()[2],
+                    inner_random_state.get_state()[3],
+                    inner_random_state.get_state()[4]
                 )
             }
         return data[key]
@@ -55,23 +53,23 @@ class RandomStateTransporter(AbstractTransporter):
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which internal serialized data dictionary is given as the data param
+        :param model_type: the model type of the ML model
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
 
-        if (key == "_random_state" and model_type == "MLPRegressor"):
-            rng_state = content['state']
-            rng_state = (
-                rng_state[0],
-                np.array(rng_state[1]),
-                rng_state[2],
-                rng_state[3],
-                rng_state[4]
+        if key == "_random_state" and model_type == "MLPRegressor":
+            inner_random_state = content['state']
+            inner_random_state = (
+                inner_random_state[0],
+                np.array(inner_random_state[1]),
+                inner_random_state[2],
+                inner_random_state[3],
+                inner_random_state[4]
             )
-            _rng = np.random.RandomState()
-            _rng.set_state(rng_state)
-            return _rng
+            _random_state = np.random.RandomState()
+            _random_state.set_state(inner_random_state)
+            return _random_state
         else:
             return content
