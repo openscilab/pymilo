@@ -4,8 +4,6 @@ from sklearn.neural_network._stochastic_optimizers import AdamOptimizer
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
-# Handling sklearn.neural_network._stochastic_optimizers.AdamOptimizer
-
 
 class AdamOptimizerTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle AdamOptimizer field."""
@@ -20,7 +18,7 @@ class AdamOptimizerTransporter(AbstractTransporter):
         :type data: dict
         :param key: the special key of the data param, which we're going to serialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which its data dictionary is given as the data param.
+        :param model_type: the model type of the ML model
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
@@ -54,7 +52,7 @@ class AdamOptimizerTransporter(AbstractTransporter):
         :type data: dict
         :param key: the special key of the data param, which we're going to deserialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which internal serialized data dictionary is given as the data param
+        :param model_type: the model type of the ML model
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
@@ -62,7 +60,7 @@ class AdamOptimizerTransporter(AbstractTransporter):
 
         if (key == "_optimizer" and model_type == "MLPRegressor"):
             optimizer = content['params']
-            if (optimizer["type"] == "SGDOptimizer"):
+            if (optimizer["type"] == "AdamOptimizer"):
                 return AdamOptimizer(
                     learning_rate=optimizer['learning_rate'],
                     beta_1=optimizer['beta_1'],
