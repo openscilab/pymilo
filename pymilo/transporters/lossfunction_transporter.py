@@ -4,8 +4,6 @@ from sklearn.linear_model._stochastic_gradient import SGDClassifier
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
-# Handling LossFunction for SGD-Classifier
-
 
 class LossFunctionTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle Loss function field."""
