@@ -4,8 +4,6 @@ from sklearn.neural_network._stochastic_optimizers import SGDOptimizer
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
-# Handling sklearn.neural_network._stochastic_optimizers.SGDOptimizer
-
 
 class SGDOptimizerTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle SGDOptimizer field."""
@@ -20,7 +18,7 @@ class SGDOptimizerTransporter(AbstractTransporter):
         :type data: dict
         :param key: the special key of the data param, which we're going to serialize its value(data[key])
         :type key: object
-        :param model_type: the model type of the ML model, which its data dictionary is given as the data param.
+        :param model_type: the model type of the ML model
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
