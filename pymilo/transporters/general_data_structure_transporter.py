@@ -263,7 +263,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         if isinstance(list_item, list):
 
-            if (len(list_item) == 0):
+            if len(list_item) == 0:
                 return np.asarray(list_item)
 
             new_list = []
