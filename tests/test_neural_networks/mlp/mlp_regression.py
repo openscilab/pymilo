@@ -4,7 +4,7 @@ from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 from pymilo.utils.util import get_sklearn_type
 
-MODEL_NAME = "Multi-layer Perceptron regressor"
+MODEL_NAME = "Multi Layer Perceptron Regression"
 
 
 def multi_layer_perceptron_regression():

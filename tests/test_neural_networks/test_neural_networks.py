@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from mlp_regressor.multi_layer_perceptron_regression import multi_layer_perceptron_regression
+from mlp.mlp_regression import multi_layer_perceptron_regression
     
 NEURAL_NETWORKS = {
     "MLP_REGRESSION": [multi_layer_perceptron_regression],
