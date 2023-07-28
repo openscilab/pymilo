@@ -23,8 +23,7 @@ class AdamOptimizerTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if ((model_type == "MLPRegressor" and key ==
-             "_optimizer" and isinstance(data[key], AdamOptimizer))):
+        if isinstance(data[key], AdamOptimizer):
             optimizer = data[key]
             data[key] = {
                 'params': {
@@ -59,7 +58,7 @@ class AdamOptimizerTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if (key == "_optimizer" and model_type == "MLPRegressor"):
+        if (key == "_optimizer" and (model_type == "MLPRegressor" or model_type == "MLPClassifier")):
             optimizer = content['params']
             if (optimizer["type"] == "AdamOptimizer"):
                 return AdamOptimizer(
