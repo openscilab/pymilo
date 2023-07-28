@@ -6,6 +6,7 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 from ..transporters.randomstate_transporter import RandomStateTransporter
 from ..transporters.sgdoptimizer_transporter import SGDOptimizerTransporter
 from ..transporters.adamoptimizer_transporter import AdamOptimizerTransporter
+from ..transporters.labelbinarizer_transporter import LabelBinarizerTransporter
 
 from ..pymilo_param import SKLEARN_NEURAL_NETWORK_TABLE
 
@@ -19,6 +20,7 @@ NEURAL_NETWORK_CHAIN = {
     "RandomStateTransporter": RandomStateTransporter(),
     "SGDOptimizer": SGDOptimizerTransporter(),
     "AdamOptimizerTransporter": AdamOptimizerTransporter(),
+    "LabelBinarizerTransporter": LabelBinarizerTransporter(),
 }
 
 
