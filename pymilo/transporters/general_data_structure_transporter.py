@@ -2,6 +2,7 @@
 """PyMilo GeneralDataStructure transporter."""
 import numpy as np
 from ..pymilo_param import NUMPY_TYPE_DICT
+from ..utils.util import get_homogeneous_type, all_same
 from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
 from .transporter import AbstractTransporter
 
@@ -261,10 +262,27 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: numpy.ndarray
         """
         if isinstance(list_item, list):
+
+            if len(list_item) == 0:
+                return np.asarray(list_item)
+
             new_list = []
             for item in list_item:
                 new_list.append(self.list_to_ndarray(item))
-            return np.asarray(new_list)
+
+            is_homogeneous_type, the_homogeneous_type = get_homogeneous_type(
+                new_list)
+            if is_homogeneous_type:
+                if the_homogeneous_type in [int, float, str, bool]:
+                    return np.asarray(new_list)
+                elif the_homogeneous_type == np.ndarray:
+                    is_homogeneous_type, _ = get_homogeneous_type(
+                        [x.dtype for x in new_list])
+                    if (is_homogeneous_type):
+                        if all_same([len(x) for x in new_list]):
+                            return np.asarray(new_list)
+
+            return np.asarray(new_list, dtype=object)
         else:
             if is_primitive(list_item):
                 return list_item

@@ -100,4 +100,5 @@ out
 gen
 
 /tests/exported_linear_models 
+/tests/exported_neural_networks
 /.VSCodeCounter

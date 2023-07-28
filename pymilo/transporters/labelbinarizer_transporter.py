@@ -5,12 +5,9 @@ from sklearn import preprocessing
 import numpy as np
 from .transporter import AbstractTransporter
 
-# TODO exception handling
-# Handling Label Binarizer for Ridge Classifier(+[CV])
-
 
 class LabelBinarizerTransporter(AbstractTransporter):
-    """Customized PyMilo Transporter developed to handle LabelBinarizer field."""
+    """Customized PyMilo Transporter developed to handle LabelBinarizer field(for Ridge Classifier(+[CV]))."""
 
     def serialize(self, data, key, model_type):
         """
