@@ -3,9 +3,12 @@ import pytest
 
 from mlp.mlp_regression import multi_layer_perceptron_regression
 from mlp.mlp_classification import multi_layer_perceptron_classification
+
+from bernoulli_rbm.bernoulli_rbm import bernoulli_rbm
     
 NEURAL_NETWORKS = {
     "MLP_REGRESSION": [multi_layer_perceptron_regression, multi_layer_perceptron_classification],
+    "BERNOULLI_RBM": [bernoulli_rbm]
 }
 
 @pytest.fixture(scope="session", autouse=True)
