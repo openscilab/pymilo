@@ -2,9 +2,10 @@ import os
 import pytest
 
 from mlp.mlp_regression import multi_layer_perceptron_regression
+from mlp.mlp_classification import multi_layer_perceptron_classification
     
 NEURAL_NETWORKS = {
-    "MLP_REGRESSION": [multi_layer_perceptron_regression],
+    "MLP_REGRESSION": [multi_layer_perceptron_regression, multi_layer_perceptron_classification],
 }
 
 @pytest.fixture(scope="session", autouse=True)

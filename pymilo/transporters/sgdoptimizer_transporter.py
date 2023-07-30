@@ -22,8 +22,7 @@ class SGDOptimizerTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if ((model_type == "MLPRegressor" and key ==
-             "_optimizer" and isinstance(data[key], SGDOptimizer))):
+        if isinstance(data[key], SGDOptimizer):
             optimizer = data[key]
             data[key] = {
                 'params': {
@@ -58,7 +57,7 @@ class SGDOptimizerTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if (key == "_optimizer" and model_type == "MLPRegressor"):
+        if (key == "_optimizer" and (model_type == "MLPRegressor" or model_type == "MLPClassifier")):
             optimizer = content['params']
             if (optimizer["type"] == "SGDOptimizer"):
                 return SGDOptimizer(
