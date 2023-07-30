@@ -57,7 +57,8 @@ class SGDOptimizerTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if (key == "_optimizer" and (model_type == "MLPRegressor" or model_type == "MLPClassifier")):
+        if (key == "_optimizer" and (model_type ==
+                                     "MLPRegressor" or model_type == "MLPClassifier")):
             optimizer = content['params']
             if (optimizer["type"] == "SGDOptimizer"):
                 return SGDOptimizer(
