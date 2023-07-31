@@ -6,6 +6,7 @@ from .transporter import AbstractTransporter
 
 import numpy as np
 
+
 class AdamOptimizerTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle AdamOptimizer field."""
 
@@ -58,7 +59,8 @@ class AdamOptimizerTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if (key == "_optimizer" and (model_type == "MLPRegressor" or model_type == "MLPClassifier")):
+        if (key == "_optimizer" and (model_type ==
+                                     "MLPRegressor" or model_type == "MLPClassifier")):
             optimizer = content['params']
             if (optimizer["type"] == "AdamOptimizer"):
                 return AdamOptimizer(

@@ -73,10 +73,8 @@ def transport_neural_network(request, command):
                     'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
-                        'Traceback': format_exc()
-                    },
-                    'object': request
-                })
+                        'Traceback': format_exc()},
+                    'object': request})
 
 
 def serialize_neural_network(neural_network_object):

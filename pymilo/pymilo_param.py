@@ -33,6 +33,7 @@ from sklearn.linear_model import LinearRegression
 
 from sklearn.neural_network import MLPRegressor
 from sklearn.neural_network import MLPClassifier
+from sklearn.neural_network import BernoulliRBM
 
 from numpy import int64
 from numpy import int32
@@ -116,6 +117,7 @@ SKLEARN_LINEAR_MODEL_TABLE = {
 SKLEARN_NEURAL_NETWORK_TABLE = {
     "MLPRegressor": MLPRegressor,
     "MLPClassifier": MLPClassifier,
+    "BernoulliRBM": BernoulliRBM,
 }
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier

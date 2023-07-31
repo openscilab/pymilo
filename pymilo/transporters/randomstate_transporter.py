@@ -22,7 +22,7 @@ class RandomStateTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(data[key], np.random.RandomState): 
+        if isinstance(data[key], np.random.RandomState):
             inner_random_state = data[key]
             data[key] = {
                 'state': (
@@ -57,7 +57,8 @@ class RandomStateTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if key == "_random_state" and (model_type == "MLPRegressor" or model_type == "MLPClassifier"):
+        if key == "_random_state" and (
+                model_type == "MLPRegressor" or model_type == "MLPClassifier"):
             inner_random_state = content['state']
             inner_random_state = (
                 inner_random_state[0],
