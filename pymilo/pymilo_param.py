@@ -40,7 +40,7 @@ from numpy import int32
 from sklearn.preprocessing import LabelBinarizer
 import numpy as np
 
-PYMILO_VERSION = "0.1"
+PYMILO_VERSION = "0.2"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 
 # Handle python 3.5.4 issues.
