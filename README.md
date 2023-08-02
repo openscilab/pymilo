@@ -78,9 +78,9 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==0.1`
+- Run `pip install pymilo==0.2`
 ### Source code
-- Download [Version 0.1](https://github.com/openscilab/pymilo/archive/v0.1.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Download [Version 0.2](https://github.com/openscilab/pymilo/archive/v0.2.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
 
 ## Usage
@@ -120,10 +120,11 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 | scikit-learn | PyTorch | 
 | ---------------- | ---------------- | 
 | Linear Models &#x2705; | - | 
-| Neural networks &#x274C; | -  | 
+| Neural networks &#x2705; | -  | 
 | Clustering &#x274C; | -  | 
 | Trees &#x274C; | -  | 
 | Ensemble Models &#x274C; | - | 
+Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
 ## Issues & bug reports
 
