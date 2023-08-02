@@ -7,14 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
-
-## [0.1] - 2023-06-29
-### Added
-- scikit-learn linear models support
-- `Export` class
-- `Import` class
-
-## [0.2] - 2023-08-2
+## [0.2] - 2023-08-02
 ### Added
 - scikit-learn neural network models 
 - `MLP Regressor` model 
@@ -44,4 +37,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [0.1]: https://github.com/openscilab/pymilo/compare/e887108...v0.1
 [0.2]: https://github.com/openscilab/pymilo/compare/v0.1...v0.2
 
+## [0.1] - 2023-06-29
+### Added
+- scikit-learn linear models support
+- `Export` class
+- `Import` class
 
