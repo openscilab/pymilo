@@ -43,3 +43,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.2...dev
+[0.2]: https://github.com/openscilab/pymilo/compare/v0.1...v0.2
+[0.1]: https://github.com/openscilab/pymilo/compare/e887108...v0.1
