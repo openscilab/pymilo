@@ -213,8 +213,8 @@
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
-		<td><code>BernoulliRBM</code></td>
-        <th>BernoulliRBM</th>
+		<td><code>Bernoulli RBM</code></td>
+        <th>Bernoulli RBM</th>
 	</tr>
 </table>
 
