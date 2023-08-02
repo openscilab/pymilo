@@ -5,8 +5,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
-### Changed
 ## [0.2] - 2023-08-02
 ### Added
 - scikit-learn neural network models 
@@ -31,12 +29,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - NeuralNetwork params initialized in `pymilo_param`
 - `pymilo_test` updated to support multiple models
 - `linear_model_chain` refactored
-
-
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.2...dev
-[0.1]: https://github.com/openscilab/pymilo/compare/e887108...v0.1
-[0.2]: https://github.com/openscilab/pymilo/compare/v0.1...v0.2
-
 ## [0.1] - 2023-06-29
 ### Added
 - scikit-learn linear models support
