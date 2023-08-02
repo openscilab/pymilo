@@ -124,7 +124,7 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 | Clustering &#x274C; | -  | 
 | Trees &#x274C; | -  | 
 | Ensemble Models &#x274C; | - | 
-Details are available in `supported-models.md` file.
+Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
 ## Issues & bug reports
 
