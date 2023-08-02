@@ -1,0 +1,9 @@
+[run]
+branch = True
+omit =
+    */pymilo/__main__.py
+    */pymilo/__init__.py
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    pragma: no cover
