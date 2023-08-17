@@ -35,6 +35,8 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.neural_network import MLPClassifier
 from sklearn.neural_network import BernoulliRBM
 
+from sklearn.tree import DecisionTreeRegressor
+
 from numpy import int64
 from numpy import int32
 from sklearn.preprocessing import LabelBinarizer
@@ -119,6 +121,11 @@ SKLEARN_NEURAL_NETWORK_TABLE = {
     "MLPClassifier": MLPClassifier,
     "BernoulliRBM": BernoulliRBM,
 }
+
+SKLEARN_DECISION_TREE_TABLE = {
+    "DecisionTreeRegressor": DecisionTreeRegressor
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
