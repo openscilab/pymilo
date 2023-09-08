@@ -52,7 +52,7 @@ class TreeTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        Deserialize the special tree_ field of the SGDOptimizer.
+        Deserialize the special tree_ field of the Decision Trees.
 
         The associated tree_ field of the pymilo serialized model, is extracted through
         it's previously serialized parameters.
