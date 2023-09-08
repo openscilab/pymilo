@@ -116,9 +116,9 @@ class TreeTransporter(AbstractTransporter):
 
             if os_name == "Windows" and extract_python_main_version(python_version) == "3.6":
                 _tree = Tree(
-                    ctypes.c_size_t(tree_params["n_features"]),
+                    np.intp(tree_params["n_features"]),
                     GeneralDataStructureTransporter().list_to_ndarray(tree_params["n_classes"]),
-                    ctypes.c_int(tree_params["n_outputs"])
+                    np.intp(tree_params["n_outputs"])
                 )
             else:
                 _tree = Tree(
