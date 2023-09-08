@@ -98,9 +98,20 @@ class TreeTransporter(AbstractTransporter):
             _tree = None 
 
             def extract_python_main_version(python_full_version):
+                """
+                Extracts main python version from it's full version str.
+
+                Assume the full python version is A.B.C then this function will extract the
+                A.B part.
+
+                :param python_full_version: the whole python version, returned by platform.python_version()
+                :type python_full_version: str
+                :return: the main python version
+                """
                 first_dot_index = python_full_version.index('.')
                 second_dot_index = python_full_version.index('.', first_dot_index + 1)
                 python_main_version = python_full_version[0: second_dot_index]
+                print("main python version: ", python_main_version)
                 return python_main_version
 
             if os_name == "Windows" and extract_python_main_version(python_version) == "3.6":
