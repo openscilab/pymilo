@@ -37,7 +37,7 @@ class TreeTransporter(AbstractTransporter):
                         "node_count": tree_inner_state["node_count"],
                         "nodes": {
                             "types": [str(np.dtype(i).name) for i in tree_inner_state["nodes"][0]],
-                            "field-names": ["left_child", "right_child", "feature", "threshold", "impurity", "n_node_samples", "weighted_n_node_samples"],
+                            "field-names": list(tree_inner_state["nodes"][0].dtype.names),
                             "values": [node.tolist() for node in tree_inner_state["nodes"]],
                             },
                         "values":  gdst.ndarray_to_list(tree_inner_state["values"]),
