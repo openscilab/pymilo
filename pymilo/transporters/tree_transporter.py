@@ -118,7 +118,7 @@ class TreeTransporter(AbstractTransporter):
                 _tree = Tree(
                     ctypes.c_size_t(tree_params["n_features"]),
                     GeneralDataStructureTransporter().list_to_ndarray(tree_params["n_classes"]),
-                    tree_params["n_outputs"]
+                    ctypes.c_int(tree_params["n_outputs"])
                 )
             else:
                 _tree = Tree(
