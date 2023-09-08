@@ -93,13 +93,13 @@ class TreeTransporter(AbstractTransporter):
                 "values": gdst.list_to_ndarray(tree_internal_state["values"]),
             }
             
-            os_name = platform.system(),
+            os_name = platform.system().strip()
             python_version = platform.python_version()
             _tree = None 
 
             def extract_python_main_version(python_full_version):
                 """
-                Extracts main python version from it's full version str.
+                Extract main python version from it's full version str.
 
                 Assume the full python version is A.B.C then this function will extract the
                 A.B part.
