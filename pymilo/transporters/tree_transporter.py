@@ -7,7 +7,6 @@ from .general_data_structure_transporter import GeneralDataStructureTransporter
 from ..pymilo_param import NUMPY_TYPE_DICT
 
 import numpy as np
-import ctypes
 import platform
 
 class TreeTransporter(AbstractTransporter):
@@ -115,9 +114,12 @@ class TreeTransporter(AbstractTransporter):
                 return python_main_version
 
             if os_name == "Windows" and extract_python_main_version(python_version) == "3.6":
+                n_classes = np.ndarray(shape=(np.intp(len(tree_params["n_classes"])),), dtype=np.intp)
+                for i in range(len(n_classes)):
+                    n_classes[i] = tree_params["n_classes"][i]
                 _tree = Tree(
                     np.intp(tree_params["n_features"]),
-                    GeneralDataStructureTransporter().list_to_ndarray(tree_params["n_classes"]),
+                    n_classes,
                     np.intp(tree_params["n_outputs"])
                 )
             else:
