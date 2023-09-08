@@ -41,6 +41,7 @@ from numpy import int64
 from numpy import int32
 from numpy import float64
 from numpy import inf 
+from numpy import uint8
 
 from sklearn.preprocessing import LabelBinarizer
 
@@ -142,7 +143,8 @@ NUMPY_TYPE_DICT = {
     "numpy.int32": int32,
     "numpy.int64": int64,
     "numpy.float64": float64,
-    "numpy.infinity": lambda _: inf
+    "numpy.infinity": lambda _: inf,
+    "numpy.uint8": uint8,
 }
 
 EXPORTED_MODELS_PATH = {
