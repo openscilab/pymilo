@@ -39,8 +39,10 @@ from sklearn.tree import DecisionTreeRegressor
 
 from numpy import int64
 from numpy import int32
+from numpy import float64
+from numpy import inf 
+
 from sklearn.preprocessing import LabelBinarizer
-import numpy as np
 
 PYMILO_VERSION = "0.2"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -139,7 +141,8 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
 NUMPY_TYPE_DICT = {
     "numpy.int32": int32,
     "numpy.int64": int64,
-    "numpy.infinity": lambda _: np.inf
+    "numpy.float64": float64,
+    "numpy.infinity": lambda _: inf
 }
 
 EXPORTED_MODELS_PATH = {
