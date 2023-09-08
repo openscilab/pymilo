@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """PyMilo SGDOptimizer object transporter."""
 from sklearn.tree._tree import Tree
-from ..utils.util import is_primitive, check_str_in_iterable
+
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 from ..pymilo_param import NUMPY_TYPE_DICT
 
 import numpy as np
+import ctypes
+import platform
 
 class TreeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle (pyi,pyx) Tree object."""
@@ -91,11 +93,28 @@ class TreeTransporter(AbstractTransporter):
                 "values": gdst.list_to_ndarray(tree_internal_state["values"]),
             }
             
-            _tree = Tree(
-                tree_params["n_features"],
-                GeneralDataStructureTransporter().list_to_ndarray(tree_params["n_classes"]),
-                tree_params["n_outputs"]
-            )
+            os_name = platform.system(),
+            python_version = platform.python_version()
+            _tree = None 
+
+            def extract_python_main_version(python_full_version):
+                first_dot_index = python_full_version.index('.')
+                second_dot_index = python_full_version.index('.', first_dot_index + 1)
+                python_main_version = python_full_version[0: second_dot_index]
+                return python_main_version
+
+            if os_name == "Windows" and extract_python_main_version(python_version) == "3.6":
+                _tree = Tree(
+                    ctypes.c_size_t(tree_params["n_features"]),
+                    GeneralDataStructureTransporter().list_to_ndarray(tree_params["n_classes"]),
+                    ctypes.c_size_t(tree_params["n_outputs"])
+                )
+            else:
+                _tree = Tree(
+                    tree_params["n_features"],
+                    GeneralDataStructureTransporter().list_to_ndarray(tree_params["n_classes"]),
+                    tree_params["n_outputs"]
+                )
 
             _tree.__setstate__(tree_internal_state)
 
