@@ -91,43 +91,16 @@ class TreeTransporter(AbstractTransporter):
                 "nodes": nodes,
                 "values": gdst.list_to_ndarray(tree_internal_state["values"]),
             }
-            
-            os_name = platform.system().strip()
-            python_version = platform.python_version()
-            _tree = None 
 
-            def extract_python_main_version(python_full_version):
-                """
-                Extract main python version from it's full version str.
-
-                Assume the full python version is A.B.C then this function will extract the
-                A.B part.
-
-                :param python_full_version: the whole python version, returned by platform.python_version()
-                :type python_full_version: str
-                :return: the main python version
-                """
-                first_dot_index = python_full_version.index('.')
-                second_dot_index = python_full_version.index('.', first_dot_index + 1)
-                python_main_version = python_full_version[0: second_dot_index]
-                print("main python version: ", python_main_version)
-                return python_main_version
-
-            if os_name == "Windows" and extract_python_main_version(python_version) == "3.6":
-                n_classes = np.ndarray(shape=(np.intp(len(tree_params["n_classes"])),), dtype=np.intp)
-                for i in range(len(n_classes)):
-                    n_classes[i] = tree_params["n_classes"][i]
-                _tree = Tree(
-                    np.intp(tree_params["n_features"]),
-                    n_classes,
-                    np.intp(tree_params["n_outputs"])
-                )
-            else:
-                _tree = Tree(
-                    tree_params["n_features"],
-                    GeneralDataStructureTransporter().list_to_ndarray(tree_params["n_classes"]),
-                    tree_params["n_outputs"]
-                )
+            n_classes = np.ndarray(shape=(np.intp(len(tree_params["n_classes"])),), dtype=np.intp)
+            for i in range(len(n_classes)):
+                n_classes[i] = tree_params["n_classes"][i]
+                
+            _tree = Tree(
+                tree_params["n_features"],
+                n_classes,
+                tree_params["n_outputs"]
+            )
 
             _tree.__setstate__(tree_internal_state)
 
