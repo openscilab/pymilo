@@ -7,17 +7,13 @@ from .general_data_structure_transporter import GeneralDataStructureTransporter
 from ..pymilo_param import NUMPY_TYPE_DICT
 
 import numpy as np
-import platform
-
 
 class TreeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle (pyi,pyx) Tree object."""
 
     def serialize(self, data, key, model_type):
         """
-        Serialize instances of the Tree class.
-
-        Record the n_features, n_classes and n_outputs fields of tree object.
+        Serialize instances of the Tree class by recording the n_features, n_classes and n_outputs fields of tree object.
 
         :param data: the internal data dictionary of the given model
         :type data: dict
