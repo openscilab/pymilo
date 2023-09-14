@@ -151,8 +151,7 @@ def validate_input(model, command, is_inner_model):
     """
     Check if the provided inputs are valid in relation to each other.
 
-    :param model: given object to gets transported, whether a sklearn linear model to get serialized
-    or a json string of a linear model to get deserialized to associated sklearn linear model
+    :param model: a sklearn linear model or a json string of it, serialized through the pymilo export.
     :type model: obj
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command

@@ -108,8 +108,7 @@ def _validate_input(model, command):
     """
     Check if the provided inputs are valid in relation to each other.
 
-    :param model: given object to gets transported, whether a sklearn decision tree model to get serialized
-    or a json string of a decision tree model to get deserialized to associated sklearn decision tree model
+    :param model: a sklearn decision tree model or a json string of it, serialized through the pymilo export.
     :type model: obj
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
