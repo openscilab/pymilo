@@ -1,10 +1,7 @@
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.tree._tree import Tree, _build_pruned_tree_ccp
 
 from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
-from pymilo.utils.util import get_sklearn_type
-from pymilo.transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
 import numpy as np
 
