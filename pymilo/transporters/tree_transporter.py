@@ -9,12 +9,14 @@ from ..pymilo_param import NUMPY_TYPE_DICT
 import numpy as np
 import platform
 
+
 class TreeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle (pyi,pyx) Tree object."""
 
     def serialize(self, data, key, model_type):
         """
         Serialize instances of the Tree class.
+
         Record the n_features, n_classes and n_outputs fields of tree object.
 
         :param data: the internal data dictionary of the given model
@@ -39,8 +41,8 @@ class TreeTransporter(AbstractTransporter):
                             "types": [str(np.dtype(i).name) for i in tree_inner_state["nodes"][0]],
                             "field-names": list(tree_inner_state["nodes"][0].dtype.names),
                             "values": [node.tolist() for node in tree_inner_state["nodes"]],
-                            },
-                        "values":  gdst.ndarray_to_list(tree_inner_state["values"]),
+                        },
+                        "values": gdst.ndarray_to_list(tree_inner_state["values"]),
                     },
                     'n_features': tree.n_features,
                     'n_classes': gdst.ndarray_to_list(tree.n_classes),
@@ -53,6 +55,7 @@ class TreeTransporter(AbstractTransporter):
     def deserialize(self, data, key, model_type):
         """
         Deserialize the special tree_ field of the Decision Trees.
+
         The associated tree_ field of the pymilo serialized model, is extracted through
         it's previously serialized parameters.
         deserialize the data[key] of the given model which type is model_type.
@@ -74,13 +77,15 @@ class TreeTransporter(AbstractTransporter):
             tree_params = content['params']
 
             tree_internal_state = tree_params["internal_state"]
-            
+
             nodes_dtype_spec = []
             for i in range(len(tree_internal_state["nodes"]["types"])):
-                nodes_dtype_spec.append((tree_internal_state["nodes"]["field-names"][i], NUMPY_TYPE_DICT["numpy." + tree_internal_state["nodes"]["types"][i]]))
-            nodes = [tuple(node) for node in tree_internal_state["nodes"]["values"]]
+                nodes_dtype_spec.append(
+                    (tree_internal_state["nodes"]["field-names"][i], NUMPY_TYPE_DICT["numpy." + tree_internal_state["nodes"]["types"][i]]))
+            nodes = [tuple(node)
+                     for node in tree_internal_state["nodes"]["values"]]
             nodes = np.array(nodes, dtype=nodes_dtype_spec)
-            
+
             tree_internal_state = {
                 "max_depth": tree_internal_state["max_depth"],
                 "node_count": tree_internal_state["node_count"],
@@ -88,10 +93,11 @@ class TreeTransporter(AbstractTransporter):
                 "values": gdst.list_to_ndarray(tree_internal_state["values"]),
             }
 
-            n_classes = np.ndarray(shape=(np.intp(len(tree_params["n_classes"])),), dtype=np.intp)
+            n_classes = np.ndarray(
+                shape=(np.intp(len(tree_params["n_classes"])),), dtype=np.intp)
             for i in range(len(n_classes)):
                 n_classes[i] = tree_params["n_classes"][i]
-                
+
             _tree = Tree(
                 tree_params["n_features"],
                 n_classes,
@@ -100,7 +106,7 @@ class TreeTransporter(AbstractTransporter):
 
             _tree.__setstate__(tree_internal_state)
 
-            return _tree 
-        
+            return _tree
+
         else:
             return content

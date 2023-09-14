@@ -40,7 +40,7 @@ from sklearn.tree import DecisionTreeRegressor
 from numpy import int64
 from numpy import int32
 from numpy import float64
-from numpy import inf 
+from numpy import inf
 from numpy import uint8
 
 from sklearn.preprocessing import LabelBinarizer
