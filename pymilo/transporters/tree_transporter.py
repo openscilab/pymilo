@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo SGDOptimizer object transporter."""
+"""PyMilo Tree(from sklearn.tree._tree) object transporter."""
 from sklearn.tree._tree import Tree
 
 from .transporter import AbstractTransporter
