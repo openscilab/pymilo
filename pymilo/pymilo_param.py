@@ -35,10 +35,15 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.neural_network import MLPClassifier
 from sklearn.neural_network import BernoulliRBM
 
+from sklearn.tree import DecisionTreeRegressor
+
 from numpy import int64
 from numpy import int32
+from numpy import float64
+from numpy import inf
+from numpy import uint8
+
 from sklearn.preprocessing import LabelBinarizer
-import numpy as np
 
 PYMILO_VERSION = "0.2"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -119,6 +124,11 @@ SKLEARN_NEURAL_NETWORK_TABLE = {
     "MLPClassifier": MLPClassifier,
     "BernoulliRBM": BernoulliRBM,
 }
+
+SKLEARN_DECISION_TREE_TABLE = {
+    "DecisionTreeRegressor": DecisionTreeRegressor
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
@@ -132,10 +142,13 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
 NUMPY_TYPE_DICT = {
     "numpy.int32": int32,
     "numpy.int64": int64,
-    "numpy.infinity": lambda _: np.inf
+    "numpy.float64": float64,
+    "numpy.infinity": lambda _: inf,
+    "numpy.uint8": uint8,
 }
 
 EXPORTED_MODELS_PATH = {
     "LINEAR_MODEL": "exported_linear_models",
-    "NEURAL_NETWORK": "exported_neural_networks"
+    "NEURAL_NETWORK": "exported_neural_networks",
+    "DECISION_TREE": "exported_decision_trees"
 }

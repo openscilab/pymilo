@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- scikit-learn decision tree models
+- `DecisionTreeRegressor` model
+- `Tree` Transporter
+- Decision Tree chain
 ### Changed
 - Tests config modified
+- DecisionTree params initialized in `pymilo_param`
+- Decision Tree support added to `pymilo_func.py`
 ## [0.2] - 2023-08-02
 ### Added
 - scikit-learn neural network models 

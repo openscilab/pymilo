@@ -5,6 +5,7 @@ import sklearn
 
 from .chains.linear_model_chain import transport_linear_model, is_linear_model
 from .chains.neural_network_chain import transport_neural_network, is_neural_network
+from .chains.decision_tree_chain import transport_decision_tree, is_decision_tree
 
 from .transporters.transporter import Command
 
@@ -30,6 +31,8 @@ def get_sklearn_data(model):
         return transport_linear_model(model, Command.SERIALIZE)
     elif is_neural_network(model):
         return transport_neural_network(model, Command.SERIALIZE)
+    elif is_decision_tree(model):
+        return transport_decision_tree(model, Command.SERIALIZE)
     else:
         return None
 
@@ -46,6 +49,8 @@ def to_sklearn_model(import_obj):
         return transport_linear_model(import_obj, Command.DESERIALZIE)
     elif is_neural_network(import_obj.type):
         return transport_neural_network(import_obj, Command.DESERIALZIE)
+    elif is_decision_tree(import_obj.type):
+        return transport_decision_tree(import_obj, Command.DESERIALZIE)
     else:
         return None
 

@@ -12,6 +12,7 @@ from ..pymilo_func import compare_model_outputs
 
 from ..chains.linear_model_chain import is_linear_model
 from ..chains.neural_network_chain import is_neural_network
+from ..chains.decision_tree_chain import is_decision_tree
 
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
@@ -29,6 +30,8 @@ def pymilo_export_path(model):
         model_type = "LINEAR_MODEL"
     elif is_neural_network(model):
         model_type = "NEURAL_NETWORK"
+    elif is_decision_tree(model):
+        model_type = "DECISION_TREE"
     else:
         model_type = None
     return EXPORTED_MODELS_PATH[model_type]
@@ -130,6 +133,6 @@ def report_status(result, model_name):
     :return: None
     """
     if result:
-        print('Pymilo Test for Model:' + model_name + ' succeed.')
+        print('Pymilo Test for Model: ' + model_name + ' succeed.')
     else:
-        print('Pymilo Test for Model:' + model_name + ' failed.')
+        print('Pymilo Test for Model: ' + model_name + ' failed.')
