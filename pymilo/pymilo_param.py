@@ -37,6 +37,9 @@ from sklearn.neural_network import BernoulliRBM
 
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import ExtraTreeRegressor
+from sklearn.tree import ExtraTreeClassifier
+
 
 from numpy import int64
 from numpy import int32
@@ -129,6 +132,10 @@ SKLEARN_NEURAL_NETWORK_TABLE = {
 SKLEARN_DECISION_TREE_TABLE = {
     "DecisionTreeRegressor": DecisionTreeRegressor,
     "DecisionTreeClassifier": DecisionTreeClassifier,
+    "ExtraTreeRegressor": ExtraTreeRegressor,
+    "ExtraTreeClassifier": ExtraTreeClassifier
+}
+
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
@@ -152,5 +159,5 @@ NUMPY_TYPE_DICT = {
 EXPORTED_MODELS_PATH = {
     "LINEAR_MODEL": "exported_linear_models",
     "NEURAL_NETWORK": "exported_neural_networks",
-    "DECISION_TREE": "exported_decision_trees"
+    "DECISION_TREE": "exported_decision_trees",
 }
