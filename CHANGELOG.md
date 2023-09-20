@@ -10,12 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `DecisionTreeRegressor` model
 - `Tree` Transporter
 - Decision Tree chain
-- `DecisionTreeRegressor` Test
-- DecisionTree params initialized in `pymilo_param`
-- Decision Tree support added `pymilo_func.py`
 ### Changed
 - Tests config modified
-
+- DecisionTree params initialized in `pymilo_param`
+- Decision Tree support added to `pymilo_func.py`
 ## [0.2] - 2023-08-02
 ### Added
 - scikit-learn neural network models 
