@@ -4,7 +4,7 @@ import pytest
 from decision_tree.decision_tree_regression import decision_tree_regression
 from decision_tree.decision_tree_classification import decision_tree_classification
 DECISION_TREES = {
-    "DECISION_TREE": [decision_tree_regression],
+    "DECISION_TREE": [decision_tree_regression, decision_tree_classification],
 
 }
 
