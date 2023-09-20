@@ -136,8 +136,6 @@ SKLEARN_DECISION_TREE_TABLE = {
     "ExtraTreeClassifier": ExtraTreeClassifier
 }
 
-}
-
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
