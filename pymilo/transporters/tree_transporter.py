@@ -71,6 +71,8 @@ class TreeTransporter(AbstractTransporter):
         if (key == "tree_" and 
             (model_type == "DecisionTreeRegressor" 
              or model_type == "DecisionTreeClassifier"
+             or model_type == "ExtraTreeRegressor" 
+             or model_type == "ExtraTreeClassifier"
              )):
             gdst = GeneralDataStructureTransporter()
             tree_params = content['params']
