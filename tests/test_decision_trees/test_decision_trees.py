@@ -3,9 +3,12 @@ import pytest
 
 from decision_tree.decision_tree_regression import decision_tree_regression
 from decision_tree.decision_tree_classification import decision_tree_classification
+from extra_tree.extra_tree_regression import extra_tree_regression
+from extra_tree.extra_tree_classification import extra_tree_classification
+
 DECISION_TREES = {
     "DECISION_TREE": [decision_tree_regression, decision_tree_classification],
-
+    "EXTRA TREE": [extra_tree_regression, extra_tree_classification],
 }
 
 @pytest.fixture(scope="session", autouse=True)
