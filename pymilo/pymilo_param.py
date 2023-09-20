@@ -36,6 +36,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.neural_network import BernoulliRBM
 
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.tree import DecisionTreeClassifier
 
 from numpy import int64
 from numpy import int32
@@ -126,7 +127,8 @@ SKLEARN_NEURAL_NETWORK_TABLE = {
 }
 
 SKLEARN_DECISION_TREE_TABLE = {
-    "DecisionTreeRegressor": DecisionTreeRegressor
+    "DecisionTreeRegressor": DecisionTreeRegressor,
+    "DecisionTreeClassifier": DecisionTreeClassifier,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
