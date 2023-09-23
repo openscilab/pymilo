@@ -49,7 +49,7 @@ from numpy import uint8
 
 from sklearn.preprocessing import LabelBinarizer
 
-PYMILO_VERSION = "0.2"
+PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 
 # Handle python 3.5.4 issues.
