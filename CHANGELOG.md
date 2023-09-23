@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - scikit-learn decision tree models
+- `ExtraTreeClassifier` model
+- `ExtraTreeRegressor` model
+- `DecisionTreeClassifier` model
 - `DecisionTreeRegressor` model
 - `Tree` Transporter
 - Decision Tree chain

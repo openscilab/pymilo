@@ -3,8 +3,6 @@ from sklearn.tree import DecisionTreeRegressor
 from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
-import numpy as np
-
 MODEL_NAME = "Decision Tree Regressor"
 
 def decision_tree_regression():

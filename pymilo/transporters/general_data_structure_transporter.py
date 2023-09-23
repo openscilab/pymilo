@@ -286,7 +286,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         else:
             if is_primitive(list_item):
                 return list_item
-            elif "np-type" in item.keys():
+            elif isinstance(list_item, dict) and "np-type" in list_item.keys():
                 return NUMPY_TYPE_DICT[list_item["np-type"]
                                        ](list_item['value'])
             else:
