@@ -218,3 +218,32 @@
 	</tr>
 </table>
 
+## Decision Trees 
+<table>
+	<tr align="center">
+		<th>Library</th>
+		<th>Model Name</th>
+        <th>Category</th>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Decision Tree Regressor</code></td>
+        <th>Decision Tree</th>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Decision Tree Classifier</code></td>
+        <th>Decision Tree</th>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Extra Tree Regressor</code></td>
+        <th>Extra Tree</th>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Extra Tree Classifier</code></td>
+        <th>Extra Tree</th>
+	</tr>
+</table>
+
