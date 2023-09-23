@@ -41,7 +41,7 @@ setup(
     author='PyMilo Development Team',
     author_email='info@pycm.io',
     url='https://github.com/openscilab/pymilo',
-    download_url='https://github.com/openscilab/pymilo/tarball/v0.2',
+    download_url='https://github.com/openscilab/pymilo/tarball/v0.3',
     keywords="python3 python machine_learning ML",
     project_urls={
             'Source': 'https://github.com/openscilab/pymilo',
