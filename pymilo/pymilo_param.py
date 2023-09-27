@@ -158,4 +158,5 @@ EXPORTED_MODELS_PATH = {
     "LINEAR_MODEL": "exported_linear_models",
     "NEURAL_NETWORK": "exported_neural_networks",
     "DECISION_TREE": "exported_decision_trees",
+    "CLUSTERING": "exported_clusterings",
 }
