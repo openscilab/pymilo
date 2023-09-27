@@ -3,9 +3,6 @@
 from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
-from ..transporters.randomstate_transporter import RandomStateTransporter
-from ..transporters.cfnode_transporter import CFNodeTransporter
-from ..transporters.bisecting_tree_transporter import BisectingTreeTransporter
 
 from ..pymilo_param import SKLEARN_CLUSTERING_TABLE
 
