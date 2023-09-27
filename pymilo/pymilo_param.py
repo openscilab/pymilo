@@ -40,6 +40,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import ExtraTreeRegressor
 from sklearn.tree import ExtraTreeClassifier
 
+from sklearn.cluster import KMeans
 
 from numpy import int64
 from numpy import int32
@@ -134,6 +135,10 @@ SKLEARN_DECISION_TREE_TABLE = {
     "DecisionTreeClassifier": DecisionTreeClassifier,
     "ExtraTreeRegressor": ExtraTreeRegressor,
     "ExtraTreeClassifier": ExtraTreeClassifier
+}
+
+SKLEARN_CLUSTERING_TABLE = {
+    "KMeans": KMeans,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
