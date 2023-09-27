@@ -7,5 +7,5 @@ MODEL_NAME = "Kmeans"
 
 def kmeans():    
     x, y = prepare_simple_clustering_datasets()
-    kmeans = KMeans(n_clusters=2, random_state=0, n_init="auto").fit(x, y)
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(x, y)
     pymilo_clustering_test(kmeans, MODEL_NAME, x)
