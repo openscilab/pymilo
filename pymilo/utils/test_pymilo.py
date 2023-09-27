@@ -40,7 +40,7 @@ def pymilo_export_path(model):
     return EXPORTED_MODELS_PATH[model_type]
 
 
-def pymilo_test(model, model_name, test_data):
+def pymilo_test(model, model_name):
     """
     Return the pymilo imported model's outputs for given test_data.
 
@@ -52,8 +52,6 @@ def pymilo_test(model, model_name, test_data):
     :type test_data: np.ndarray or list
     :return: imported model's output
     """
-    x_test, _ = test_data
-
     export_model_path = pymilo_export_path(model)
     exported_model = Export(model)
     exported_model_serialized_path = os.path.join(
@@ -62,7 +60,7 @@ def pymilo_test(model, model_name, test_data):
 
     imported_model = Import(exported_model_serialized_path)
     imported_sklearn_model = imported_model.to_model()
-    return imported_sklearn_model.predict(x_test)
+    return imported_sklearn_model
 
 
 def pymilo_regression_test(regressor, model_name, test_data):
@@ -83,7 +81,7 @@ def pymilo_regression_test(regressor, model_name, test_data):
         "mean-error": mean_squared_error(y_test, pre_pymilo_model_y_pred),
         "r2-score": r2_score(y_test, pre_pymilo_model_y_pred)
     }
-    post_pymilo_model_y_pred = pymilo_test(regressor, model_name, test_data)
+    post_pymilo_model_y_pred = pymilo_test(regressor, model_name).predict(x_test)
     post_pymilo_model_prediction_outputs = {
         "mean-error": mean_squared_error(y_test, post_pymilo_model_y_pred),
         "r2-score": r2_score(y_test, post_pymilo_model_y_pred)
@@ -113,7 +111,7 @@ def pymilo_classification_test(classifier, model_name, test_data):
         "accuracy-score": accuracy_score(y_test, pre_pymilo_model_y_pred),
         "hinge-loss": hinge_loss(y_test, pre_pymilo_model_y_pred)
     }
-    post_pymilo_model_y_pred = pymilo_test(classifier, model_name, test_data)
+    post_pymilo_model_y_pred = pymilo_test(classifier, model_name).predict(x_test)
     post_pymilo_model_prediction_outputs = {
         "accuracy-score": accuracy_score(y_test, post_pymilo_model_y_pred),
         "hinge-loss": hinge_loss(y_test, post_pymilo_model_y_pred)
