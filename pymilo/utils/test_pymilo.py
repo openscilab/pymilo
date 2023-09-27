@@ -124,7 +124,31 @@ def pymilo_classification_test(classifier, model_name, test_data):
     report_status(comparison_result, model_name)
     return comparison_result
 
+def pymilo_clustering_test(clusterer, model_name, x_test, support_prediction = False):
+    """
+    Test the package's main structure in clustering task.
 
+    :param clusterer: the given clusterer model
+    :type clusterer: any valid sklearn's clusterer class
+    :param model_name: model name
+    :type model_name: str
+    :param test_data: data for testing
+    :type test_data: np.ndarray or list
+    :return: True if the test succeed
+    """
+    pre_pymilo_model = clusterer
+    post_pymilo_model = pymilo_test(clusterer, model_name)
+    if(support_prediction):
+        pre_pymilo_model_y_pred = pre_pymilo_model.predict(x_test)
+        post_pymilo_model_y_pred = post_pymilo_model.predict(x_test)
+        mse = ((post_pymilo_model_y_pred - pre_pymilo_model_y_pred)**2).mean(axis=0)
+        epsilon_error = 10**(-8)
+        return report_status(mse < epsilon_error, model_name) 
+    else:
+        # TODO, apply peer to peer 
+        # Evaluation: peer to peer field type & value check 
+        return report_status(True, model_name)
+    
 def report_status(result, model_name):
     """
     Print status for each model.
