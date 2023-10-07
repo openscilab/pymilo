@@ -254,4 +254,9 @@
 		<th>Model Name</th>
         <th>Category</th>
 	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Kmeans</code></td>
+        <th></th>
+	</tr>
 </table>
