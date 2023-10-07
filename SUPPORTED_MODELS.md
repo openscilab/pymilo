@@ -9,187 +9,187 @@
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Linear Regressor</code></td>
-        <th>Linear</th>
+        <td>Linear</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Ridge Regressor</code></td>
-        <th>Ridge</th>
+        <td>Ridge</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Ridge Classifier</code></td>
-        <th>Ridge</th>
+        <td>Ridge</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Ridge Regressor CV</code></td>
-        <th>Ridge</th>
+        <td>Ridge</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Ridge Classifier CV</code></td>
-        <th>Ridge</th>
+        <td>Ridge</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Lasso</code></td>
-        <th>Lasso</th>
+        <td>Lasso</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Lasso CV</code></td>
-        <th>Lasso</th>
+        <td>Lasso</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Lasso Lars</code></td>
-        <th>Lasso Lars</th>
+        <td>Lasso Lars</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Lasso Lars CV</code></td>
-        <th>Lasso Lars</th>
+        <td>Lasso Lars</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Lasso Lars IC</code></td>
-        <th>Lasso Lars</th>
+        <td>Lasso Lars</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Multi Task Lasso</code></td>
-        <th>Lasso</th>
+        <td>Lasso</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Multi Task Lasso CV</code></td>
-        <th>Lasso Lars</th>
+        <td>Lasso Lars</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Elastic Net</code></td>
-        <th>Elastic Net</th>
+        <td>Elastic Net</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Elastic Net CV</code></td>
-        <th>Elastic Net</th>
+        <td>Elastic Net</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Multi Task Elastic Net</code></td>
-        <th>Multi Class Elastic Net</th>
+        <td>Multi Class Elastic Net</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Multi Task Elastic Net CV</code></td>
-        <th>Multi Class Elastic Net</th>
+        <td>Multi Class Elastic Net</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Orthogonal Matching Pursuit</code></td>
-        <th>OMP</th>
+        <td>OMP</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Orthogonal Matching Pursuit CV</code></td>
-        <th>OMP</th>
+        <td>OMP</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Bayesian Regressor</code></td>
-        <th>Bayesian</th>
+        <td>Bayesian</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Automatic Relevance Determination Regressor</code></td>
-        <th>Bayesian</th>
+        <td>Bayesian</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Logistic Regressor</code></td>
-        <th>Logistic</th>
+        <td>Logistic</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Logistic Regressor CV</code></td>
-        <th>Logistic</th>
+        <td>Logistic</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Tweedie Regressor</code></td>
-        <th>Generalized Linear Model</th>
+        <td>Generalized Linear Model</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Poisson Regressor</code></td>
-        <th>Generalized Linear Model</th>
+        <td>Generalized Linear Model</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Gamma Regressor</code></td>
-        <th>Generalized Linear Model</th>
+        <td>Generalized Linear Model</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>SGD Regressor</code></td>
-        <th>SGD</th>
+        <td>SGD</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>SGD Classifier</code></td>
-        <th>SGD</th>
+        <td>SGD</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>SGD oneclass SVM</code></td>
-        <th>SGD</th>
+        <td>SGD</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Perceptron</code></td>
-        <th>Perceptron</th>
+        <td>Perceptron</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Passive Aggressive Regressor</code></td>
-        <th>Passive Aggressive</th>
+        <td>Passive Aggressive</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Passive Aggressive Classifier</code></td>
-        <th>Passive Aggressive</th>
+        <td>Passive Aggressive</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>OMP</code></td>
-        <th>OMP</th>
+        <td>OMP</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>OMP CV</code></td>
-        <th>OMP</th>
+        <td>OMP</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Ransac Regressor</code></td>
-        <th>Robustness</th>
+        <td>Robustness</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Theil Regressor</code></td>
-        <th>Robustness</th>
+        <td>Robustness</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Huber Regressor</code></td>
-        <th>Robustness</th>
+        <td>Robustness</td>
 	</tr>
     <tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Quantile Regressor</code></td>
-        <th>Quantile</th>
+        <td>Quantile</td>
 	</tr>
     
 </table>
@@ -204,17 +204,17 @@
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Multi Layer Perceptron Regression</code></td>
-        <th>MLP</th>
+        <td>MLP</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Multi Layer Perceptron Classifier</code></td>
-        <th>MLP</th>
+        <td>MLP</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Bernoulli RBM</code></td>
-        <th>Bernoulli RBM</th>
+        <td>Bernoulli RBM</td>
 	</tr>
 </table>
 
@@ -228,22 +228,22 @@
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Decision Tree Regressor</code></td>
-        <th>Decision Tree</th>
+        <td>Decision Tree</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Decision Tree Classifier</code></td>
-        <th>Decision Tree</th>
+        <td>Decision Tree</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Extra Tree Regressor</code></td>
-        <th>Extra Tree</th>
+        <td>Extra Tree</td>
 	</tr>
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Extra Tree Classifier</code></td>
-        <th>Extra Tree</th>
+        <td>Extra Tree</td>
 	</tr>
 </table>
 
@@ -257,6 +257,6 @@
 	<tr align="center">
 		<td>Scikit Learn</td>
 		<td><code>Kmeans</code></td>
-        <th></th>
+        <td>Kmeans</td>
 	</tr>
 </table>
