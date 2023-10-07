@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo chain for decision trees."""
+"""PyMilo chain for clustering models."""
 from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
