@@ -128,8 +128,10 @@ def pymilo_clustering_test(clusterer, model_name, x_test, support_prediction = F
     :type clusterer: any valid sklearn's clusterer class
     :param model_name: model name
     :type model_name: str
-    :param test_data: data for testing
-    :type test_data: np.ndarray or list
+    :param x_test: data for testing
+    :type x_test: np.ndarray or list
+    :param support_prediction: whether the given clusterer supports .predict function or 
+    :type support_prediction: boolean
     :return: True if the test succeed
     """
     pre_pymilo_model = clusterer
