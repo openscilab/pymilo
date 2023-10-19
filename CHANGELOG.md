@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `Kmeans` model
+- Clustering models test runner
+- Kmeans test 
+- Clustering chain 
+### Changed
+- Tests config modified
+- Clustering data set preparation added to `data_exporter.py`
+- Clustering params initialized in `pymilo_param`
+- Clustering support added to `pymilo_func.py`
+- kmeans added to `SUPPORTED_MODELS.md`. 
+- tables in `SUPPORTED_MODELS.md` enhanced structurally.
 ## [0.3] - 2023-09-27
 ### Added
 - scikit-learn decision tree models
