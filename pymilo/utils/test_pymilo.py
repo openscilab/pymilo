@@ -48,8 +48,6 @@ def pymilo_test(model, model_name):
     :type model: any sklearn's model class
     :param model_name: model name
     :type model_name: str
-    :param test_data: data for testing
-    :type test_data: np.ndarray or list
     :return: imported model's output
     """
     export_model_path = pymilo_export_path(model)
