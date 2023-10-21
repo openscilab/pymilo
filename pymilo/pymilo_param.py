@@ -40,6 +40,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import ExtraTreeRegressor
 from sklearn.tree import ExtraTreeClassifier
 
+from sklearn.cluster import KMeans
 
 from numpy import int64
 from numpy import int32
@@ -136,6 +137,10 @@ SKLEARN_DECISION_TREE_TABLE = {
     "ExtraTreeClassifier": ExtraTreeClassifier
 }
 
+SKLEARN_CLUSTERING_TABLE = {
+    "KMeans": KMeans,
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
@@ -158,4 +163,5 @@ EXPORTED_MODELS_PATH = {
     "LINEAR_MODEL": "exported_linear_models",
     "NEURAL_NETWORK": "exported_neural_networks",
     "DECISION_TREE": "exported_decision_trees",
+    "CLUSTERING": "exported_clusterings",
 }
