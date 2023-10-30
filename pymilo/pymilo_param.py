@@ -41,6 +41,7 @@ from sklearn.tree import ExtraTreeRegressor
 from sklearn.tree import ExtraTreeClassifier
 
 from sklearn.cluster import KMeans
+from sklearn.cluster import AffinityPropagation
 
 from numpy import int64
 from numpy import int32
@@ -139,6 +140,7 @@ SKLEARN_DECISION_TREE_TABLE = {
 
 SKLEARN_CLUSTERING_TABLE = {
     "KMeans": KMeans,
+    "AffinityPropagation": AffinityPropagation,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
