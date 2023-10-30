@@ -3,10 +3,12 @@ import pytest
 
 from kmeans import kmeans
 from affinity_propagation import affinity_propagation
+from mean_shift import mean_shift
 
 CLUSTERINGS = {
     "KMEANS": [kmeans],
     "AFFINITY_PROPAGATION": [affinity_propagation],
+    "MEAN_SHIFT": [mean_shift],
 }
 
 @pytest.fixture(scope="session", autouse=True)
