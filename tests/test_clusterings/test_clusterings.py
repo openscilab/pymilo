@@ -8,6 +8,7 @@ from dbscan import dbscan
 from optics import optics
 from spectral_clustering import spectral_clustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
+from hierarchical_clustering.agglomerative_clustering import agglomerative_clustering
 
 CLUSTERINGS = {
     "KMEANS": [kmeans],
@@ -17,6 +18,7 @@ CLUSTERINGS = {
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture],
+    "HIERARCHICAL_CLUSTERING":[agglomerative_clustering],
 }
 
 @pytest.fixture(scope="session", autouse=True)
