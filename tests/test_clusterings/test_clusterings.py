@@ -5,12 +5,14 @@ from kmeans import kmeans
 from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
+from optics import optics
 
 CLUSTERINGS = {
     "KMEANS": [kmeans],
     "AFFINITY_PROPAGATION": [affinity_propagation],
     "MEAN_SHIFT": [mean_shift],
     "DBSCAN": [dbscan],
+    "OPTICS": [optics],
 }
 
 @pytest.fixture(scope="session", autouse=True)
