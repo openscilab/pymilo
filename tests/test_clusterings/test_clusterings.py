@@ -6,6 +6,7 @@ from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
 from optics import optics
+from spectral_clustering import spectral_clustering
 
 CLUSTERINGS = {
     "KMEANS": [kmeans],
@@ -13,6 +14,7 @@ CLUSTERINGS = {
     "MEAN_SHIFT": [mean_shift],
     "DBSCAN": [dbscan],
     "OPTICS": [optics],
+    "SPECTRAL_CLUSTERING": [spectral_clustering],
 }
 
 @pytest.fixture(scope="session", autouse=True)
