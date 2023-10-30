@@ -43,6 +43,7 @@ from sklearn.tree import ExtraTreeClassifier
 from sklearn.cluster import KMeans
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift
+from sklearn.cluster import SpectralClustering
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import OPTICS
 
@@ -145,6 +146,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "KMeans": KMeans,
     "AffinityPropagation": AffinityPropagation,
     "MeanShift": MeanShift,
+    "SpectralClustering": SpectralClustering,
     "DBSCAN": DBSCAN,
     "OPTICS": OPTICS,
 }
