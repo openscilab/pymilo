@@ -2,9 +2,11 @@ import os
 import pytest
 
 from kmeans import kmeans
+from affinity_propagation import affinity_propagation
 
 CLUSTERINGS = {
     "KMEANS": [kmeans],
+    "AFFINITY_PROPAGATION": [affinity_propagation],
 }
 
 @pytest.fixture(scope="session", autouse=True)
