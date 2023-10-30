@@ -43,6 +43,7 @@ from sklearn.tree import ExtraTreeClassifier
 from sklearn.cluster import KMeans
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift
+from sklearn.cluster import DBSCAN
 
 from numpy import int64
 from numpy import int32
@@ -143,6 +144,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "KMeans": KMeans,
     "AffinityPropagation": AffinityPropagation,
     "MeanShift": MeanShift,
+    "DBSCAN": DBSCAN,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
