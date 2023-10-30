@@ -7,6 +7,7 @@ from mean_shift import mean_shift
 from dbscan import dbscan
 from optics import optics
 from spectral_clustering import spectral_clustering
+from gaussian_mixture.gaussian_mixture import gaussian_mixture
 
 CLUSTERINGS = {
     "KMEANS": [kmeans],
@@ -15,6 +16,7 @@ CLUSTERINGS = {
     "DBSCAN": [dbscan],
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
+    "GAUSSIAN_MIXTURE": [gaussian_mixture],
 }
 
 @pytest.fixture(scope="session", autouse=True)
