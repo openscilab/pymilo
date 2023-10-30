@@ -46,6 +46,7 @@ from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import OPTICS
+from sklearn.mixture import GaussianMixture
 
 from numpy import int64
 from numpy import int32
@@ -149,6 +150,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "SpectralClustering": SpectralClustering,
     "DBSCAN": DBSCAN,
     "OPTICS": OPTICS,
+    "GaussianMixture": GaussianMixture,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
