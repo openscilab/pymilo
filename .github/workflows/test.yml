@@ -44,7 +44,7 @@ jobs:
         run: |
           python -m vulture pymilo/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
           python -m bandit -r pymilo -s B311
-          python -m pydocstyle 
+          python -m pydocstyle -v
         if: matrix.python-version == env.TEST_PYTHON_VERSION
       - name: Version check
         run: |
