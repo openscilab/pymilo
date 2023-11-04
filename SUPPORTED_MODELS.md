@@ -259,4 +259,39 @@
 		<td><code>Kmeans</code></td>
         <td>Kmeans</td>
 	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Affinity Propagation</code></td>
+        <td></td>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>DBScan</code></td>
+        <td></td>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Mean Shift</code></td>
+        <td></td>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Optics</code></td>
+        <td></td>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Spectral Clustering</code></td>
+        <td></td>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Agglomerative Clustering</code></td>
+        <td>Hierarchial Clustering</td>
+	</tr>
+	<tr align="center">
+		<td>Scikit Learn</td>
+		<td><code>Gaussian Mixture</code></td>
+        <td>Gaussian Mixture</td>
+	</tr>
 </table>
