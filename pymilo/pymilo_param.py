@@ -41,6 +41,13 @@ from sklearn.tree import ExtraTreeRegressor
 from sklearn.tree import ExtraTreeClassifier
 
 from sklearn.cluster import KMeans
+from sklearn.cluster import AffinityPropagation
+from sklearn.cluster import MeanShift
+from sklearn.cluster import SpectralClustering
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import OPTICS
+from sklearn.mixture import GaussianMixture
 
 from numpy import int64
 from numpy import int32
@@ -139,6 +146,13 @@ SKLEARN_DECISION_TREE_TABLE = {
 
 SKLEARN_CLUSTERING_TABLE = {
     "KMeans": KMeans,
+    "AffinityPropagation": AffinityPropagation,
+    "MeanShift": MeanShift,
+    "SpectralClustering": SpectralClustering,
+    "AgglomerativeClustering": AgglomerativeClustering,
+    "DBSCAN": DBSCAN,
+    "OPTICS": OPTICS,
+    "GaussianMixture": GaussianMixture,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {

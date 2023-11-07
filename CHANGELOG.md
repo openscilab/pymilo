@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `GaussianMixture` model
+- `OPTICS` model
+- `DBSCAN` model
+- `AgglomerativeClustering` model
+- `SpectralClustering` model
+- `MeanShift` model 
+- `AffinityPropagation` model
 - `Kmeans` model
 - Clustering models test runner
 - Clustering chain 
