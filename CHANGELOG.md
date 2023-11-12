@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Clustering data set preparation added to `data_exporter.py`
 - Clustering params initialized in `pymilo_param`
 - Clustering support added to `pymilo_func.py`
+- `Python 3.12` added to `test.yml`
 ## [0.3] - 2023-09-27
 ### Added
 - scikit-learn decision tree models
