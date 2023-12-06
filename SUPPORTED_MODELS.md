@@ -194,27 +194,27 @@
 	</tr>   
 </table>
 
-## Neural Networks
+### Neural Networks
 <table>
 	<tr align="center">
-		<th>Library</th>
+		<th>ID</th>
 		<th>Model Name</th>
-        <th>Category</th>
+        <th>PyMilo Version</th>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>1</td>
 		<td><code>Multi Layer Perceptron Regression</code></td>
-        <td>MLP</td>
+        <td>>=0.2</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>2</td>
 		<td><code>Multi Layer Perceptron Classifier</code></td>
-        <td>MLP</td>
+        <td>>=0.2</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>3</td>
 		<td><code>Bernoulli RBM</code></td>
-        <td>Bernoulli RBM</td>
+        <td>>=0.2</td>
 	</tr>
 </table>
 
