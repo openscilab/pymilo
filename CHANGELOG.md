@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Python 3.12` added to `test.yml`
 - `dev-requirements.txt` updated
 - Code quality badges added to `README.md`
+- `SUPPORTED_MODELS.md` updated
 ## [0.3] - 2023-09-27
 ### Added
 - scikit-learn decision tree models
