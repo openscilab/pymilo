@@ -247,51 +247,51 @@
 	</tr>
 </table>
 
-## Clustering Models
+### Clustering Models
 <table>
 	<tr align="center">
-		<th>Library</th>
+		<th>ID</th>
 		<th>Model Name</th>
-        <th>Category</th>
+		<th>PyMilo Version</th>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>1</td>
 		<td><code>Kmeans</code></td>
-        <td>Kmeans</td>
+        <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>2</td>
 		<td><code>Affinity Propagation</code></td>
-        <td></td>
+        <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>3</td>
 		<td><code>DBScan</code></td>
-        <td></td>
+        <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>4</td>
 		<td><code>Mean Shift</code></td>
-        <td></td>
+        <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>5</td>
 		<td><code>Optics</code></td>
-        <td></td>
+        <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>6</td>
 		<td><code>Spectral Clustering</code></td>
-        <td></td>
+        <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>7</td>
 		<td><code>Agglomerative Clustering</code></td>
-        <td>Hierarchial Clustering</td>
+        <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>8</td>
 		<td><code>Gaussian Mixture</code></td>
-        <td>Gaussian Mixture</td>
+        <td>>=0.4</td>
 	</tr>
 </table>
