@@ -1,6 +1,18 @@
-# Supported ML Models
-## Scikit-Learn 
-### Linear Models
+# Supported Models
+
+### Last Update: 2023-12-06
+
+## Table of contents
+
+* **[Scikit-Learn](#scikit-learn)**
+	* [Linear Models](#scikit-learn-linear)
+	* [Neural Networks](#scikit-learn-nn)
+	* [Decision Trees](#scikit-learn-trees)
+	* [Clustering Models](#scikit-learn-clustering)
+
+<h2 id="scikit-learn">Scikit-Learn</h2> 
+<h3 id="scikit-learn-linear">Linear Models</h3>
+
 <table>
 	<tr align="center">
 		<th>ID</th>
@@ -194,7 +206,7 @@
 	</tr>   
 </table>
 
-### Neural Networks
+<h3 id="scikit-learn-nn">Neural Networks</h3>
 <table>
 	<tr align="center">
 		<th>ID</th>
@@ -218,7 +230,7 @@
 	</tr>
 </table>
 
-### Decision Trees 
+<h3 id="scikit-learn-trees">Decision Trees</h3> 
 <table>
 	<tr align="center">
 		<th>ID</th>
@@ -247,7 +259,7 @@
 	</tr>
 </table>
 
-### Clustering Models
+<h3 id="scikit-learn-clustering">Clustering Models</h3>
 <table>
 	<tr align="center">
 		<th>ID</th>
