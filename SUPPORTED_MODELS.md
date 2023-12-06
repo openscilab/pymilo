@@ -218,32 +218,32 @@
 	</tr>
 </table>
 
-## Decision Trees 
+### Decision Trees 
 <table>
 	<tr align="center">
-		<th>Library</th>
+		<th>ID</th>
 		<th>Model Name</th>
-        <th>Category</th>
+        <th>PyMilo Version</th>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>1</td>
 		<td><code>Decision Tree Regressor</code></td>
-        <td>Decision Tree</td>
+        <td>>=0.3</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>2</td>
 		<td><code>Decision Tree Classifier</code></td>
-        <td>Decision Tree</td>
+        <td>>=0.3</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>3</td>
 		<td><code>Extra Tree Regressor</code></td>
-        <td>Extra Tree</td>
+        <td>>=0.3</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>4</td>
 		<td><code>Extra Tree Classifier</code></td>
-        <td>Extra Tree</td>
+        <td>>=0.3</td>
 	</tr>
 </table>
 
