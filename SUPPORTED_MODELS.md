@@ -1,197 +1,197 @@
 # Supported ML Models
-## Linear Models
+## Scikit-Learn 
+### Linear Models
 <table>
 	<tr align="center">
-		<th>Library</th>
+		<th>ID</th>
 		<th>Model Name</th>
-        <th>Category</th>
+		<th>PyMilo Version</th>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
-		<td><code>Linear Regressor</code></td>
-        <td>Linear</td>
+		<td>1</td>
+		<td><b>Linear Regressor</b></td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>2</td>
 		<td><code>Ridge Regressor</code></td>
-        <td>Ridge</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>3</td>
 		<td><code>Ridge Classifier</code></td>
-        <td>Ridge</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>4</td>
 		<td><code>Ridge Regressor CV</code></td>
-        <td>Ridge</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>5</td>
 		<td><code>Ridge Classifier CV</code></td>
-        <td>Ridge</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>6</td>
 		<td><code>Lasso</code></td>
-        <td>Lasso</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>7</td>
 		<td><code>Lasso CV</code></td>
-        <td>Lasso</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>8</td>
 		<td><code>Lasso Lars</code></td>
-        <td>Lasso Lars</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>9</td>
 		<td><code>Lasso Lars CV</code></td>
-        <td>Lasso Lars</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
-		<td>Scikit Learn</td>
+		<td>10</td>
 		<td><code>Lasso Lars IC</code></td>
-        <td>Lasso Lars</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>11</td>
 		<td><code>Multi Task Lasso</code></td>
-        <td>Lasso</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>12</td>
 		<td><code>Multi Task Lasso CV</code></td>
-        <td>Lasso Lars</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>13</td>
 		<td><code>Elastic Net</code></td>
-        <td>Elastic Net</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>14</td>
 		<td><code>Elastic Net CV</code></td>
-        <td>Elastic Net</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>15</td>
 		<td><code>Multi Task Elastic Net</code></td>
-        <td>Multi Class Elastic Net</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>16</td>
 		<td><code>Multi Task Elastic Net CV</code></td>
-        <td>Multi Class Elastic Net</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>17</td>
 		<td><code>Orthogonal Matching Pursuit</code></td>
-        <td>OMP</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>18</td>
 		<td><code>Orthogonal Matching Pursuit CV</code></td>
-        <td>OMP</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>19</td>	
 		<td><code>Bayesian Regressor</code></td>
-        <td>Bayesian</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>20</td>
 		<td><code>Automatic Relevance Determination Regressor</code></td>
-        <td>Bayesian</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>21</td>
 		<td><code>Logistic Regressor</code></td>
-        <td>Logistic</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>22</td>
 		<td><code>Logistic Regressor CV</code></td>
-        <td>Logistic</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>23</td>
 		<td><code>Tweedie Regressor</code></td>
-        <td>Generalized Linear Model</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>24</td>
 		<td><code>Poisson Regressor</code></td>
-        <td>Generalized Linear Model</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>25</td>
 		<td><code>Gamma Regressor</code></td>
-        <td>Generalized Linear Model</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>26</td>
 		<td><code>SGD Regressor</code></td>
-        <td>SGD</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>27</td>
 		<td><code>SGD Classifier</code></td>
-        <td>SGD</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>28</td>
 		<td><code>SGD oneclass SVM</code></td>
-        <td>SGD</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>29</td>
 		<td><code>Perceptron</code></td>
-        <td>Perceptron</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>30</td>
 		<td><code>Passive Aggressive Regressor</code></td>
-        <td>Passive Aggressive</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>31</td>
 		<td><code>Passive Aggressive Classifier</code></td>
-        <td>Passive Aggressive</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>32</td>
 		<td><code>OMP</code></td>
-        <td>OMP</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>33</td>
 		<td><code>OMP CV</code></td>
-        <td>OMP</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>34</td>
 		<td><code>Ransac Regressor</code></td>
-        <td>Robustness</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>35</td>
 		<td><code>Theil Regressor</code></td>
-        <td>Robustness</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>36</td>
 		<td><code>Huber Regressor</code></td>
-        <td>Robustness</td>
+        <td>>=0.1</td>
 	</tr>
     <tr align="center">
-		<td>Scikit Learn</td>
+		<td>37</td>
 		<td><code>Quantile Regressor</code></td>
-        <td>Quantile</td>
-	</tr>
-    
+        <td>>=0.1</td>
+	</tr>   
 </table>
 
 ## Neural Networks
