@@ -16,7 +16,7 @@ EXCEPTION_TESTS = {
 }
 
 def test_full():
-    for category in EXCEPTION_TESTS.keys():
+    for category in EXCEPTION_TESTS:
         category_all_test_pass = True
         for test in EXCEPTION_TESTS[category]:
             category_all_test_pass = category_all_test_pass and test()

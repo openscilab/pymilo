@@ -25,6 +25,6 @@ def reset_exported_models_directory():
             os.remove(json_file)
 
 def test_full():
-    for category in DECISION_TREES.keys():
+    for category in DECISION_TREES:
         for model in DECISION_TREES[category]:
             model()
