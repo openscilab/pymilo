@@ -38,7 +38,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
         :return: pymilo serialized output of label_binarizer object
         """
         data = label_binarizer.__dict__
-        for key in data.keys():
+        for key in data:
             if isinstance(data[key], np.ndarray):
                 data[key] = data[key].tolist()
         return data
@@ -76,6 +76,6 @@ class LabelBinarizerTransporter(AbstractTransporter):
         """
         raw_lb = KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION["_label_binarizer"](
         )
-        for item in content.keys():
+        for item in content:
             setattr(raw_lb, item, content[item])
         return raw_lb

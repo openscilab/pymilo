@@ -33,7 +33,7 @@ def is_neural_network(model):
     :return: check result as bool
     """
     if isinstance(model, str):
-        return model in SKLEARN_NEURAL_NETWORK_TABLE.keys()
+        return model in SKLEARN_NEURAL_NETWORK_TABLE
     else:
         return type(model) in SKLEARN_NEURAL_NETWORK_TABLE.values()
 
@@ -85,7 +85,7 @@ def serialize_neural_network(neural_network_object):
     :type neural_network_object: any sklearn neural network model
     :return: the serialized json string of the given neural network model
     """
-    for transporter in NEURAL_NETWORK_CHAIN.keys():
+    for transporter in NEURAL_NETWORK_CHAIN:
         NEURAL_NETWORK_CHAIN[transporter].transport(
             neural_network_object, Command.SERIALIZE)
     return neural_network_object.__dict__
@@ -102,10 +102,10 @@ def deserialize_neural_network(neural_network):
     raw_model = SKLEARN_NEURAL_NETWORK_TABLE[neural_network.type]()
     data = neural_network.data
 
-    for transporter in NEURAL_NETWORK_CHAIN.keys():
+    for transporter in NEURAL_NETWORK_CHAIN:
         NEURAL_NETWORK_CHAIN[transporter].transport(
             neural_network, Command.DESERIALZIE)
-    for item in data.keys():
+    for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
 

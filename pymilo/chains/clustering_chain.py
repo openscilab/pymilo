@@ -25,7 +25,7 @@ def is_clusterer(model):
     :return: check result as bool
     """
     if isinstance(model, str):
-        return model in SKLEARN_CLUSTERING_TABLE.keys()
+        return model in SKLEARN_CLUSTERING_TABLE
     else:
         return type(model) in SKLEARN_CLUSTERING_TABLE.values()
 
@@ -77,7 +77,7 @@ def serialize_clusterer(clusterer_object):
     :type clusterer_object: any sklearn clustering model
     :return: the serialized json string of the given clusterer
     """
-    for transporter in CLUSTERING_CHAIN.keys():
+    for transporter in CLUSTERING_CHAIN:
         CLUSTERING_CHAIN[transporter].transport(
             clusterer_object, Command.SERIALIZE)
     return clusterer_object.__dict__
@@ -94,10 +94,10 @@ def deserialize_clusterer(clusterer):
     raw_model = SKLEARN_CLUSTERING_TABLE[clusterer.type]()
     data = clusterer.data
 
-    for transporter in CLUSTERING_CHAIN.keys():
+    for transporter in CLUSTERING_CHAIN:
         CLUSTERING_CHAIN[transporter].transport(
             clusterer, Command.DESERIALZIE)
-    for item in data.keys():
+    for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
 
