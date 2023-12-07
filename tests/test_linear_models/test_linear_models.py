@@ -123,7 +123,7 @@ def reset_exported_models_directory():
             os.remove(json_file)
 
 def test_full():
-    for category in LINEAR_MODELS.keys():
+    for category in LINEAR_MODELS:
         for model in LINEAR_MODELS[category]:
             if isinstance(model, tuple):
                 func, model_name = model

@@ -109,7 +109,7 @@ class AbstractTransporter(Transporter):
         if command == Command.SERIALIZE:
             # request is a sklearn model
             data = request.__dict__
-            for key in data.keys():
+            for key in data:
                 if self.bypass(data[key]):
                     continue  # by-pass!!
                 data[key] = self.serialize(
@@ -125,7 +125,7 @@ class AbstractTransporter(Transporter):
             else:
                 data = request.data
                 model_type = request.type
-            for key in data.keys():
+            for key in data:
                 data[key] = self.deserialize(data, key, model_type)
             return
 

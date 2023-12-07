@@ -35,6 +35,6 @@ def reset_exported_models_directory():
             os.remove(json_file)
 
 def test_full():
-    for category in CLUSTERINGS.keys():
+    for category in CLUSTERINGS:
         for model in CLUSTERINGS[category]:
             model()

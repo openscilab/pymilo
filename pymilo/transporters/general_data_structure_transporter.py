@@ -23,7 +23,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: fully serializable dictionary
         """
         black_list_key_values = []
-        for key in dictionary.keys():
+        for key in dictionary:
             # check inner field as a np.ndarray
             if isinstance(dictionary[key], np.ndarray):
                 dictionary[key] = self.ndarray_to_list(dictionary[key])
@@ -191,7 +191,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         for item in content:
             if is_primitive(item):
                 new_list.append(item)
-            elif "np-type" in item.keys():
+            elif "np-type" in item:
                 new_list.append(
                     NUMPY_TYPE_DICT[item["np-type"]](item['value']))
             else:
@@ -286,7 +286,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         else:
             if is_primitive(list_item):
                 return list_item
-            elif isinstance(list_item, dict) and "np-type" in list_item.keys():
+            elif isinstance(list_item, dict) and "np-type" in list_item:
                 return NUMPY_TYPE_DICT[list_item["np-type"]
                                        ](list_item['value'])
             else:

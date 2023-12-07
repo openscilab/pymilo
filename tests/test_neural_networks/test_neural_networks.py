@@ -25,6 +25,6 @@ def reset_exported_models_directory():
             os.remove(json_file)
 
 def test_full():
-    for category in NEURAL_NETWORKS.keys():
+    for category in NEURAL_NETWORKS:
         for model in NEURAL_NETWORKS[category]:
             model()

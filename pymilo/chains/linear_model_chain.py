@@ -31,7 +31,7 @@ def is_linear_model(model):
     :return: check result as bool
     """
     if isinstance(model, str):
-        return model in SKLEARN_LINEAR_MODEL_TABLE.keys()
+        return model in SKLEARN_LINEAR_MODEL_TABLE
     else:
         return type(model) in SKLEARN_LINEAR_MODEL_TABLE.values()
 
@@ -98,7 +98,7 @@ def serialize_linear_model(linear_model_object):
     :return: the serialized json string of the given linear model
     """
     # first serializing the inner linear models...
-    for key in linear_model_object.__dict__.keys():
+    for key in linear_model_object.__dict__:
         if is_linear_model(linear_model_object.__dict__[key]):
             linear_model_object.__dict__[key] = {
                 "inner-model-data": transport_linear_model(linear_model_object.__dict__[key], Command.SERIALIZE),
@@ -106,7 +106,7 @@ def serialize_linear_model(linear_model_object):
                 "by-pass": True
             }
     # now serializing non-linear model fields
-    for transporter in LINEAR_MODEL_CHAIN.keys():
+    for transporter in LINEAR_MODEL_CHAIN:
         LINEAR_MODEL_CHAIN[transporter].transport(
             linear_model_object, Command.SERIALIZE)
     return linear_model_object.__dict__
@@ -132,17 +132,17 @@ def deserialize_linear_model(linear_model, is_inner_model):
         data = linear_model.data
     # first deserializing the inner linear models(one depth inner linear
     # models have been deserialized -> TODO full depth).
-    for key in data.keys():
+    for key in data:
         if is_deserialized_linear_model(data[key]):
             data[key] = transport_linear_model({
                 "data": data[key]["inner-model-data"],
                 "type": data[key]["inner-model-type"]
             }, Command.DESERIALZIE, is_inner_model=True)
     # now deserializing non-linear models fields
-    for transporter in LINEAR_MODEL_CHAIN.keys():
+    for transporter in LINEAR_MODEL_CHAIN:
         LINEAR_MODEL_CHAIN[transporter].transport(
             linear_model, Command.DESERIALZIE, is_inner_model)
-    for item in data.keys():
+    for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
 

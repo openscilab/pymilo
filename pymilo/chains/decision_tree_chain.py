@@ -27,7 +27,7 @@ def is_decision_tree(model):
     :return: check result as bool
     """
     if isinstance(model, str):
-        return model in SKLEARN_DECISION_TREE_TABLE.keys()
+        return model in SKLEARN_DECISION_TREE_TABLE
     else:
         return type(model) in SKLEARN_DECISION_TREE_TABLE.values()
 
@@ -79,7 +79,7 @@ def serialize_decision_tree(decision_tree_object):
     :type decision_tree_object: any sklearn decision tree model
     :return: the serialized json string of the given decision tree model
     """
-    for transporter in DECISION_TREE_CHAIN.keys():
+    for transporter in DECISION_TREE_CHAIN:
         DECISION_TREE_CHAIN[transporter].transport(
             decision_tree_object, Command.SERIALIZE)
     return decision_tree_object.__dict__
@@ -96,10 +96,10 @@ def deserialize_decision_tree(decision_tree):
     raw_model = SKLEARN_DECISION_TREE_TABLE[decision_tree.type]()
     data = decision_tree.data
 
-    for transporter in DECISION_TREE_CHAIN.keys():
+    for transporter in DECISION_TREE_CHAIN:
         DECISION_TREE_CHAIN[transporter].transport(
             decision_tree, Command.DESERIALZIE)
-    for item in data.keys():
+    for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
 
