@@ -132,6 +132,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 | Neural networks &#x2705; | -  | 
 | Trees &#x2705; | -  | 
 | Clustering &#x274C; | -  | 
+| Naïve Bayes &#x274C; | -  | 
+| Support vector machines (SVMs) &#x274C; | -  | 
+| Nearest Neighbors &#x274C; | -  | 
 | Ensemble Models &#x274C; | - | 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
