@@ -51,9 +51,9 @@ hdbscan_support = False
 try:
     from sklearn.cluster import HDBSCAN
     hdbscan_support = True
-except BaseException:
-    hdbscan_support
-
+except:
+    print("HDBSCAN doesn't exist in this version of python.")
+    
 from sklearn.cluster import OPTICS
 from sklearn.mixture import GaussianMixture
 
