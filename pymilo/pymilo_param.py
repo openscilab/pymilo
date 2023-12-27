@@ -46,7 +46,14 @@ from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
-from sklearn.cluster import HDBSCAN
+
+hdbscan_support = False
+try:
+    from sklearn.cluster import HDBSCAN
+    hdbscan_support = True
+except BaseException:
+    hdbscan_support
+
 from sklearn.cluster import OPTICS
 from sklearn.mixture import GaussianMixture
 
