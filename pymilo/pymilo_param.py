@@ -159,7 +159,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "SpectralClustering": SpectralClustering,
     "AgglomerativeClustering": AgglomerativeClustering,
     "DBSCAN": DBSCAN,
-    "HDBSCAN": HDBSCAN,
+    "HDBSCAN": NOT_SUPPORTED if not hdbscan_support else HDBSCAN,
     "OPTICS": OPTICS,
     "GaussianMixture": GaussianMixture,
 }
