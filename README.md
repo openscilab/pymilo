@@ -35,7 +35,7 @@
 
 ## Overview
 <p align="justify">
-Pymilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way. By this, the exported model can be used in other environments, transferred across different platforms, and shared with others. Pymilo allows the users to export the models that are trained using popular Python libraries like scikit-learn, and then use them in deployment environments, or share them without exposing the underlying code or dependencies. The transparency of the exported models ensures reliability and safety for the end users, as it eliminates the risks of binary or pickle formats.
+PyMilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way. By this, the exported model can be used in other environments, transferred across different platforms, and shared with others. PyMilo allows the users to export the models that are trained using popular Python libraries like scikit-learn, and then use them in deployment environments, or share them without exposing the underlying code or dependencies. The transparency of the exported models ensures reliability and safety for the end users, as it eliminates the risks of binary or pickle formats.
 </p>
 <table>
     <tr>
@@ -132,6 +132,9 @@ Pymilo is an open source Python package that provides a simple, efficient, and s
 | Neural networks &#x2705; | -  | 
 | Trees &#x2705; | -  | 
 | Clustering &#x274C; | -  | 
+| Naïve Bayes &#x274C; | -  | 
+| Support vector machines (SVMs) &#x274C; | -  | 
+| Nearest Neighbors &#x274C; | -  | 
 | Ensemble Models &#x274C; | - | 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
