@@ -8,6 +8,7 @@ from ..pymilo_param import NUMPY_TYPE_DICT
 
 import numpy as np
 
+
 class TreeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle (pyi,pyx) Tree object."""
 
@@ -68,10 +69,10 @@ class TreeTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if (key == "tree_" and 
-            (model_type == "DecisionTreeRegressor" 
+        if (key == "tree_" and
+            (model_type == "DecisionTreeRegressor"
              or model_type == "DecisionTreeClassifier"
-             or model_type == "ExtraTreeRegressor" 
+             or model_type == "ExtraTreeRegressor"
              or model_type == "ExtraTreeClassifier"
              )):
             gdst = GeneralDataStructureTransporter()
