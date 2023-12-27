@@ -44,4 +44,9 @@ def reset_exported_models_directory():
 def test_full():
     for category in CLUSTERINGS:
         for model in CLUSTERINGS[category]:
+            if isinstance(model, tuple):
+                func, model_name = model
+                if func == None:
+                    print("Model: " + model_name + " is not supported in this python version.")
+                    continue
             model()
