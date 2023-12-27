@@ -8,7 +8,7 @@ from dbscan import dbscan
 
 try:
     from hdbscan import hdbscan
-except:
+except BaseException:
     print("HDBSCAN doesn't exist in this version of python.")
 
 from optics import optics
