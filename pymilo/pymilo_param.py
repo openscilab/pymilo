@@ -46,6 +46,7 @@ from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
+from sklearn.cluster import HDBSCAN
 from sklearn.cluster import OPTICS
 from sklearn.mixture import GaussianMixture
 
@@ -151,6 +152,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "SpectralClustering": SpectralClustering,
     "AgglomerativeClustering": AgglomerativeClustering,
     "DBSCAN": DBSCAN,
+    "HDBSCAN": HDBSCAN,
     "OPTICS": OPTICS,
     "GaussianMixture": GaussianMixture,
 }
