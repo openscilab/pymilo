@@ -15,12 +15,13 @@ from optics import optics
 from spectral_clustering import spectral_clustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
 from hierarchical_clustering.agglomerative_clustering import agglomerative_clustering
+from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 
 CLUSTERINGS = {
     "KMEANS": [kmeans],
     "AFFINITY_PROPAGATION": [affinity_propagation],
     "MEAN_SHIFT": [mean_shift],
-    "DBSCAN": [dbscan, hdbscan],
+    "DBSCAN": [dbscan, hdbscan if SKLEARN_CLUSTERING_TABLE["HDBSCAN"] != NOT_SUPPORTED else (None,"HDBSCAN")],
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture],
