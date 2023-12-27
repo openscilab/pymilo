@@ -120,7 +120,8 @@ def pymilo_classification_test(classifier, model_name, test_data):
     report_status(comparison_result, model_name)
     return comparison_result
 
-def pymilo_clustering_test(clusterer, model_name, x_test, support_prediction = False):
+
+def pymilo_clustering_test(clusterer, model_name, x_test, support_prediction=False):
     """
     Test the package's main structure in clustering task.
 
@@ -130,23 +131,24 @@ def pymilo_clustering_test(clusterer, model_name, x_test, support_prediction = F
     :type model_name: str
     :param x_test: data for testing
     :type x_test: np.ndarray or list
-    :param support_prediction: whether the given clusterer supports .predict function or 
+    :param support_prediction: whether the given clusterer supports .predict function or
     :type support_prediction: boolean
     :return: True if the test succeed
     """
     pre_pymilo_model = clusterer
     post_pymilo_model = pymilo_test(clusterer, model_name)
-    if(support_prediction):
+    if (support_prediction):
         pre_pymilo_model_y_pred = pre_pymilo_model.predict(x_test)
         post_pymilo_model_y_pred = post_pymilo_model.predict(x_test)
         mse = ((post_pymilo_model_y_pred - pre_pymilo_model_y_pred)**2).mean(axis=0)
         epsilon_error = 10**(-8)
-        return report_status(mse < epsilon_error, model_name) 
+        return report_status(mse < epsilon_error, model_name)
     else:
-        # TODO, apply peer to peer 
-        # Evaluation: peer to peer field type & value check 
+        # TODO, apply peer to peer
+        # Evaluation: peer to peer field type & value check
         return report_status(True, model_name)
-    
+
+
 def report_status(result, model_name):
     """
     Print status for each model.
