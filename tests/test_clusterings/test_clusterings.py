@@ -5,7 +5,12 @@ from kmeans import kmeans
 from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
-from hdbscan import hdbscan
+
+try:
+    from hdbscan import hdbscan
+except:
+    ""
+
 from optics import optics
 from spectral_clustering import spectral_clustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
