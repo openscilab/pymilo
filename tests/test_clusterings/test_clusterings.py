@@ -5,6 +5,7 @@ from kmeans import kmeans
 from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
+from hdbscan import hdbscan
 from optics import optics
 from spectral_clustering import spectral_clustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
@@ -14,7 +15,7 @@ CLUSTERINGS = {
     "KMEANS": [kmeans],
     "AFFINITY_PROPAGATION": [affinity_propagation],
     "MEAN_SHIFT": [mean_shift],
-    "DBSCAN": [dbscan],
+    "DBSCAN": [dbscan, hdbscan],
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture],
