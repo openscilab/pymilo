@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+from sklearn.preprocessing import LabelBinarizer
+from numpy import uint8
+from numpy import inf
+from numpy import float64
+from numpy import int32
+from numpy import int64
+from sklearn.mixture import GaussianMixture
+from sklearn.cluster import OPTICS
 from sklearn.linear_model import HuberRegressor
 from sklearn.linear_model import TheilSenRegressor
 from sklearn.linear_model import RANSACRegressor
@@ -51,19 +59,9 @@ hdbscan_support = False
 try:
     from sklearn.cluster import HDBSCAN
     hdbscan_support = True
-except:
+except BaseException:
     print("HDBSCAN doesn't exist in this version of python.")
-    
-from sklearn.cluster import OPTICS
-from sklearn.mixture import GaussianMixture
 
-from numpy import int64
-from numpy import int32
-from numpy import float64
-from numpy import inf
-from numpy import uint8
-
-from sklearn.preprocessing import LabelBinarizer
 
 PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
