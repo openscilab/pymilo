@@ -122,19 +122,19 @@ SKLEARN_LINEAR_MODEL_TABLE = {
     "ARDRegression": ARDRegression,
     "LogisticRegression": LogisticRegression,
     "LogisticRegressionCV": LogisticRegressionCV,
-    "TweedieRegressor": NOT_SUPPORTED if not glm_support['TweedieRegressor'] else TweedieRegressor,
-    "PoissonRegressor": NOT_SUPPORTED if not glm_support['PoissonRegressor'] else PoissonRegressor,
-    "GammaRegressor": NOT_SUPPORTED if not glm_support['GammaRegressor'] else GammaRegressor,
+    "TweedieRegressor": TweedieRegressor if glm_support['TweedieRegressor'] else NOT_SUPPORTED,
+    "PoissonRegressor": PoissonRegressor if glm_support['PoissonRegressor'] else NOT_SUPPORTED,
+    "GammaRegressor": GammaRegressor if glm_support['GammaRegressor'] else NOT_SUPPORTED,
     "SGDRegressor": SGDRegressor,
     "SGDClassifier": SGDClassifier,
-    "SGDOneClassSVM": NOT_SUPPORTED if not sgd_one_class_svm_support else SGDOneClassSVM,
+    "SGDOneClassSVM": SGDOneClassSVM if sgd_one_class_svm_support else NOT_SUPPORTED,
     "Perceptron": Perceptron,
     "PassiveAggressiveRegressor": PassiveAggressiveRegressor,
     "PassiveAggressiveClassifier": PassiveAggressiveClassifier,
     "RANSACRegressor": RANSACRegressor,
     "TheilSenRegressor": TheilSenRegressor,
     "HuberRegressor": HuberRegressor,
-    "QuantileRegressor": NOT_SUPPORTED if not quantile_regressor_support else QuantileRegressor,
+    "QuantileRegressor": QuantileRegressor if quantile_regressor_support else NOT_SUPPORTED,
 }
 
 SKLEARN_NEURAL_NETWORK_TABLE = {
@@ -157,7 +157,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "SpectralClustering": SpectralClustering,
     "AgglomerativeClustering": AgglomerativeClustering,
     "DBSCAN": DBSCAN,
-    "HDBSCAN": NOT_SUPPORTED if not hdbscan_support else HDBSCAN,
+    "HDBSCAN": HDBSCAN if hdbscan_support else NOT_SUPPORTED,
     "OPTICS": OPTICS,
     "GaussianMixture": GaussianMixture,
 }
