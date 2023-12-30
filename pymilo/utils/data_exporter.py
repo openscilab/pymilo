@@ -43,6 +43,7 @@ def prepare_simple_regression_datasets(threshold=20):
     diabetes_X, diabetes_y = datasets.load_diabetes(return_X_y=True)
     return _split_X_y(diabetes_X, diabetes_y, threshold)
 
+
 def prepare_simple_clustering_datasets():
     """
     Generate a dataset for clustering (the iris).
@@ -55,6 +56,7 @@ def prepare_simple_clustering_datasets():
     X = iris.data  # Features
     y = iris.target  # Target (labels)
     return X, y
+
 
 def prepare_logistic_regression_datasets(threshold=None):
     """

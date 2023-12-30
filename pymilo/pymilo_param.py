@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+from sklearn.preprocessing import LabelBinarizer
+from numpy import uint8
+from numpy import inf
+from numpy import float64
+from numpy import int32
+from numpy import int64
+from sklearn.mixture import GaussianMixture
+from sklearn.cluster import OPTICS
 from sklearn.linear_model import HuberRegressor
 from sklearn.linear_model import TheilSenRegressor
 from sklearn.linear_model import RANSACRegressor
@@ -46,16 +54,14 @@ from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import DBSCAN
-from sklearn.cluster import OPTICS
-from sklearn.mixture import GaussianMixture
 
-from numpy import int64
-from numpy import int32
-from numpy import float64
-from numpy import inf
-from numpy import uint8
+hdbscan_support = False
+try:
+    from sklearn.cluster import HDBSCAN
+    hdbscan_support = True
+except BaseException:
+    print("HDBSCAN doesn't exist in this version of python.")
 
-from sklearn.preprocessing import LabelBinarizer
 
 PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -116,19 +122,19 @@ SKLEARN_LINEAR_MODEL_TABLE = {
     "ARDRegression": ARDRegression,
     "LogisticRegression": LogisticRegression,
     "LogisticRegressionCV": LogisticRegressionCV,
-    "TweedieRegressor": NOT_SUPPORTED if not glm_support['TweedieRegressor'] else TweedieRegressor,
-    "PoissonRegressor": NOT_SUPPORTED if not glm_support['PoissonRegressor'] else PoissonRegressor,
-    "GammaRegressor": NOT_SUPPORTED if not glm_support['GammaRegressor'] else GammaRegressor,
+    "TweedieRegressor": TweedieRegressor if glm_support['TweedieRegressor'] else NOT_SUPPORTED,
+    "PoissonRegressor": PoissonRegressor if glm_support['PoissonRegressor'] else NOT_SUPPORTED,
+    "GammaRegressor": GammaRegressor if glm_support['GammaRegressor'] else NOT_SUPPORTED,
     "SGDRegressor": SGDRegressor,
     "SGDClassifier": SGDClassifier,
-    "SGDOneClassSVM": NOT_SUPPORTED if not sgd_one_class_svm_support else SGDOneClassSVM,
+    "SGDOneClassSVM": SGDOneClassSVM if sgd_one_class_svm_support else NOT_SUPPORTED,
     "Perceptron": Perceptron,
     "PassiveAggressiveRegressor": PassiveAggressiveRegressor,
     "PassiveAggressiveClassifier": PassiveAggressiveClassifier,
     "RANSACRegressor": RANSACRegressor,
     "TheilSenRegressor": TheilSenRegressor,
     "HuberRegressor": HuberRegressor,
-    "QuantileRegressor": NOT_SUPPORTED if not quantile_regressor_support else QuantileRegressor,
+    "QuantileRegressor": QuantileRegressor if quantile_regressor_support else NOT_SUPPORTED,
 }
 
 SKLEARN_NEURAL_NETWORK_TABLE = {
@@ -151,6 +157,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "SpectralClustering": SpectralClustering,
     "AgglomerativeClustering": AgglomerativeClustering,
     "DBSCAN": DBSCAN,
+    "HDBSCAN": HDBSCAN if hdbscan_support else NOT_SUPPORTED,
     "OPTICS": OPTICS,
     "GaussianMixture": GaussianMixture,
 }
