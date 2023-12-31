@@ -53,6 +53,7 @@ from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import FeatureAgglomeration
 from sklearn.cluster import DBSCAN
 
 hdbscan_support = False
@@ -156,6 +157,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "MeanShift": MeanShift,
     "SpectralClustering": SpectralClustering,
     "AgglomerativeClustering": AgglomerativeClustering,
+    "FeatureAgglomeration": FeatureAgglomeration,
     "DBSCAN": DBSCAN,
     "HDBSCAN": HDBSCAN if hdbscan_support else NOT_SUPPORTED,
     "OPTICS": OPTICS,
