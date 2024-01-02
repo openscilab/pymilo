@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """PyMilo Function transporter."""
 
+from ..utils.util import import_function
+from .transporter import AbstractTransporter
 from types import FunctionType
 from collections.abc import Iterable
 
@@ -11,8 +13,6 @@ try:
 except BaseException:
     print("couldn't import _ArrayFunctionDispatcher from numpy.")
 
-from .transporter import AbstractTransporter
-from ..utils.util import import_function
 
 class FunctionTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle function field transportation."""
@@ -32,7 +32,12 @@ class FunctionTransporter(AbstractTransporter):
         :return: pymilo serialized output of data[key]
         """
 
-        if isinstance(data[key], FunctionType) or (array_function_dispatcher_support and isinstance(data[key], _ArrayFunctionDispatcher)) :
+        if isinstance(
+                data[key],
+                FunctionType) or (
+                array_function_dispatcher_support and isinstance(
+                data[key],
+                _ArrayFunctionDispatcher)):
             function = data[key]
             data[key] = {
                 "function_name": function.__name__,
