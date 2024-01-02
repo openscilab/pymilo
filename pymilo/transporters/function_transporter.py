@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """PyMilo Function transporter."""
 
+from types import FunctionType
+from collections.abc import Iterable
 from .transporter import AbstractTransporter
-from ..utils.util import import_function, is_iterable
-import types
-import collections
-
+from ..utils.util import import_function
 
 class FunctionTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle function field transportation."""
@@ -50,7 +49,7 @@ class FunctionTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if isinstance(content, collections.abc.Iterable) and "function_name" in content:
+        if isinstance(content, Iterable) and "function_name" in content:
             return import_function(
                 content["function_module"],
                 content["function_name"]
