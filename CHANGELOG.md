@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `feature_request.yml` template
+- `config.yml` for issue template
 - `HDBSCAN` model
 - `GaussianMixture` model
 - `OPTICS` model
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Clustering models test runner
 - Clustering chain 
 ### Changed
+- Bug report template modified
 - Tests config modified
 - Clustering data set preparation added to `data_exporter.py`
 - Clustering params initialized in `pymilo_param`
