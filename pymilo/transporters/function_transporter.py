@@ -3,6 +3,14 @@
 
 from types import FunctionType
 from collections.abc import Iterable
+
+array_function_dispatcher_support = False
+try:
+    from numpy.core._multiarray_umath import _ArrayFunctionDispatcher
+    array_function_dispatcher_support = True
+except BaseException:
+    print("couldn't import _ArrayFunctionDispatcher from numpy.")
+
 from .transporter import AbstractTransporter
 from ..utils.util import import_function
 
@@ -23,7 +31,8 @@ class FunctionTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(data[key], types.FunctionType):
+
+        if isinstance(data[key], FunctionType) or (array_function_dispatcher_support and isinstance(data[key], _ArrayFunctionDispatcher)) :
             function = data[key]
             data[key] = {
                 "function_name": function.__name__,
