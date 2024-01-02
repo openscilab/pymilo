@@ -7,13 +7,13 @@ import types
 import collections
 
 class FunctionTransporter(AbstractTransporter):
-    """Customized PyMilo Transporter developed to handle function field serialization."""
+    """Customized PyMilo Transporter developed to handle function field transportation."""
 
     def serialize(self, data, key, model_type):
         """
         Serialize Function type fields.
 
-        Record the signature of the associated function in order to retrieve it accordingly.
+        Record associated function's name and it's parent module in order to retrieve it accordingly.
 
         :param data: the internal data dictionary of the given model
         :type data: dict
@@ -33,10 +33,7 @@ class FunctionTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        Deserialize the special _optimizer field of the SGDOptimizer.
-
-        The associated _optimizer field of the pymilo serialized model, is extracted through
-        it's previously serialized parameters.
+        Deserialize serialized function objects back to it's original function type object.
 
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
