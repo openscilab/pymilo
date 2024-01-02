@@ -3,6 +3,7 @@
 from numpy import ndarray
 import importlib
 
+
 def get_sklearn_type(model):
     """
     Return sklearn model type.
