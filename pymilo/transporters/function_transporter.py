@@ -31,7 +31,6 @@ class FunctionTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-
         if isinstance(
                 data[key],
                 FunctionType) or (
