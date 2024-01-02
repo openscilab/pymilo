@@ -92,6 +92,16 @@ def all_same(arr):
 
 
 def import_function(module_name, function_name):
+    """
+    Import function with name function_name from module called module_name.
+
+    :param module_name: module to import associated function from
+    :type module_name: str
+    :param function_name: associated function's name to get imported
+    :type function_name: str
+
+    :return: function
+    """
     module = importlib.import_module(module_name)
     function = getattr(module, function_name)
     return function
