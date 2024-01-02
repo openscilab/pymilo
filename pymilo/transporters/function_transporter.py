@@ -6,6 +6,7 @@ from ..utils.util import import_function, is_iterable
 import types
 import collections
 
+
 class FunctionTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle function field transportation."""
 
