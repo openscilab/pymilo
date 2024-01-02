@@ -15,6 +15,7 @@ from optics import optics
 from spectral_clustering import spectral_clustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
 from hierarchical_clustering.agglomerative_clustering import agglomerative_clustering
+from hierarchical_clustering.feature_agglomeration import feature_agglomeration
 from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 
 CLUSTERINGS = {
@@ -25,7 +26,7 @@ CLUSTERINGS = {
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture],
-    "HIERARCHICAL_CLUSTERING":[agglomerative_clustering],
+    "HIERARCHICAL_CLUSTERING":[agglomerative_clustering, feature_agglomeration],
 }
 
 @pytest.fixture(scope="session", autouse=True)
