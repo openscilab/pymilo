@@ -19,6 +19,7 @@ CHANGELOG_ITEMS = [
     "[{0}]:"]
 PARAMS_ITEMS = ['PYMILO_VERSION = "{0}"']
 META_ITEMS = ['% set version = "{0}" %']
+ISSUE_TEMPLATE_ITEMS = ["- PyMilo {0}"]
 
 FILES = {
     os.path.join("otherfiles", "meta.yaml"): META_ITEMS,
@@ -26,6 +27,7 @@ FILES = {
     "README.md": README_ITEMS,
     "CHANGELOG.md": CHANGELOG_ITEMS,
     os.path.join("pymilo", "pymilo_param.py"): PARAMS_ITEMS,
+    os.path.join(".github", "ISSUE_TEMPLATE", "bug_report.yml"): ISSUE_TEMPLATE_ITEMS,
 }
 
 TEST_NUMBER = len(FILES)
