@@ -96,9 +96,9 @@ def import_function(module_name, function_name):
     """
     Import function with name function_name from module called module_name.
 
-    :param module_name: module to import associated function from
+    :param module_name: module to import the function from
     :type module_name: str
-    :param function_name: associated function's name to get imported
+    :param function_name: function's name to get imported
     :type function_name: str
 
     :return: function
