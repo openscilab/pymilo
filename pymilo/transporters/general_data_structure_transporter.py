@@ -10,6 +10,15 @@ from .transporter import AbstractTransporter
 class GeneralDataStructureTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle fields with general datastructures."""
 
+    def serialize_tuple(self, tuple_field):
+        new_tuple = tuple()
+        for item in tuple_field:
+            if(isinstance(item, np.ndarray)):
+                new_tuple += (self.ndarray_to_list(item),)
+            else:
+                new_tuple += (item,)
+            return new_tuple
+        
     # dict serializer for Logistic regression CV
     def serialize_dict(self, dictionary):
         """
