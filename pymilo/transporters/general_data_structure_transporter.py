@@ -104,6 +104,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
+        
+        elif isinstance(data[key], tuple):
+            data[key] = self.serialize_tuple(data[key])
 
         return data[key]
 
