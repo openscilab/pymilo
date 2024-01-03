@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """utility module."""
 from numpy import ndarray
+import importlib
 
 
 def get_sklearn_type(model):
@@ -89,3 +90,19 @@ def all_same(arr):
     :return: bool
     """
     return all(x == arr[0] for x in arr)
+
+
+def import_function(module_name, function_name):
+    """
+    Import function with name function_name from module called module_name.
+
+    :param module_name: module to import the function from
+    :type module_name: str
+    :param function_name: function's name to get imported
+    :type function_name: str
+
+    :return: function
+    """
+    module = importlib.import_module(module_name)
+    function = getattr(module, function_name)
+    return function
