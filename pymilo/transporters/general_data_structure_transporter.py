@@ -18,7 +18,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         :param tuple_field: given tuple
         :type tuple_field: tuple
-        :return: serializable tuple 
+        :return: serializable tuple
         """
         new_tuple = tuple()
         for item in tuple_field:
