@@ -26,7 +26,7 @@ CLUSTERINGS = {
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture],
-    "HIERARCHICAL_CLUSTERING":[agglomerative_clustering, feature_agglomeration],
+    "HIERARCHICAL_CLUSTERING": [agglomerative_clustering, feature_agglomeration],
 }
 
 @pytest.fixture(scope="session", autouse=True)
