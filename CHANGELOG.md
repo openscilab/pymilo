@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `BayesianGaussianMixture` model
-- `serialize_tuple` method in `general_data_structure_transporter.py`
+- `serialize_tuple` method in `GeneralDataStructureTransporter`
 - `import_function` method in `util.py`
 - `Function` Transporter
 - `FeatureAgglomeration` model
