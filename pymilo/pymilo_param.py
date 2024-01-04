@@ -6,6 +6,7 @@ from numpy import inf
 from numpy import float64
 from numpy import int32
 from numpy import int64
+from sklearn.mixture import BayesianGaussianMixture
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import OPTICS
 from sklearn.linear_model import HuberRegressor
@@ -162,6 +163,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "HDBSCAN": HDBSCAN if hdbscan_support else NOT_SUPPORTED,
     "OPTICS": OPTICS,
     "GaussianMixture": GaussianMixture,
+    "BayesianGaussianMixture": BayesianGaussianMixture,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {

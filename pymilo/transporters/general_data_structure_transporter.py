@@ -10,6 +10,24 @@ from .transporter import AbstractTransporter
 class GeneralDataStructureTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle fields with general datastructures."""
 
+    def serialize_tuple(self, tuple_field):
+        """
+        Check for non-serializable fields in tuple and serialize them.
+
+            1. Serialize inner np.ndarray fields in tuple
+
+        :param tuple_field: given tuple
+        :type tuple_field: tuple
+        :return: serializable tuple
+        """
+        new_tuple = tuple()
+        for item in tuple_field:
+            if (isinstance(item, np.ndarray)):
+                new_tuple += (self.ndarray_to_list(item),)
+            else:
+                new_tuple += (item,)
+            return new_tuple
+
     # dict serializer for Logistic regression CV
     def serialize_dict(self, dictionary):
         """
@@ -51,12 +69,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         Serialize the general datastructures.
 
-            1. Handling numpy infinity(which is an issue in ransac model)
+            1. handling numpy infinity(which is an issue in ransac model)
             2. unserializable type numpy.int32
             3. unserializable type numpy.int64
             4. list type which may contain unserializable type numpy.int32|int64
             5. object of  unserializable numpy.ndarray class
             6. dictionary serialization
+            7. tuple serialization
 
         Serialize the data[key] of the given model which its type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
@@ -104,6 +123,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
+
+        elif isinstance(data[key], tuple):
+            data[key] = self.serialize_tuple(data[key])
 
         return data[key]
 
