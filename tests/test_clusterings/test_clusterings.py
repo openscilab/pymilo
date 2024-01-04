@@ -14,6 +14,7 @@ except BaseException:
 from optics import optics
 from spectral_clustering import spectral_clustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
+from gaussian_mixture.bayesian_gaussian_mixture import bayesian_gaussian_mixture
 from hierarchical_clustering.agglomerative_clustering import agglomerative_clustering
 from hierarchical_clustering.feature_agglomeration import feature_agglomeration
 from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
@@ -25,7 +26,7 @@ CLUSTERINGS = {
     "DBSCAN": [dbscan, hdbscan if SKLEARN_CLUSTERING_TABLE["HDBSCAN"] != NOT_SUPPORTED else (None,"HDBSCAN")],
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
-    "GAUSSIAN_MIXTURE": [gaussian_mixture],
+    "GAUSSIAN_MIXTURE": [gaussian_mixture, bayesian_gaussian_mixture],
     "HIERARCHICAL_CLUSTERING": [agglomerative_clustering, feature_agglomeration],
 }
 

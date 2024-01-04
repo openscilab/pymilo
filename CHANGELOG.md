@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `BayesianGaussianMixture` model
+- `serialize_tuple` method in `GeneralDataStructureTransporter`
 - `import_function` method in `util.py`
 - `Function` Transporter
 - `FeatureAgglomeration` model
@@ -21,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Clustering models test runner
 - Clustering chain 
 ### Changed
+- `GeneralDataStructureTransporter` updated
 - Tests config modified
 - Clustering data set preparation added to `data_exporter.py`
 - Clustering params initialized in `pymilo_param`
