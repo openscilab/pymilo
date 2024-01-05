@@ -36,5 +36,5 @@
 	4. Copy changelogs
 	5. Tag all related issues
 8. Bump!!
-9.  Close this version issues
+9. Close this version issues
 10. Close milestone
