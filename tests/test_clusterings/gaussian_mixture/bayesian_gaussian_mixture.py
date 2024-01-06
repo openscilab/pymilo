@@ -8,4 +8,4 @@ MODEL_NAME = "Bayesian Gaussian Mixture"
 def bayesian_gaussian_mixture():
     x, y = prepare_simple_clustering_datasets()
     bayesian_gaussian_mixture = BayesianGaussianMixture(n_components=2, random_state=42).fit(x, y)
-    pymilo_clustering_test(bayesian_gaussian_mixture, MODEL_NAME, x)
+    pymilo_clustering_test(bayesian_gaussian_mixture, MODEL_NAME, x, True)
