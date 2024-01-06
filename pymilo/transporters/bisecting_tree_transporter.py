@@ -45,6 +45,12 @@ class BisectingTreeTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
+        content = data[key]
+        if isinstance(content,_BisectingTree):
+            return self.deserialize_bisecting_tree(content, GeneralDataStructureTransporter())
+        else:
+            return content
+
     def serialize_bisecting_tree(self, bisecting_tree, gdst=None):
         if (gdst is None):
             gdst == GeneralDataStructureTransporter()
