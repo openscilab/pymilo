@@ -41,3 +41,16 @@ class BisectingTreeTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
+    def serialize_bisecting_tree(self, bisecting_tree, gdst=None):
+        if (gdst is None):
+            gdst == GeneralDataStructureTransporter()
+        data = bisecting_tree.__dict__
+        for key, value in data.items():
+            if (isinstance(value, _BisectingTree)):
+                data[key] = {
+                    'pymiloed_value': self.serialize_bisecting_tree(value, gdst),
+                    'pymiloed_model_type': "_BisectingTree"
+                }
+            else:
+                data[key] = gdst.serialize(data, key, str(_BisectingTree))
+        return data
