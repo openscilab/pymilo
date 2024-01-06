@@ -4,22 +4,23 @@ from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.function_transporter import FunctionTransporter
-from ..transporters.randomstate_transporter import RandomStateTransporter
-from ..transporters.bisecting_tree_transporter import BisectingTreeTransporter
 
-from ..pymilo_param import SKLEARN_CLUSTERING_TABLE
-
+from ..pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
 from traceback import format_exc
 
-
+bisecting_kmeans_support = True if SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED else False
 CLUSTERING_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "FunctionTransporter": FunctionTransporter(),
-    "RandomStateTransporter": RandomStateTransporter(),
-    "BisectingTreeTransporter": BisectingTreeTransporter(),
 }
+
+if bisecting_kmeans_support:
+    from ..transporters.randomstate_transporter import RandomStateTransporter
+    from ..transporters.bisecting_tree_transporter import BisectingTreeTransporter
+    CLUSTERING_CHAIN["RandomStateTransporter"] = RandomStateTransporter()
+    CLUSTERING_CHAIN["BisectingTreeTransporter"] = BisectingTreeTransporter()
 
 
 def is_clusterer(model):
