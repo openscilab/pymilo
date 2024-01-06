@@ -5,6 +5,7 @@ from ..transporters.transporter import Command
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.function_transporter import FunctionTransporter
 from ..transporters.randomstate_transporter import RandomStateTransporter
+from ..transporters.bisecting_tree_transporter import BisectingTreeTransporter
 
 from ..pymilo_param import SKLEARN_CLUSTERING_TABLE
 
@@ -17,6 +18,7 @@ CLUSTERING_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "FunctionTransporter": FunctionTransporter(),
     "RandomStateTransporter": RandomStateTransporter(),
+    "BisectingTreeTransporter": BisectingTreeTransporter(),
 }
 
 
