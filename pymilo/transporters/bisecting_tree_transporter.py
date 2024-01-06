@@ -54,3 +54,27 @@ class BisectingTreeTransporter(AbstractTransporter):
             else:
                 data[key] = gdst.serialize(data, key, str(_BisectingTree))
         return data
+
+    def deserialize_bisecting_tree(self, bisecting_tree_obj, gdst=None):
+        print("HERE: ", type(bisecting_tree_obj))
+        if (gdst is None):
+            gdst == GeneralDataStructureTransporter()
+        data = bisecting_tree_obj
+        for key, value in data.items():
+            if (
+                is_iterable(value) and
+                "pymiloed_model_type" in value and
+                    value["pymiloed_model_type"] == "_BisectingTree"):
+                data[key] = self.deserialize_bisecting_tree(value["pymiloed_value"], gdst)
+            else:
+                data[key] = gdst.deserialize(data, key, str(_BisectingTree))
+
+        center = data["center"]
+        indices = data["indices"]
+        score = data["score"]
+
+        reconstructed_bisecting_tree = _BisectingTree(center, indices, score)
+
+        for item in data.keys():
+            setattr(reconstructed_bisecting_tree, item, data[item])
+        return reconstructed_bisecting_tree
