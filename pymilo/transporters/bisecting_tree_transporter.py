@@ -49,7 +49,7 @@ class BisectingTreeTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if bisecting_tree_support and isinstance(content, _BisectingTree):
+        if bisecting_tree_support and is_pymilo_serialized_bisecting_tree(content):
             return self.deserialize_bisecting_tree(content, GeneralDataStructureTransporter())
         else:
             return content
@@ -67,12 +67,10 @@ class BisectingTreeTransporter(AbstractTransporter):
         if (gdst is None):
             gdst = GeneralDataStructureTransporter()
         data = bisecting_tree.__dict__
+        data["pymiloed_model_type"] = "_BisectingTree"
         for key, value in data.items():
             if (isinstance(value, _BisectingTree)):
-                data[key] = {
-                    'pymiloed_value': self.serialize_bisecting_tree(value, gdst),
-                    'pymiloed_model_type': "_BisectingTree"
-                }
+                data[key] = self.serialize_bisecting_tree(value, gdst)
             else:
                 data[key] = gdst.serialize(data, key, str(_BisectingTree))
         return data
@@ -91,11 +89,8 @@ class BisectingTreeTransporter(AbstractTransporter):
             gdst = GeneralDataStructureTransporter()
         data = bisecting_tree_obj
         for key, value in data.items():
-            if (
-                is_iterable(value) and
-                "pymiloed_model_type" in value and
-                    value["pymiloed_model_type"] == "_BisectingTree"):
-                data[key] = self.deserialize_bisecting_tree(value["pymiloed_value"], gdst)
+            if is_pymilo_serialized_bisecting_tree(value):
+                data[key] = self.deserialize_bisecting_tree(value, gdst)
             else:
                 data[key] = gdst.deserialize(data, key, str(_BisectingTree))
 
@@ -108,3 +103,14 @@ class BisectingTreeTransporter(AbstractTransporter):
         for item in data.keys():
             setattr(reconstructed_bisecting_tree, item, data[item])
         return reconstructed_bisecting_tree
+
+
+def is_pymilo_serialized_bisecting_tree(psbt):
+    """
+    Check whether the given object is a bisecting tree which is serialized by pymilo.
+
+    :param psbt: the pymilo serialized bisecting tree object
+    :type data: dict
+    :return: boolean
+    """
+    return is_iterable(psbt) and "pymiloed_model_type" in psbt and psbt["pymiloed_model_type"] == "_BisectingTree"
