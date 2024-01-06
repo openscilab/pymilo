@@ -74,7 +74,15 @@ class BisectingTreeTransporter(AbstractTransporter):
         return data
 
     def deserialize_bisecting_tree(self, bisecting_tree_obj, gdst=None):
-        print("HERE: ", type(bisecting_tree_obj))
+        """
+        Deserialize the bisecting_tree object recursively. 
+
+        :param bisecting_tree_obj: the bisecting_tree object which is going to get deserialized.
+        :type bisecting_tree_obj: dict
+        :param gdst: an instance of GeneralDataStructureTransporter class.
+        :type gdst: GeneralDataStructureTransporter
+        :return: _BisectingTree object generated from bisecting_tree_obj
+        """
         if (gdst is None):
             gdst == GeneralDataStructureTransporter()
         data = bisecting_tree_obj
