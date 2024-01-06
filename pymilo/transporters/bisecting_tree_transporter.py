@@ -3,7 +3,6 @@
 from sklearn.cluster._bisect_k_means import _BisectingTree
 
 from .transporter import AbstractTransporter
-from ..transporters.transporter import Command
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 from ..utils.util import is_iterable
 
