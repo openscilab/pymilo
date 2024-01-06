@@ -23,6 +23,10 @@ class BisectingTreeTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
+        if isinstance(data[key], _BisectingTree):
+            data[key] = self.serialize_bisecting_tree(data[key], GeneralDataStructureTransporter())
+        return data[key]
+
     def deserialize(self, data, key, model_type):
         """
         Deserialize _BisectingTree fields of the Decision Trees.
