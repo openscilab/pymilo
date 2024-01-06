@@ -14,11 +14,11 @@ from gaussian_mixture.bayesian_gaussian_mixture import bayesian_gaussian_mixture
 from hierarchical_clustering.agglomerative_clustering import agglomerative_clustering
 from hierarchical_clustering.feature_agglomeration import feature_agglomeration
 
-bisecting_kmeans_support = True if SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED else False 
+bisecting_kmeans_support = True if SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED else False
 if bisecting_kmeans_support:
     from bisecting_kmeans import bisecting_kmeans
-    
-hdbscan_support = True if SKLEARN_CLUSTERING_TABLE["HDBSCAN"] != NOT_SUPPORTED else False 
+
+hdbscan_support = True if SKLEARN_CLUSTERING_TABLE["HDBSCAN"] != NOT_SUPPORTED else False
 if hdbscan_support:
     from hdbscan import hdbscan
 
