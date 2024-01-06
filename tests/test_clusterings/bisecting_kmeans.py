@@ -2,7 +2,6 @@ from sklearn.cluster import BisectingKMeans
 
 from pymilo.utils.test_pymilo import pymilo_clustering_test
 from pymilo.utils.data_exporter import prepare_simple_clustering_datasets
-from pymilo.utils.test_pymilo import pymilo_test
 
 MODEL_NAME = "Bisecting KMeans"
 
