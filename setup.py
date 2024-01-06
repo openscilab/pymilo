@@ -39,7 +39,7 @@ setup(
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='PyMilo Development Team',
-    author_email='info@pycm.io',
+    author_email='info@openscilab.com',
     url='https://github.com/openscilab/pymilo',
     download_url='https://github.com/openscilab/pymilo/tarball/v0.3',
     keywords="python3 python machine_learning ML",

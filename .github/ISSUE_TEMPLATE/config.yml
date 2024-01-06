@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord
+    url: https://discord.com/invite/mtuMS8AjDS
+    about: Ask questions and discuss with other PyMilo community members 
+  - name: Website
+    url: https://openscilab.com/
+    about: Check out our website for more information
