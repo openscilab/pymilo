@@ -51,6 +51,15 @@ class BisectingTreeTransporter(AbstractTransporter):
             return content
 
     def serialize_bisecting_tree(self, bisecting_tree, gdst=None):
+        """
+        Serialize the bisecting_tree object recursively. 
+
+        :param bisecting_tree: the bisecting_tree object which is going to get serialized.
+        :type bisecting_tree: dict
+        :param gdst: an instance of GeneralDataStructureTransporter class.
+        :type gdst: GeneralDataStructureTransporter
+        :return: pymilo-serialized bisecting_tree
+        """
         if (gdst is None):
             gdst == GeneralDataStructureTransporter()
         data = bisecting_tree.__dict__
