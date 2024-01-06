@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 """PyMilo BisectingTree(sklearn.cluster._bisect_k_means) object transporter."""
-from sklearn.cluster._bisect_k_means import _BisectingTree
 
+from ..pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 from ..utils.util import is_iterable
+
+bisecting_tree_support = True if SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED else False
+if bisecting_tree_support:
+    from sklearn.cluster._bisect_k_means import _BisectingTree
 
 
 class BisectingTreeTransporter(AbstractTransporter):
@@ -22,7 +26,7 @@ class BisectingTreeTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(data[key], _BisectingTree):
+        if bisecting_tree_support and isinstance(data[key], _BisectingTree):
             data[key] = self.serialize_bisecting_tree(data[key], GeneralDataStructureTransporter())
         return data[key]
 
@@ -45,7 +49,7 @@ class BisectingTreeTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if isinstance(content, _BisectingTree):
+        if bisecting_tree_support and isinstance(content, _BisectingTree):
             return self.deserialize_bisecting_tree(content, GeneralDataStructureTransporter())
         else:
             return content
@@ -61,7 +65,7 @@ class BisectingTreeTransporter(AbstractTransporter):
         :return: pymilo-serialized bisecting_tree
         """
         if (gdst is None):
-            gdst == GeneralDataStructureTransporter()
+            gdst = GeneralDataStructureTransporter()
         data = bisecting_tree.__dict__
         for key, value in data.items():
             if (isinstance(value, _BisectingTree)):
@@ -84,7 +88,7 @@ class BisectingTreeTransporter(AbstractTransporter):
         :return: _BisectingTree object generated from bisecting_tree_obj
         """
         if (gdst is None):
-            gdst == GeneralDataStructureTransporter()
+            gdst = GeneralDataStructureTransporter()
         data = bisecting_tree_obj
         for key, value in data.items():
             if (
