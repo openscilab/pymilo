@@ -2,6 +2,7 @@ import os
 import pytest
 
 from kmeans import kmeans
+from bisecting_kmeans import bisecting_kmeans
 from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
@@ -20,7 +21,7 @@ from hierarchical_clustering.feature_agglomeration import feature_agglomeration
 from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 
 CLUSTERINGS = {
-    "KMEANS": [kmeans],
+    "KMEANS": [kmeans, bisecting_kmeans],
     "AFFINITY_PROPAGATION": [affinity_propagation],
     "MEAN_SHIFT": [mean_shift],
     "DBSCAN": [dbscan, hdbscan if SKLEARN_CLUSTERING_TABLE["HDBSCAN"] != NOT_SUPPORTED else (None,"HDBSCAN")],
