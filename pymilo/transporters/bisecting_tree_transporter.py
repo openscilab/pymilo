@@ -6,7 +6,7 @@ from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 from ..utils.util import is_iterable
 
-bisecting_tree_support = True if SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED else False
+bisecting_tree_support = SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED
 if bisecting_tree_support:
     from sklearn.cluster._bisect_k_means import _BisectingTree
 
@@ -67,7 +67,7 @@ class BisectingTreeTransporter(AbstractTransporter):
         if (gdst is None):
             gdst = GeneralDataStructureTransporter()
         data = bisecting_tree.__dict__
-        data["pymiloed_model_type"] = "_BisectingTree"
+        data["pymilo_model_type"] = "_BisectingTree"
         for key, value in data.items():
             if (isinstance(value, _BisectingTree)):
                 data[key] = self.serialize_bisecting_tree(value, gdst)
@@ -113,4 +113,8 @@ def is_pymilo_serialized_bisecting_tree(psbt):
     :type data: dict
     :return: boolean
     """
-    return is_iterable(psbt) and "pymiloed_model_type" in psbt and psbt["pymiloed_model_type"] == "_BisectingTree"
+    return (
+        is_iterable(psbt) and 
+        "pymilo_model_type" in psbt and 
+        psbt["pymilo_model_type"] == "_BisectingTree"
+    )
