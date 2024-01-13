@@ -62,14 +62,14 @@ try:
     from sklearn.cluster import BisectingKMeans
     bisecting_kmeans_support = True
 except BaseException:
-    print("BisectingKmeans doesn't exist in this version of python.")
+    print("BisectingKmeans doesn't exist in this version of scikit-learn")
 
 hdbscan_support = False
 try:
     from sklearn.cluster import HDBSCAN
     hdbscan_support = True
 except BaseException:
-    print("HDBSCAN doesn't exist in this version of python.")
+    print("HDBSCAN doesn't exist in this version of scikit-learn.")
 
 PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
