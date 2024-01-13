@@ -1,29 +1,32 @@
 import os
 import pytest
 
+from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
+
 from kmeans import kmeans
 from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
-
-try:
-    from hdbscan import hdbscan
-except BaseException:
-    print("HDBSCAN doesn't exist in this version of python.")
-
 from optics import optics
 from spectral_clustering import spectral_clustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
 from gaussian_mixture.bayesian_gaussian_mixture import bayesian_gaussian_mixture
 from hierarchical_clustering.agglomerative_clustering import agglomerative_clustering
 from hierarchical_clustering.feature_agglomeration import feature_agglomeration
-from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
+
+bisecting_kmeans_support = SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED
+if bisecting_kmeans_support:
+    from bisecting_kmeans import bisecting_kmeans
+
+hdbscan_support = SKLEARN_CLUSTERING_TABLE["HDBSCAN"] != NOT_SUPPORTED
+if hdbscan_support:
+    from hdbscan import hdbscan
 
 CLUSTERINGS = {
-    "KMEANS": [kmeans],
+    "KMEANS": [kmeans, bisecting_kmeans if bisecting_kmeans_support else (None,"BisectingKMeans")],
     "AFFINITY_PROPAGATION": [affinity_propagation],
     "MEAN_SHIFT": [mean_shift],
-    "DBSCAN": [dbscan, hdbscan if SKLEARN_CLUSTERING_TABLE["HDBSCAN"] != NOT_SUPPORTED else (None,"HDBSCAN")],
+    "DBSCAN": [dbscan, hdbscan if hdbscan_support else (None,"HDBSCAN")],
     "OPTICS": [optics],
     "SPECTRAL_CLUSTERING": [spectral_clustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture, bayesian_gaussian_mixture],

@@ -57,13 +57,19 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import FeatureAgglomeration
 from sklearn.cluster import DBSCAN
 
+bisecting_kmeans_support = False
+try:
+    from sklearn.cluster import BisectingKMeans
+    bisecting_kmeans_support = True
+except BaseException:
+    print("BisectingKmeans doesn't exist in this version of scikit-learn")
+
 hdbscan_support = False
 try:
     from sklearn.cluster import HDBSCAN
     hdbscan_support = True
 except BaseException:
-    print("HDBSCAN doesn't exist in this version of python.")
-
+    print("HDBSCAN doesn't exist in this version of scikit-learn.")
 
 PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -154,6 +160,7 @@ SKLEARN_DECISION_TREE_TABLE = {
 
 SKLEARN_CLUSTERING_TABLE = {
     "KMeans": KMeans,
+    "BisectingKMeans": BisectingKMeans if bisecting_kmeans_support else NOT_SUPPORTED,
     "AffinityPropagation": AffinityPropagation,
     "MeanShift": MeanShift,
     "SpectralClustering": SpectralClustering,

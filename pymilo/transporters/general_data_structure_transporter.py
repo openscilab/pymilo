@@ -26,7 +26,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_tuple += (self.ndarray_to_list(item),)
             else:
                 new_tuple += (item,)
-            return new_tuple
+        return new_tuple
 
     # dict serializer for Logistic regression CV
     def serialize_dict(self, dictionary):

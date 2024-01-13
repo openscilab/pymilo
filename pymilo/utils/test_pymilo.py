@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """pymilo test modules."""
 import os
+import copy
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
@@ -135,7 +136,7 @@ def pymilo_clustering_test(clusterer, model_name, x_test, support_prediction=Fal
     :type support_prediction: boolean
     :return: True if the test succeed
     """
-    pre_pymilo_model = clusterer
+    pre_pymilo_model = copy.deepcopy(clusterer)
     post_pymilo_model = pymilo_test(clusterer, model_name)
     if (support_prediction):
         pre_pymilo_model_y_pred = pre_pymilo_model.predict(x_test)
