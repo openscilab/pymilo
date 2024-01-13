@@ -110,7 +110,7 @@ def is_pymilo_serialized_bisecting_tree(psbt):
     Check whether the given object is a bisecting tree which is serialized by pymilo.
 
     :param psbt: the pymilo serialized bisecting tree object
-    :type data: dict
+    :type psbt: dict
     :return: boolean
     """
     return (
