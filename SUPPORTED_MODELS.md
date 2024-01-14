@@ -288,72 +288,67 @@
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>2</td>
+		<td>3</td>
 		<td><b>Mini Batch KMeans</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>3</td>
+		<td>4</td>
 		<td><b>Affinity Propagation</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>4</td>
+		<td>5</td>
 		<td><b>Mean Shift</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>5</td>
+		<td>6</td>
 		<td><b>Spectral Clustering</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>5</td>
+		<td>7</td>
 		<td><b>Spectral Biclustering</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>5</td>
+		<td>8</td>
 		<td><b>Spectral Coclustering</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>6</td>
+		<td>9</td>
 		<td><b>Agglomerative Clustering</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>7</td>
+		<td>10</td>
 		<td><b>Feature Agglomeration</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>8</td>
+		<td>11</td>
 		<td><b>DBScan</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>9</td>
+		<td>12</td>
 		<td><b>HDBScan</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>10</td>
+		<td>13</td>
 		<td><b>Optics</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>11</td>
-		<td><b>Birch</b></td>
-        <td>>=0.4</td>
-	</tr>
-	<tr align="center">
-		<td>12</td>
+		<td>14</td>
 		<td><b>Gaussian Mixture</b></td>
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
-		<td>13</td>
+		<td>15</td>
 		<td><b>Bayesian Gaussian Mixture</b></td>
         <td>>=0.4</td>
 	</tr>
