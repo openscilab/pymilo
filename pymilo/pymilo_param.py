@@ -77,7 +77,7 @@ except BaseException:
 PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 
-# Handle python 3.5.4 issues.
+
 glm_support = {
     'GammaRegressor': False,
     'PoissonRegressor': False,
@@ -94,7 +94,6 @@ except BaseException:
     pass
 
 
-# Handle python 3.6.8 issue
 sgd_one_class_svm_support = False
 try:
     from sklearn.linear_model import SGDOneClassSVM
@@ -103,8 +102,7 @@ except BaseException:
     pass
 
 
-# Handle python 3.5.4 issue
-quantile_regressor_support = False 
+quantile_regressor_support = False
 try:
     from sklearn.linear_model import QuantileRegressor
     quantile_regressor_support = True
