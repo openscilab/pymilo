@@ -50,6 +50,7 @@ from sklearn.tree import ExtraTreeRegressor
 from sklearn.tree import ExtraTreeClassifier
 
 from sklearn.cluster import KMeans
+from sklearn.cluster import MiniBatchKMeans
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
@@ -162,6 +163,7 @@ SKLEARN_DECISION_TREE_TABLE = {
 
 SKLEARN_CLUSTERING_TABLE = {
     "KMeans": KMeans,
+    "MiniBatchKMeans": MiniBatchKMeans,
     "BisectingKMeans": BisectingKMeans if bisecting_kmeans_support else NOT_SUPPORTED,
     "AffinityPropagation": AffinityPropagation,
     "MeanShift": MeanShift,
