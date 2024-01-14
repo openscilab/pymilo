@@ -4,11 +4,14 @@ import pytest
 from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 
 from kmeans import kmeans
+from minibatch_kmeans import minibatch_kmeans
 from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
 from optics import optics
-from spectral_clustering import spectral_clustering
+from spectral_clustering.spectral_clustering import spectral_clustering
+from spectral_clustering.spectral_biclustering import spectral_biclustering
+from spectral_clustering.spectral_coclustering import spectral_coclustering
 from gaussian_mixture.gaussian_mixture import gaussian_mixture
 from gaussian_mixture.bayesian_gaussian_mixture import bayesian_gaussian_mixture
 from hierarchical_clustering.agglomerative_clustering import agglomerative_clustering
@@ -23,12 +26,12 @@ if hdbscan_support:
     from hdbscan import hdbscan
 
 CLUSTERINGS = {
-    "KMEANS": [kmeans, bisecting_kmeans if bisecting_kmeans_support else (None,"BisectingKMeans")],
+    "KMEANS": [kmeans, bisecting_kmeans if bisecting_kmeans_support else (None,"BisectingKMeans"), minibatch_kmeans],
     "AFFINITY_PROPAGATION": [affinity_propagation],
     "MEAN_SHIFT": [mean_shift],
     "DBSCAN": [dbscan, hdbscan if hdbscan_support else (None,"HDBSCAN")],
     "OPTICS": [optics],
-    "SPECTRAL_CLUSTERING": [spectral_clustering],
+    "SPECTRAL_CLUSTERING": [spectral_clustering, spectral_biclustering, spectral_coclustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture, bayesian_gaussian_mixture],
     "HIERARCHICAL_CLUSTERING": [agglomerative_clustering, feature_agglomeration],
 }

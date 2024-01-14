@@ -50,9 +50,12 @@ from sklearn.tree import ExtraTreeRegressor
 from sklearn.tree import ExtraTreeClassifier
 
 from sklearn.cluster import KMeans
+from sklearn.cluster import MiniBatchKMeans
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
+from sklearn.cluster import SpectralBiclustering
+from sklearn.cluster import SpectralCoclustering
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import FeatureAgglomeration
 from sklearn.cluster import DBSCAN
@@ -62,19 +65,19 @@ try:
     from sklearn.cluster import BisectingKMeans
     bisecting_kmeans_support = True
 except BaseException:
-    print("BisectingKmeans doesn't exist in this version of scikit-learn")
+    pass
 
 hdbscan_support = False
 try:
     from sklearn.cluster import HDBSCAN
     hdbscan_support = True
 except BaseException:
-    print("HDBSCAN doesn't exist in this version of scikit-learn.")
+    pass
 
 PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 
-# Handle python 3.5.4 issues.
+
 glm_support = {
     'GammaRegressor': False,
     'PoissonRegressor': False,
@@ -88,24 +91,23 @@ try:
     from sklearn.linear_model import GammaRegressor
     glm_support['GammaRegressor'] = True
 except BaseException:
-    glm_support
+    pass
 
 
-# Handle python 3.6.8 issue
 sgd_one_class_svm_support = False
 try:
     from sklearn.linear_model import SGDOneClassSVM
     sgd_one_class_svm_support = True
 except BaseException:
-    sgd_one_class_svm_support
+    pass
 
 
-# Handle python 3.5.4 issue
-quantile_regressor_support = True
+quantile_regressor_support = False
 try:
     from sklearn.linear_model import QuantileRegressor
+    quantile_regressor_support = True
 except BaseException:
-    quantile_regressor_support = False
+    pass
 
 SKLEARN_LINEAR_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
@@ -160,10 +162,13 @@ SKLEARN_DECISION_TREE_TABLE = {
 
 SKLEARN_CLUSTERING_TABLE = {
     "KMeans": KMeans,
+    "MiniBatchKMeans": MiniBatchKMeans,
     "BisectingKMeans": BisectingKMeans if bisecting_kmeans_support else NOT_SUPPORTED,
     "AffinityPropagation": AffinityPropagation,
     "MeanShift": MeanShift,
     "SpectralClustering": SpectralClustering,
+    "SpectralBiclustering": SpectralBiclustering,
+    "SpectralCoclustering": SpectralCoclustering,
     "AgglomerativeClustering": AgglomerativeClustering,
     "FeatureAgglomeration": FeatureAgglomeration,
     "DBSCAN": DBSCAN,

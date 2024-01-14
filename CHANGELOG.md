@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `SpectralBiclustering` model
+- `SpectralCoclustering` model
+- `MiniBatchKMeans` model
 - `feature_request.yml` template
 - `config.yml` for issue template
 - `BayesianGaussianMixture` model
@@ -25,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Clustering models test runner
 - Clustering chain 
 ### Changed
+- Spectral Clustering test folder refactored
 - Bug report template modified
 - `GeneralDataStructureTransporter` updated
 - Tests config modified
