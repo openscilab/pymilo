@@ -303,6 +303,16 @@
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
+		<td>5</td>
+		<td><b>Spectral Biclustering</b></td>
+        <td>>=0.4</td>
+	</tr>
+	<tr align="center">
+		<td>5</td>
+		<td><b>Spectral Coclustering</b></td>
+        <td>>=0.4</td>
+	</tr>
+	<tr align="center">
 		<td>6</td>
 		<td><b>Agglomerative Clustering</b></td>
         <td>>=0.4</td>
