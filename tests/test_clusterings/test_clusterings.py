@@ -4,6 +4,7 @@ import pytest
 from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 
 from kmeans import kmeans
+from minibatch_kmeans import minibatch_kmeans
 from affinity_propagation import affinity_propagation
 from mean_shift import mean_shift
 from dbscan import dbscan
@@ -25,7 +26,7 @@ if hdbscan_support:
     from hdbscan import hdbscan
 
 CLUSTERINGS = {
-    "KMEANS": [kmeans, bisecting_kmeans if bisecting_kmeans_support else (None,"BisectingKMeans")],
+    "KMEANS": [kmeans, bisecting_kmeans if bisecting_kmeans_support else (None,"BisectingKMeans"), minibatch_kmeans],
     "AFFINITY_PROPAGATION": [affinity_propagation],
     "MEAN_SHIFT": [mean_shift],
     "DBSCAN": [dbscan, hdbscan if hdbscan_support else (None,"HDBSCAN")],
