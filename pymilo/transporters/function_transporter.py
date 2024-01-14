@@ -11,7 +11,7 @@ try:
     from numpy.core._multiarray_umath import _ArrayFunctionDispatcher
     array_function_dispatcher_support = True
 except BaseException:
-    array_function_dispatcher_support
+    pass
 
 
 class FunctionTransporter(AbstractTransporter):

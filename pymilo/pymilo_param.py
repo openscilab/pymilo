@@ -65,14 +65,14 @@ try:
     from sklearn.cluster import BisectingKMeans
     bisecting_kmeans_support = True
 except BaseException:
-    bisecting_kmeans_support
+    pass
 
 hdbscan_support = False
 try:
     from sklearn.cluster import HDBSCAN
     hdbscan_support = True
 except BaseException:
-    hdbscan_support
+    pass
 
 PYMILO_VERSION = "0.3"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -91,7 +91,7 @@ try:
     from sklearn.linear_model import GammaRegressor
     glm_support['GammaRegressor'] = True
 except BaseException:
-    glm_support
+    pass
 
 
 # Handle python 3.6.8 issue
@@ -100,15 +100,16 @@ try:
     from sklearn.linear_model import SGDOneClassSVM
     sgd_one_class_svm_support = True
 except BaseException:
-    sgd_one_class_svm_support
+    pass
 
 
 # Handle python 3.5.4 issue
-quantile_regressor_support = True
+quantile_regressor_support = False 
 try:
     from sklearn.linear_model import QuantileRegressor
+    quantile_regressor_support = True
 except BaseException:
-    quantile_regressor_support = False
+    pass
 
 SKLEARN_LINEAR_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
