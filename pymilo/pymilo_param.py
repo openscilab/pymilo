@@ -53,6 +53,8 @@ from sklearn.cluster import KMeans
 from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import MeanShift
 from sklearn.cluster import SpectralClustering
+from sklearn.cluster import SpectralBiclustering
+from sklearn.cluster import SpectralCoclustering
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.cluster import FeatureAgglomeration
 from sklearn.cluster import DBSCAN
@@ -164,6 +166,8 @@ SKLEARN_CLUSTERING_TABLE = {
     "AffinityPropagation": AffinityPropagation,
     "MeanShift": MeanShift,
     "SpectralClustering": SpectralClustering,
+    "SpectralBiclustering": SpectralBiclustering,
+    "SpectralCoclustering": SpectralCoclustering,
     "AgglomerativeClustering": AgglomerativeClustering,
     "FeatureAgglomeration": FeatureAgglomeration,
     "DBSCAN": DBSCAN,
