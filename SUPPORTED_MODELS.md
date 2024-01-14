@@ -288,6 +288,11 @@
         <td>>=0.4</td>
 	</tr>
 	<tr align="center">
+		<td>2</td>
+		<td><b>Mini Batch KMeans</b></td>
+        <td>>=0.4</td>
+	</tr>
+	<tr align="center">
 		<td>3</td>
 		<td><b>Affinity Propagation</b></td>
         <td>>=0.4</td>
