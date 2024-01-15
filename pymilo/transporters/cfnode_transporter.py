@@ -49,3 +49,46 @@ class CFNodeTransporter(AbstractTransporter):
         else:
             return content
         
+    def serialize_cfnode(self, cfnode, gdst):
+        """
+        Serialize given _CFnode instance recursively.
+
+        :param cfnode: given _CFnode object to get serialized
+        :type cfnode: sklearn.cluster._birch._CFNode
+        :param gdst: an instance of GeneralDataStructureTransporter class
+        :type gdst: pymilo.transporters.general_data_structure_transporter.GeneralDataStructureTransporter
+        :return: dict
+        """
+        data = cfnode.__dict__
+        cfnode_id = self.get_cfnode_id(cfnode)
+        data["pymilo_cfnode_id"] = cfnode_id 
+        self.all_cfnodes.add(cfnode_id)
+        for key, value in data.items():
+            if(isinstance(value, _CFNode)):
+                value_id = self.get_cfnode_id(value)
+                if(value_id in self.all_cfnodes):
+                    data[key] = {
+                        "pymilo_model_type": "_CFNode",
+                        "pymilo_cfnode_value": "PYMILO_CFNODE_RECURSION",
+                        "pymilo_cfnode_id": value_id,
+                    }
+                else:
+                    data[key] = {
+                        "pymilo_model_type": "_CFNode",
+                        "pymilo_cfnode_value": self.serialize_cfnode(value, gdst),
+                        "pymilo_cfnode_id": value_id,
+                    }
+            elif(isinstance(value, list) and key == "subclusters_"):
+                if len(value) > 0:
+                    if isinstance(value[0], _CFSubcluster):
+                        data[key] = {
+                            "pymilo_model_type": "_CFSubcluster",
+                            "pymilo_subclusters_value": [self.serialize_cfsubcluster(cf_subcluster, gdst) for cf_subcluster in value],
+                        }
+                else:
+                    data[key] = gdst.serialize(data, key, str(_CFNode)) # TODO model name
+            else:
+                data[key] = gdst.serialize(data, key, str(_CFNode))     
+        return data
+
+    def deserialize_cfnode(self, cfnode_pymiloed_obj, gdst):
