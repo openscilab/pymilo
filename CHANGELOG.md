@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `has_named_parameter` method in `util.py`
 - `CFSubcluster` Transporter(inside `CFNode` Transporter)
 - `CFNode` Transporter
 - `Birch` model
