@@ -11,6 +11,11 @@ class CFNodeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle CFnode object."""
 
     def __init__(self):
+        """
+        Initialize the CFNodeTransporter instance.
+
+        :return: an instance of the CFNodeTransporter class
+        """
         self.all_cfnodes = set()
         self.retrieved_cfnodes = {}
 
@@ -169,7 +174,7 @@ class CFNodeTransporter(AbstractTransporter):
 
     def get_cfnode_id(self, cfnode):
         """
-        Create a unique id for the given cfnode
+        Create a unique id for the given cfnode.
 
         :param cfnode: given _CFnode object to generate it's id.
         :type cfnode: sklearn.cluster._birch._CFNode
@@ -182,7 +187,7 @@ class CFNodeTransporter(AbstractTransporter):
 
     def get_base_cfnode(self, cfnode_pymiloed_obj):
         """
-        Create a basic _CFNode instance from constructor parameters existing in cfnode_pymiloed_obj
+        Create a basic _CFNode instance from constructor parameters existing in cfnode_pymiloed_obj.
 
         :param cfnode_pymiloed_obj: given serialized _CFnode object to generate it's basic _CFNode instance
         :type cfnode_pymiloed_obj: sklearn.cluster._birch._CFNode
