@@ -111,7 +111,7 @@ def import_function(module_name, function_name):
 
 def has_named_parameter(func, param_name):
     """
-    Check whether the given functino has a parameter named param_name or not.
+    Check whether the given function has a parameter named param_name or not.
 
     :param func: function to check it's params
     :type func: function
