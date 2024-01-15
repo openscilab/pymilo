@@ -82,18 +82,11 @@ class CFNodeTransporter(AbstractTransporter):
         for key, value in data.items():
             if (isinstance(value, _CFNode)):
                 value_id = self.get_cfnode_id(value)
-                if (value_id in self.all_cfnodes):
-                    data[key] = {
-                        "pymilo_model_type": "_CFNode",
-                        "pymilo_cfnode_value": "PYMILO_CFNODE_RECURSION",
-                        "pymilo_cfnode_id": value_id,
-                    }
-                else:
-                    data[key] = {
-                        "pymilo_model_type": "_CFNode",
-                        "pymilo_cfnode_value": self.serialize_cfnode(value, gdst),
-                        "pymilo_cfnode_id": value_id,
-                    }
+                data[key] = {
+                    "pymilo_model_type": "_CFNode",
+                    "pymilo_cfnode_value": "PYMILO_CFNODE_RECURSION" if value_id in self.all_cfnodes else self.serialize_cfnode(value, gdst),
+                    "pymilo_cfnode_id": value_id,
+                }
             elif (isinstance(value, list) and key == "subclusters_"):
                 if len(value) > 0:
                     if isinstance(value[0], _CFSubcluster):
@@ -107,7 +100,7 @@ class CFNodeTransporter(AbstractTransporter):
 
     def deserialize_cfnode(self, cfnode_pymiloed_obj, gdst):
         """
-        Derialize given serialized object of _CFnode class recursively.
+        Deserialize given serialized object of _CFnode class recursively.
 
         :param cfnode_pymiloed_obj: given serialized _CFnode object to get deserialized
         :type cfnode_pymiloed_obj: obj
