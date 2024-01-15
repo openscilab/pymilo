@@ -108,6 +108,7 @@ def import_function(module_name, function_name):
     function = getattr(module, function_name)
     return function
 
+
 def has_named_parameter(func, param_name):
     """
     Check whether the given functino has a parameter named param_name or not.
@@ -122,4 +123,3 @@ def has_named_parameter(func, param_name):
     _signature = signature(func)
     parameter_names = [p.name for p in _signature.parameters.values()]
     return param_name in parameter_names
-

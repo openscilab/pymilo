@@ -8,6 +8,7 @@ from .general_data_structure_transporter import GeneralDataStructureTransporter
 
 from ..utils.util import has_named_parameter
 
+
 class CFNodeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle CFnode object."""
 
@@ -221,4 +222,4 @@ class CFNodeTransporter(AbstractTransporter):
                 branching_factor=branching_factor,
                 is_leaf=is_leaf,
                 n_features=n_features,
-            )            
+            )
