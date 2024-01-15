@@ -128,3 +128,20 @@ class CFNodeTransporter(AbstractTransporter):
             setattr(current_cfnode, key, value)
         return current_cfnode
 
+    def serialize_cfsubcluster(self, cfsubcluster, gdst):
+        """
+        Serialize given _CFSubcluster instance.
+
+        :param cfsubcluster: given _CFSubcluster object to get serialized
+        :type cfsubcluster: sklearn.cluster._birch._CFSubcluster
+        :param gdst: an instance of GeneralDataStructureTransporter class
+        :type gdst: pymilo.transporters.general_data_structure_transporter.GeneralDataStructureTransporter
+        :return: dict
+        """
+        data = cfsubcluster.__dict__
+        for key, value in data.items():
+            if(isinstance(value, _CFNode)):
+                data[key] = self.serialize_cfnode(value)
+            else:
+                data[key] = gdst.serialize(data, key, str(_CFSubcluster))  
+        return data 
