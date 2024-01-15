@@ -19,6 +19,15 @@ class CFNodeTransporter(AbstractTransporter):
         self.all_cfnodes = set()
         self.retrieved_cfnodes = {}
 
+    def reset(self):
+        """
+        Reset the CFNodeTransporter internal .
+
+        :return: None
+        """
+        self.all_cfnodes = set()
+        self.retrieved_cfnodes = {}
+
     def serialize(self, data, key, model_type):
         """
         Serialize data[key] if it is an instance of _CFNode.
@@ -31,7 +40,6 @@ class CFNodeTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        self.all_cfnodes = set()
         if isinstance(data[key], _CFNode):
             data[key] = self.serialize_cfnode(data[key], GeneralDataStructureTransporter())
         return data[key]
@@ -48,7 +56,6 @@ class CFNodeTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
-        self.retrieved_cfnodes = {}
         content = data[key]
         if isinstance(content, dict) and "pymilo_model_type" in content and content["pymilo_model_type"] == "_CFNode":
             return self.deserialize_cfnode(content, GeneralDataStructureTransporter())
