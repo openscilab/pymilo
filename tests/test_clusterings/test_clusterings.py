@@ -3,6 +3,7 @@ import pytest
 
 from pymilo.pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 
+from birch import birch
 from kmeans import kmeans
 from minibatch_kmeans import minibatch_kmeans
 from affinity_propagation import affinity_propagation
@@ -34,6 +35,7 @@ CLUSTERINGS = {
     "SPECTRAL_CLUSTERING": [spectral_clustering, spectral_biclustering, spectral_coclustering],
     "GAUSSIAN_MIXTURE": [gaussian_mixture, bayesian_gaussian_mixture],
     "HIERARCHICAL_CLUSTERING": [agglomerative_clustering, feature_agglomeration],
+    "BIRCH": [birch],
 }
 
 @pytest.fixture(scope="session", autouse=True)
