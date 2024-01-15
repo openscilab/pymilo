@@ -8,6 +8,7 @@ from numpy import int32
 from numpy import int64
 from sklearn.mixture import BayesianGaussianMixture
 from sklearn.mixture import GaussianMixture
+from sklearn.cluster import Birch
 from sklearn.cluster import OPTICS
 from sklearn.linear_model import HuberRegressor
 from sklearn.linear_model import TheilSenRegressor
@@ -174,6 +175,7 @@ SKLEARN_CLUSTERING_TABLE = {
     "DBSCAN": DBSCAN,
     "HDBSCAN": HDBSCAN if hdbscan_support else NOT_SUPPORTED,
     "OPTICS": OPTICS,
+    "Birch": Birch,
     "GaussianMixture": GaussianMixture,
     "BayesianGaussianMixture": BayesianGaussianMixture,
 }

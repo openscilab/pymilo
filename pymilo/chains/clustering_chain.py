@@ -4,6 +4,7 @@ from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.function_transporter import FunctionTransporter
+from ..transporters.cfnode_transporter import CFNodeTransporter
 
 from ..pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
@@ -14,6 +15,7 @@ bisecting_kmeans_support = SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SU
 CLUSTERING_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "FunctionTransporter": FunctionTransporter(),
+    "CFNodeTransporter": CFNodeTransporter(),
 }
 
 if bisecting_kmeans_support:
