@@ -6,6 +6,7 @@ from sklearn.cluster._birch import _CFSubcluster
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 
+from ..utils.util import has_named_parameter
 
 class CFNodeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle CFnode object."""
@@ -206,10 +207,18 @@ class CFNodeTransporter(AbstractTransporter):
         is_leaf = cfnode_pymiloed_obj["is_leaf"]
         n_features = cfnode_pymiloed_obj["n_features"]
         dtype = GeneralDataStructureTransporter().list_to_ndarray(cfnode_pymiloed_obj["init_centroids_"]).dtype
-        return _CFNode(
-            threshold=threshold,
-            branching_factor=branching_factor,
-            is_leaf=is_leaf,
-            n_features=n_features,
-            dtype=dtype,
-        )
+        if has_named_parameter(_CFNode.__init__, "dtype"):
+            return _CFNode(
+                threshold=threshold,
+                branching_factor=branching_factor,
+                is_leaf=is_leaf,
+                n_features=n_features,
+                dtype=dtype,
+            )
+        else:
+            return _CFNode(
+                threshold=threshold,
+                branching_factor=branching_factor,
+                is_leaf=is_leaf,
+                n_features=n_features,
+            )            
