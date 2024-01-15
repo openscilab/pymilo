@@ -167,3 +167,15 @@ class CFNodeTransporter(AbstractTransporter):
             setattr(subcluster_instance, key, value)
         return subcluster_instance
 
+    def get_cfnode_id(self, cfnode):
+        """
+        Create a unique id for the given cfnode
+
+        :param cfnode: given _CFnode object to generate it's id.
+        :type cfnode: sklearn.cluster._birch._CFNode
+        :return: str
+        """
+        if not isinstance(cfnode, _CFNode):
+            return "None"
+        else:
+            return str(cfnode).split(" at ")[1][:-1]
