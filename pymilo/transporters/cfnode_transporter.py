@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo CFnode(from sklearn.cluster._birch) object transporter."""
 from sklearn.cluster._birch import _CFNode
+from sklearn.cluster._birch import _CFSubcluster
 
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
@@ -179,3 +180,24 @@ class CFNodeTransporter(AbstractTransporter):
             return "None"
         else:
             return str(cfnode).split(" at ")[1][:-1]
+
+    def get_base_cfnode(self, cfnode_pymiloed_obj):
+        """
+        Create a basic _CFNode instance from constructor parameters existing in cfnode_pymiloed_obj
+
+        :param cfnode_pymiloed_obj: given serialized _CFnode object to generate it's basic _CFNode instance
+        :type cfnode_pymiloed_obj: sklearn.cluster._birch._CFNode
+        :return: _CFNode
+        """
+        threshold = cfnode_pymiloed_obj["threshold"]
+        branching_factor = cfnode_pymiloed_obj["branching_factor"]
+        is_leaf = cfnode_pymiloed_obj["is_leaf"]
+        n_features = cfnode_pymiloed_obj["n_features"]
+        dtype = GeneralDataStructureTransporter().list_to_ndarray(cfnode_pymiloed_obj["init_centroids_"]).dtype
+        return _CFNode(
+                    threshold=threshold,
+                    branching_factor=branching_factor,
+                    is_leaf=is_leaf,
+                    n_features=n_features,
+                    dtype=dtype,
+                )
