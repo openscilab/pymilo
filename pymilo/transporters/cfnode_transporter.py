@@ -145,3 +145,25 @@ class CFNodeTransporter(AbstractTransporter):
             else:
                 data[key] = gdst.serialize(data, key, str(_CFSubcluster))  
         return data 
+
+    def deserialize_cfsubcluster(self, cfsubcluster_pymiloed_obj, gdst):
+        """
+        Deserialize given serialized object of _CFSubcluster class recursively.
+
+        :param cfsubcluster_pymiloed_obj: given serialized _CFSubcluster object to get deserialized
+        :type cfsubcluster_pymiloed_obj: obj
+        :param gdst: an instance of GeneralDataStructureTransporter class
+        :type gdst: pymilo.transporters.general_data_structure_transporter.GeneralDataStructureTransporter
+        :return: sklearn.cluster._birch._CFSubcluster 
+        """
+        for key, value in cfsubcluster_pymiloed_obj.items():
+            if isinstance(value, dict) and "pymilo_model_type" in value and value["pymilo_model_type"] == "_CFNode":
+                cfsubcluster_pymiloed_obj[key] = self.deserialize_cfnode(value["pymilo_cfnode_value"], gdst)
+            else:
+                cfsubcluster_pymiloed_obj[key] = gdst.deserialize(cfsubcluster_pymiloed_obj, key, str(_CFSubcluster))  
+        
+        subcluster_instance = _CFSubcluster()
+        for key, value in cfsubcluster_pymiloed_obj.items():
+            setattr(subcluster_instance, key, value)
+        return subcluster_instance
+
