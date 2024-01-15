@@ -146,7 +146,7 @@ class CFNodeTransporter(AbstractTransporter):
         data = cfsubcluster.__dict__
         for key, value in data.items():
             if (isinstance(value, _CFNode)):
-                data[key] = self.serialize_cfnode(value)
+                data[key] = self.serialize_cfnode(value, gdst)
             else:
                 data[key] = gdst.serialize(data, key, str(_CFSubcluster))
         return data
