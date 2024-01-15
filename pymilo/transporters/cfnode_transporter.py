@@ -68,6 +68,7 @@ class CFNodeTransporter(AbstractTransporter):
         data = cfnode.__dict__
         cfnode_id = self.get_cfnode_id(cfnode)
         data["pymilo_cfnode_id"] = cfnode_id
+        data["pymilo_model_type"] = "_CFNode"
         self.all_cfnodes.add(cfnode_id)
         for key, value in data.items():
             if (isinstance(value, _CFNode)):
