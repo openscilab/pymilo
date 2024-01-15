@@ -352,4 +352,9 @@
 		<td><b>Bayesian Gaussian Mixture</b></td>
         <td>>=0.4</td>
 	</tr>
+	<tr align="center">
+		<td>16</td>
+		<td><b>Birch</b></td>
+        <td>>=0.4</td>
+	</tr>
 </table>
