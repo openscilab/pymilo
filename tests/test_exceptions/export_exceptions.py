@@ -80,6 +80,6 @@ def valid_model_invalid_structure_neural_network(print_output = True):
       pymilo_regression_test(
         multi_layer_perceptron_regression, MODEL_NAME, (x_test, y_test))
       return False
-    except Exception as e:        
+    except Exception as e:
       if print_output: print("An Exception occured\n", e)
       return True
