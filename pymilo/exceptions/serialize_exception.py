@@ -61,7 +61,9 @@ class PymiloSerializationException(PymiloException):
         :return: issue form of the associated error as string
         """
         pymilo_report = self.to_pymilo_log()
-        help_request = "\n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
+        help_request = """
+        \n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n
+        """
         discription = "#### Description\n Pymilo Export failed."
         steps_to_produce = "\n#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
         expected_behaviour = "\n#### Expected Behavior\n A successfull Pymilo Export."
