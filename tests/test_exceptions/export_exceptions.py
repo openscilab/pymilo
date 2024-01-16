@@ -2,7 +2,6 @@
 # VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2 -> tested.
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.utils.test_pymilo import pymilo_regression_test
-from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.chains.neural_network_chain import transport_neural_network
 from pymilo.transporters.transporter import Command
 
@@ -50,7 +49,7 @@ def valid_model_invalid_structure_linear_model(print_output = True):
       pymilo_regression_test(
         linear_regression, MODEL_NAME, (x_test, y_test))
       return False
-    except Exception as e:        
+    except Exception as e:
       if print_output: print("An Exception occured\n", e)
       return True
 
