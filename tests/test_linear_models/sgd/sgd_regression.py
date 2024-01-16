@@ -14,4 +14,4 @@ def sgd_regression():
     # Train the model using the training sets
     sgd_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        sgd_regression, MODEL_NAME, (x_test, y_test)) == True 
+        sgd_regression, MODEL_NAME, (x_test, y_test)) == True

@@ -11,4 +11,4 @@ def decision_tree_regression():
     decision_tree_regressor = DecisionTreeRegressor(random_state=1)
     decision_tree_regressor = decision_tree_regressor.fit(x_train, y_train)
     assert pymilo_regression_test(
-        decision_tree_regressor, MODEL_NAME, (x_test, y_test)) == True 
+        decision_tree_regressor, MODEL_NAME, (x_test, y_test)) == True

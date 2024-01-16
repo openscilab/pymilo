@@ -11,4 +11,4 @@ def extra_tree_regression():
     extra_tree_regressor = ExtraTreeRegressor(random_state=0)
     extra_tree_regressor = extra_tree_regressor.fit(x_train, y_train)
     assert pymilo_regression_test(
-        extra_tree_regressor, MODEL_NAME, (x_test, y_test)) == True 
+        extra_tree_regressor, MODEL_NAME, (x_test, y_test)) == True

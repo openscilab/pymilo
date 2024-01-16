@@ -13,4 +13,4 @@ def lasso_lars_ic():
     # Train the model using the training sets
     lass_lars_ic_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        lass_lars_ic_regression, MODEL_NAME, (x_test, y_test)) == True 
+        lass_lars_ic_regression, MODEL_NAME, (x_test, y_test)) == True

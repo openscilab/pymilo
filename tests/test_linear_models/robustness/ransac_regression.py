@@ -13,4 +13,4 @@ def ransac_regression():
     # Train the model using the training sets
     ransac_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        ransac_regression, MODEL_NAME, (x_test, y_test)) == True 
+        ransac_regression, MODEL_NAME, (x_test, y_test)) == True

@@ -66,7 +66,6 @@ class PymiloException(Exception, ABC):
 
         :return: issue form of the associated error as string
         """
-        pass
 
     def __str__(self):
         """

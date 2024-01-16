@@ -13,4 +13,4 @@ def sgd_classifier():
     # Train the model using the training sets
     sgd_classifier.fit(x_train, y_train)
     assert pymilo_classification_test(
-        sgd_classifier, MODEL_NAME, (x_test, y_test)) == True 
+        sgd_classifier, MODEL_NAME, (x_test, y_test)) == True

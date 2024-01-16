@@ -12,4 +12,4 @@ def linear_regression():
     # Train the model using the training sets
     linear_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        linear_regression, MODEL_NAME, (x_test, y_test)) == True 
+        linear_regression, MODEL_NAME, (x_test, y_test)) == True

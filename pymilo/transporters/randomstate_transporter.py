@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """PyMilo RandomState(MT19937) object transporter."""
 import numpy as np
-from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
 

@@ -18,4 +18,4 @@ def tweedie_regression():
     # Train the model using the training sets
     tweedie_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        tweedie_regression, MODEL_NAME, (x_test, y_test)) == True 
+        tweedie_regression, MODEL_NAME, (x_test, y_test)) == True

@@ -13,4 +13,4 @@ def poisson_regression():
     # Train the model using the training sets
     poisson_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        poisson_regression, MODEL_NAME, (x_test, y_test)) == True 
+        poisson_regression, MODEL_NAME, (x_test, y_test)) == True

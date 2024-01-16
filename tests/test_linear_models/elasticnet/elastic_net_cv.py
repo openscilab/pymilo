@@ -18,4 +18,4 @@ def elastic_net_cv():
     # Train the model using the training sets
     elasticnet_cv_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        elasticnet_cv_regression, MODEL_NAME, (x_test, y_test)) == True 
+        elasticnet_cv_regression, MODEL_NAME, (x_test, y_test)) == True

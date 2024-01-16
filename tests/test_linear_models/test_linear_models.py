@@ -1,6 +1,8 @@
 import os
 import pytest
 
+from pymilo.pymilo_param import SKLEARN_LINEAR_MODEL_TABLE, NOT_SUPPORTED
+
 from linear_regression.linear_regression import linear_regression
 
 from ridge.ridge_regression import ridge_regression
@@ -30,21 +32,9 @@ from bayesian.ard_regression import ard_regression
 from logistic.logistic_regression import logistic_regression
 from logistic.logistic_regression_cv import logistic_regression_cv
 
-try: 
-    from glm.tweedie_regression import tweedie_regression
-    from glm.poisson_regression import poisson_regression
-    from glm.gamma_regression import gamma_regression
-except: 
-    ""
-
 from sgd.sgd_regression import sgd_regression
 from sgd.sgd_classifier import sgd_classifier
 
-try:
-    from sgd.sgd_oneclass_svm import sgd_oneclass_svm
-except:
-    ""
-    
 from perceptron.perception import perceptron
 
 from passive_aggressive.passive_aggressive_regressor import passive_agressive_regressor
@@ -54,12 +44,16 @@ from robustness.ransac_regression import ransac_regression
 from robustness.theil_sen_regression import theil_sen_regression
 from robustness.huber_regression import huber_regression
 
-try:
+if SKLEARN_LINEAR_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED:
+    from glm.tweedie_regression import tweedie_regression
+if SKLEARN_LINEAR_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED:
+    from glm.poisson_regression import poisson_regression
+if SKLEARN_LINEAR_MODEL_TABLE["GammaRegressor"] != NOT_SUPPORTED:
+    from glm.gamma_regression import gamma_regression
+if SKLEARN_LINEAR_MODEL_TABLE["SGDOneClassSVM"] != NOT_SUPPORTED:
+    from sgd.sgd_oneclass_svm import sgd_oneclass_svm
+if SKLEARN_LINEAR_MODEL_TABLE["QuantileRegressor"] != NOT_SUPPORTED:
     from quantile.quantile import quantile_regressor
-except:
-    ""
-    
-from pymilo.pymilo_param import SKLEARN_LINEAR_MODEL_TABLE, NOT_SUPPORTED
 
 LINEAR_MODELS = {
     "LINEAR_REGRESSION": [linear_regression],

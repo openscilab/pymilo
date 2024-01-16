@@ -17,4 +17,4 @@ def perceptron():
     # Train the model using the training sets
     perceptron.fit(x_train, y_train)
     assert pymilo_regression_test(
-        perceptron, MODEL_NAME, (x_test, y_test)) == True 
+        perceptron, MODEL_NAME, (x_test, y_test)) == True

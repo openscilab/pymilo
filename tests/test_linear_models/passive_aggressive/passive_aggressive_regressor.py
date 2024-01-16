@@ -15,4 +15,4 @@ def passive_agressive_regressor():
     # Train the model using the training sets
     passive_aggressive_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        passive_aggressive_regression, MODEL_NAME, (x_test, y_test)) == True 
+        passive_aggressive_regression, MODEL_NAME, (x_test, y_test)) == True

@@ -11,4 +11,4 @@ def decision_tree_classification():
     decision_tree_classifier = DecisionTreeClassifier(random_state=1)
     decision_tree_classifier = decision_tree_classifier.fit(x_train, y_train)
     assert pymilo_classification_test(
-        decision_tree_classifier, MODEL_NAME, (x_test, y_test)) == True 
+        decision_tree_classifier, MODEL_NAME, (x_test, y_test)) == True

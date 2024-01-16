@@ -17,4 +17,4 @@ def multi_task_elastic_net():
     # Train the model using the training sets
     multitask_elasticnet_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        multitask_elasticnet_regression, MODEL_NAME, (x_test, y_test)) == True 
+        multitask_elasticnet_regression, MODEL_NAME, (x_test, y_test)) == True

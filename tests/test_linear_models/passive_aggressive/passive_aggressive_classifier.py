@@ -16,4 +16,4 @@ def passive_aggressive_classifier():
     # Train the model using the training sets
     passive_aggressive_classifier.fit(x_train, y_train)
     assert pymilo_classification_test(
-        passive_aggressive_classifier, MODEL_NAME, (x_test, y_test)) == True 
+        passive_aggressive_classifier, MODEL_NAME, (x_test, y_test)) == True

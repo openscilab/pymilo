@@ -12,4 +12,4 @@ def quantile_regressor():
     # Train the model using the training sets
     quantile_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        quantile_regression, MODEL_NAME, (x_test, y_test)) == True 
+        quantile_regression, MODEL_NAME, (x_test, y_test)) == True

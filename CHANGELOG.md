@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Clustering models test runner
 - Clustering chain 
 ### Changed
+- Codacy Static Code Analyzer's suggestions applied
 - Spectral Clustering test folder refactored
 - Bug report template modified
 - `GeneralDataStructureTransporter` updated
