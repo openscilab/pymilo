@@ -30,12 +30,12 @@ from bayesian.ard_regression import ard_regression
 from logistic.logistic_regression import logistic_regression
 from logistic.logistic_regression_cv import logistic_regression_cv
 
-try: 
+try:
     from glm.tweedie_regression import tweedie_regression
     from glm.poisson_regression import poisson_regression
     from glm.gamma_regression import gamma_regression
-except: 
-    ""
+except:
+    pass
 
 from sgd.sgd_regression import sgd_regression
 from sgd.sgd_classifier import sgd_classifier
@@ -43,8 +43,8 @@ from sgd.sgd_classifier import sgd_classifier
 try:
     from sgd.sgd_oneclass_svm import sgd_oneclass_svm
 except:
-    ""
-    
+    pass
+
 from perceptron.perception import perceptron
 
 from passive_aggressive.passive_aggressive_regressor import passive_agressive_regressor
