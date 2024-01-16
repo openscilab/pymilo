@@ -11,4 +11,4 @@ def extra_tree_classification():
     extra_tree_classifier = ExtraTreeClassifier(random_state=1)
     extra_tree_classifier = extra_tree_classifier.fit(x_train, y_train)
     assert pymilo_classification_test(
-        extra_tree_classifier, MODEL_NAME, (x_test, y_test)) == True 
+        extra_tree_classifier, MODEL_NAME, (x_test, y_test)) == True
