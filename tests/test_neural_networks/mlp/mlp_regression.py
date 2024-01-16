@@ -2,8 +2,6 @@ from sklearn.neural_network import MLPRegressor
 from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
-from pymilo.utils.util import get_sklearn_type
-
 MODEL_NAME = "Multi Layer Perceptron Regression"
 
 
