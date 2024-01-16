@@ -77,8 +77,6 @@ def valid_model_invalid_structure_neural_network(print_output = True):
     # Create linear regression object
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     # Create Passive Aggressive Regression object
-    par_random_state = 2
-    par_max_iter = 100
     multi_layer_perceptron_regression = MLPRegressor(random_state=1, max_iter=500).fit(x_train, y_train)
     multi_layer_perceptron_regression.__dict__["invalid_field"] = CustomizedTweedieDistribution(power= 1.5)
     # Train the model using the training sets
