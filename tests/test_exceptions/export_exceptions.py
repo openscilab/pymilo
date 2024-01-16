@@ -19,10 +19,10 @@ import numpy as np
 # test case for INVALID_MODEL.
 class InvalidModel:
   def __init__(self):
-    self.name = "Invalid Linear Model"  
+    self.name = "Invalid Linear Model"
 
   def fit(self, x, y):
-     return 
+     return
 
   def predict(self, x):
      return [0 for _ in range(np.shape(x)[0])]
@@ -71,7 +71,6 @@ def valid_model_irrelevant_chain(print_output = True):
       return True
 
 def valid_model_invalid_structure_neural_network(print_output = True):
-  
     MODEL_NAME = "MLPRegressor"
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     # Create linear regression object
