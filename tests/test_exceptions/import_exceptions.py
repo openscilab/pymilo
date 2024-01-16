@@ -13,7 +13,7 @@ def invalid_json(print_output = True):
         imported_model = Import(json_path)
         imported_model.to_model()
         return False
-      except Exception as e: 
+      except Exception as e:
         if print_output: print("An Exception occured\n", e)
         return True
  
