@@ -3,10 +3,7 @@
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.utils.test_pymilo import pymilo_regression_test
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
-from pymilo.utils.test_pymilo import pymilo_regression_test
-
 from pymilo.chains.neural_network_chain import transport_neural_network
-
 from pymilo.transporters.transporter import Command
 
 from sklearn.linear_model import LinearRegression
@@ -58,7 +55,7 @@ def valid_model_invalid_structure_linear_model(print_output = True):
       return True
 
 def valid_model_irrelevant_chain(print_output = True):
-    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
+    x_train, y_train, _, _ = prepare_simple_regression_datasets()
     # Create linear regression object
     linear_regression = LinearRegression()
     # Train the model using the training sets
