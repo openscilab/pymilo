@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """PyMilo SGDOptimizer object transporter."""
 from sklearn.neural_network._stochastic_optimizers import SGDOptimizer
-from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
 
