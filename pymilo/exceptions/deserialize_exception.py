@@ -41,9 +41,12 @@ class PymiloDeserializationException(PymiloException):
         message = "Pymilo Deserialization failed since {reason}"
         error_type = meta_data['error_type']
         error_type_to_message = {
-            DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE: 'the given json file is not a valid .json file.',
-            DeSerilaizatoinErrorTypes.INVALID_MODEL: 'the given model is not supported or is not a valid model.',
-            DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE: 'the given model has some non-standard customized internal objects or functions.'}
+            DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE: 
+            'the given json file is not a valid .json file.',
+            DeSerilaizatoinErrorTypes.INVALID_MODEL: 
+            'the given model is not supported or is not a valid model.',
+            DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE: 
+            'the given model has some non-standard customized internal objects or functions.'}
         if error_type in error_type_to_message:
             reason = error_type_to_message[error_type]
         else:
@@ -69,7 +72,9 @@ class PymiloDeserializationException(PymiloException):
         :return: issue form of the associated error as a string
         """
         pymilo_report = self.to_pymilo_log()
-        help_request = "\n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n"
+        help_request = """
+        \n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n
+        """
         discription = "#### Description\n Pymilo Import failed."
         steps_to_produce = "#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
         expected_behaviour = "#### Expected Behavior\n A successfull Pymilo Import."
