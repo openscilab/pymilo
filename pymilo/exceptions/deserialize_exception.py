@@ -41,11 +41,11 @@ class PymiloDeserializationException(PymiloException):
         message = "Pymilo Deserialization failed since {reason}"
         error_type = meta_data['error_type']
         error_type_to_message = {
-            DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE: 
+            DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
             'the given json file is not a valid .json file.',
-            DeSerilaizatoinErrorTypes.INVALID_MODEL: 
+            DeSerilaizatoinErrorTypes.INVALID_MODEL:
             'the given model is not supported or is not a valid model.',
-            DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE: 
+            DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
             'the given model has some non-standard customized internal objects or functions.'}
         if error_type in error_type_to_message:
             reason = error_type_to_message[error_type]
