@@ -13,4 +13,4 @@ def gamma_regression():
     # Train the model using the training sets
     gamma_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        gamma_regression, MODEL_NAME, (x_test, y_test)) == True 
+        gamma_regression, MODEL_NAME, (x_test, y_test)) == True

@@ -10,7 +10,7 @@ EXCEPTION_TESTS = {
     'EXPORT': [
         invalid_model,
         valid_model_invalid_structure_linear_model,
-        valid_model_invalid_structure_neural_network, 
+        valid_model_invalid_structure_neural_network,
         valid_model_irrelevant_chain
         ]
 }
@@ -20,5 +20,5 @@ def test_full():
         category_all_test_pass = True
         for test in EXCEPTION_TESTS[category]:
             category_all_test_pass = category_all_test_pass and test()
-            assert category_all_test_pass == True 
+            assert category_all_test_pass == True
             print("Test of Category: " + category + " with granularity of: " + test.__name__ + " executed successfully." )

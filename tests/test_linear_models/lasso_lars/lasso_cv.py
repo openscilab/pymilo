@@ -18,4 +18,4 @@ def lasso_cv():
     # Train the model using the training sets
     lasso_cv_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        lasso_cv_regression, MODEL_NAME, (x_test, y_test)) == True 
+        lasso_cv_regression, MODEL_NAME, (x_test, y_test)) == True
