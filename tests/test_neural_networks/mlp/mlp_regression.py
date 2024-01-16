@@ -11,5 +11,5 @@ def multi_layer_perceptron_regression():
     # Train the model using the training sets
     multi_layer_perceptron_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        multi_layer_perceptron_regression, MODEL_NAME, (x_test, y_test)) == True 
+        multi_layer_perceptron_regression, MODEL_NAME, (x_test, y_test)) == True
 
