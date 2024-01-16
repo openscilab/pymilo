@@ -55,7 +55,6 @@ class Transporter(ABC):
         :type model_type: str
         :return: pymilo deserialized output of data[key]
         """
-        pass
 
     @abstractmethod
     def transport(self, request, command):
