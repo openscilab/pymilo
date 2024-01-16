@@ -34,7 +34,7 @@ def invalid_model(print_output = True):
       pymilo_regression_test(
         model, model.name , (x_test, y_test))
       return False
-    except Exception as e:        
+    except Exception as e:
       if print_output: print("An Exception occured\n", e)
       return True
 
