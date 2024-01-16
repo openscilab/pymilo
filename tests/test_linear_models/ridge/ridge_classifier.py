@@ -13,4 +13,4 @@ def ridge_classifier():
     # Train the model using the training sets
     ridge_classifier.fit(x_train, y_train)
     assert pymilo_classification_test(
-        ridge_classifier, MODEL_NAME, (x_test, y_test)) == True 
+        ridge_classifier, MODEL_NAME, (x_test, y_test)) == True

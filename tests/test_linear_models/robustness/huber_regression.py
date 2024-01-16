@@ -12,4 +12,4 @@ def huber_regression():
     # Train the model using the training sets
     huber_regresion.fit(x_train, y_train)
     assert pymilo_regression_test(
-        huber_regresion, MODEL_NAME, (x_test, y_test)) == True 
+        huber_regresion, MODEL_NAME, (x_test, y_test)) == True

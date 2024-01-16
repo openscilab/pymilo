@@ -16,4 +16,4 @@ def logistic_regression_cv():
     # Train the model using the training sets
     logistic_regression_cv.fit(x_train, y_train)
     assert pymilo_regression_test(
-        logistic_regression_cv, MODEL_NAME, (x_test, y_test)) == True 
+        logistic_regression_cv, MODEL_NAME, (x_test, y_test)) == True

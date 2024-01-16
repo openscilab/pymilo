@@ -14,4 +14,4 @@ def logistic_regression():
     # Train the model using the training sets
     logistic_regression.fit(x_train, y_train)
     assert pymilo_regression_test(
-        logistic_regression, MODEL_NAME, (x_test, y_test)) == True 
+        logistic_regression, MODEL_NAME, (x_test, y_test)) == True

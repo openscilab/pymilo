@@ -13,4 +13,4 @@ def theil_sen_regression():
     # Train the model using the training sets
     theilsen_regresion.fit(x_train, y_train)
     assert pymilo_regression_test(
-        theilsen_regresion, MODEL_NAME, (x_test, y_test)) == True 
+        theilsen_regresion, MODEL_NAME, (x_test, y_test)) == True

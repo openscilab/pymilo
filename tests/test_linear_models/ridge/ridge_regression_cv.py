@@ -13,4 +13,4 @@ def ridge_regression_cv():
     # Train the model using the training sets
     ridge_regression_cv.fit(x_train, y_train)
     assert pymilo_regression_test(
-        ridge_regression_cv, MODEL_NAME, (x_test, y_test)) == True 
+        ridge_regression_cv, MODEL_NAME, (x_test, y_test)) == True
