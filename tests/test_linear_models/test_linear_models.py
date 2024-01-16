@@ -43,7 +43,7 @@ from passive_aggressive.passive_aggressive_classifier import passive_aggressive_
 from robustness.ransac_regression import ransac_regression
 from robustness.theil_sen_regression import theil_sen_regression
 from robustness.huber_regression import huber_regression
-    
+
 if SKLEARN_LINEAR_MODEL_TABLE["TweedieRegressor"] != NOT_SUPPORTED:
     from glm.tweedie_regression import tweedie_regression
 if SKLEARN_LINEAR_MODEL_TABLE["PoissonRegressor"] != NOT_SUPPORTED:
