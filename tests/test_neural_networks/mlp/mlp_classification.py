@@ -2,8 +2,6 @@ from sklearn.neural_network import MLPClassifier
 from pymilo.utils.test_pymilo import pymilo_classification_test
 from pymilo.utils.data_exporter import prepare_simple_classification_datasets
 
-from pymilo.utils.util import get_sklearn_type
-
 MODEL_NAME = "Multi Layer Perceptron Classification"
 
 
