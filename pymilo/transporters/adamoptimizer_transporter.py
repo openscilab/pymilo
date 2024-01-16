@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo Adamoptimizer object transporter."""
 from sklearn.neural_network._stochastic_optimizers import AdamOptimizer
-from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
-
-import numpy as np
 
 
 class AdamOptimizerTransporter(AbstractTransporter):
