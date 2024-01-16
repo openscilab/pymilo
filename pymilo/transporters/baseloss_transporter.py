@@ -36,7 +36,7 @@ except BaseException:  # pragma: no cover
         legacy_version = True
     except BaseException:
         # there is no glm models.
-        legacy_version
+        pass
 
 
 class BaseLossTransporter(AbstractTransporter):  # pragma: no cover
@@ -240,12 +240,11 @@ class BaseLossTransporter(AbstractTransporter):  # pragma: no cover
                 elif key == "_link_instance":
                     # make sure it has been deserialized.
                     try:
-                        data["link"]["state"]
                         data["link"] = self.deserialize(
                             data, "link", model_type)
                     except BaseException:
                         # it has been serialized.
-                        data["link"]
+                        pass
                     if isinstance(data["link"], BaseLink):
                         return data["link"]
                     else:
