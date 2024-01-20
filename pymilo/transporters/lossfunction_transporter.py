@@ -25,10 +25,10 @@ class LossFunctionTransporter(AbstractTransporter):
         :return: pymilo serialized output of data[key]
         """
         if (
-            (model_type == "SGDClassifier" and key == "loss_function_") or
-            (model_type == "SGDOneClassSVM" and key == "loss_function_") or
-            (model_type == "Perceptron" and key == "loss_function_") or
-            (model_type == "PassiveAggressiveClassifier" and key == "loss_function_")
+            (model_type == "SGDClassifier" and (key == "loss_function_" or key == "_loss_function_")) or
+            (model_type == "SGDOneClassSVM" and (key == "loss_function_" or key == "_loss_function_")) or
+            (model_type == "Perceptron" and (key == "loss_function_" or key == "_loss_function_")) or
+            (model_type == "PassiveAggressiveClassifier" and (key == "loss_function_" or key == "_loss_function_"))
         ):
             data[key] = {
                 "loss": data["loss"]
