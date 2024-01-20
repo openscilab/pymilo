@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+### Changed
+## [0.4] - 2024-01-22
+### Added
 - `has_named_parameter` method in `util.py`
 - `CFSubcluster` Transporter(inside `CFNode` Transporter)
 - `CFNode` Transporter
@@ -88,7 +91,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.3...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.4...dev
+[0.4]: https://github.com/openscilab/pymilo/compare/v0.3...v0.4
 [0.3]: https://github.com/openscilab/pymilo/compare/v0.2...v0.3
 [0.2]: https://github.com/openscilab/pymilo/compare/v0.1...v0.2
 [0.1]: https://github.com/openscilab/pymilo/compare/e887108...v0.1
