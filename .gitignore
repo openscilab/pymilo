@@ -103,4 +103,5 @@ gen
 /tests/exported_neural_networks
 /tests/exported_decision_trees
 /tests/exported_clusterings
+/tests/exported_naive_bayes
 /.VSCodeCounter
