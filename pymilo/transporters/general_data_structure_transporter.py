@@ -305,7 +305,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                             # handle the case (2,29) in (2,)
                             try:
                                 return np.asarray(new_list)
-                            except:
+                            except Exception as _:
                                 return new_list
 
             return np.asarray(new_list, dtype=object)
