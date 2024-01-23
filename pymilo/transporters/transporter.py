@@ -36,7 +36,6 @@ class Transporter(ABC):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        pass
 
     @abstractmethod
     def deserialize(self, data, key, model_type):
@@ -91,7 +90,6 @@ class Transporter(ABC):
         :type command: Command class
         :return: pymilo transported output of data[key]
         """
-        pass
 
 
 class AbstractTransporter(Transporter):
