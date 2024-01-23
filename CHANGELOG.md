@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Naive Bayes models test runner
 - Naive Bayes chain 
 ### Changed
+- fix the order of `CFNode` fields serialization in `CFNodeTransporter`
 - `GeneralDataStructureTransporter` support list of ndarray with different shapes
 - Tests config modified
 - Naive Bayes params initialized in `pymilo_param`
