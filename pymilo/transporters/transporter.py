@@ -65,6 +65,17 @@ class Transporter(ABC):
         :type content: object
         :return: boolean, whether to bypass or not
         """
+        
+    @abstractmethod
+    def reset(self):
+        """
+        Reset internal data structures of the transport object.
+
+        Some Transporters may be stateful and have internal data structures getting filled during transportation.
+        
+        :return: None
+        """
+
     @abstractmethod
     def transport(self, request, command):
         """
