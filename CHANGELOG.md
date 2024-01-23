@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `reset` function in the `Transport` interface
+- `reset` function implementation in `AbstractTransporter`
 - `Gaussian Naive Bayes` declared as `GaussianNB` model 
 - `Multinomial Naive Bayes` model declared as `MultinomialNB` model
 - `Complement Naive Bayes` model declared as `ComplementNB` model
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Naive Bayes models test runner
 - Naive Bayes chain 
 ### Changed
+- `Transport` function of `AbstractTransporter` updated
 - fix the order of `CFNode` fields serialization in `CFNodeTransporter`
 - `GeneralDataStructureTransporter` support list of ndarray with different shapes
 - Tests config modified
