@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Clustering models test runner
 - Clustering chain 
 ### Changed
-- LossFunctionTransporter enhanced to handle scikit 1.4.0 `_loss_function_` field.
+- `LossFunctionTransporter` enhanced to handle scikit 1.4.0 `_loss_function_` field
 - Codacy Static Code Analyzer's suggestions applied
 - Spectral Clustering test folder refactored
 - Bug report template modified
