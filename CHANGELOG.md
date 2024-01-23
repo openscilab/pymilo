@@ -6,7 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `Gaussian Naive Bayes` declared as `GaussianNB` model 
+- `Multinomial Naive Bayes` model declared as `MultinomialNB` model
+- `Complement Naive Bayes` model declared as `ComplementNB` model
+- `Bernoulli Naive Bayes` model declared as `BernoulliNB` model
+- `Categorical Naive Bayes` model declared as `CategoricalNB` model
+- Naive Bayes models test runner
+- Naive Bayes chain 
 ### Changed
+- `GeneralDataStructureTransporter` support list of ndarray with different shapes
+- Tests config modified
+- Naive Bayes params initialized in `pymilo_param`
+- Naive Bayes support added to `pymilo_func.py`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
 ## [0.4] - 2024-01-22
 ### Added
 - `has_named_parameter` method in `util.py`
@@ -35,6 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Clustering models test runner
 - Clustering chain 
 ### Changed
+- `LossFunctionTransporter` enhanced to handle scikit 1.4.0 `_loss_function_` field
 - Codacy Static Code Analyzer's suggestions applied
 - Spectral Clustering test folder refactored
 - Bug report template modified

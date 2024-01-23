@@ -110,6 +110,13 @@ try:
 except BaseException:
     pass
 
+from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import ComplementNB
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import CategoricalNB
+
+
 SKLEARN_LINEAR_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
     "Ridge": Ridge,
@@ -180,6 +187,15 @@ SKLEARN_CLUSTERING_TABLE = {
     "BayesianGaussianMixture": BayesianGaussianMixture,
 }
 
+SKLEARN_NAIVE_BAYES_TABLE = {
+    "GaussianNB": GaussianNB,
+    "MultinomialNB": MultinomialNB,
+    "ComplementNB": ComplementNB,
+    "BernoulliNB": BernoulliNB,
+    "CategoricalNB": CategoricalNB,
+}
+
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
@@ -203,4 +219,5 @@ EXPORTED_MODELS_PATH = {
     "NEURAL_NETWORK": "exported_neural_networks",
     "DECISION_TREE": "exported_decision_trees",
     "CLUSTERING": "exported_clusterings",
+    "NAIVE_BAYES": "exported_naive_bayes",
 }

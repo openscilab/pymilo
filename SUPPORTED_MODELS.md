@@ -358,3 +358,40 @@
         <td>>=0.4</td>
 	</tr>
 </table>
+
+<h3 id="scikit-learn-trees">Naive Bayes</h3> 
+
+📚 <a href="https://scikit-learn.org/stable/modules/naive_bayes.html" target="_blank"><b>Models Document</b></a>
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>Gaussian Naive Bayes</b></td>
+        <td>>=0.5</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>Multinomial Naive Bayes</b></td>
+        <td>>=0.5</td>
+	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>Bernoulli Naive Bayes</b></td>
+        <td>>=0.5</td>
+	</tr>
+	<tr align="center">
+		<td>4</td>
+		<td><b>Complement Naive Bayes</b></td>
+        <td>>=0.5</td>
+	</tr>
+	<tr align="center">
+		<td>4</td>
+		<td><b>Categorical Naive Bayes</b></td>
+        <td>>=0.5</td>
+	</tr>
+</table>
