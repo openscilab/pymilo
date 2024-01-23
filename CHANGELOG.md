@@ -6,15 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- GaussianNaiveBayes
-- MultinomialNaiveBayes
-- ComplementNaiveBayes
-- BernoulliNaiveBayes
-- CategoricalNaiveBayes
+- `Gaussian Naive Bayes` declared as `GaussianNB` model 
+- `Multinomial Naive Bayes` model declared as `MultinomialNB` model
+- `Complement Naive Bayes` model declared as `ComplementNB` model
+- `Bernoulli Naive Bayes` model declared as `BernoulliNB` model
+- `Categorical Naive Bayes` model declared as `CategoricalNB` model
 - Naive Bayes models test runner
 - Naive Bayes chain 
 ### Changed
-- GeneralDataStructureTransporter enhanced to support list of ndarray with different shapes
+- `GeneralDataStructureTransporter` support list of ndarray with different shapes
 - Tests config modified
 - Naive Bayes params initialized in `pymilo_param`
 - Naive Bayes support added to `pymilo_func.py`
