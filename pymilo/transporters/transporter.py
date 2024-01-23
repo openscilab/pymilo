@@ -152,3 +152,13 @@ class AbstractTransporter(Transporter):
         else:
             # TODO error handeling.
             return None
+
+    def reset(self):
+        """
+        Reset internal data structures of the transport object.
+
+        Some Transporters may be stateful and have internal data structures getting filled during transportation.
+        
+        :return: None
+        """
+        return 
