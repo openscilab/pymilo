@@ -302,10 +302,10 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                         [x.dtype for x in new_list])
                     if (is_homogeneous_type):
                         if all_same([len(x) for x in new_list]):
-                            # handle the case (2,29) in (2,)
                             try:
                                 return np.asarray(new_list)
                             except Exception as _:
+                            # when we have a list of ndarrays with different shapes.
                                 return new_list
 
             return np.asarray(new_list, dtype=object)
