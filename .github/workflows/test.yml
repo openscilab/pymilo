@@ -31,7 +31,7 @@ jobs:
         run: |
           python otherfiles/requirements-splitter.py
           pip install --upgrade --upgrade-strategy=only-if-needed -r test-requirements.txt
-      - name: Test with pytest 
+      - name: Pymilo Functionality Tests with pytest 
         run: |
           python -m pytest . --cov=pymilo --cov-report=term
       - name: Upload coverage to Codecov
@@ -39,7 +39,7 @@ jobs:
         with:
             fail_ci_if_error: false
         if: matrix.python-version == env.TEST_PYTHON_VERSION && matrix.os == env.TEST_OS
-      - name: Other tests
+      - name: Vulture, Bandit and Pydocstyle Tests
         run: |
           python -m vulture pymilo/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
           python -m bandit -r pymilo -s B311
