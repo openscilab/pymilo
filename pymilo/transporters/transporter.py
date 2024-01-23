@@ -132,6 +132,7 @@ class AbstractTransporter(Transporter):
                     continue  # by-pass!!
                 data[key] = self.serialize(
                     data, key, get_sklearn_type(request))
+            self.reset()
 
         elif command == Command.DESERIALZIE:
             # request is a pymilo-created import object
@@ -145,6 +146,7 @@ class AbstractTransporter(Transporter):
                 model_type = request.type
             for key in data:
                 data[key] = self.deserialize(data, key, model_type)
+            self.reset()
             return
 
         else:
