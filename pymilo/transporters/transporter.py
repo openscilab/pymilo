@@ -57,6 +57,15 @@ class Transporter(ABC):
         """
 
     @abstractmethod
+    def bypass(self, content):
+        """
+        Determine whether to bypass transporting on this content or not.
+
+        :param content: either a ML model object's internal data dictionary or an object associated with the json string of a pymilo serialized ML model.
+        :type content: object
+        :return: boolean, whether to bypass or not
+        """
+    @abstractmethod
     def transport(self, request, command):
         """
         Either serializes or deserializes the request according to the given command.
