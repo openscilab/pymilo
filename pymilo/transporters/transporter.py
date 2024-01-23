@@ -64,7 +64,7 @@ class Transporter(ABC):
         :type content: object
         :return: boolean, whether to bypass or not
         """
-        
+
     @abstractmethod
     def reset(self):
         """
