@@ -36,7 +36,6 @@ class Transporter(ABC):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        pass
 
     @abstractmethod
     def deserialize(self, data, key, model_type):
@@ -57,6 +56,26 @@ class Transporter(ABC):
         """
 
     @abstractmethod
+    def bypass(self, content):
+        """
+        Determine whether to bypass transporting on this content or not.
+
+        :param content: either a ML model object's internal data dictionary(.__dict__) or an object associated with the json string of a pymilo serialized ML model.
+        :type content: object
+        :return: boolean, whether to bypass or not
+        """
+
+    @abstractmethod
+    def reset(self):
+        """
+        Reset internal data structures of the transport object.
+
+        Some Transporters may be stateful and have internal data structures getting filled during transportation.
+
+        :return: None
+        """
+
+    @abstractmethod
     def transport(self, request, command):
         """
         Either serializes or deserializes the request according to the given command.
@@ -64,14 +83,13 @@ class Transporter(ABC):
         basically in order to fully transport a request, we should traverse over all the keys of its internal data dictionary and
         pass it through the chain of associated transporters to get fully transported.
 
-        :param request: either a ML model object itself(when command is serialize) or 
+        :param request: either a ML model object itself(when command is serialize) or
         an object associated with the json string of a pymilo serialized ML model(when command is deserialize)
         :type request: object
         :param command: determines the type of transportation, it can be either Serialize or Deserialize
         :type command: Command class
         :return: pymilo transported output of data[key]
         """
-        pass
 
 
 class AbstractTransporter(Transporter):
@@ -114,6 +132,7 @@ class AbstractTransporter(Transporter):
                     continue  # by-pass!!
                 data[key] = self.serialize(
                     data, key, get_sklearn_type(request))
+            self.reset()
 
         elif command == Command.DESERIALZIE:
             # request is a pymilo-created import object
@@ -127,8 +146,19 @@ class AbstractTransporter(Transporter):
                 model_type = request.type
             for key in data:
                 data[key] = self.deserialize(data, key, model_type)
+            self.reset()
             return
 
         else:
             # TODO error handeling.
             return None
+
+    def reset(self):
+        """
+        Reset internal data structures of the transport object.
+
+        Some Transporters may be stateful and have internal data structures getting filled during transportation.
+
+        :return: None
+        """
+        return

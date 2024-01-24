@@ -305,7 +305,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                             try:
                                 return np.asarray(new_list)
                             except Exception as _:
-                            # when we have a list of ndarrays with different shapes.
+                                # when we have a list of ndarrays with different shapes.
                                 return new_list
 
             return np.asarray(new_list, dtype=object)

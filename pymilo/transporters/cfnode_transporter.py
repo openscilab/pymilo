@@ -23,7 +23,7 @@ class CFNodeTransporter(AbstractTransporter):
 
     def reset(self):
         """
-        Reset the CFNodeTransporter internal .
+        Reset the CFNodeTransporter's internal data structures.
 
         :return: None
         """
@@ -84,7 +84,9 @@ class CFNodeTransporter(AbstractTransporter):
                 value_id = self.get_cfnode_id(value)
                 data[key] = {
                     "pymilo_model_type": "_CFNode",
-                    "pymilo_cfnode_value": "PYMILO_CFNODE_RECURSION" if value_id in self.all_cfnodes else self.serialize_cfnode(value, gdst),
+                    "pymilo_cfnode_value": "PYMILO_CFNODE_RECURSION" if value_id in self.all_cfnodes else self.serialize_cfnode(
+                        value,
+                        gdst),
                     "pymilo_cfnode_id": value_id,
                 }
             elif (isinstance(value, list) and key == "subclusters_"):
