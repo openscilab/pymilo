@@ -71,7 +71,7 @@ class Transporter(ABC):
         Reset internal data structures of the transport object.
 
         Some Transporters may be stateful and have internal data structures getting filled during transportation.
-        
+
         :return: None
         """
 
@@ -83,7 +83,7 @@ class Transporter(ABC):
         basically in order to fully transport a request, we should traverse over all the keys of its internal data dictionary and
         pass it through the chain of associated transporters to get fully transported.
 
-        :param request: either a ML model object itself(when command is serialize) or 
+        :param request: either a ML model object itself(when command is serialize) or
         an object associated with the json string of a pymilo serialized ML model(when command is deserialize)
         :type request: object
         :param command: determines the type of transportation, it can be either Serialize or Deserialize
@@ -158,7 +158,7 @@ class AbstractTransporter(Transporter):
         Reset internal data structures of the transport object.
 
         Some Transporters may be stateful and have internal data structures getting filled during transportation.
-        
+
         :return: None
         """
         return
