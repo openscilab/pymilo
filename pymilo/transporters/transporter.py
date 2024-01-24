@@ -60,7 +60,7 @@ class Transporter(ABC):
         """
         Determine whether to bypass transporting on this content or not.
 
-        :param content: either a ML model object's internal data dictionary or an object associated with the json string of a pymilo serialized ML model.
+        :param content: either a ML model object's internal data dictionary(.__dict__) or an object associated with the json string of a pymilo serialized ML model.
         :type content: object
         :return: boolean, whether to bypass or not
         """
@@ -161,4 +161,4 @@ class AbstractTransporter(Transporter):
         
         :return: None
         """
-        return 
+        return

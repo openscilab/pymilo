@@ -23,7 +23,7 @@ class CFNodeTransporter(AbstractTransporter):
 
     def reset(self):
         """
-        Override the father's reset function and reset the CFNodeTransporter internal data structures.
+        Reset the CFNodeTransporter's internal data structures.
 
         :return: None
         """
