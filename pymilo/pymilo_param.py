@@ -75,7 +75,7 @@ try:
 except BaseException:
     pass
 
-PYMILO_VERSION = "0.4"
+PYMILO_VERSION = "0.5"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 
 
