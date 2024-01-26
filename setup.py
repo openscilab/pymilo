@@ -34,7 +34,7 @@ setup(
         'pymilo.chains',
         'pymilo.transporters',
         'pymilo.exceptions'],
-    version='0.4',
+    version='0.5',
     description='Transportation of ML models',
     long_description=read_description(),
     long_description_content_type='text/markdown',
