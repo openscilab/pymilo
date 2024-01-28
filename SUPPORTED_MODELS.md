@@ -9,6 +9,8 @@
 	* [Neural Networks](#scikit-learn-nn)
 	* [Decision Trees](#scikit-learn-trees)
 	* [Clustering Models](#scikit-learn-clustering)
+	* [Naive Bayes](#scikit-learn-naivebayes)
+	* [Support Vector Machine](#scikit-learn-svm)
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
 <h3 id="scikit-learn-linear">Linear Models</h3>
@@ -359,7 +361,7 @@
 	</tr>
 </table>
 
-<h3 id="scikit-learn-trees">Naive Bayes</h3> 
+<h3 id="scikit-learn-naivebayes">Naive Bayes</h3> 
 
 📚 <a href="https://scikit-learn.org/stable/modules/naive_bayes.html" target="_blank"><b>Models Document</b></a>
 
@@ -393,5 +395,53 @@
 		<td>4</td>
 		<td><b>Categorical Naive Bayes</b></td>
         <td>>=0.5</td>
+	</tr>
+</table>
+
+<h3 id="scikit-learn-svm">Support Vector Machine</h3> 
+
+📚 <a href="https://scikit-learn.org/stable/modules/svm.html" target="_blank"><b>Models Document</b></a>
+
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>Linear SVC</b></td>
+        <td>>=0.6</td>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>Linear SVR</b></td>
+        <td>>=0.6</td>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>NuSVC</b></td>
+        <td>>=0.6</td>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>NuSVR</b></td>
+        <td>>=0.6</td>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>One Class SVM</b></td>
+        <td>>=0.6</td>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>SVC</b></td>
+        <td>>=0.6</td>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>SVR</b></td>
+        <td>>=0.6</td>
 	</tr>
 </table>
