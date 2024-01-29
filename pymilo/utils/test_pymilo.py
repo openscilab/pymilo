@@ -16,6 +16,7 @@ from ..chains.neural_network_chain import is_neural_network
 from ..chains.decision_tree_chain import is_decision_tree
 from ..chains.clustering_chain import is_clusterer
 from ..chains.naive_bayes_chain import is_naive_bayes
+from ..chains.svm_chain import is_svm
 
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
@@ -39,6 +40,8 @@ def pymilo_export_path(model):
         model_type = "CLUSTERING"
     elif is_naive_bayes(model):
         model_type = "NAIVE_BAYES"
+    elif is_svm(model):
+        model_type = "SVM"
     else:
         model_type = None
     return EXPORTED_MODELS_PATH[model_type]
