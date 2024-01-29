@@ -7,5 +7,5 @@ MODEL_NAME = "LinearSVR"
 
 def linear_svr():
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
-    linear_svr = LinearSVR(dual="auto", random_state=3, tol=1e-5).fit(x_train, y_train)
+    linear_svr = LinearSVR(random_state=3, tol=1e-5).fit(x_train, y_train)
     pymilo_regression_test(linear_svr, MODEL_NAME, (x_test, y_test))
