@@ -8,6 +8,7 @@ from .chains.neural_network_chain import transport_neural_network, is_neural_net
 from .chains.decision_tree_chain import transport_decision_tree, is_decision_tree
 from .chains.clustering_chain import transport_clusterer, is_clusterer
 from .chains.naive_bayes_chain import transport_naive_bayes, is_naive_bayes
+from .chains.svm_chain import transport_svm, is_svm
 
 from .transporters.transporter import Command
 
@@ -39,6 +40,8 @@ def get_sklearn_data(model):
         return transport_clusterer(model, Command.SERIALIZE)
     elif is_naive_bayes(model):
         return transport_naive_bayes(model, Command.SERIALIZE)
+    elif is_svm(model):
+        return transport_svm(model, Command.SERIALIZE)
     else:
         return None
 
@@ -61,6 +64,8 @@ def to_sklearn_model(import_obj):
         return transport_clusterer(import_obj, Command.DESERIALZIE)
     elif is_naive_bayes(import_obj.type):
         return transport_naive_bayes(import_obj, Command.DESERIALZIE)
+    elif is_svm(import_obj.type):
+        return transport_svm(import_obj, Command.DESERIALZIE)
     else:
         return None
 
