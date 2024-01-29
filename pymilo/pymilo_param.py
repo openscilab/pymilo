@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+from sklearn.svm import SVR
+from sklearn.svm import SVC
+from sklearn.svm import OneClassSVM
+from sklearn.svm import NuSVR
+from sklearn.svm import NuSVC
+from sklearn.svm import LinearSVR
+from sklearn.svm import LinearSVC
+from sklearn.naive_bayes import CategoricalNB
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import ComplementNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import LabelBinarizer
 from numpy import uint8
 from numpy import inf
@@ -110,12 +122,6 @@ try:
 except BaseException:
     pass
 
-from sklearn.naive_bayes import GaussianNB
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.naive_bayes import ComplementNB
-from sklearn.naive_bayes import BernoulliNB
-from sklearn.naive_bayes import CategoricalNB
-
 
 SKLEARN_LINEAR_MODEL_TABLE = {
     "LinearRegression": LinearRegression,
@@ -195,6 +201,15 @@ SKLEARN_NAIVE_BAYES_TABLE = {
     "CategoricalNB": CategoricalNB,
 }
 
+SKLEARN_SVM_TABLE = {
+    "LinearSVC": LinearSVC,
+    "LinearSVR": LinearSVR,
+    "NuSVC": NuSVC,
+    "NuSVR": NuSVR,
+    "OneClassSVM": OneClassSVM,
+    "SVC": SVC,
+    "SVR": SVR,
+}
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
@@ -220,4 +235,5 @@ EXPORTED_MODELS_PATH = {
     "DECISION_TREE": "exported_decision_trees",
     "CLUSTERING": "exported_clusterings",
     "NAIVE_BAYES": "exported_naive_bayes",
+    "SVM": "exported_svms",
 }
