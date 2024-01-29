@@ -9,6 +9,7 @@
 	* [Neural Networks](#scikit-learn-nn)
 	* [Decision Trees](#scikit-learn-trees)
 	* [Clustering Models](#scikit-learn-clustering)
+	* [Naive Bayes](#scikit-learn-naivebayes)
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
 <h3 id="scikit-learn-linear">Linear Models</h3>
@@ -359,7 +360,7 @@
 	</tr>
 </table>
 
-<h3 id="scikit-learn-trees">Naive Bayes</h3> 
+<h3 id="scikit-learn-naivebayes">Naive Bayes</h3> 
 
 📚 <a href="https://scikit-learn.org/stable/modules/naive_bayes.html" target="_blank"><b>Models Document</b></a>
 
