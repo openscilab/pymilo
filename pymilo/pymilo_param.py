@@ -14,6 +14,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import LabelBinarizer
 from numpy import uint8
+from numpy import intc
 from numpy import inf
 from numpy import float64
 from numpy import int32
@@ -222,6 +223,7 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
 }
 
 NUMPY_TYPE_DICT = {
+    "numpy.intc": intc,
     "numpy.int32": int32,
     "numpy.int64": int64,
     "numpy.float64": float64,
