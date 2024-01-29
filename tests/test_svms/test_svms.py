@@ -1,15 +1,13 @@
 import os
 import pytest
 
-from pymilo.pymilo_param import SKLEARN_SVM_TABLE
-
 from linear_svc import linear_svc
 from linear_svr import linear_svr
 from nu_svc import nu_svc
 from nu_svr import nu_svr
 from one_class_svm import one_class_svm
 from svc import svc
-from svr import svr 
+from svr import svr
 
 SVMS = {
     "LINEAR": [linear_svc, linear_svr],
@@ -35,4 +33,4 @@ def reset_exported_models_directory():
 def test_full():
     for category in SVMS:
         for model in SVMS[category]:
-            return # model()
+            model()
