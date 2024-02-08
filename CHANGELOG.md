@@ -6,7 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `SVR` model
+- `SVC` model
+- `One Class SVM` model
+- `NuSVR` model
+- `NuSVC` model
+- `Linear SVR` model
+- `Linear SVC` model
+- SVM models test runner
+- SVM chain
 ### Changed
+- Tests config modified
+- SVM params initialized in `pymilo_param`
+- SVM support added to `pymilo_func.py`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
 ## [0.5] - 2024-01-31
 ### Added
 - `reset` function in the `Transport` interface
@@ -17,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Bernoulli Naive Bayes` model declared as `BernoulliNB` model
 - `Categorical Naive Bayes` model declared as `CategoricalNB` model
 - Naive Bayes models test runner
-- Naive Bayes chain 
+- Naive Bayes chain
 ### Changed
 - `Transport` function of `AbstractTransporter` updated
 - fix the order of `CFNode` fields serialization in `CFNodeTransporter`
