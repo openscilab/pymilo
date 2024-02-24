@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
 ## [0.5] - 2024-01-31
 ### Added
 - `reset` function in the `Transport` interface
