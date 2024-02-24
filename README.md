@@ -139,7 +139,7 @@ Details are available in [Supported Models](https://github.com/openscilab/pymilo
 
 ## Issues & bug reports
 
-Just fill an issue and describe it. We'll check it ASAP! or send an email to [info@openscilab.com](mailto:info@openscilab.com "info@openscilab.com"). 
+Just fill an issue and describe it. We'll check it ASAP! or send an email to [pymilo@openscilab.com](mailto:pymilo@openscilab.com "pymilo@openscilab.com"). 
 
 - Please complete the issue template
  
