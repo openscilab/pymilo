@@ -92,7 +92,7 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 - Run `pip install .`
 
 ## Usage
-### Simple Linear Model Preparation 
+### Model preparation 
 ```pycon
 >>> from sklearn import datasets
 >>> from pymilo import Export, Import
@@ -106,25 +106,25 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 >>> #### Train the model using the training sets
 >>> model.fit(X_train, Y_train)
 ```
-### Save Model 
+### Save model 
 ```pycon
 >>> #### Export the fitted model to a transparent json file
 >>> exported_model = Export(model)
 >>> PATH_TO_JSON_FILE = os.path.join(os.getcwd(),"test.json")
 >>> exported_model.save(PATH_TO_JSON_FILE)
 ```
-### Load Model
+### Load model
 ```pycon
 >>> #### Import the pymilo-exported model and get a real scikit model
 >>> imported_model = Import(PATH_TO_JSON_FILE)
 ```
-### Get the associated Scikit model
+### Get the associated model
 ```pycon 
 >>> imported_sklearn_model = imported_model.to_model()
 ```
 #### Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
 
-## Supported ML Models
+## Supported ML models
 | scikit-learn | PyTorch | 
 | ---------------- | ---------------- | 
 | Linear Models &#x2705; | - | 
@@ -150,7 +150,7 @@ You can also join our discord server
 </a>
 
 
-## Show Your Support
+## Show your support
 
 
 ### Star this repo
