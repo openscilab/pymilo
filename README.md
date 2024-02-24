@@ -24,7 +24,6 @@
 * [Installation](https://github.com/openscilab/pymilo#installation)
 * [Usage](https://github.com/openscilab/pymilo#usage)
 * [Issues & Bug Reports](https://github.com/openscilab/pymilo#issues--bug-reports)
-* [Todo](https://github.com/openscilab/pymilo/blob/main/TODO.md)
 * [Contribution](https://github.com/openscilab/pymilo/blob/main/.github/CONTRIBUTING.md)
 * [Authors](https://github.com/openscilab/pymilo/blob/main/AUTHORS.md)
 * [License](https://github.com/openscilab/pymilo/blob/main/LICENSE)
