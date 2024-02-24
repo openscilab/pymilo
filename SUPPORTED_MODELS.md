@@ -1,6 +1,6 @@
 # Supported Models
 
-### Last Update: 2023-12-06
+### Last Update: 2024-02-25
 
 ## Table of Contents
 
@@ -391,7 +391,7 @@
         <td>>=0.5</td>
 	</tr>
 	<tr align="center">
-		<td>4</td>
+		<td>5</td>
 		<td><b>Categorical Naive Bayes</b></td>
         <td>>=0.5</td>
 	</tr>
