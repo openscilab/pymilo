@@ -64,10 +64,10 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
     <tr>
         <td align="center">CI</td>
         <td align="center">
-            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=main">
+            <img src="https://github.com/openscilab/pymilo/actions/workflows/test.yml/badge.svg?branch=main">
         </td>
         <td align="center">
-            <img src="https://github.com/openscilab/pymilo/workflows/CI/badge.svg?branch=dev">
+            <img src="https://github.com/openscilab/pymilo/actions/workflows/test.yml/badge.svg?branch=dev">
             </td>
     </tr>
 </table>
