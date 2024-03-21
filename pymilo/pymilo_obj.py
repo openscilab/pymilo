@@ -5,8 +5,8 @@ from .utils.util import get_sklearn_type
 from .pymilo_param import PYMILO_VERSION
 import json
 
-from pymilo.exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
-from pymilo.exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
+from .exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+from .exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from traceback import format_exc
 
 
@@ -99,6 +99,11 @@ class Import:
             else:
                 with open(file_adr, 'r') as fp:
                     serialized_model_obj = json.load(fp)
+            if not "pymilo_version" in serialized_model_obj:
+                print("TODO error handling")
+                return
+            if not serialized_model_obj["pymilo_version"] == PYMILO_VERSION:
+                print("Raise warning")
             self.data = serialized_model_obj["data"]
             self.version = serialized_model_obj["sklearn_version"]
             self.type = serialized_model_obj["model_type"]
