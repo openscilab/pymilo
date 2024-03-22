@@ -23,7 +23,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         new_tuple = tuple()
         for item in tuple_field:
             if (isinstance(item, np.ndarray)):
-                new_tuple += (self.ndarray_to_list(item),)
+                new_tuple += (self.serialize_ndarray(item),)
             else:
                 new_tuple += (item,)
         return new_tuple
