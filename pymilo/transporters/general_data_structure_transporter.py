@@ -159,8 +159,16 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         if isinstance(data[key], dict):
             return self.get_deserialized_dict(data[key])
+
         elif isinstance(data[key], list):
-            return self.list_to_ndarray(data[key])
+            new_list = []
+            for item in data[key]:
+                if self.is_deserialized_ndarray(item):
+                    new_list.append(self.deserialize_ndarray(item))
+                else:
+                    new_list.append(self.deserialize_primitive_type(item))
+            return new_list
+            
         elif self.is_numpy_primary_type(data[key]):
             return self.get_deserialized_regular_primary_types(data[key])
         else:
