@@ -189,11 +189,27 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: the original dictionary
         """
         black_list_key_values = []
+
         if not isinstance(content, dict):
             return content
+
+        if self.is_deserialized_ndarray(content):
+            return self.deserialize_ndarray(content)
+
         for key in content:
-            if isinstance(content[key], list):
-                content[key] = self.list_to_ndarray(content[key])
+
+            if isinstance(content[key], dict):
+                content[key] = self.get_deserialized_dict(content[key])
+
+            elif isinstance(content[key], list):
+                new_list = []
+                for item in content[key]:
+                    if self.is_deserialized_ndarray(item):
+                        new_list.append(self.deserialize_ndarray(item))
+                    else:
+                        new_list.append(self.deserialize_primitive_type(item))
+                content[key] = new_list
+
             if check_str_in_iterable(
                     "np-type", content[key]):
                 new_key = NUMPY_TYPE_DICT[content[key]["np-type"]](key)
@@ -203,6 +219,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             prev_key, new_key, new_value = black_key_value
             del content[prev_key]
             content[new_key] = new_value
+
         return content
 
     def get_deserialized_list(self, content):
