@@ -44,7 +44,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         for key in dictionary:
             # check inner field as a np.ndarray
             if isinstance(dictionary[key], np.ndarray):
-                dictionary[key] = self.ndarray_to_list(dictionary[key])
+                dictionary[key] = self.serialize_ndarray(dictionary[key])
             # check inner field as np.int32
             if isinstance(key, np.int32):
                 new_value = {
