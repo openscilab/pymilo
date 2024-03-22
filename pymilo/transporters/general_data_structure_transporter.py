@@ -313,6 +313,15 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
             return np.asarray(new_list, dtype=object)
         else:
+    def deserialize_primitive_type(self, primitive):
+        if is_primitive(primitive):
+            return primitive
+        elif isinstance(primitive, dict) and "np-type" in primitive:
+            return NUMPY_TYPE_DICT[primitive["np-type"]
+                                    ](primitive['value'])
+        else:
+            return primitive
+
     def serialize_ndarray(self, ndarray):
 
         if(not(isinstance(ndarray, np.ndarray))):
