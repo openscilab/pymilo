@@ -313,6 +313,37 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
             return np.asarray(new_list, dtype=object)
         else:
+    def serialize_ndarray(self, ndarray):
+
+        if(not(isinstance(ndarray, np.ndarray))):
+            return None # throw error 
+        
+        listed_ndarray = ndarray.tolist()
+        dtype = ndarray.dtype
+
+        new_list = []
+        for item in listed_ndarray:
+            if isinstance(item, np.ndarray):
+                new_list.append(self.serialize_ndarray(item))
+            else:
+                new_list.append(item)
+        
+        return {
+            'pymiloed-ndarray-list': new_list,
+            'pymiloed-ndarray-dtype': str(dtype),
+            'pymiloed-data-structure': 'numpy.ndarray'
+        }
+            
+    def is_deserialized_ndarray(self, deserialized_ndarray):
+        
+        if not(isinstance(deserialized_ndarray, dict)):
+            return False
+        
+        if not('pymiloed-data-structure' in deserialized_ndarray and deserialized_ndarray['pymiloed-data-structure'] == 'numpy.ndarray'):
+            return False 
+        
+        return True 
+
     def deserialize_ndarray(self, deserialized_ndarray):
         
         if not self.is_deserialized_ndarray(deserialized_ndarray):
