@@ -222,13 +222,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return None
         new_list = []
         for item in content:
-            if is_primitive(item):
-                new_list.append(item)
-            elif "np-type" in item:
-                new_list.append(
-                    NUMPY_TYPE_DICT[item["np-type"]](item['value']))
-            else:
-                new_list.append(item)
+            new_list.append(self.deserialize_primitive_type(item))
         return np.array(new_list)
 
     def get_deserialized_regular_primary_types(self, content):
