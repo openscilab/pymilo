@@ -315,6 +315,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
             return np.asarray(new_list, dtype=object)
         else:
+            return self.deserialize_primitive_type(list_item)
+
     def deserialize_primitive_type(self, primitive):
         if is_primitive(primitive):
             return primitive
