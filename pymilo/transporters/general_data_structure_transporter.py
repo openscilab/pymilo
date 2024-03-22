@@ -116,13 +116,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     new_list.append(
                         {"value": int(item), "np-type": "numpy.int64"})
                 elif isinstance(item, np.ndarray):
-                    new_list.append(self.ndarray_to_list(item))
+                    new_list.append(self.serialize_ndarray(item))
                 else:
                     new_list.append(item)
             data[key] = new_list
 
         elif isinstance(data[key], np.ndarray):
-            data[key] = self.ndarray_to_list(data[key])
+            data[key] = self.serialize_ndarray(data[key])
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
