@@ -313,10 +313,20 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
             return np.asarray(new_list, dtype=object)
         else:
-            if is_primitive(list_item):
-                return list_item
-            elif isinstance(list_item, dict) and "np-type" in list_item:
-                return NUMPY_TYPE_DICT[list_item["np-type"]
-                                       ](list_item['value'])
+    def deserialize_ndarray(self, deserialized_ndarray):
+        
+        if not self.is_deserialized_ndarray(deserialized_ndarray):
+            return None # throw error
+
+        inner_list = deserialized_ndarray['pymiloed-ndarray-list']
+        dtype = deserialized_ndarray['pymiloed-ndarray-dtype']
+
+        new_list = []
+        for item in inner_list:
+            if self.is_deserialized_ndarray(item):
+                new_list.append(self.deserialize_ndarray(item))
             else:
-                return list_item
+                new_list.append(item)
+        
+        return np.asarray(new_list, dtype= dtype)
+
