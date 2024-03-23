@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo Function transporter."""
 
-from ..utils.util import import_function
+from ..utils.util import import_function, check_str_in_iterable
 from .transporter import AbstractTransporter
 from types import FunctionType
 
@@ -61,7 +61,7 @@ class FunctionTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if isinstance(content, dict) and "function_name" in content:
+        if check_str_in_iterable("function_name", content):
             return import_function(
                 content["function_module"],
                 content["function_name"]

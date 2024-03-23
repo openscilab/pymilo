@@ -351,7 +351,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         if is_primitive(primitive):
             return primitive
-        elif isinstance(primitive, dict) and "np-type" in primitive:
+        elif check_str_in_iterable("np-type", primitive):
             return NUMPY_TYPE_DICT[primitive["np-type"]
                                    ](primitive['value'])
         else:

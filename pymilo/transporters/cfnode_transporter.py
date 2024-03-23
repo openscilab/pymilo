@@ -6,7 +6,7 @@ from sklearn.cluster._birch import _CFSubcluster
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 
-from ..utils.util import has_named_parameter
+from ..utils.util import has_named_parameter, check_str_in_iterable
 
 
 class CFNodeTransporter(AbstractTransporter):
@@ -59,7 +59,7 @@ class CFNodeTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if isinstance(content, dict) and "pymilo_model_type" in content and content["pymilo_model_type"] == "_CFNode":
+        if check_str_in_iterable("pymilo_model_type",content) and content["pymilo_model_type"] == "_CFNode":
             return self.deserialize_cfnode(content, GeneralDataStructureTransporter())
         else:
             return content
@@ -117,8 +117,8 @@ class CFNodeTransporter(AbstractTransporter):
         current_cfnode = self.retrieved_cfnodes[cfnode_pymiloed_obj["pymilo_cfnode_id"]]
         # init non left, right and subcluster.
         for key, value in cfnode_pymiloed_obj.items():
-
-            if isinstance(value, dict) and "pymilo_model_type" in value and value["pymilo_model_type"] == "_CFNode":
+            
+            if check_str_in_iterable("pymilo_model_type",value) and value["pymilo_model_type"] == "_CFNode":
                 if value["pymilo_cfnode_id"] in self.retrieved_cfnodes.keys():
                     cfnode_pymiloed_obj[key] = self.retrieved_cfnodes[value["pymilo_cfnode_id"]]
                     # case of recursion.
@@ -167,7 +167,7 @@ class CFNodeTransporter(AbstractTransporter):
         :return: sklearn.cluster._birch._CFSubcluster
         """
         for key, value in cfsubcluster_pymiloed_obj.items():
-            if isinstance(value, dict) and "pymilo_model_type" in value and value["pymilo_model_type"] == "_CFNode":
+            if check_str_in_iterable("pymilo_model_type",value) and value["pymilo_model_type"] == "_CFNode":
                 cfsubcluster_pymiloed_obj[key] = self.deserialize_cfnode(value["pymilo_cfnode_value"], gdst)
             else:
                 cfsubcluster_pymiloed_obj[key] = gdst.deserialize(cfsubcluster_pymiloed_obj, key, str(_CFSubcluster))

@@ -4,7 +4,7 @@
 from ..pymilo_param import SKLEARN_CLUSTERING_TABLE, NOT_SUPPORTED
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
-from ..utils.util import is_iterable
+from ..utils.util import check_str_in_iterable
 
 bisecting_tree_support = SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED
 if bisecting_tree_support:
@@ -114,7 +114,6 @@ def is_pymilo_serialized_bisecting_tree(psbt):
     :return: boolean
     """
     return (
-        isinstance(psbt, dict) and
-        "pymilo_model_type" in psbt and
+        check_str_in_iterable("pymilo_model_type", psbt) and
         psbt["pymilo_model_type"] == "_BisectingTree"
     )
