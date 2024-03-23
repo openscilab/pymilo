@@ -30,6 +30,7 @@ class TreeTransporter(AbstractTransporter):
             tree_inner_state = tree.__getstate__()
 
             data[key] = {
+                'pymilo-bypass': True,
                 'params': {
                     'internal_state': {
                         "max_depth": tree_inner_state["max_depth"],
