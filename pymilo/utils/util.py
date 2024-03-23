@@ -49,7 +49,7 @@ def check_str_in_iterable(field, content):
 
     :param field: given string field
     :type field: str
-    :param content: given supposed to be a dictionary 
+    :param content: given supposed to be a dictionary
     :type content: obj
     :return: True if associated field is an iterable string in content and False otherwise.
     """
@@ -57,6 +57,7 @@ def check_str_in_iterable(field, content):
         return field in content
     else:
         return False
+
 
 def get_homogeneous_type(seq):
     """
