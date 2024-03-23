@@ -99,7 +99,7 @@ class Import:
             else:
                 with open(file_adr, 'r') as fp:
                     serialized_model_obj = json.load(fp)
-            if not "pymilo_version" in serialized_model_obj:
+            if "pymilo_version" not in serialized_model_obj:
                 print("TODO error handling")
                 return
             if not serialized_model_obj["pymilo_version"] == PYMILO_VERSION:
