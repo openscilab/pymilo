@@ -27,7 +27,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         new_tuple = tuple()
         for item in tuple_field:
             if (isinstance(item, np.ndarray)):
-                new_tuple += (self.serialize_ndarray(item),)
+                new_tuple += (self.deep_serialize_ndarray(item),)
             else:
                 new_tuple += (item,)
         return new_tuple
@@ -48,7 +48,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         for key in dictionary:
             # check inner field as a np.ndarray
             if isinstance(dictionary[key], np.ndarray):
-                dictionary[key] = self.serialize_ndarray(dictionary[key])
+                dictionary[key] = self.deep_serialize_ndarray(dictionary[key])
             # check inner field as np.int32
             if isinstance(key, np.int32):
                 new_value = {
@@ -120,13 +120,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     new_list.append(
                         {"value": int(item), "np-type": "numpy.int64"})
                 elif isinstance(item, np.ndarray):
-                    new_list.append(self.serialize_ndarray(item))
+                    new_list.append(self.deep_serialize_ndarray(item))
                 else:
                     new_list.append(item)
             data[key] = new_list
 
         elif isinstance(data[key], np.ndarray):
-            data[key] = self.serialize_ndarray(data[key])
+            data[key] = self.deep_serialize_ndarray(data[key])
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
@@ -171,7 +171,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             new_list = []
             for item in data[key]:
                 if self.is_deserialized_ndarray(item):
-                    new_list.append(self.deserialize_ndarray(item))
+                    new_list.append(self.deep_deserialize_ndarray(item))
                 else:
                     new_list.append(self.deserialize_primitive_type(item))
             return new_list
@@ -201,7 +201,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return content
 
         if self.is_deserialized_ndarray(content):
-            return self.deserialize_ndarray(content)
+            return self.deep_deserialize_ndarray(content)
 
         for key in content:
 
@@ -212,7 +212,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_list = []
                 for item in content[key]:
                     if self.is_deserialized_ndarray(item):
-                        new_list.append(self.deserialize_ndarray(item))
+                        new_list.append(self.deep_deserialize_ndarray(item))
                     else:
                         new_list.append(self.deserialize_primitive_type(item))
                 content[key] = new_list
@@ -357,7 +357,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         else:
             return primitive
 
-    def serialize_ndarray(self, ndarray):
+    def deep_serialize_ndarray(self, ndarray):
         """
         Serialize the given ndarray.
 
@@ -374,7 +374,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         new_list = []
         for item in listed_ndarray:
             if isinstance(item, np.ndarray):
-                new_list.append(self.serialize_ndarray(item))
+                new_list.append(self.deep_serialize_ndarray(item))
             else:
                 new_list.append(item)
 
@@ -401,7 +401,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         return True
 
-    def deserialize_ndarray(self, deserialized_ndarray):
+    def deep_deserialize_ndarray(self, deserialized_ndarray):
         """
         Deserialize the given deserialized_ndarray to its fully ndarray format.
 
@@ -421,7 +421,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         new_list = []
         for item in inner_list:
             if self.is_deserialized_ndarray(item):
-                new_list.append(self.deserialize_ndarray(item))
+                new_list.append(self.deep_deserialize_ndarray(item))
             else:
                 new_list.append(item)
 

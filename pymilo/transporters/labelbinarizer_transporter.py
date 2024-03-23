@@ -41,7 +41,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
         data = label_binarizer.__dict__
         for key in data:
             if isinstance(data[key], np.ndarray):
-                data[key] = GeneralDataStructureTransporter().serialize_ndarray(data[key])
+                data[key] = GeneralDataStructureTransporter().deep_serialize_ndarray(data[key])
         return data
 
     def deserialize(self, data, key, model_type):
