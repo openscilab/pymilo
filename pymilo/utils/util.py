@@ -56,7 +56,7 @@ def check_str_in_iterable(field, content):
     if isinstance(content, dict):
         return field in content
     else:
-        return None # throw an error
+        return False
 
 def get_homogeneous_type(seq):
     """
