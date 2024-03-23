@@ -70,12 +70,7 @@ def get_homogeneous_type(seq):
     """
     iseq = iter(seq)
     first_type = type(next(iseq))
-    return (
-        True,
-        first_type) if all(
-        (type(x) is first_type) for x in iseq) else (
-            False,
-        None)
+    return (True, first_type) if all((isinstance(x, first_type)) for x in iseq) else (False, None)
 
 
 def all_same(arr):
