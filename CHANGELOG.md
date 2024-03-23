@@ -20,12 +20,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - SVM models test runner
 - SVM chain
 ### Changed
-- `GeneralDataStructureTransporter` refactored to use deep ndarray serializer & deserializer
-- `check_str_in_iterable` refactored
-- `Label Binarizer` Transporter enhanced
-- `Function` Transporter enhanced
-- `CFNode` Transporter enhanced
-- `Bisecting Tree` Transporter enhanced
+- `TreeTransporter` updated
+- `get_homogeneous_type` function in `util.py` updated
+- `GeneralDataStructureTransporter` updated to use deep ndarray serializer & deserializer
+- `check_str_in_iterable` updated
+- `Label Binarizer` Transporter updated
+- `Function` Transporter updated
+- `CFNode` Transporter updated
+- `Bisecting Tree` Transporter updated
 - Tests config modified
 - SVM params initialized in `pymilo_param`
 - SVM support added to `pymilo_func.py`
