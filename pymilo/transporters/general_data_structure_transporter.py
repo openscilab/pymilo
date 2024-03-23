@@ -158,7 +158,10 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         if isinstance(data[key], dict):
-            return self.get_deserialized_dict(data[key])
+            if 'pymilo-bypass' in data[key]:
+                return data[key]
+            else:
+                return self.get_deserialized_dict(data[key])
 
         elif isinstance(data[key], list):
             new_list = []
