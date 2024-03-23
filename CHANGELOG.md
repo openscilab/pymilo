@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `deserialize_primitive_type` function in `GeneralDataStructureTransporter`
+- `is_deserialized_ndarray` function in `GeneralDataStructureTransporter`
+- `deep_deserialize_ndarray` function in `GeneralDataStructureTransporter`
+- `deep_serialize_ndarray`  function in `GeneralDataStructureTransporter`
 - `SVR` model
 - `SVC` model
 - `One Class SVM` model
@@ -16,6 +20,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - SVM models test runner
 - SVM chain
 ### Changed
+- `GeneralDataStructureTransporter` refactored to use deep ndarray serializer & deserializer
+- `check_str_in_iterable` refactored
+- `Label Binarizer` Transporter enhanced
+- `Function` Transporter enhanced
+- `CFNode` Transporter enhanced
+- `Bisecting Tree` Transporter enhanced
 - Tests config modified
 - SVM params initialized in `pymilo_param`
 - SVM support added to `pymilo_func.py`
