@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """PyMilo GeneralDataStructure transporter."""
 import numpy as np
+from ast import literal_eval
+
 from ..pymilo_param import NUMPY_TYPE_DICT
+
 from ..utils.util import get_homogeneous_type, all_same
 from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
+
 from .transporter import AbstractTransporter
 
 
@@ -410,6 +414,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         inner_list = deserialized_ndarray['pymiloed-ndarray-list']
         dtype = deserialized_ndarray['pymiloed-ndarray-dtype']
 
+        if dtype.startswith("["):
+            dtype = literal_eval(dtype)
+
         new_list = []
         for item in inner_list:
             if self.is_deserialized_ndarray(item):
@@ -418,4 +425,3 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_list.append(item)
         
         return np.asarray(new_list, dtype= dtype)
-
