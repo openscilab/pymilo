@@ -62,7 +62,7 @@ class FunctionTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if isinstance(content, Iterable) and "function_name" in content:
+        if isinstance(content, dict) and "function_name" in content:
             return import_function(
                 content["function_module"],
                 content["function_name"]

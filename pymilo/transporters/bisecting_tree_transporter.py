@@ -114,7 +114,7 @@ def is_pymilo_serialized_bisecting_tree(psbt):
     :return: boolean
     """
     return (
-        is_iterable(psbt) and
+        isinstance(psbt, dict) and
         "pymilo_model_type" in psbt and
         psbt["pymilo_model_type"] == "_BisectingTree"
     )
