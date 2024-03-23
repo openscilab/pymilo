@@ -45,22 +45,18 @@ def is_iterable(obj):
 
 def check_str_in_iterable(field, content):
     """
-    Check if the specified string field exists in content, which is supposed to be an iterable object.
+    Check if the specified string field exists in content, which is supposed to be a dictionary.
 
     :param field: given string field
     :type field: str
-    :param content: given supposed to be an iterable object
+    :param content: given supposed to be a dictionary 
     :type content: obj
     :return: True if associated field is an iterable string in content and False otherwise.
     """
-    if not is_iterable(content):
-        return False
-    if isinstance(content, ndarray):
-        # https://stackoverflow.com/questions/40659212/futurewarning-elementwise-comparison-failed-returning-scalar-but-in-the-futur.
-        return False
-    else:
+    if isinstance(content, dict):
         return field in content
-
+    else:
+        return None # throw an error
 
 def get_homogeneous_type(seq):
     """
