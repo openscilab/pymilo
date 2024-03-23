@@ -175,7 +175,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 else:
                     new_list.append(self.deserialize_primitive_type(item))
             return new_list
-            
+
         elif self.is_numpy_primary_type(data[key]):
             return self.get_deserialized_regular_primary_types(data[key])
         else:
@@ -353,7 +353,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return primitive
         elif isinstance(primitive, dict) and "np-type" in primitive:
             return NUMPY_TYPE_DICT[primitive["np-type"]
-                                    ](primitive['value'])
+                                   ](primitive['value'])
         else:
             return primitive
 
@@ -361,13 +361,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         Serialize the given ndarray.
 
-        :param ndarray_item: given ndarray needed to get serialized to 
+        :param ndarray_item: given ndarray needed to get serialized to
         :type ndarray_item: numpy.ndarray
         :return: dict
         """
-        if(not(isinstance(ndarray, np.ndarray))):
-            return None # throw error 
-        
+        if (not (isinstance(ndarray, np.ndarray))):
+            return None  # throw error
+
         listed_ndarray = ndarray.tolist()
         dtype = ndarray.dtype
 
@@ -377,13 +377,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_list.append(self.serialize_ndarray(item))
             else:
                 new_list.append(item)
-        
+
         return {
             'pymiloed-ndarray-list': new_list,
             'pymiloed-ndarray-dtype': str(dtype),
             'pymiloed-data-structure': 'numpy.ndarray'
         }
-            
+
     def is_deserialized_ndarray(self, deserialized_ndarray):
         """
         Check whether the given input is a previously pymilo-deserialized ndarray.
@@ -392,13 +392,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :type deserialized_ndarray: obj
         :return: bool
         """
-        if not(isinstance(deserialized_ndarray, dict)):
+        if not (isinstance(deserialized_ndarray, dict)):
             return False
-        
-        if not('pymiloed-data-structure' in deserialized_ndarray and deserialized_ndarray['pymiloed-data-structure'] == 'numpy.ndarray'):
-            return False 
-        
-        return True 
+
+        if not (
+                'pymiloed-data-structure' in deserialized_ndarray and deserialized_ndarray['pymiloed-data-structure'] == 'numpy.ndarray'):
+            return False
+
+        return True
 
     def deserialize_ndarray(self, deserialized_ndarray):
         """
@@ -409,7 +410,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: numpy.ndarray
         """
         if not self.is_deserialized_ndarray(deserialized_ndarray):
-            return None # throw error
+            return None  # throw error
 
         inner_list = deserialized_ndarray['pymiloed-ndarray-list']
         dtype = deserialized_ndarray['pymiloed-ndarray-dtype']
@@ -423,5 +424,5 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_list.append(self.deserialize_ndarray(item))
             else:
                 new_list.append(item)
-        
-        return np.asarray(new_list, dtype= dtype)
+
+        return np.asarray(new_list, dtype=dtype)
