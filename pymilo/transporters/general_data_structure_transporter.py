@@ -276,12 +276,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def ndarray_to_list(self, ndarray_item):
         """
-        Serialize deeply the given ndarray to its fully listed format.
+        Convert the given ndarray to its fully listed format.
 
             1. convert itself to a list
-            2. iterate over it's elements and apply nd2list serialization if it's eligible
+            2. iterate over it's elements and apply ndarray to list conversion if it's eligible
 
-        :param ndarray_item: given ndarray needed to get serialized to it's fully listed form
+        :param ndarray_item: given ndarray needed to get converted to it's fully listed form
         :type ndarray_item: numpy.ndarray
         :return: list
         """
@@ -296,12 +296,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def list_to_ndarray(self, list_item):
         """
-        Deserialize deeply the given list to its fully ndarray format.
+        Convert the given list to its fully ndarray format.
 
-            1. iterate over it's elements and apply list2nd deserialization if it's eligible
+            1. iterate over it's elements and apply list to ndarray conversion if it's eligible
             2. convert the coarse-grained list to ndarray
 
-        :param list_item: given list needed to get deserialized to it's np.ndarray form
+        :param list_item: given list needed to get converted to it's np.ndarray form
         :type list_item: list
         :return: numpy.ndarray
         """
@@ -335,6 +335,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return self.deserialize_primitive_type(list_item)
 
     def deserialize_primitive_type(self, primitive):
+        """
+        Deserialize the given primitive data type.
+
+        :param primitive: given primitive needed to get deserialized to it's pure primitive form
+        :type primitive: pure python primitive or dict
+        :return: pure python primitive or numpy primitive data type
+        """
         if is_primitive(primitive):
             return primitive
         elif isinstance(primitive, dict) and "np-type" in primitive:
@@ -344,7 +351,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return primitive
 
     def serialize_ndarray(self, ndarray):
+        """
+        Serialize the given ndarray.
 
+        :param ndarray_item: given ndarray needed to get serialized to 
+        :type ndarray_item: numpy.ndarray
+        :return: dict
+        """
         if(not(isinstance(ndarray, np.ndarray))):
             return None # throw error 
         
@@ -365,7 +378,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         }
             
     def is_deserialized_ndarray(self, deserialized_ndarray):
-        
+        """
+        Check whether the given input is a previously pymilo-deserialized ndarray.
+
+        :param deserialized_ndarray: given input to get checked
+        :type deserialized_ndarray: obj
+        :return: bool
+        """
         if not(isinstance(deserialized_ndarray, dict)):
             return False
         
@@ -375,7 +394,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         return True 
 
     def deserialize_ndarray(self, deserialized_ndarray):
-        
+        """
+        Deserialize the given deserialized_ndarray to its fully ndarray format.
+
+        :param deserialized_ndarray: given deserialized_ndarray needed to get deserialized to it's np.ndarray form
+        :type deserialized_ndarray: dict
+        :return: numpy.ndarray
+        """
         if not self.is_deserialized_ndarray(deserialized_ndarray):
             return None # throw error
 
