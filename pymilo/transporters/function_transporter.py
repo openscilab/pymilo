@@ -4,7 +4,6 @@
 from ..utils.util import import_function
 from .transporter import AbstractTransporter
 from types import FunctionType
-from collections.abc import Iterable
 
 array_function_dispatcher_support = False
 try:
