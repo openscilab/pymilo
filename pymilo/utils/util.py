@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """utility module."""
-from numpy import ndarray
 from inspect import signature
 import importlib
 
