@@ -415,32 +415,32 @@
         <td>>=0.6</td>
 	</tr>
 	<tr align="center">
-		<td>1</td>
+		<td>2</td>
 		<td><b>Linear SVR</b></td>
         <td>>=0.6</td>
 	</tr>
 	<tr align="center">
-		<td>1</td>
+		<td>3</td>
 		<td><b>NuSVC</b></td>
         <td>>=0.6</td>
 	</tr>
 	<tr align="center">
-		<td>1</td>
+		<td>4</td>
 		<td><b>NuSVR</b></td>
         <td>>=0.6</td>
 	</tr>
 	<tr align="center">
-		<td>1</td>
+		<td>5</td>
 		<td><b>One Class SVM</b></td>
         <td>>=0.6</td>
 	</tr>
 	<tr align="center">
-		<td>1</td>
+		<td>6</td>
 		<td><b>SVC</b></td>
         <td>>=0.6</td>
 	</tr>
 	<tr align="center">
-		<td>1</td>
+		<td>7</td>
 		<td><b>SVR</b></td>
         <td>>=0.6</td>
 	</tr>
