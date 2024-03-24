@@ -6,7 +6,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `deserialize_primitive_type` function in `GeneralDataStructureTransporter`
+- `is_deserialized_ndarray` function in `GeneralDataStructureTransporter`
+- `deep_deserialize_ndarray` function in `GeneralDataStructureTransporter`
+- `deep_serialize_ndarray`  function in `GeneralDataStructureTransporter`
+- `SVR` model
+- `SVC` model
+- `One Class SVM` model
+- `NuSVR` model
+- `NuSVC` model
+- `Linear SVR` model
+- `Linear SVC` model
+- SVM models test runner
+- SVM chain
 ### Changed
+- `TreeTransporter` updated
+- `get_homogeneous_type` function in `util.py` updated
+- `GeneralDataStructureTransporter` updated to use deep ndarray serializer & deserializer
+- `check_str_in_iterable` updated
+- `Label Binarizer` Transporter updated
+- `Function` Transporter updated
+- `CFNode` Transporter updated
+- `Bisecting Tree` Transporter updated
+- Tests config modified
+- SVM params initialized in `pymilo_param`
+- SVM support added to `pymilo_func.py`
 - `SUPPORTED_MODELS.md` updated
 - `README.md` updated
 ## [0.5] - 2024-01-31
@@ -19,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Bernoulli Naive Bayes` model declared as `BernoulliNB` model
 - `Categorical Naive Bayes` model declared as `CategoricalNB` model
 - Naive Bayes models test runner
-- Naive Bayes chain 
+- Naive Bayes chain
 ### Changed
 - `Transport` function of `AbstractTransporter` updated
 - fix the order of `CFNode` fields serialization in `CFNodeTransporter`

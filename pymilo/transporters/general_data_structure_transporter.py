@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """PyMilo GeneralDataStructure transporter."""
 import numpy as np
+from ast import literal_eval
+
 from ..pymilo_param import NUMPY_TYPE_DICT
+
 from ..utils.util import get_homogeneous_type, all_same
 from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
+
 from .transporter import AbstractTransporter
 
 
@@ -23,7 +27,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         new_tuple = tuple()
         for item in tuple_field:
             if (isinstance(item, np.ndarray)):
-                new_tuple += (self.ndarray_to_list(item),)
+                new_tuple += (self.deep_serialize_ndarray(item),)
             else:
                 new_tuple += (item,)
         return new_tuple
@@ -44,7 +48,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         for key in dictionary:
             # check inner field as a np.ndarray
             if isinstance(dictionary[key], np.ndarray):
-                dictionary[key] = self.ndarray_to_list(dictionary[key])
+                dictionary[key] = self.deep_serialize_ndarray(dictionary[key])
             # check inner field as np.int32
             if isinstance(key, np.int32):
                 new_value = {
@@ -97,6 +101,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     "value": "infinite"  # added for compatibility
                 }
 
+        elif isinstance(data[key], np.intc):
+            data[key] = {"value": int(data[key]), "np-type": "numpy.intc"}
+
         elif isinstance(data[key], np.int32):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int32"}
 
@@ -113,13 +120,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     new_list.append(
                         {"value": int(item), "np-type": "numpy.int64"})
                 elif isinstance(item, np.ndarray):
-                    new_list.append(self.ndarray_to_list(item))
+                    new_list.append(self.deep_serialize_ndarray(item))
                 else:
                     new_list.append(item)
             data[key] = new_list
 
         elif isinstance(data[key], np.ndarray):
-            data[key] = self.ndarray_to_list(data[key])
+            data[key] = self.deep_serialize_ndarray(data[key])
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
@@ -155,9 +162,20 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         if isinstance(data[key], dict):
-            return self.get_deserialized_dict(data[key])
+            if 'pymilo-bypass' in data[key]:
+                return data[key]
+            else:
+                return self.get_deserialized_dict(data[key])
+
         elif isinstance(data[key], list):
-            return self.list_to_ndarray(data[key])
+            new_list = []
+            for item in data[key]:
+                if self.is_deserialized_ndarray(item):
+                    new_list.append(self.deep_deserialize_ndarray(item))
+                else:
+                    new_list.append(self.deserialize_primitive_type(item))
+            return new_list
+
         elif self.is_numpy_primary_type(data[key]):
             return self.get_deserialized_regular_primary_types(data[key])
         else:
@@ -178,11 +196,27 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: the original dictionary
         """
         black_list_key_values = []
+
         if not isinstance(content, dict):
             return content
+
+        if self.is_deserialized_ndarray(content):
+            return self.deep_deserialize_ndarray(content)
+
         for key in content:
-            if isinstance(content[key], list):
-                content[key] = self.list_to_ndarray(content[key])
+
+            if isinstance(content[key], dict):
+                content[key] = self.get_deserialized_dict(content[key])
+
+            elif isinstance(content[key], list):
+                new_list = []
+                for item in content[key]:
+                    if self.is_deserialized_ndarray(item):
+                        new_list.append(self.deep_deserialize_ndarray(item))
+                    else:
+                        new_list.append(self.deserialize_primitive_type(item))
+                content[key] = new_list
+
             if check_str_in_iterable(
                     "np-type", content[key]):
                 new_key = NUMPY_TYPE_DICT[content[key]["np-type"]](key)
@@ -192,6 +226,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             prev_key, new_key, new_value = black_key_value
             del content[prev_key]
             content[new_key] = new_value
+
         return content
 
     def get_deserialized_list(self, content):
@@ -211,13 +246,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return None
         new_list = []
         for item in content:
-            if is_primitive(item):
-                new_list.append(item)
-            elif "np-type" in item:
-                new_list.append(
-                    NUMPY_TYPE_DICT[item["np-type"]](item['value']))
-            else:
-                new_list.append(item)
+            new_list.append(self.deserialize_primitive_type(item))
         return np.array(new_list)
 
     def get_deserialized_regular_primary_types(self, content):
@@ -254,12 +283,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def ndarray_to_list(self, ndarray_item):
         """
-        Serialize deeply the given ndarray to its fully listed format.
+        Convert the given ndarray to its fully listed format.
 
             1. convert itself to a list
-            2. iterate over it's elements and apply nd2list serialization if it's eligible
+            2. iterate over it's elements and apply ndarray to list conversion if it's eligible
 
-        :param ndarray_item: given ndarray needed to get serialized to it's fully listed form
+        :param ndarray_item: given ndarray needed to get converted to it's fully listed form
         :type ndarray_item: numpy.ndarray
         :return: list
         """
@@ -274,12 +303,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
     def list_to_ndarray(self, list_item):
         """
-        Deserialize deeply the given list to its fully ndarray format.
+        Convert the given list to its fully ndarray format.
 
-            1. iterate over it's elements and apply list2nd deserialization if it's eligible
+            1. iterate over it's elements and apply list to ndarray conversion if it's eligible
             2. convert the coarse-grained list to ndarray
 
-        :param list_item: given list needed to get deserialized to it's np.ndarray form
+        :param list_item: given list needed to get converted to it's np.ndarray form
         :type list_item: list
         :return: numpy.ndarray
         """
@@ -310,10 +339,90 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
             return np.asarray(new_list, dtype=object)
         else:
-            if is_primitive(list_item):
-                return list_item
-            elif isinstance(list_item, dict) and "np-type" in list_item:
-                return NUMPY_TYPE_DICT[list_item["np-type"]
-                                       ](list_item['value'])
+            return self.deserialize_primitive_type(list_item)
+
+    def deserialize_primitive_type(self, primitive):
+        """
+        Deserialize the given primitive data type.
+
+        :param primitive: given primitive needed to get deserialized to it's pure primitive form
+        :type primitive: pure python primitive or dict
+        :return: pure python primitive or numpy primitive data type
+        """
+        if is_primitive(primitive):
+            return primitive
+        elif check_str_in_iterable("np-type", primitive):
+            return NUMPY_TYPE_DICT[primitive["np-type"]
+                                   ](primitive['value'])
+        else:
+            return primitive
+
+    def deep_serialize_ndarray(self, ndarray):
+        """
+        Serialize the given ndarray.
+
+        :param ndarray_item: given ndarray needed to get serialized to
+        :type ndarray_item: numpy.ndarray
+        :return: dict
+        """
+        if (not (isinstance(ndarray, np.ndarray))):
+            return None  # throw error
+
+        listed_ndarray = ndarray.tolist()
+        dtype = ndarray.dtype
+
+        new_list = []
+        for item in listed_ndarray:
+            if isinstance(item, np.ndarray):
+                new_list.append(self.deep_serialize_ndarray(item))
             else:
-                return list_item
+                new_list.append(item)
+
+        return {
+            'pymiloed-ndarray-list': new_list,
+            'pymiloed-ndarray-dtype': str(dtype),
+            'pymiloed-data-structure': 'numpy.ndarray'
+        }
+
+    def is_deserialized_ndarray(self, deserialized_ndarray):
+        """
+        Check whether the given input is a previously pymilo-deserialized ndarray.
+
+        :param deserialized_ndarray: given input to get checked
+        :type deserialized_ndarray: obj
+        :return: bool
+        """
+        if not (isinstance(deserialized_ndarray, dict)):
+            return False
+
+        if not (
+                'pymiloed-data-structure' in deserialized_ndarray and deserialized_ndarray['pymiloed-data-structure'] == 'numpy.ndarray'):
+            return False
+
+        return True
+
+    def deep_deserialize_ndarray(self, deserialized_ndarray):
+        """
+        Deserialize the given deserialized_ndarray to its fully ndarray format.
+
+        :param deserialized_ndarray: given deserialized_ndarray needed to get deserialized to it's np.ndarray form
+        :type deserialized_ndarray: dict
+        :return: numpy.ndarray
+        """
+        if not self.is_deserialized_ndarray(deserialized_ndarray):
+            return None  # throw error
+
+        inner_list = deserialized_ndarray['pymiloed-ndarray-list']
+        dtype = deserialized_ndarray['pymiloed-ndarray-dtype']
+
+        if dtype.startswith("["):
+            dtype = literal_eval(dtype)
+
+        new_list = []
+        for item in inner_list:
+            if self.is_deserialized_ndarray(item):
+                new_list.append(self.deep_deserialize_ndarray(item))
+            else:
+                new_list.append(item)
+
+        return np.asarray(new_list, dtype=dtype)

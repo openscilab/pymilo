@@ -4,6 +4,7 @@ from ..pymilo_param import KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION
 from sklearn import preprocessing
 import numpy as np
 from .transporter import AbstractTransporter
+from .general_data_structure_transporter import GeneralDataStructureTransporter
 
 
 class LabelBinarizerTransporter(AbstractTransporter):
@@ -40,7 +41,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
         data = label_binarizer.__dict__
         for key in data:
             if isinstance(data[key], np.ndarray):
-                data[key] = data[key].tolist()
+                data[key] = GeneralDataStructureTransporter().deep_serialize_ndarray(data[key])
         return data
 
     def deserialize(self, data, key, model_type):

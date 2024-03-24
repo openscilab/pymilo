@@ -1,7 +1,20 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+from sklearn.svm import SVR
+from sklearn.svm import SVC
+from sklearn.svm import OneClassSVM
+from sklearn.svm import NuSVR
+from sklearn.svm import NuSVC
+from sklearn.svm import LinearSVR
+from sklearn.svm import LinearSVC
+from sklearn.naive_bayes import CategoricalNB
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import ComplementNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import LabelBinarizer
 from numpy import uint8
+from numpy import intc
 from numpy import inf
 from numpy import float64
 from numpy import int32
@@ -77,7 +90,8 @@ except BaseException:
 
 PYMILO_VERSION = "0.5"
 NOT_SUPPORTED = "NOT_SUPPORTED"
-
+PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
+UNEQUAL_PYMILO_VERSIONS = "warning: Installed Pymilo version differes from pymilo version used to create the JSON file."
 
 glm_support = {
     'GammaRegressor': False,
@@ -109,12 +123,6 @@ try:
     quantile_regressor_support = True
 except BaseException:
     pass
-
-from sklearn.naive_bayes import GaussianNB
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.naive_bayes import ComplementNB
-from sklearn.naive_bayes import BernoulliNB
-from sklearn.naive_bayes import CategoricalNB
 
 
 SKLEARN_LINEAR_MODEL_TABLE = {
@@ -195,6 +203,15 @@ SKLEARN_NAIVE_BAYES_TABLE = {
     "CategoricalNB": CategoricalNB,
 }
 
+SKLEARN_SVM_TABLE = {
+    "LinearSVC": LinearSVC,
+    "LinearSVR": LinearSVR,
+    "NuSVC": NuSVC,
+    "NuSVR": NuSVR,
+    "OneClassSVM": OneClassSVM,
+    "SVC": SVC,
+    "SVR": SVR,
+}
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
@@ -207,6 +224,7 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
 }
 
 NUMPY_TYPE_DICT = {
+    "numpy.intc": intc,
     "numpy.int32": int32,
     "numpy.int64": int64,
     "numpy.float64": float64,
@@ -220,4 +238,5 @@ EXPORTED_MODELS_PATH = {
     "DECISION_TREE": "exported_decision_trees",
     "CLUSTERING": "exported_clusterings",
     "NAIVE_BAYES": "exported_naive_bayes",
+    "SVM": "exported_svms",
 }

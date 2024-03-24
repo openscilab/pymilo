@@ -30,6 +30,7 @@ class TreeTransporter(AbstractTransporter):
             tree_inner_state = tree.__getstate__()
 
             data[key] = {
+                'pymilo-bypass': True,
                 'params': {
                     'internal_state': {
                         "max_depth": tree_inner_state["max_depth"],
@@ -81,9 +82,9 @@ class TreeTransporter(AbstractTransporter):
             tree_internal_state = tree_params["internal_state"]
 
             nodes_dtype_spec = []
-            for i in range(len(tree_internal_state["nodes"]["types"])):
+            for idx, node_type in enumerate(tree_internal_state["nodes"]["types"]):
                 nodes_dtype_spec.append(
-                    (tree_internal_state["nodes"]["field-names"][i], NUMPY_TYPE_DICT["numpy." + tree_internal_state["nodes"]["types"][i]]))
+                    (tree_internal_state["nodes"]["field-names"][idx], NUMPY_TYPE_DICT["numpy." + node_type]))
             nodes = [tuple(node)
                      for node in tree_internal_state["nodes"]["values"]]
             nodes = np.array(nodes, dtype=nodes_dtype_spec)
@@ -97,8 +98,8 @@ class TreeTransporter(AbstractTransporter):
 
             n_classes = np.ndarray(
                 shape=(np.intp(len(tree_params["n_classes"])),), dtype=np.intp)
-            for i in range(len(n_classes)):
-                n_classes[i] = tree_params["n_classes"][i]
+            for idx,_ in enumerate(n_classes):
+                n_classes[idx] = tree_params["n_classes"][idx]
 
             _tree = Tree(
                 tree_params["n_features"],
