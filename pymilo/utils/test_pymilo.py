@@ -2,6 +2,7 @@
 """pymilo test modules."""
 import os
 import copy
+from numpy import array_equal
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
@@ -17,6 +18,7 @@ from ..chains.decision_tree_chain import is_decision_tree
 from ..chains.clustering_chain import is_clusterer
 from ..chains.naive_bayes_chain import is_naive_bayes
 from ..chains.svm_chain import is_svm
+from ..chains.neighbours_chain import is_neighbors
 
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
@@ -42,6 +44,8 @@ def pymilo_export_path(model):
         model_type = "NAIVE_BAYES"
     elif is_svm(model):
         model_type = "SVM"
+    elif is_neighbors(model):
+        model_type = "NEIGHBORS"
     else:
         model_type = None
     return EXPORTED_MODELS_PATH[model_type]
