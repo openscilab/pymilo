@@ -10,6 +10,7 @@ type_to_tree = {
     "BallTree": BallTree
 }
 
+
 class NeighborsTreeTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle (pyi,pyx) NeighborsTreeTransporter object."""
 
@@ -29,7 +30,7 @@ class NeighborsTreeTransporter(AbstractTransporter):
             data[key] = {
                 'pymilo-bypass': True,
                 'pymilo-tree-type': "KDTree",
-                }
+            }
         elif isinstance(data[key], BallTree):
             data[key] = {
                 'pymilo-bypass': True,
@@ -56,14 +57,14 @@ class NeighborsTreeTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if (key == "_tree" and not content == None and 
+        if (key == "_tree" and content is not None and
             (model_type == "KNeighborsRegressor" or
              model_type == "KNeighborsClassifier" or
              model_type == "RadiusNeighborsRegressor" or
-             model_type == "RadiusNeighborsClassifier" or 
+             model_type == "RadiusNeighborsClassifier" or
              model_type == "NearestNeighbors" or
              model_type == "NearestCentroid"
-            )):
+             )):
             _tree = type_to_tree[content["pymilo-tree-type"]](
                 data["_fit_X"],
                 data["leaf_size"],

@@ -173,9 +173,9 @@ def pymilo_nearest_neighbor_test(nearest_neighbor, model_name, test_data):
     :return: True if the test succeed
     """
     x_test, _ = test_data
-    pre_pymilo_kneighbors = nearest_neighbor.kneighbors([x_test[0]], 3, return_distance= True)    
+    pre_pymilo_kneighbors = nearest_neighbor.kneighbors([x_test[0]], 3, return_distance=True)
     post_pymilo_nearest_neighbor = pymilo_test(nearest_neighbor, model_name)
-    post_pymilo_kneighbors = post_pymilo_nearest_neighbor.kneighbors([x_test[0]], 3, return_distance= True)
+    post_pymilo_kneighbors = post_pymilo_nearest_neighbor.kneighbors([x_test[0]], 3, return_distance=True)
     report_status(array_equal(pre_pymilo_kneighbors, post_pymilo_kneighbors), model_name)
 
 
