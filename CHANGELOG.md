@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - SVM chain
 ### Changed
 - `pymilo_param.py` updated
-- `pymilo_obj.py` updated to use predefined strings.
+- `pymilo_obj.py` updated to use predefined strings
 - `TreeTransporter` updated
 - `get_homogeneous_type` function in `util.py` updated
 - `GeneralDataStructureTransporter` updated to use deep ndarray serializer & deserializer
