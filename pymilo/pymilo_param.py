@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import RadiusNeighborsRegressor
+from sklearn.neighbors import RadiusNeighborsClassifier
+from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors import NearestCentroid
+from sklearn.neighbors import LocalOutlierFactor
+
 from sklearn.svm import SVR
 from sklearn.svm import SVC
 from sklearn.svm import OneClassSVM
@@ -213,6 +221,16 @@ SKLEARN_SVM_TABLE = {
     "SVR": SVR,
 }
 
+SKLEARN_NEIGHBORS_TABLE = {
+    "KNeighborsRegressor": KNeighborsRegressor,
+    "KNeighborsClassifier": KNeighborsClassifier,
+    "RadiusNeighborsRegressor": RadiusNeighborsRegressor,
+    "RadiusNeighborsClassifier": RadiusNeighborsClassifier,
+    "NearestNeighbors": NearestNeighbors,
+    "NearestCentroid": NearestCentroid,
+    "LocalOutlierFactor": LocalOutlierFactor,
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
@@ -239,4 +257,5 @@ EXPORTED_MODELS_PATH = {
     "CLUSTERING": "exported_clusterings",
     "NAIVE_BAYES": "exported_naive_bayes",
     "SVM": "exported_svms",
+    "NEIGHBORS": "exported_neighbors"
 }

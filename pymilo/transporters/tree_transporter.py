@@ -98,7 +98,7 @@ class TreeTransporter(AbstractTransporter):
 
             n_classes = np.ndarray(
                 shape=(np.intp(len(tree_params["n_classes"])),), dtype=np.intp)
-            for idx,_ in enumerate(n_classes):
+            for idx, _ in enumerate(n_classes):
                 n_classes[idx] = tree_params["n_classes"][idx]
 
             _tree = Tree(

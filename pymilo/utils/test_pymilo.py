@@ -2,6 +2,7 @@
 """pymilo test modules."""
 import os
 import copy
+from numpy import array_equal
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
@@ -17,6 +18,7 @@ from ..chains.decision_tree_chain import is_decision_tree
 from ..chains.clustering_chain import is_clusterer
 from ..chains.naive_bayes_chain import is_naive_bayes
 from ..chains.svm_chain import is_svm
+from ..chains.neighbours_chain import is_neighbors
 
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
@@ -42,6 +44,8 @@ def pymilo_export_path(model):
         model_type = "NAIVE_BAYES"
     elif is_svm(model):
         model_type = "SVM"
+    elif is_neighbors(model):
+        model_type = "NEIGHBORS"
     else:
         model_type = None
     return EXPORTED_MODELS_PATH[model_type]
@@ -154,6 +158,25 @@ def pymilo_clustering_test(clusterer, model_name, x_test, support_prediction=Fal
         # TODO, apply peer to peer
         # Evaluation: peer to peer field type & value check
         return report_status(True, model_name)
+
+
+def pymilo_nearest_neighbor_test(nearest_neighbor, model_name, test_data):
+    """
+    Test the package's main structure in nearest neighbor task.
+
+    :param nearest_neighbor: the given nearest neighbor model
+    :type nearest_neighbor: sklearn's nearest neighbor class
+    :param model_name: model name
+    :type model_name: str
+    :param test_data: data for testing
+    :type test_data: np.ndarray or list
+    :return: True if the test succeed
+    """
+    x_test, _ = test_data
+    pre_pymilo_kneighbors = nearest_neighbor.kneighbors([x_test[0]], 3, return_distance=True)
+    post_pymilo_nearest_neighbor = pymilo_test(nearest_neighbor, model_name)
+    post_pymilo_kneighbors = post_pymilo_nearest_neighbor.kneighbors([x_test[0]], 3, return_distance=True)
+    report_status(array_equal(pre_pymilo_kneighbors, post_pymilo_kneighbors), model_name)
 
 
 def report_status(result, model_name):
