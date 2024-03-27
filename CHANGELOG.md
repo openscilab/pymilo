@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+### Changed
+
+## [0.6] - 2024-03-27
+### Added
 - `deserialize_primitive_type` function in `GeneralDataStructureTransporter`
 - `is_deserialized_ndarray` function in `GeneralDataStructureTransporter`
 - `deep_deserialize_ndarray` function in `GeneralDataStructureTransporter`
@@ -20,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - SVM models test runner
 - SVM chain
 ### Changed
+- `pymilo_param.py` updated
+- `pymilo_obj.py` updated to use predefined strings
 - `TreeTransporter` updated
 - `get_homogeneous_type` function in `util.py` updated
 - `GeneralDataStructureTransporter` updated to use deep ndarray serializer & deserializer
@@ -138,7 +144,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.5...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.6...dev
+[0.6]: https://github.com/openscilab/pymilo/compare/v0.5...v0.6
 [0.5]: https://github.com/openscilab/pymilo/compare/v0.4...v0.5
 [0.4]: https://github.com/openscilab/pymilo/compare/v0.3...v0.4
 [0.3]: https://github.com/openscilab/pymilo/compare/v0.2...v0.3
