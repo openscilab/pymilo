@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 ## [0.7] - 2024-04-03
 ### Added
+- `pymilo_nearest_neighbor_test` function added to `test_pymilo.py`
+- `NeighborsTreeTransporter` Transporter
 - `LocalOutlierFactor` model
 - `RadiusNeighborsClassifier` model
 - `RadiusNeighborsRegressor` model
