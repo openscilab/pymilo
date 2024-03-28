@@ -7,7 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
-
+## [0.7] - 2024-04-03
+### Added
+- `LocalOutlierFactor` model
+- `RadiusNeighborsClassifier` model
+- `RadiusNeighborsRegressor` model
+- `NearestCentroid` model
+- `NearestNeighbors` model
+- `KNeighborsClassifier` model
+- `KNeighborsRegressor` model
+- Neighbors models test runner
+- Neighbors chain
+### Changed
+- Tests config modified
+- Neighbors params initialized in `pymilo_param`
+- Neighbors support added to `pymilo_func.py`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
 ## [0.6] - 2024-03-27
 ### Added
 - `deserialize_primitive_type` function in `GeneralDataStructureTransporter`
@@ -144,7 +160,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.6...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.7...dev
+[0.7]: https://github.com/openscilab/pymilo/compare/v0.6...v0.7
 [0.6]: https://github.com/openscilab/pymilo/compare/v0.5...v0.6
 [0.5]: https://github.com/openscilab/pymilo/compare/v0.4...v0.5
 [0.4]: https://github.com/openscilab/pymilo/compare/v0.3...v0.4
