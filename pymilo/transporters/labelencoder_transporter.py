@@ -39,9 +39,6 @@ class LabelEncoderTransporter(AbstractTransporter):
         """
         Deserialize previously pymilo serialized LabelEncoder object.
 
-        the associated loss_function_ field of the pymilo serialized model, is extracted through
-        the SGDClassifier's _get_loss_function function with enough feeding of the needed inputs.
-
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
