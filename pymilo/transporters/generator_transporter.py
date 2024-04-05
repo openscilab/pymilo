@@ -7,10 +7,11 @@ from numpy.random import default_rng
 
 class GeneratorTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle Generator objects."""
+
     def serialize(self, data, key, model_type):
         """
         Serialize Generator object.
-        
+
         serialize the data[key] of the given model which type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
         pass it through the chain of associated transporters to get fully serialized.

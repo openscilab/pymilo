@@ -105,7 +105,7 @@ class TreePredictorTransporter(AbstractTransporter):
 
     def deserialize_tree_predictor(self, serialized_tree_predictor):
         """
-        Deserialize to pure Treepredictor object
+        Deserialize to pure Treepredictor object.
 
         :param serialized_tree_predictor: pymilo-serialized treepredictor
         :type serialized_tree_predictor: dict
