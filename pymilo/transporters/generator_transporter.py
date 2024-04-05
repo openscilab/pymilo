@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo Loss function transporter."""
+"""PyMilo Generator transporter."""
 from numpy.random._generator import Generator
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
@@ -9,7 +9,7 @@ class GeneratorTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle Generator objects."""
     def serialize(self, data, key, model_type):
         """
-        Serialize Generator values.
+        Serialize Generator object.
         
         serialize the data[key] of the given model which type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
@@ -35,7 +35,7 @@ class GeneratorTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        Deserialize previously pymilo serialized Generator objects.
+        Deserialize previously pymilo serialized Generator object.
 
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
