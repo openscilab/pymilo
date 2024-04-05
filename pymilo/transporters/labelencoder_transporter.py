@@ -28,11 +28,9 @@ class LabelEncoderTransporter(AbstractTransporter):
         if isinstance(data[key], LabelEncoder):
             label_encoder = data[key]
             data[key] = {
-                "pymilo-bypass": True,
-                "pymilo-labelencoder": {
-                    "classes_": GeneralDataStructureTransporter().deep_serialize_ndarray(label_encoder.__dict__["classes_"])
-                }
-            }
+                "pymilo-bypass": True, "pymilo-labelencoder": {
+                    "classes_": GeneralDataStructureTransporter().deep_serialize_ndarray(
+                        label_encoder.__dict__["classes_"])}}
         return data[key]
 
     def deserialize(self, data, key, model_type):
@@ -55,11 +53,15 @@ class LabelEncoderTransporter(AbstractTransporter):
         content = data[key]
         if is_primitive(content) or isinstance(content, type(None)):
             return content
-        
+
         if check_str_in_iterable("pymilo-labelencoder", content):
             serialized_le = content["pymilo-labelencoder"]
             label_encoder = LabelEncoder()
-            setattr(label_encoder, "classes_", GeneralDataStructureTransporter().deep_deserialize_ndarray(serialized_le["classes_"]))
+            setattr(
+                label_encoder,
+                "classes_",
+                GeneralDataStructureTransporter().deep_deserialize_ndarray(
+                    serialized_le["classes_"]))
             return label_encoder
-        
+
         return content

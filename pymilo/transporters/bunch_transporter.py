@@ -4,6 +4,7 @@ from sklearn.utils._bunch import Bunch
 from .transporter import AbstractTransporter
 from ..utils.util import check_str_in_iterable
 
+
 class BunchTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle Bunch objects."""
 
@@ -26,15 +27,15 @@ class BunchTransporter(AbstractTransporter):
             _dict = {}
             for key, value in bunch.items():
                 _dict[key] = value
-            dicted_bunch["pymiloed-data"] = _dict 
+            dicted_bunch["pymiloed-data"] = _dict
             return dicted_bunch
-        
+
         return data[key]
 
     def deserialize(self, data, key, model_type):
         """
         Deserialize previously pymilo serialized Bunch object.
-        
+
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
@@ -54,6 +55,6 @@ class BunchTransporter(AbstractTransporter):
             dicted_bunch = content["pymiloed-data"]
             for key, value in dicted_bunch.items():
                 bunch[key] = value
-            return bunch 
+            return bunch
         else:
             return content

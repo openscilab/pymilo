@@ -5,6 +5,7 @@ from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 from numpy.random import default_rng
 
+
 class GeneratorTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle Generator objects."""
 
@@ -54,11 +55,11 @@ class GeneratorTransporter(AbstractTransporter):
         content = data[key]
         if is_primitive(content) or isinstance(content, type(None)):
             return content
-        
+
         if check_str_in_iterable("pymilo-generator", content):
             serialized_generator = content["pymilo-generator"]
             generator = default_rng(0)
             generator.__setstate__(serialized_generator["state"])
             return generator
-        
+
         return content

@@ -5,6 +5,7 @@ from ..utils.util import check_str_in_iterable
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 
+
 class TreePredictorTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle TreePredictor objects."""
 
@@ -74,7 +75,9 @@ class TreePredictorTransporter(AbstractTransporter):
 
         :return: bool
         """
-        return check_str_in_iterable("pymiloed-data-structure", serialized_treepredictor) and serialized_treepredictor["pymiloed-data-structure"] == "TreePredictor"
+        return check_str_in_iterable(
+            "pymiloed-data-structure",
+            serialized_treepredictor) and serialized_treepredictor["pymiloed-data-structure"] == "TreePredictor"
 
     def serialize_tree_predictor(self, treepredictor):
         """
@@ -115,14 +118,19 @@ class TreePredictorTransporter(AbstractTransporter):
         nodes = serialized_tree_predictor["pymiloed-data"]["nodes"]["pymiloed-ndarray-list"]
         for idx, value in enumerate(nodes):
             nodes[idx] = tuple(value)
-        
+
         binned_left_cat_bitsets = serialized_tree_predictor["pymiloed-data"]["binned_left_cat_bitsets"]
         raw_left_cat_bitsets = serialized_tree_predictor["pymiloed-data"]["raw_left_cat_bitsets"]
-        
+
         return TreePredictor(
-            nodes= gdst.deep_deserialize_ndarray(serialized_tree_predictor["pymiloed-data"]["nodes"]),
-            binned_left_cat_bitsets= gdst.deep_deserialize_ndarray(binned_left_cat_bitsets["content"]).reshape(binned_left_cat_bitsets["shape"]),
-            raw_left_cat_bitsets= gdst.deep_deserialize_ndarray(raw_left_cat_bitsets["content"]).reshape(raw_left_cat_bitsets["shape"]),
+            nodes=gdst.deep_deserialize_ndarray(
+                serialized_tree_predictor["pymiloed-data"]["nodes"]),
+            binned_left_cat_bitsets=gdst.deep_deserialize_ndarray(
+                binned_left_cat_bitsets["content"]).reshape(
+                binned_left_cat_bitsets["shape"]),
+            raw_left_cat_bitsets=gdst.deep_deserialize_ndarray(
+                raw_left_cat_bitsets["content"]).reshape(
+                raw_left_cat_bitsets["shape"]),
         )
 
     def serialize_possible_inner_tree_predictor(self, _list):

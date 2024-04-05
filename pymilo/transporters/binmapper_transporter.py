@@ -59,7 +59,7 @@ class BinMapperTransporter(AbstractTransporter):
         content = data[key]
         if is_primitive(content) or isinstance(content, type(None)):
             return content
-        
+
         if check_str_in_iterable("pymilo-binmapper", content):
             __dict__ = content["pymilo-binmapper"]["__dict__"]
             binMapper = _BinMapper()
@@ -69,5 +69,5 @@ class BinMapperTransporter(AbstractTransporter):
             for key in __dict__:
                 setattr(binMapper, key, __dict__[key])
             return binMapper
-        
+
         return content

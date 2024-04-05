@@ -52,7 +52,7 @@ class OneHotEncoderTransporter(AbstractTransporter):
         content = data[key]
         if is_primitive(content) or isinstance(content, type(None)):
             return content
-        
+
         if check_str_in_iterable("pymilo-onehotencoder", content):
             return OneHotEncoder(sparse_output=content["pymilo-onehotencoder"]["sparse_output"])
         return content
