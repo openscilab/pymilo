@@ -24,7 +24,6 @@ class TreePredictorTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-
         if isinstance(data[key], TreePredictor):
             return self.serialize_tree_predictor(data[key], model_type)
         elif isinstance(data[key], list):
