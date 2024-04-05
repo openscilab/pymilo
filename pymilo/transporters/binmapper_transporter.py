@@ -7,7 +7,7 @@ from .general_data_structure_transporter import GeneralDataStructureTransporter
 
 
 class BinMapperTransporter(AbstractTransporter):
-    """Customized PyMilo Transporter developed to handle _BinMapper fields."""
+    """Customized PyMilo Transporter developed to handle _BinMapper objects."""
 
     def serialize(self, data, key, model_type):
         """
