@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 """PyMilo Bunch transporter."""
-from sklearn.utils._bunch import Bunch
+
+bunch_support = False
+try:
+    from sklearn.utils._bunch import Bunch
+    bunch_support = True
+except BaseException:
+    pass
+
 from .transporter import AbstractTransporter
 from ..utils.util import check_str_in_iterable
 
@@ -20,7 +27,7 @@ class BunchTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(data[key], Bunch):
+        if bunch_support and isinstance(data[key], Bunch):
             bunch = data[key]
             dicted_bunch = {}
             dicted_bunch["pymiloed-data-structure"] = "Bunch"
@@ -50,7 +57,7 @@ class BunchTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if check_str_in_iterable("pymiloed-data-structure", content) and content["pymiloed-data-structure"] == "Bunch":
+        if bunch_support and check_str_in_iterable("pymiloed-data-structure", content) and content["pymiloed-data-structure"] == "Bunch":
             bunch = Bunch()
             dicted_bunch = content["pymiloed-data"]
             for key, value in dicted_bunch.items():
