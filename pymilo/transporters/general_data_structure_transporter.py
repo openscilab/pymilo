@@ -110,6 +110,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         elif isinstance(data[key], np.int64):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int64"}
 
+        elif isinstance(data[key], np.uint64):
+            data[key] = {"value": int(data[key]), "np-type": "numpy.uint64"}
+
         elif isinstance(data[key], list):
             new_list = []
             for item in data[key]:

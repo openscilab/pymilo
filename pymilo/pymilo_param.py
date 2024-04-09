@@ -248,6 +248,7 @@ NUMPY_TYPE_DICT = {
     "numpy.float64": float64,
     "numpy.infinity": lambda _: inf,
     "numpy.uint8": uint8,
+    "numpy.uint64": uint64,
 }
 
 EXPORTED_MODELS_PATH = {
