@@ -94,12 +94,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: pymilo serialized output of data[key]
         """
         # 1. Handling numpy infinity, ransac
-        if isinstance(data[key], type(np.inf)):
+        if isinstance(data[key], np.float64):
             if np.inf == data[key]:
                 data[key] = {
                     "np-type": "numpy.infinity",
                     "value": "infinite"  # added for compatibility
                 }
+            else:
+                data[key] = {"value": data[key], "np-type": "numpy.float64"}  
 
         elif isinstance(data[key], np.intc):
             data[key] = {"value": int(data[key]), "np-type": "numpy.intc"}
