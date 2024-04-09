@@ -53,7 +53,7 @@ class GeneratorTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if is_primitive(content) or isinstance(content, type(None)):
+        if is_primitive(content) or content is None:
             return content
 
         if check_str_in_iterable("pymilo-generator", content):
