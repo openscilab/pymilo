@@ -27,10 +27,7 @@ from numpy import inf
 from numpy import float64
 from numpy import int32
 from numpy import int64
-from sklearn.mixture import BayesianGaussianMixture
-from sklearn.mixture import GaussianMixture
-from sklearn.cluster import Birch
-from sklearn.cluster import OPTICS
+from numpy import uint64
 from sklearn.linear_model import HuberRegressor
 from sklearn.linear_model import TheilSenRegressor
 from sklearn.linear_model import RANSACRegressor
