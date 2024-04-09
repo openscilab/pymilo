@@ -206,6 +206,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if self.is_deserialized_ndarray(content):
             return self.deep_deserialize_ndarray(content)
 
+        if check_str_in_iterable("np-type", content) and check_str_in_iterable("value", content):
+            return NUMPY_TYPE_DICT[content["np-type"]](content["value"])
+
         for key in content:
 
             if isinstance(content[key], dict):
@@ -225,6 +228,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_key = NUMPY_TYPE_DICT[content[key]["np-type"]](key)
                 new_value = content[key]["key-value"]
                 black_list_key_values.append([key, new_key, new_value])
+
         for black_key_value in black_list_key_values:
             prev_key, new_key, new_value = black_key_value
             del content[prev_key]
