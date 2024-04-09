@@ -3,6 +3,8 @@
 from sklearn.linear_model._stochastic_gradient import SGDClassifier
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn._loss.loss import BaseLoss
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
@@ -47,6 +49,17 @@ class LossFunctionTransporter(AbstractTransporter):
                         "constant_hessian": data[key].__dict__["constant_hessian"],
                         "n_classes": data[key].__dict__["n_classes"],
                         "alpha": data["alpha"],
+                        "model_type": model_type,
+                    }
+                }
+            elif (
+                    model_type == "HistGradientBoostingRegressor" or
+                    model_type == "HistGradientBoostingClassifier"):
+                data[key] = {
+                    "pymilo-ensemble-loss": {
+                        "loss": data["loss"],
+                        "constant_hessian": data[key].__dict__["constant_hessian"],
+                        "n_trees_per_iteration_": data["n_trees_per_iteration_"],
                         "model_type": model_type,
                     }
                 }
@@ -96,5 +109,15 @@ class LossFunctionTransporter(AbstractTransporter):
                 gbs.__dict__["n_classes_"] = ensemble_loss["n_classes"]
                 return gbs._get_loss(ensemble_loss["constant_hessian"])
 
+            elif model_type == "HistGradientBoostingRegressor":
+                return HistGradientBoostingRegressor(
+                    loss=ensemble_loss["loss"])._get_loss(
+                    ensemble_loss["constant_hessian"])
+
+            elif model_type == "HistGradientBoostingClassifier":
+                n_trees_per_iteration_ = ensemble_loss["n_trees_per_iteration_"]
+                hgbc = HistGradientBoostingClassifier()
+                hgbc.__dict__["n_trees_per_iteration_"] = n_trees_per_iteration_
+                return hgbc._get_loss(ensemble_loss["constant_hessian"])
 
         return content
