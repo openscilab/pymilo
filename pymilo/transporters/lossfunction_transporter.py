@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """PyMilo Loss function transporter."""
 from sklearn.linear_model._stochastic_gradient import SGDClassifier
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn._loss.loss import BaseLoss
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
@@ -31,8 +34,22 @@ class LossFunctionTransporter(AbstractTransporter):
             (model_type == "PassiveAggressiveClassifier" and (key == "loss_function_" or key == "_loss_function_"))
         ):
             data[key] = {
-                "loss": data["loss"]
+                "pymilo-sgd-loss": data["loss"]
             }
+
+        if isinstance(data[key], BaseLoss):
+            if (
+                    model_type == "GradientBoostingRegressor" or
+                    model_type == "GradientBoostingClassifier"):
+                data[key] = {
+                    "pymilo-ensemble-loss": {
+                        "loss": data["loss"],
+                        "constant_hessian": data[key].__dict__["constant_hessian"],
+                        "n_classes": data[key].__dict__["n_classes"],
+                        "alpha": data["alpha"],
+                        "model_type": model_type,
+                    }
+                }
         return data[key]
 
     def deserialize(self, data, key, model_type):
@@ -56,10 +73,28 @@ class LossFunctionTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if is_primitive(content) or isinstance(content, type(None)):
+        if is_primitive(content) or content is None:
             return content
-        if not check_str_in_iterable("loss", content):
-            return content
-        return SGDClassifier(
-            loss=content["loss"])._get_loss_function(
-            content["loss"])
+
+        if check_str_in_iterable("pymilo-sgd-loss", content):
+            return SGDClassifier(
+                loss=content["pymilo-sgd-loss"])._get_loss_function(
+                content["pymilo-sgd-loss"])
+
+        if check_str_in_iterable("pymilo-ensemble-loss", content):
+            ensemble_loss = content["pymilo-ensemble-loss"]
+            model_type = ensemble_loss["model_type"]
+
+            if model_type == "GradientBoostingRegressor":
+                return GradientBoostingRegressor(
+                    loss=ensemble_loss["loss"],
+                    alpha=ensemble_loss["alpha"])._get_loss(
+                    ensemble_loss["constant_hessian"])
+
+            elif model_type == "GradientBoostingClassifier":
+                gbs = GradientBoostingClassifier(loss=ensemble_loss["loss"])
+                gbs.__dict__["n_classes_"] = ensemble_loss["n_classes"]
+                return gbs._get_loss(ensemble_loss["constant_hessian"])
+
+
+        return content
