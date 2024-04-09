@@ -1,5 +1,45 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+from sklearn.mixture import BayesianGaussianMixture
+from sklearn.mixture import GaussianMixture
+from sklearn.cluster import OPTICS
+from sklearn.cluster import Birch
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import FeatureAgglomeration
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import SpectralCoclustering
+from sklearn.cluster import SpectralBiclustering
+from sklearn.cluster import SpectralClustering
+from sklearn.cluster import MeanShift
+from sklearn.cluster import AffinityPropagation
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.cluster import KMeans
+from sklearn.tree import ExtraTreeClassifier
+from sklearn.tree import ExtraTreeRegressor
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.neural_network import BernoulliRBM
+from sklearn.neural_network import MLPClassifier
+from sklearn.neural_network import MLPRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import BaggingRegressor
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import ExtraTreesRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import IsolationForest
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomTreesEmbedding
+from sklearn.ensemble import StackingRegressor
+from sklearn.ensemble import StackingClassifier
+from sklearn.ensemble import VotingRegressor
+from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.ensemble import HistGradientBoostingClassifier
+
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import RadiusNeighborsRegressor
@@ -15,11 +55,13 @@ from sklearn.svm import NuSVR
 from sklearn.svm import NuSVC
 from sklearn.svm import LinearSVR
 from sklearn.svm import LinearSVC
+
 from sklearn.naive_bayes import CategoricalNB
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.naive_bayes import ComplementNB
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import GaussianNB
+
 from sklearn.preprocessing import LabelBinarizer
 from numpy import uint8
 from numpy import intc
@@ -28,6 +70,10 @@ from numpy import float64
 from numpy import int32
 from numpy import int64
 from numpy import uint64
+
+from sklearn.dummy import DummyRegressor
+from sklearn.dummy import DummyClassifier
+
 from sklearn.linear_model import HuberRegressor
 from sklearn.linear_model import TheilSenRegressor
 from sklearn.linear_model import RANSACRegressor
@@ -59,44 +105,12 @@ from sklearn.linear_model import RidgeCV
 from sklearn.linear_model import Ridge
 from sklearn.linear_model import LinearRegression
 
-from sklearn.neural_network import MLPRegressor
-from sklearn.neural_network import MLPClassifier
-from sklearn.neural_network import BernoulliRBM
-
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.tree import ExtraTreeRegressor
-from sklearn.tree import ExtraTreeClassifier
-
-from sklearn.cluster import KMeans
-from sklearn.cluster import MiniBatchKMeans
-from sklearn.cluster import AffinityPropagation
-from sklearn.cluster import MeanShift
-from sklearn.cluster import SpectralClustering
-from sklearn.cluster import SpectralBiclustering
-from sklearn.cluster import SpectralCoclustering
-from sklearn.cluster import AgglomerativeClustering
-from sklearn.cluster import FeatureAgglomeration
-from sklearn.cluster import DBSCAN
-
-bisecting_kmeans_support = False
+quantile_regressor_support = False
 try:
-    from sklearn.cluster import BisectingKMeans
-    bisecting_kmeans_support = True
+    from sklearn.linear_model import QuantileRegressor
+    quantile_regressor_support = True
 except BaseException:
     pass
-
-hdbscan_support = False
-try:
-    from sklearn.cluster import HDBSCAN
-    hdbscan_support = True
-except BaseException:
-    pass
-
-PYMILO_VERSION = "0.7"
-NOT_SUPPORTED = "NOT_SUPPORTED"
-PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
-UNEQUAL_PYMILO_VERSIONS = "warning: Installed Pymilo version differes from pymilo version used to create the JSON file."
 
 glm_support = {
     'GammaRegressor': False,
@@ -122,15 +136,28 @@ except BaseException:
     pass
 
 
-quantile_regressor_support = False
+bisecting_kmeans_support = False
 try:
-    from sklearn.linear_model import QuantileRegressor
-    quantile_regressor_support = True
+    from sklearn.cluster import BisectingKMeans
+    bisecting_kmeans_support = True
 except BaseException:
     pass
 
+hdbscan_support = False
+try:
+    from sklearn.cluster import HDBSCAN
+    hdbscan_support = True
+except BaseException:
+    pass
+
+PYMILO_VERSION = "0.7"
+NOT_SUPPORTED = "NOT_SUPPORTED"
+PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
+UNEQUAL_PYMILO_VERSIONS = "warning: Installed Pymilo version differes from pymilo version used to create the JSON file."
 
 SKLEARN_LINEAR_MODEL_TABLE = {
+    "DummyRegressor": DummyRegressor,
+    "DummyClassifier": DummyClassifier,
     "LinearRegression": LinearRegression,
     "Ridge": Ridge,
     "RidgeCV": RidgeCV,
@@ -228,6 +255,27 @@ SKLEARN_NEIGHBORS_TABLE = {
     "LocalOutlierFactor": LocalOutlierFactor,
 }
 
+SKLEARN_ENSEMBLE_TABLE = {
+    "AdaBoostRegressor": AdaBoostRegressor,
+    "AdaBoostClassifier": AdaBoostClassifier,
+    "BaggingRegressor": BaggingRegressor,
+    "BaggingClassifier": BaggingClassifier,
+    "ExtraTreesClassifier": ExtraTreesClassifier,
+    "ExtraTreesRegressor": ExtraTreesRegressor,
+    "GradientBoostingRegressor": GradientBoostingRegressor,
+    "GradientBoostingClassifier": GradientBoostingClassifier,
+    "IsolationForest": IsolationForest,
+    "RandomForestClassifier": RandomForestClassifier,
+    "RandomForestRegressor": RandomForestRegressor,
+    "RandomTreesEmbedding": RandomTreesEmbedding,
+    "StackingRegressor": StackingRegressor,
+    "StackingClassifier": StackingClassifier,
+    "VotingRegressor": VotingRegressor,
+    "VotingClassifier": VotingClassifier,
+    "HistGradientBoostingRegressor": HistGradientBoostingRegressor,
+    "HistGradientBoostingClassifier": HistGradientBoostingClassifier,
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
     "active_": int32,  # in Lasso Lars
@@ -255,5 +303,6 @@ EXPORTED_MODELS_PATH = {
     "CLUSTERING": "exported_clusterings",
     "NAIVE_BAYES": "exported_naive_bayes",
     "SVM": "exported_svms",
-    "NEIGHBORS": "exported_neighbors"
+    "NEIGHBORS": "exported_neighbors",
+    "ENSEMBLE": "exported_ensembles",
 }
