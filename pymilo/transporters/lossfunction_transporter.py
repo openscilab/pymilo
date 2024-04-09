@@ -3,8 +3,11 @@
 from sklearn.linear_model._stochastic_gradient import SGDClassifier
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.ensemble import HistGradientBoostingRegressor
-from sklearn.ensemble import HistGradientBoostingClassifier
+
+from ..pymilo_param import SKLEARN_ENSEMBLE_TABLE, NOT_SUPPORTED
+if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingRegressor"] != NOT_SUPPORTED:
+    from sklearn.ensemble import HistGradientBoostingRegressor
+    from sklearn.ensemble import HistGradientBoostingClassifier
 
 sklearn_baseloss_support = False
 try:
