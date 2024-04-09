@@ -281,9 +281,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if is_primitive(content):
             return False
         current_supported_primary_types = NUMPY_TYPE_DICT.values()
-        if not is_iterable(content):
-            return False
-        if "np-type" in content and content["np-type"] in current_supported_primary_types:
+        if check_str_in_iterable("np-type", content) and content["np-type"] in current_supported_primary_types:
             return True
         else:
             return False
