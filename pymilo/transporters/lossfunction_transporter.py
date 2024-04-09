@@ -5,7 +5,21 @@ from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.ensemble import HistGradientBoostingClassifier
-from sklearn._loss.loss import BaseLoss
+
+sklearn_baseloss_support = False
+try:
+    from sklearn._loss.loss import BaseLoss
+    baseloss_support = True
+except BaseException:
+    pass
+
+hist_baseloss_support = False 
+try:
+    from sklearn.ensemble._hist_gradient_boosting.loss import BaseLoss
+    hist_baseloss_support = True
+except BaseException:
+    pass
+
 from ..utils.util import is_primitive, check_str_in_iterable
 from .transporter import AbstractTransporter
 
@@ -39,30 +53,60 @@ class LossFunctionTransporter(AbstractTransporter):
                 "pymilo-sgd-loss": data["loss"]
             }
 
-        if isinstance(data[key], BaseLoss):
-            if (
+        if sklearn_baseloss_support:
+            if isinstance(data[key], BaseLoss):
+                if (
                     model_type == "GradientBoostingRegressor" or
                     model_type == "GradientBoostingClassifier"):
-                data[key] = {
-                    "pymilo-ensemble-loss": {
-                        "loss": data["loss"],
-                        "constant_hessian": data[key].__dict__["constant_hessian"],
-                        "n_classes": data[key].__dict__["n_classes"],
-                        "alpha": data["alpha"],
-                        "model_type": model_type,
+                    data[key] = {
+                        "pymilo-ensemble-loss": {
+                            "loss": data["loss"],
+                            "constant_hessian": data[key].__dict__["constant_hessian"],
+                            "n_classes": data[key].__dict__["n_classes"],
+                            "alpha": data["alpha"],
+                            "model_type": model_type,
+                        }
                     }
-                }
-            elif (
+                elif (
                     model_type == "HistGradientBoostingRegressor" or
                     model_type == "HistGradientBoostingClassifier"):
-                data[key] = {
-                    "pymilo-ensemble-loss": {
-                        "loss": data["loss"],
-                        "constant_hessian": data[key].__dict__["constant_hessian"],
-                        "n_trees_per_iteration_": data["n_trees_per_iteration_"],
-                        "model_type": model_type,
+                    data[key] = {
+                        "pymilo-ensemble-loss": {
+                            "loss": data["loss"],
+                            "constant_hessian": data[key].__dict__["constant_hessian"],
+                            "n_trees_per_iteration_": data["n_trees_per_iteration_"],
+                            "model_type": model_type,
+                        }
                     }
-                }
+        
+        
+        if hist_baseloss_support:
+            if isinstance(data[key], BaseLoss):
+                if ( # TODO 
+                    model_type == "GradientBoostingRegressor" or
+                    model_type == "GradientBoostingClassifier"):
+                    data[key] = {
+                        "pymilo-ensemble-loss": {
+                            "loss": data["loss"],
+                            "constant_hessian": data[key].__dict__["constant_hessian"],
+                            "n_classes": data[key].__dict__["n_classes"],
+                            "alpha": data["alpha"],
+                            "model_type": model_type,
+                        }
+                    }
+                elif (
+                    model_type == "HistGradientBoostingRegressor" or
+                    model_type == "HistGradientBoostingClassifier"):
+                    data[key] = {
+                        "pymilo-ensemble-loss": {
+                            "loss": data["loss"],
+                            "hessians_are_constant": data[key].__dict__["hessians_are_constant"],
+                            "n_threads": data[key].__dict__["n_threads"],
+                            "n_trees_per_iteration_": data["n_trees_per_iteration_"],
+                            "model_type": model_type,
+                        }
+                    }
+
         return data[key]
 
     def deserialize(self, data, key, model_type):
@@ -94,7 +138,7 @@ class LossFunctionTransporter(AbstractTransporter):
                 loss=content["pymilo-sgd-loss"])._get_loss_function(
                 content["pymilo-sgd-loss"])
 
-        if check_str_in_iterable("pymilo-ensemble-loss", content):
+        if sklearn_baseloss_support and check_str_in_iterable("pymilo-ensemble-loss", content):
             ensemble_loss = content["pymilo-ensemble-loss"]
             model_type = ensemble_loss["model_type"]
 
@@ -119,5 +163,32 @@ class LossFunctionTransporter(AbstractTransporter):
                 hgbc = HistGradientBoostingClassifier()
                 hgbc.__dict__["n_trees_per_iteration_"] = n_trees_per_iteration_
                 return hgbc._get_loss(ensemble_loss["constant_hessian"])
+
+        elif hist_baseloss_support and check_str_in_iterable("pymilo-ensemble-loss", content):
+            ensemble_loss = content["pymilo-ensemble-loss"]
+            model_type = ensemble_loss["model_type"]
+
+            # if model_type == "GradientBoostingRegressor":
+            #     return GradientBoostingRegressor(
+            #         loss=ensemble_loss["loss"],
+            #         alpha=ensemble_loss["alpha"])._get_loss(
+            #         ensemble_loss["constant_hessian"])
+
+            # elif model_type == "GradientBoostingClassifier":
+            #     gbs = GradientBoostingClassifier(loss=ensemble_loss["loss"])
+            #     gbs.__dict__["n_classes_"] = ensemble_loss["n_classes"]
+            #     return gbs._get_loss(ensemble_loss["constant_hessian"])
+
+            if model_type == "HistGradientBoostingRegressor":
+                sample_weight = None if ensemble_loss["hessians_are_constant"] else True
+                return HistGradientBoostingRegressor(
+                    loss=ensemble_loss["loss"])._get_loss(sample_weight, ensemble_loss["n_threads"])
+        
+            elif model_type == "HistGradientBoostingClassifier":
+                n_trees_per_iteration_ = ensemble_loss["n_trees_per_iteration_"]
+                hgbc = HistGradientBoostingClassifier(loss=ensemble_loss["loss"])
+                hgbc.__dict__["n_trees_per_iteration_"] = n_trees_per_iteration_
+                sample_weight = None if ensemble_loss["hessians_are_constant"] else True
+                return hgbc._get_loss(sample_weight, ensemble_loss["n_threads"])
 
         return content
