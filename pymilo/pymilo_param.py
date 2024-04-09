@@ -37,8 +37,14 @@ from sklearn.ensemble import StackingRegressor
 from sklearn.ensemble import StackingClassifier
 from sklearn.ensemble import VotingRegressor
 from sklearn.ensemble import VotingClassifier
-from sklearn.ensemble import HistGradientBoostingRegressor
-from sklearn.ensemble import HistGradientBoostingClassifier
+
+hist_gradient_boosting_support = False
+try:
+    from sklearn.ensemble import HistGradientBoostingRegressor
+    from sklearn.ensemble import HistGradientBoostingClassifier
+    hist_gradient_boosting_support = True
+except BaseException:
+    pass
 
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.neighbors import KNeighborsClassifier
@@ -272,8 +278,8 @@ SKLEARN_ENSEMBLE_TABLE = {
     "StackingClassifier": StackingClassifier,
     "VotingRegressor": VotingRegressor,
     "VotingClassifier": VotingClassifier,
-    "HistGradientBoostingRegressor": HistGradientBoostingRegressor,
-    "HistGradientBoostingClassifier": HistGradientBoostingClassifier,
+    "HistGradientBoostingRegressor": HistGradientBoostingRegressor if hist_gradient_boosting_support else NOT_SUPPORTED,
+    "HistGradientBoostingClassifier": HistGradientBoostingClassifier if hist_gradient_boosting_support else NOT_SUPPORTED,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
