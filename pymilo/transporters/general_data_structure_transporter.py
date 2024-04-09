@@ -101,7 +101,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     "value": "infinite"  # added for compatibility
                 }
             else:
-                data[key] = {"value": data[key], "np-type": "numpy.float64"}  
+                data[key] = {"value": data[key], "np-type": "numpy.float64"}
 
         elif isinstance(data[key], np.intc):
             data[key] = {"value": int(data[key]), "np-type": "numpy.intc"}

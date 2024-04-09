@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo Loss function transporter."""
+from .transporter import AbstractTransporter
+from ..utils.util import is_primitive, check_str_in_iterable
 from sklearn.linear_model._stochastic_gradient import SGDClassifier
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import GradientBoostingClassifier
@@ -16,7 +18,7 @@ try:
 except BaseException:
     pass
 
-hist_baseloss_support = False 
+hist_baseloss_support = False
 try:
     from sklearn.ensemble._hist_gradient_boosting.loss import BaseLoss
     hist_baseloss_support = True
@@ -29,9 +31,6 @@ try:
     gb_losses_support = True
 except BaseException:
     pass
-
-from ..utils.util import is_primitive, check_str_in_iterable
-from .transporter import AbstractTransporter
 
 
 class LossFunctionTransporter(AbstractTransporter):
@@ -66,8 +65,8 @@ class LossFunctionTransporter(AbstractTransporter):
         if sklearn_baseloss_support:
             if isinstance(data[key], BaseLoss):
                 if (
-                    model_type == "GradientBoostingRegressor" or
-                    model_type == "GradientBoostingClassifier"):
+                        model_type == "GradientBoostingRegressor" or
+                        model_type == "GradientBoostingClassifier"):
                     data[key] = {
                         "pymilo-ensemble-loss": {
                             "loss": data["loss"],
@@ -78,8 +77,8 @@ class LossFunctionTransporter(AbstractTransporter):
                         }
                     }
                 elif (
-                    model_type == "HistGradientBoostingRegressor" or
-                    model_type == "HistGradientBoostingClassifier"):
+                        model_type == "HistGradientBoostingRegressor" or
+                        model_type == "HistGradientBoostingClassifier"):
                     data[key] = {
                         "pymilo-ensemble-loss": {
                             "loss": data["loss"],
@@ -107,13 +106,13 @@ class LossFunctionTransporter(AbstractTransporter):
                             "n_classes_": data["n_classes_"],
                             "model_type": model_type,
                         }
-                    }                    
+                    }
 
         if hist_baseloss_support:
             if isinstance(data[key], BaseLoss):
-                if(
-                    model_type == "HistGradientBoostingRegressor" or
-                    model_type == "HistGradientBoostingClassifier"):
+                if (
+                        model_type == "HistGradientBoostingRegressor" or
+                        model_type == "HistGradientBoostingClassifier"):
                     data[key] = {
                         "pymilo-ensemble-loss": {
                             "loss": data["loss"],
@@ -181,7 +180,9 @@ class LossFunctionTransporter(AbstractTransporter):
                     hgbc.__dict__["n_trees_per_iteration_"] = n_trees_per_iteration_
                     return hgbc._get_loss(ensemble_loss["constant_hessian"])
 
-            if hist_baseloss_support and model_type in ["HistGradientBoostingRegressor", "HistGradientBoostingClassifier"]:
+            if hist_baseloss_support and model_type in [
+                "HistGradientBoostingRegressor",
+                    "HistGradientBoostingClassifier"]:
                 if model_type == "HistGradientBoostingRegressor":
                     sample_weight = None if ensemble_loss["hessians_are_constant"] else True
                     return HistGradientBoostingRegressor(
