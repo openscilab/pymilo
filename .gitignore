@@ -106,4 +106,5 @@ gen
 /tests/exported_naive_bayes
 /tests/exported_svms
 /tests/exported_neighbors
+/tests/exported_ensembles
 /.VSCodeCounter
