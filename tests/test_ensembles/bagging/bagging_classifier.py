@@ -11,5 +11,5 @@ def bagging_classifier():
     if has_named_parameter(BaggingClassifier, "estimator"):
         bagging_classifier = BaggingClassifier(estimator=SVC(), n_estimators=10, random_state=0).fit(x_train, y_train)
     else:
-        bagging_classifier = BaggingClassifier(n_estimators=10, random_state=0).fit(x_train, y_train)      
+        bagging_classifier = BaggingClassifier(n_estimators=10, random_state=0).fit(x_train, y_train)
     pymilo_classification_test(bagging_classifier, MODEL_NAME, (x_test, y_test))
