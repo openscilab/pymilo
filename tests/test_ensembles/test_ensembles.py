@@ -7,9 +7,13 @@ from adaboost.adaboost_classifier import adaboost_classifier
 from bagging.bagging_regressor import bagging_regressor
 from bagging.bagging_classifier import bagging_classifier
 
+from extra_trees.extra_trees_regressor import extra_trees_regressor
+from extra_trees.extra_trees_classifier import extra_trees_classifier
+
 ENSEMBLES = {
     "Adaboost": [adaboost_regressor, adaboost_classifier],
     "Bagging": [bagging_regressor, bagging_classifier], 
+    "ExtaTrees": [extra_trees_regressor, extra_trees_classifier],
 }
 
 @pytest.fixture(scope="session", autouse=True)
