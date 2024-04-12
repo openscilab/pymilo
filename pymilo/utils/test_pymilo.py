@@ -6,21 +6,11 @@ from numpy import array_equal
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
+from ..pymilo_func import get_transporter, compare_model_outputs
+from ..pymilo_param import EXPORTED_MODELS_PATH
 
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.metrics import accuracy_score, hinge_loss
-
-from ..pymilo_func import compare_model_outputs
-
-from ..chains.linear_model_chain import is_linear_model
-from ..chains.neural_network_chain import is_neural_network
-from ..chains.decision_tree_chain import is_decision_tree
-from ..chains.clustering_chain import is_clusterer
-from ..chains.naive_bayes_chain import is_naive_bayes
-from ..chains.svm_chain import is_svm
-from ..chains.neighbours_chain import is_neighbors
-
-from ..pymilo_param import EXPORTED_MODELS_PATH
 
 
 def pymilo_export_path(model):
@@ -31,23 +21,7 @@ def pymilo_export_path(model):
     :type model: any sklearn's model class
     :return: folder name
     """
-    model_type = None
-    if is_linear_model(model):
-        model_type = "LINEAR_MODEL"
-    elif is_neural_network(model):
-        model_type = "NEURAL_NETWORK"
-    elif is_decision_tree(model):
-        model_type = "DECISION_TREE"
-    elif is_clusterer(model):
-        model_type = "CLUSTERING"
-    elif is_naive_bayes(model):
-        model_type = "NAIVE_BAYES"
-    elif is_svm(model):
-        model_type = "SVM"
-    elif is_neighbors(model):
-        model_type = "NEIGHBORS"
-    else:
-        model_type = None
+    model_type, _ = get_transporter(model)
     return EXPORTED_MODELS_PATH[model_type]
 
 
