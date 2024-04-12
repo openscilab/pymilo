@@ -1,5 +1,5 @@
 from sklearn.ensemble import ExtraTreesClassifier
-from pymilo.utils.test_pymilo import pymilo_classification_test, pymilo_test
+from pymilo.utils.test_pymilo import pymilo_classification_test
 from pymilo.utils.data_exporter import prepare_simple_classification_datasets
 
 MODEL_NAME = "ExtraTreesClassifier"
