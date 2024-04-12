@@ -12,6 +12,9 @@ from ..pymilo_param import SKLEARN_NEURAL_NETWORK_TABLE
 
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+
+from ..utils.util import get_sklearn_type
+
 from traceback import format_exc
 
 
@@ -35,10 +38,10 @@ def is_neural_network(model):
     if isinstance(model, str):
         return model in SKLEARN_NEURAL_NETWORK_TABLE
     else:
-        return type(model) in SKLEARN_NEURAL_NETWORK_TABLE.values()
+        return get_sklearn_type(model) in SKLEARN_NEURAL_NETWORK_TABLE.keys()
 
 
-def transport_neural_network(request, command):
+def transport_neural_network(request, command, is_inner_model=False):
     """
     Return the transported (Serialized or Deserialized) model.
 
@@ -48,7 +51,8 @@ def transport_neural_network(request, command):
     :type command: transporter.Command
     :return: the transported request as a json string or sklearn neural network model
     """
-    _validate_input(request, command)
+    if not is_inner_model:
+        _validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -66,7 +70,7 @@ def transport_neural_network(request, command):
 
     elif command == Command.DESERIALZIE:
         try:
-            return deserialize_neural_network(request)
+            return deserialize_neural_network(request, is_inner_model)
         except Exception as e:
             raise PymiloDeserializationException(
                 {
@@ -91,7 +95,7 @@ def serialize_neural_network(neural_network_object):
     return neural_network_object.__dict__
 
 
-def deserialize_neural_network(neural_network):
+def deserialize_neural_network(neural_network, is_inner_model=False):
     """
     Return the associated sklearn neural network model of the given neural_network.
 
@@ -99,12 +103,18 @@ def deserialize_neural_network(neural_network):
     :type neural_network: obj
     :return: associated sklearn NN model
     """
-    raw_model = SKLEARN_NEURAL_NETWORK_TABLE[neural_network.type]()
-    data = neural_network.data
+    raw_model = None
+    data = None
+    if is_inner_model:
+        raw_model = SKLEARN_NEURAL_NETWORK_TABLE[neural_network["type"]]()
+        data = neural_network["data"]
+    else:
+        raw_model = SKLEARN_NEURAL_NETWORK_TABLE[neural_network.type]()
+        data = neural_network.data
 
     for transporter in NEURAL_NETWORK_CHAIN:
         NEURAL_NETWORK_CHAIN[transporter].transport(
-            neural_network, Command.DESERIALZIE)
+            neural_network, Command.DESERIALZIE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
