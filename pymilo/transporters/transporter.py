@@ -106,8 +106,8 @@ class AbstractTransporter(Transporter):
         if is_primitive(content):
             return False
 
-        if check_str_in_iterable("by-pass", content):
-            return content["by-pass"]
+        if check_str_in_iterable("pymilo-bypass", content):
+            return content["pymilo-bypass"]
         else:
             return False
 

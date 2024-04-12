@@ -94,12 +94,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: pymilo serialized output of data[key]
         """
         # 1. Handling numpy infinity, ransac
-        if isinstance(data[key], type(np.inf)):
+        if isinstance(data[key], np.float64):
             if np.inf == data[key]:
                 data[key] = {
                     "np-type": "numpy.infinity",
                     "value": "infinite"  # added for compatibility
                 }
+            else:
+                data[key] = {"value": data[key], "np-type": "numpy.float64"}
 
         elif isinstance(data[key], np.intc):
             data[key] = {"value": int(data[key]), "np-type": "numpy.intc"}
@@ -109,6 +111,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         elif isinstance(data[key], np.int64):
             data[key] = {"value": int(data[key]), "np-type": "numpy.int64"}
+
+        elif isinstance(data[key], np.uint64):
+            data[key] = {"value": int(data[key]), "np-type": "numpy.uint64"}
 
         elif isinstance(data[key], list):
             new_list = []
@@ -203,6 +208,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if self.is_deserialized_ndarray(content):
             return self.deep_deserialize_ndarray(content)
 
+        if check_str_in_iterable("np-type", content) and check_str_in_iterable("value", content):
+            return NUMPY_TYPE_DICT[content["np-type"]](content["value"])
+
         for key in content:
 
             if isinstance(content[key], dict):
@@ -222,6 +230,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_key = NUMPY_TYPE_DICT[content[key]["np-type"]](key)
                 new_value = content[key]["key-value"]
                 black_list_key_values.append([key, new_key, new_value])
+
         for black_key_value in black_list_key_values:
             prev_key, new_key, new_value = black_key_value
             del content[prev_key]
@@ -274,9 +283,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if is_primitive(content):
             return False
         current_supported_primary_types = NUMPY_TYPE_DICT.values()
-        if not is_iterable(content):
-            return False
-        if "np-type" in content and content["np-type"] in current_supported_primary_types:
+        if check_str_in_iterable("np-type", content) and content["np-type"] in current_supported_primary_types:
             return True
         else:
             return False

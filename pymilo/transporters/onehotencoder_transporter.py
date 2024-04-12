@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo OneHotEncoder transporter."""
 from sklearn.preprocessing import OneHotEncoder
-from ..utils.util import is_primitive, check_str_in_iterable
+from ..utils.util import is_primitive, check_str_in_iterable, has_named_parameter
 from .transporter import AbstractTransporter
 
 
@@ -54,5 +54,8 @@ class OneHotEncoderTransporter(AbstractTransporter):
             return content
 
         if check_str_in_iterable("pymilo-onehotencoder", content):
-            return OneHotEncoder(sparse_output=content["pymilo-onehotencoder"]["sparse_output"])
+            if has_named_parameter(OneHotEncoder, "sparse_output"):
+                return OneHotEncoder(sparse_output=content["pymilo-onehotencoder"]["sparse_output"])
+            elif has_named_parameter(OneHotEncoder, "sparse"):
+                return OneHotEncoder(sparse=content["pymilo-onehotencoder"]["sparse_output"])
         return content
