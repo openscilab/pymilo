@@ -271,7 +271,7 @@ def deserialize_models_in_ndarray(serialized_ndarray):
 
     inner_list = serialized_ndarray['pymiloed-ndarray-list']
     new_list = []
-    for idx, item in enumerate(inner_list):
+    for _, item in enumerate(inner_list):
         if gdst.is_deserialized_ndarray(item):
             has_inside_model, result = deserialize_models_in_ndarray(item)
             if not has_inside_model:
