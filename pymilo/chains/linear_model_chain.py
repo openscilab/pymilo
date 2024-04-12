@@ -33,7 +33,7 @@ def is_linear_model(model):
     if isinstance(model, str):
         return model in SKLEARN_LINEAR_MODEL_TABLE
     else:
-        return type(model) in SKLEARN_LINEAR_MODEL_TABLE.values()
+        return get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys()
 
 
 def is_deserialized_linear_model(content):
@@ -62,7 +62,7 @@ def transport_linear_model(request, command, is_inner_model=False):
     :return: the transported request as a json string or sklearn linear model
     """
     if not is_inner_model:
-        validate_input(request, command, is_inner_model)
+        validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -147,7 +147,7 @@ def deserialize_linear_model(linear_model, is_inner_model):
     return raw_model
 
 
-def validate_input(model, command, is_inner_model):
+def validate_input(model, command):
     """
     Check if the provided inputs are valid in relation to each other.
 
@@ -155,8 +155,6 @@ def validate_input(model, command, is_inner_model):
     :type model: obj
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
-    :type is_inner_model: boolean
     :return: None
     """
     if command == Command.SERIALIZE:
@@ -170,7 +168,7 @@ def validate_input(model, command, is_inner_model):
                 }
             )
     elif command == Command.DESERIALZIE:
-        model_type = model["type"] if is_inner_model else model.type
+        model_type = model.type
         if is_linear_model(model_type):
             return
         else:
