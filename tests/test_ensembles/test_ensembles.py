@@ -10,10 +10,14 @@ from bagging.bagging_classifier import bagging_classifier
 from extra_trees.extra_trees_regressor import extra_trees_regressor
 from extra_trees.extra_trees_classifier import extra_trees_classifier
 
+from gradient_booster.gradient_booster_regressor import gradient_booster_regressor
+from gradient_booster.gradient_booster_classifier import gradient_booster_classifier
+
 ENSEMBLES = {
     "Adaboost": [adaboost_regressor, adaboost_classifier],
     "Bagging": [bagging_regressor, bagging_classifier], 
     "ExtaTrees": [extra_trees_regressor, extra_trees_classifier],
+    "GradientBooster": [gradient_booster_regressor, gradient_booster_classifier],
 }
 
 @pytest.fixture(scope="session", autouse=True)
