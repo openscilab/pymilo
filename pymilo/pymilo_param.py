@@ -1,6 +1,26 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
+from numpy import uint8
+from numpy import intc
+from numpy import inf
+from numpy import float64
+from numpy import int32
+from numpy import int64
+from numpy import uint64
+from sklearn.preprocessing import LabelBinarizer
+
 import sklearn.linear_model as linear_model
+import sklearn.neural_network as neural_network
+import sklearn.tree as tree
+import sklearn.cluster as cluster
+import sklearn.mixture as mixture
+import sklearn.naive_bayes as naive_bayes
+import sklearn.svm as svm
+import sklearn.neighbors as neighbors
+import sklearn.dummy as dummy
+import sklearn.ensemble as ensemble
+import sklearn.pipeline as pipeline
+
 
 quantile_regressor_support = False
 try:
@@ -31,10 +51,7 @@ try:
 except BaseException:
     pass
 
-import sklearn.neural_network as neural_network
-import sklearn.tree as tree
 
-import sklearn.cluster as cluster
 bisecting_kmeans_support = False
 try:
     from sklearn.cluster import BisectingKMeans
@@ -49,13 +66,7 @@ try:
 except BaseException:
     pass
 
-import sklearn.mixture as mixture
-import sklearn.naive_bayes as naive_bayes
-import sklearn.svm as svm
-import sklearn.neighbors as neighbors
-import sklearn.dummy as dummy
 
-import sklearn.ensemble as ensemble
 hist_gradient_boosting_support = False
 try:
     from sklearn.ensemble import HistGradientBoostingRegressor
@@ -64,17 +75,6 @@ try:
 except BaseException:
     pass
 
-import sklearn.pipeline as pipeline
-
-from numpy import uint64
-from numpy import int64
-from numpy import int32
-from numpy import float64
-from numpy import inf
-from numpy import intc
-from numpy import uint8
-
-from sklearn.preprocessing import LabelBinarizer
 
 PYMILO_VERSION = "0.7"
 NOT_SUPPORTED = "NOT_SUPPORTED"
