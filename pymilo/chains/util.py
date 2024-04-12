@@ -6,6 +6,7 @@ from .naive_bayes_chain import transport_naive_bayes, is_naive_bayes
 from .svm_chain import transport_svm, is_svm
 from .neighbours_chain import transport_neighbor, is_neighbors
 
+
 MODEL_TYPE_TRANSPORTER = {
     "LINEAR_MODEL": transport_linear_model,
     "NEURAL_NETWORK": transport_neural_network,
@@ -18,7 +19,14 @@ MODEL_TYPE_TRANSPORTER = {
 
 
 def get_concrete_transporter(model):
+    """
+    Get associated transporter for the given concrete(not ensemble) ML model
 
+    :param model: given model to get it's transporter
+    :type model: scikit ML model
+
+    :return: tuple(ML_MODEL_CATEGORY, transporter function)
+    """
     if isinstance(model, str):
         if model.upper() in MODEL_TYPE_TRANSPORTER.keys():
             return model, MODEL_TYPE_TRANSPORTER[model]
