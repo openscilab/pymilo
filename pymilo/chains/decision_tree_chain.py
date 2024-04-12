@@ -4,6 +4,8 @@ from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.tree_transporter import TreeTransporter
+from ..transporters.randomstate_transporter import RandomStateTransporter
+
 
 from ..pymilo_param import SKLEARN_DECISION_TREE_TABLE
 
@@ -14,6 +16,7 @@ from traceback import format_exc
 
 DECISION_TREE_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
+    "RandomStateTransporter": RandomStateTransporter(),
     "TreeTransporter": TreeTransporter(),
 }
 
