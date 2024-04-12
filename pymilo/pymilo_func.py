@@ -3,14 +3,7 @@
 import numpy as np
 import sklearn
 
-from .chains.linear_model_chain import transport_linear_model, is_linear_model
-from .chains.neural_network_chain import transport_neural_network, is_neural_network
-from .chains.decision_tree_chain import transport_decision_tree, is_decision_tree
-from .chains.clustering_chain import transport_clusterer, is_clusterer
-from .chains.naive_bayes_chain import transport_naive_bayes, is_naive_bayes
-from .chains.svm_chain import transport_svm, is_svm
-from .chains.neighbours_chain import transport_neighbor, is_neighbors
-
+from .chains.ensemble_chain import get_transporter
 from .transporters.transporter import Command
 
 
@@ -31,22 +24,8 @@ def get_sklearn_data(model):
     :type model: any sklearn's model class
     :return: sklearn data
     """
-    if is_linear_model(model):
-        return transport_linear_model(model, Command.SERIALIZE)
-    elif is_neural_network(model):
-        return transport_neural_network(model, Command.SERIALIZE)
-    elif is_decision_tree(model):
-        return transport_decision_tree(model, Command.SERIALIZE)
-    elif is_clusterer(model):
-        return transport_clusterer(model, Command.SERIALIZE)
-    elif is_naive_bayes(model):
-        return transport_naive_bayes(model, Command.SERIALIZE)
-    elif is_svm(model):
-        return transport_svm(model, Command.SERIALIZE)
-    elif is_neighbors(model):
-        return transport_neighbor(model, Command.SERIALIZE)
-    else:
-        return None
+    _, transporter = get_transporter(model)
+    return transporter(model, Command.SERIALIZE)
 
 
 def to_sklearn_model(import_obj):
@@ -57,22 +36,8 @@ def to_sklearn_model(import_obj):
     :type import_obj: pymilo.Import
     :return: sklearn model
     """
-    if is_linear_model(import_obj.type):
-        return transport_linear_model(import_obj, Command.DESERIALZIE)
-    elif is_neural_network(import_obj.type):
-        return transport_neural_network(import_obj, Command.DESERIALZIE)
-    elif is_decision_tree(import_obj.type):
-        return transport_decision_tree(import_obj, Command.DESERIALZIE)
-    elif is_clusterer(import_obj.type):
-        return transport_clusterer(import_obj, Command.DESERIALZIE)
-    elif is_naive_bayes(import_obj.type):
-        return transport_naive_bayes(import_obj, Command.DESERIALZIE)
-    elif is_svm(import_obj.type):
-        return transport_svm(import_obj, Command.DESERIALZIE)
-    elif is_neighbors(import_obj.type):
-        return transport_neighbor(import_obj, Command.DESERIALZIE)
-    else:
-        return None
+    _, transporter = get_transporter(import_obj.type)
+    return transporter(import_obj, Command.DESERIALZIE)
 
 
 def compare_model_outputs(exported_output,
