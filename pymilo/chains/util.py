@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""useful utilities for chains."""
 from .linear_model_chain import transport_linear_model, is_linear_model
 from .neural_network_chain import transport_neural_network, is_neural_network
 from .decision_tree_chain import transport_decision_tree, is_decision_tree
@@ -20,11 +22,10 @@ MODEL_TYPE_TRANSPORTER = {
 
 def get_concrete_transporter(model):
     """
-    Get associated transporter for the given concrete(not ensemble) ML model
+    Get associated transporter for the given concrete(not ensemble) ML model.
 
     :param model: given model to get it's transporter
     :type model: scikit ML model
-
     :return: tuple(ML_MODEL_CATEGORY, transporter function)
     """
     if isinstance(model, str):

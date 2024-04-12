@@ -41,7 +41,7 @@ ENSEMBLE_CHAIN = {
 
 def get_transporter(model):
     """
-    Get associated transporter for the given ML model
+    Get associated transporter for the given ML model.
 
     :param model: given model to get it's transporter
     :type model: scikit ML model
@@ -134,7 +134,7 @@ def serialize_possible_ml_model(possible_ml_model):
 
 def deserialize_possible_ml_model(possible_serialized_ml_model):
     """
-    Check whether the given object is previously serialized ML model and if it is, deserialize it back to the associated ML model
+    Check whether the given object is previously serialized ML model and if it is, deserialize it back to the associated ML model.
 
     :param possible_serialized_ml_model: given obj to check
     :type possible_serialized_ml_model: obj
@@ -308,7 +308,6 @@ def deserialize_ensemble(ensemble, is_inner_model=False):
     :type is_inner_model: boolean
     :return: associated sklearn ensemble model
     """
-
     data = None
     if is_inner_model:
         data = ensemble["data"]
