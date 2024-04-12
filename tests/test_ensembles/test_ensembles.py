@@ -4,8 +4,12 @@ import pytest
 from adaboost.adaboost_regressor import adaboost_regressor
 from adaboost.adaboost_classifier import adaboost_classifier
 
+from bagging.bagging_regressor import bagging_regressor
+from bagging.bagging_classifier import bagging_classifier
+
 ENSEMBLES = {
     "Adaboost": [adaboost_regressor, adaboost_classifier],
+    "Bagging": [bagging_regressor, bagging_classifier], 
 }
 
 @pytest.fixture(scope="session", autouse=True)
