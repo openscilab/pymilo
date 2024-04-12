@@ -64,6 +64,7 @@ try:
 except BaseException:
     pass
 
+import sklearn.pipeline as pipeline
 
 from numpy import uint64
 from numpy import int64
@@ -199,6 +200,8 @@ SKLEARN_ENSEMBLE_TABLE = {
     "VotingClassifier": ensemble.VotingClassifier,
     "HistGradientBoostingRegressor": HistGradientBoostingRegressor if hist_gradient_boosting_support else NOT_SUPPORTED,
     "HistGradientBoostingClassifier": HistGradientBoostingClassifier if hist_gradient_boosting_support else NOT_SUPPORTED,
+    ####
+    "Pipeline": pipeline.Pipeline,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
