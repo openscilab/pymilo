@@ -8,6 +8,9 @@ from ..transporters.randomstate_transporter import RandomStateTransporter
 from ..pymilo_param import SKLEARN_SVM_TABLE
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+
+from ..utils.util import get_sklearn_type
+
 from traceback import format_exc
 
 SVM_CHAIN = {
@@ -27,10 +30,10 @@ def is_svm(model):
     if isinstance(model, str):
         return model in SKLEARN_SVM_TABLE
     else:
-        return type(model) in SKLEARN_SVM_TABLE.values()
+        return get_sklearn_type(model) in SKLEARN_SVM_TABLE.keys()
 
 
-def transport_svm(request, command):
+def transport_svm(request, command, is_inner_model=False):
     """
     Return the transported (Serialized or Deserialized) model.
 
@@ -40,7 +43,8 @@ def transport_svm(request, command):
     :type command: transporter.Command
     :return: the transported request as a json string or sklearn svm model
     """
-    _validate_input(request, command)
+    if not is_inner_model:
+        _validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -58,7 +62,7 @@ def transport_svm(request, command):
 
     elif command == Command.DESERIALZIE:
         try:
-            return deserialize_svm(request)
+            return deserialize_svm(request, is_inner_model)
         except Exception as e:
             raise PymiloDeserializationException(
                 {
@@ -83,7 +87,7 @@ def serialize_svm(svm_object):
     return svm_object.__dict__
 
 
-def deserialize_svm(svm):
+def deserialize_svm(svm, is_inner_model=False):
     """
     Return the associated sklearn svm model of the given svm.
 
@@ -91,12 +95,18 @@ def deserialize_svm(svm):
     :type svm: obj
     :return: associated sklearn svm model
     """
-    raw_model = SKLEARN_SVM_TABLE[svm.type]()
-    data = svm.data
+    raw_model = None
+    data = None
+    if is_inner_model:
+        raw_model = SKLEARN_SVM_TABLE[svm["type"]]()
+        data = svm["data"]
+    else:
+        raw_model = SKLEARN_SVM_TABLE[svm.type]()
+        data = svm.data
 
     for transporter in SVM_CHAIN:
         SVM_CHAIN[transporter].transport(
-            svm, Command.DESERIALZIE)
+            svm, Command.DESERIALZIE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
