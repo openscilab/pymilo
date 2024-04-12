@@ -8,6 +8,9 @@ from ..transporters.neighbors_tree_transporter import NeighborsTreeTransporter
 from ..pymilo_param import SKLEARN_NEIGHBORS_TABLE
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+
+from ..utils.util import get_sklearn_type
+
 from traceback import format_exc
 
 NEIGHBORS_CHAIN = {
@@ -27,10 +30,10 @@ def is_neighbors(model):
     if isinstance(model, str):
         return model in SKLEARN_NEIGHBORS_TABLE
     else:
-        return type(model) in SKLEARN_NEIGHBORS_TABLE.values()
+        return get_sklearn_type(model) in SKLEARN_NEIGHBORS_TABLE.keys()
 
 
-def transport_neighbor(request, command):
+def transport_neighbor(request, command, is_inner_model=False):
     """
     Return the transported (Serialized or Deserialized) model.
 
@@ -40,7 +43,8 @@ def transport_neighbor(request, command):
     :type command: transporter.Command
     :return: the transported request as a json string or sklearn neighbors model
     """
-    _validate_input(request, command)
+    if not is_inner_model:
+        _validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -58,7 +62,7 @@ def transport_neighbor(request, command):
 
     elif command == Command.DESERIALZIE:
         try:
-            return deserialize_neighbor(request)
+            return deserialize_neighbor(request, is_inner_model)
         except Exception as e:
             raise PymiloDeserializationException(
                 {
@@ -83,7 +87,7 @@ def serialize_neighbor(neighbor_object):
     return neighbor_object.__dict__
 
 
-def deserialize_neighbor(neighbor):
+def deserialize_neighbor(neighbor, is_inner_model=False):
     """
     Return the associated sklearn neighbor model of the given neighbor.
 
@@ -91,12 +95,18 @@ def deserialize_neighbor(neighbor):
     :type neighbor: obj
     :return: associated sklearn neighbor model
     """
-    raw_model = SKLEARN_NEIGHBORS_TABLE[neighbor.type]()
-    data = neighbor.data
+    raw_model = None
+    data = None
+    if is_inner_model:
+        raw_model = SKLEARN_NEIGHBORS_TABLE[neighbor["type"]]()
+        data = neighbor["data"]
+    else:
+        raw_model = SKLEARN_NEIGHBORS_TABLE[neighbor.type]()
+        data = neighbor.data
 
     for transporter in NEIGHBORS_CHAIN:
         NEIGHBORS_CHAIN[transporter].transport(
-            neighbor, Command.DESERIALZIE)
+            neighbor, Command.DESERIALZIE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
