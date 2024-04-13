@@ -24,6 +24,7 @@ from stacking.stacking_classifier import stacking_classifier
 from voting.voting_regressor import voting_regressor
 from voting.voting_classifier import voting_classifier
 
+from pipeline import pipeline
 
 from pymilo.pymilo_param import SKLEARN_ENSEMBLE_TABLE, NOT_SUPPORTED
 
@@ -43,6 +44,7 @@ ENSEMBLES = {
     "Forests": [random_forest_regressor, random_forest_classifier, isolation_forest, random_trees_embedding],
     "Stacking": [stacking_regressor, stacking_classifier],
     "Voting": [voting_regressor, voting_classifier],
+    "Pipeline": [pipeline],
 }
 
 @pytest.fixture(scope="session", autouse=True)
