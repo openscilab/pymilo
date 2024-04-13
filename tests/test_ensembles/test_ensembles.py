@@ -18,6 +18,9 @@ from random_forests.random_forest_classifier import random_forest_classifier
 from isolation_forest import isolation_forest
 from random_trees_embedding import random_trees_embedding
 
+from voting.voting_regressor import voting_regressor
+from voting.voting_classifier import voting_classifier
+
 
 from pymilo.pymilo_param import SKLEARN_ENSEMBLE_TABLE, NOT_SUPPORTED
 
@@ -35,6 +38,7 @@ ENSEMBLES = {
         hist_gradient_boosting_classifier if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingClassifier"] != NOT_SUPPORTED else (None, "HistGradientBoostingClassifier")
         ],
     "Forests": [random_forest_regressor, random_forest_classifier, isolation_forest, random_trees_embedding],
+    "Voting": [voting_regressor, voting_classifier],
 }
 
 @pytest.fixture(scope="session", autouse=True)
