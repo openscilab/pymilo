@@ -12,7 +12,7 @@ def stacking_classifier():
     x_train, y_train, x_test, y_test = prepare_simple_classification_datasets()
     estimators = [
         ('rf', RandomForestClassifier(n_estimators=10, random_state=42)),
-        ('svr', make_pipeline(LinearSVC(dual="auto", random_state=42)))
+        ('svr', make_pipeline(LinearSVC(random_state=42)))
         ]
     stacking_classifier = StackingClassifier(
         estimators=estimators, final_estimator=LogisticRegression()
