@@ -18,6 +18,9 @@ from random_forests.random_forest_classifier import random_forest_classifier
 from isolation_forest import isolation_forest
 from random_trees_embedding import random_trees_embedding
 
+from stacking.stacking_regressor import stacking_regressor
+from stacking.stacking_classifier import stacking_classifier
+
 from voting.voting_regressor import voting_regressor
 from voting.voting_classifier import voting_classifier
 
@@ -38,6 +41,7 @@ ENSEMBLES = {
         hist_gradient_boosting_classifier if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingClassifier"] != NOT_SUPPORTED else (None, "HistGradientBoostingClassifier")
         ],
     "Forests": [random_forest_regressor, random_forest_classifier, isolation_forest, random_trees_embedding],
+    "Stacking": [stacking_regressor, stacking_classifier],
     "Voting": [voting_regressor, voting_classifier],
 }
 
