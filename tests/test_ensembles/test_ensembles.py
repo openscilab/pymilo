@@ -15,6 +15,9 @@ from gradient_booster.gradient_booster_classifier import gradient_booster_classi
 
 from random_forests.random_forest_regressor import random_forest_regressor
 from random_forests.random_forest_classifier import random_forest_classifier
+from isolation_forest import isolation_forest
+from random_trees_embedding import random_trees_embedding
+
 
 from pymilo.pymilo_param import SKLEARN_ENSEMBLE_TABLE, NOT_SUPPORTED
 
