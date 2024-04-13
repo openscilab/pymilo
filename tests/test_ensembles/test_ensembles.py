@@ -13,6 +13,9 @@ from extra_trees.extra_trees_classifier import extra_trees_classifier
 from gradient_booster.gradient_booster_regressor import gradient_booster_regressor
 from gradient_booster.gradient_booster_classifier import gradient_booster_classifier
 
+from random_forests.random_forest_regressor import random_forest_regressor
+from random_forests.random_forest_classifier import random_forest_classifier
+
 from pymilo.pymilo_param import SKLEARN_ENSEMBLE_TABLE, NOT_SUPPORTED
 
 if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingRegressor"] != NOT_SUPPORTED:
@@ -28,6 +31,7 @@ ENSEMBLES = {
         hist_gradient_boosting_regressor if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingRegressor"] != NOT_SUPPORTED else (None, "HistGradientBoostingRegressor"),
         hist_gradient_boosting_classifier if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingClassifier"] != NOT_SUPPORTED else (None, "HistGradientBoostingClassifier")
         ],
+    "Forests": [random_forest_regressor, random_forest_classifier, isolation_forest, random_trees_embedding],
 }
 
 @pytest.fixture(scope="session", autouse=True)
