@@ -13,11 +13,21 @@ from extra_trees.extra_trees_classifier import extra_trees_classifier
 from gradient_booster.gradient_booster_regressor import gradient_booster_regressor
 from gradient_booster.gradient_booster_classifier import gradient_booster_classifier
 
+from pymilo.pymilo_param import SKLEARN_ENSEMBLE_TABLE, NOT_SUPPORTED
+
+if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingRegressor"] != NOT_SUPPORTED:
+    from hist_gradient_boosting.hist_gradient_boosting_regressor import hist_gradient_boosting_regressor
+    from hist_gradient_boosting.hist_gradient_boosting_classifier import hist_gradient_boosting_classifier
+
 ENSEMBLES = {
     "Adaboost": [adaboost_regressor, adaboost_classifier],
     "Bagging": [bagging_regressor, bagging_classifier], 
     "ExtaTrees": [extra_trees_regressor, extra_trees_classifier],
     "GradientBooster": [gradient_booster_regressor, gradient_booster_classifier],
+    "HistGradientBooster": [
+        hist_gradient_boosting_regressor if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingRegressor"] != NOT_SUPPORTED else (None, "HistGradientBoostingRegressor"),
+        hist_gradient_boosting_classifier if SKLEARN_ENSEMBLE_TABLE["HistGradientBoostingClassifier"] != NOT_SUPPORTED else (None, "HistGradientBoostingClassifier")
+        ],
 }
 
 @pytest.fixture(scope="session", autouse=True)
