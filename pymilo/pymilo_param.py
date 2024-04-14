@@ -79,7 +79,8 @@ except BaseException:
 PYMILO_VERSION = "0.7"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
-UNEQUAL_PYMILO_VERSIONS = "warning: Installed Pymilo version differes from pymilo version used to create the JSON file."
+UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differes from the PyMilo version used to create the JSON file."
+UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differes from the Scikit version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
 
 SKLEARN_LINEAR_MODEL_TABLE = {
     "DummyRegressor": dummy.DummyRegressor,
