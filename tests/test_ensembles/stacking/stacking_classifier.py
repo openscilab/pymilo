@@ -19,4 +19,3 @@ def stacking_classifier():
     ).fit(x_train, y_train)
 
     pymilo_classification_test(stacking_classifier, MODEL_NAME, (x_test, y_test))
-
