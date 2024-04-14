@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `LossFunction` Transporter updated
 - `AbstractTransporter` updated
 - Tests config modified
+- Unequal sklearn version error added in `pymilo_param.py`
 - Ensemble params initialized in `pymilo_param`
 - Ensemble support added to `pymilo_func.py`
 - `SUPPORTED_MODELS.md` updated
