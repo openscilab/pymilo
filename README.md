@@ -137,6 +137,7 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 | Ensemble Models &#x2705; | - | 
 | Pipeline Model &#x2705; | - |
 | Preprocessing Models &#x274C; | - |
+
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
 ## Issues & bug reports
