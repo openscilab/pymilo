@@ -14,6 +14,8 @@
 	* [Neighbors](#scikit-learn-neighbors)
 	* [Ensemble](#scikit-learn-ensemble)
 	* [Pipeline](#scikit-learn-pipeline)
+	* [Preprocessing](#scikit-learn-preprocessing)
+
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
 <h3 id="scikit-learn-linear">Linear Models</h3>
@@ -613,6 +615,33 @@
 	<tr align="center">
 		<td>1</td>
 		<td><b>Pipeline</b></td>
+        <td>>=0.8</td>
+	</tr>
+</table>
+
+<h3 id="scikit-learn-preprocessing">Preprocessing Modules</h3> 
+📚 <a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing" target="_blank"><b>Models Document</b></a>
+
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>OneHotEncoder</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>LabelBinarizer</b></td>
+        <td>>=0.1</td>
+	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>LabelEncoder</b></td>
         <td>>=0.8</td>
 	</tr>
 </table>
