@@ -2,35 +2,13 @@
     <img src="https://github.com/openscilab/pymilo/raw/main/otherfiles/logo.png" width="500" height="300">
     <br/>
     <br/>
-    <a href="https://codecov.io/gh/openscilab/pymilo">
-        <img src="https://codecov.io/gh/openscilab/pymilo/branch/main/graph/badge.svg" alt="Codecov"/>
-    </a>
-    <a href="https://badge.fury.io/py/pymilo">
-        <img src="https://badge.fury.io/py/pymilo.svg" alt="PyPI version" height="18">
-    </a>
-    <a href="https://www.python.org/">
-        <img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3">
-    </a>
-    <a href="https://discord.gg/mtuMS8AjDS">
-        <img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel">
-    </a>
+    <a href="https://codecov.io/gh/openscilab/pymilo"><img src="https://codecov.io/gh/openscilab/pymilo/branch/main/graph/badge.svg" alt="Codecov"/></a>
+    <a href="https://badge.fury.io/py/pymilo"><img src="https://badge.fury.io/py/pymilo.svg" alt="PyPI version" height="18"></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
+    <a href="https://discord.gg/mtuMS8AjDS"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
 </div>
 
 ----------
-
-## Table of contents
-
-* [Overview](https://github.com/openscilab/pymilo#overview)
-* [Installation](https://github.com/openscilab/pymilo#installation)
-* [Usage](https://github.com/openscilab/pymilo#usage)
-* [Issues & Bug Reports](https://github.com/openscilab/pymilo#issues--bug-reports)
-* [Contribution](https://github.com/openscilab/pymilo/blob/main/.github/CONTRIBUTING.md)
-* [Authors](https://github.com/openscilab/pymilo/blob/main/AUTHORS.md)
-* [License](https://github.com/openscilab/pymilo/blob/main/LICENSE)
-* [Show Your Support](https://github.com/openscilab/pymilo#show-your-support)
-* [Changelog](https://github.com/openscilab/pymilo/blob/main/CHANGELOG.md)
-* [Code of Conduct](https://github.com/openscilab/pymilo/blob/main/.github/CODE_OF_CONDUCT.md)
-
 
 ## Overview
 <p align="justify">
@@ -122,7 +100,7 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ```pycon 
 >>> imported_sklearn_model = imported_model.to_model()
 ```
-#### Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
+* Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
 
 ## Supported ML models
 | scikit-learn | PyTorch | 
