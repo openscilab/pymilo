@@ -20,12 +20,14 @@ CHANGELOG_ITEMS = [
 PARAMS_ITEMS = ['PYMILO_VERSION = "{0}"']
 META_ITEMS = ['% set version = "{0}" %']
 ISSUE_TEMPLATE_ITEMS = ["- PyMilo {0}"]
+SECURITY_ITEMS = ["| {0}           | :white_check_mark: |", "| < {0}         | :x:                |"]
 
 FILES = {
     os.path.join("otherfiles", "meta.yaml"): META_ITEMS,
     "setup.py": SETUP_ITEMS,
     "README.md": README_ITEMS,
     "CHANGELOG.md": CHANGELOG_ITEMS,
+    "SECURITY.md": SECURITY_ITEMS,
     os.path.join("pymilo", "pymilo_param.py"): PARAMS_ITEMS,
     os.path.join(".github", "ISSUE_TEMPLATE", "bug_report.yml"): ISSUE_TEMPLATE_ITEMS,
 }
