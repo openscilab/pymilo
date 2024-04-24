@@ -33,7 +33,7 @@ def is_linear_model(model):
     if isinstance(model, str):
         return model in SKLEARN_LINEAR_MODEL_TABLE
     else:
-        return type(model) in SKLEARN_LINEAR_MODEL_TABLE.values()
+        return get_sklearn_type(model) in SKLEARN_LINEAR_MODEL_TABLE.keys()
 
 
 def is_deserialized_linear_model(content):
@@ -46,7 +46,7 @@ def is_deserialized_linear_model(content):
     """
     if not is_iterable(content):
         return False
-    return "inner-model-type" in content and "inner-model-data" in content
+    return "pymilo-inner-model-type" in content and "pymilo-inner-model-data" in content
 
 
 def transport_linear_model(request, command, is_inner_model=False):
@@ -57,12 +57,12 @@ def transport_linear_model(request, command, is_inner_model=False):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
+    :param is_inner_model: determines whether it is an inner linear model of a super ml model
     :type is_inner_model: boolean
     :return: the transported request as a json string or sklearn linear model
     """
     if not is_inner_model:
-        validate_input(request, command, is_inner_model)
+        validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -101,8 +101,8 @@ def serialize_linear_model(linear_model_object):
     for key in linear_model_object.__dict__:
         if is_linear_model(linear_model_object.__dict__[key]):
             linear_model_object.__dict__[key] = {
-                "inner-model-data": transport_linear_model(linear_model_object.__dict__[key], Command.SERIALIZE),
-                "inner-model-type": get_sklearn_type(linear_model_object.__dict__[key]),
+                "pymilo-inner-model-data": transport_linear_model(linear_model_object.__dict__[key], Command.SERIALIZE),
+                "pymilo-inner-model-type": get_sklearn_type(linear_model_object.__dict__[key]),
                 "by-pass": True
             }
     # now serializing non-linear model fields
@@ -118,7 +118,7 @@ def deserialize_linear_model(linear_model, is_inner_model):
 
     :param linear_model: given json string of a linear model to get deserialized to associated sklearn linear model
     :type linear_model: obj
-    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
+    :param is_inner_model: determines whether it is an inner linear model of a super ml model
     :type is_inner_model: boolean
     :return: associated sklearn linear model
     """
@@ -135,8 +135,8 @@ def deserialize_linear_model(linear_model, is_inner_model):
     for key in data:
         if is_deserialized_linear_model(data[key]):
             data[key] = transport_linear_model({
-                "data": data[key]["inner-model-data"],
-                "type": data[key]["inner-model-type"]
+                "data": data[key]["pymilo-inner-model-data"],
+                "type": data[key]["pymilo-inner-model-type"]
             }, Command.DESERIALZIE, is_inner_model=True)
     # now deserializing non-linear models fields
     for transporter in LINEAR_MODEL_CHAIN:
@@ -147,7 +147,7 @@ def deserialize_linear_model(linear_model, is_inner_model):
     return raw_model
 
 
-def validate_input(model, command, is_inner_model):
+def validate_input(model, command):
     """
     Check if the provided inputs are valid in relation to each other.
 
@@ -155,8 +155,6 @@ def validate_input(model, command, is_inner_model):
     :type model: obj
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether the request is an inner linear model, as a single field of a wrapper linear model
-    :type is_inner_model: boolean
     :return: None
     """
     if command == Command.SERIALIZE:
@@ -170,7 +168,7 @@ def validate_input(model, command, is_inner_model):
                 }
             )
     elif command == Command.DESERIALZIE:
-        model_type = model["type"] if is_inner_model else model.type
+        model_type = model.type
         if is_linear_model(model_type):
             return
         else:

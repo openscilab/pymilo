@@ -7,6 +7,9 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 from ..pymilo_param import SKLEARN_NAIVE_BAYES_TABLE
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
 from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+
+from ..utils.util import get_sklearn_type
+
 from traceback import format_exc
 
 NAIVE_BAYES_CHAIN = {
@@ -25,10 +28,10 @@ def is_naive_bayes(model):
     if isinstance(model, str):
         return model in SKLEARN_NAIVE_BAYES_TABLE
     else:
-        return type(model) in SKLEARN_NAIVE_BAYES_TABLE.values()
+        return get_sklearn_type(model) in SKLEARN_NAIVE_BAYES_TABLE.keys()
 
 
-def transport_naive_bayes(request, command):
+def transport_naive_bayes(request, command, is_inner_model=False):
     """
     Return the transported (Serialized or Deserialized) model.
 
@@ -36,9 +39,12 @@ def transport_naive_bayes(request, command):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
+    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :type is_inner_model: boolean
     :return: the transported request as a json string or sklearn naive bayes model
     """
-    _validate_input(request, command)
+    if not is_inner_model:
+        _validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -56,7 +62,7 @@ def transport_naive_bayes(request, command):
 
     elif command == Command.DESERIALZIE:
         try:
-            return deserialize_naive_bayes(request)
+            return deserialize_naive_bayes(request, is_inner_model)
         except Exception as e:
             raise PymiloDeserializationException(
                 {
@@ -81,20 +87,28 @@ def serialize_naive_bayes(naive_bayes_object):
     return naive_bayes_object.__dict__
 
 
-def deserialize_naive_bayes(naive_bayes):
+def deserialize_naive_bayes(naive_bayes, is_inner_model=False):
     """
     Return the associated sklearn naive bayes model of the given naive bayes.
 
     :param naive bayes: given json string of a naive bayes model to get deserialized to associated sklearn naive bayes model
     :type naive bayes: obj
+    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :type is_inner_model: boolean
     :return: associated sklearn naive bayes model
     """
-    raw_model = SKLEARN_NAIVE_BAYES_TABLE[naive_bayes.type]()
-    data = naive_bayes.data
+    raw_model = None
+    data = None
+    if is_inner_model:
+        raw_model = SKLEARN_NAIVE_BAYES_TABLE[naive_bayes["type"]]()
+        data = naive_bayes["data"]
+    else:
+        raw_model = SKLEARN_NAIVE_BAYES_TABLE[naive_bayes.type]()
+        data = naive_bayes.data
 
     for transporter in NAIVE_BAYES_CHAIN:
         NAIVE_BAYES_CHAIN[transporter].transport(
-            naive_bayes, Command.DESERIALZIE)
+            naive_bayes, Command.DESERIALZIE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model

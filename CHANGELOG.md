@@ -6,7 +6,54 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `util.py` in chains
+- `BinMapperTransporter` Transporter
+- `BunchTransporter` Transporter
+- `GeneratorTransporter` Transporter
+- `LabelEncoderTransporter` Transporter
+- `OneHotEncoderTransporter` Transporter
+- `TreePredictorTransporter` Transporter
+- `AdaboostClassifier` model
+- `AdaboostRegressor` model
+- `BaggingClassifier` model
+- `BaggingRegressor` model
+- `ExtraTreesClassifier` model
+- `ExtraTreesRegressor` model
+- `GradientBoosterClassifier` model
+- `GradientBoosterRegressor` model
+- `HistGradientBoosterClassifier` model
+- `HistGradientBoosterRegressor` model
+- `RandomForestClassifier` model
+- `RandomForestRegressor` model
+- `IsolationForest` model
+- `RandomTreesEmbedding` model
+- `StackingClassifier` model
+- `StackingRegressor` model
+- `VotingClassifier` model
+- `VotingRegressor` model
+- `Pipeline` model
+- Ensemble models test runner
+- Ensemble chain
 ### Changed
+- `util.py` in utils updated
+- `test_pymilo.py` updated
+- `pymilo_func.py` updated
+- `linear_model_chain.py` updated
+- `neural_network_chain.py` updated
+- `decision_tree_chain.py` updated
+- `clustering_chain.py` updated
+- `naive_bayes_chain.py` updated
+- `neighbours_chain.py` updated
+- `svm_chain.py` updated
+- `GeneralDataStructure` Transporter updated
+- `LossFunction` Transporter updated
+- `AbstractTransporter` updated
+- Tests config modified
+- Unequal sklearn version error added in `pymilo_param.py`
+- Ensemble params initialized in `pymilo_param`
+- Ensemble support added to `pymilo_func.py`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
 ## [0.7] - 2024-04-03
 ### Added
 - `pymilo_nearest_neighbor_test` function added to `test_pymilo.py`

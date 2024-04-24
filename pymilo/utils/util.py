@@ -24,6 +24,8 @@ def is_primitive(obj):
     :type obj: any valid type
     :return: True if object is primitive
     """
+    if isinstance(obj, dict):
+        return False
     return not hasattr(obj, '__dict__')
 
 

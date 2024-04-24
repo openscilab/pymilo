@@ -12,6 +12,10 @@
 	* [Naive Bayes](#scikit-learn-naivebayes)
 	* [Support Vector Machine](#scikit-learn-svm)
 	* [Neighbors](#scikit-learn-neighbors)
+	* [Ensemble](#scikit-learn-ensemble)
+	* [Pipeline](#scikit-learn-pipeline)
+	* [Preprocessing](#scikit-learn-preprocessing)
+
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
 <h3 id="scikit-learn-linear">Linear Models</h3>
@@ -493,5 +497,151 @@
 		<td>7</td>
 		<td><b>LocalOutlierFactor</b></td>
         <td>>=0.7</td>
+	</tr>
+</table>
+
+<h3 id="scikit-learn-ensemble">Ensemble</h3> 
+📚 <a href="https://scikit-learn.org/stable/modules/ensemble.html" target="_blank"><b>Models Document</b></a>
+
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>AdaboostClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>AdaboostRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>BaggingClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>4</td>
+		<td><b>BaggingRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>5</td>
+		<td><b>ExtraTreesClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>6</td>
+		<td><b>ExtraTreesRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>7</td>
+		<td><b>GradientBoosterClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>8</td>
+		<td><b>GradientBoosterRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>9</td>
+		<td><b>HistGradientBoostingClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>10</td>
+		<td><b>HistGradientBoostingRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>11</td>
+		<td><b>RandomForestClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>12</td>
+		<td><b>RandomForestRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>13</td>
+		<td><b>StackingClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>14</td>
+		<td><b>StackingRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>15</td>
+		<td><b>VotingClassifier</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>16</td>
+		<td><b>VotingRegressor</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>17</td>
+		<td><b>IsolationForest</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>18</td>
+		<td><b>RandomTreesEmbedding</b></td>
+        <td>>=0.8</td>
+	</tr>
+</table>
+
+<h3 id="scikit-learn-pipeline">Pipeline</h3> 
+📚 <a href="https://scikit-learn.org/stable/modules/compose.html#pipeline-chaining-estimators" target="_blank"><b>Models Document</b></a>
+
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>Pipeline</b></td>
+        <td>>=0.8</td>
+	</tr>
+</table>
+
+<h3 id="scikit-learn-preprocessing">Preprocessing Modules</h3> 
+📚 <a href="https://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing" target="_blank"><b>Models Document</b></a>
+
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>OneHotEncoder</b></td>
+        <td>>=0.8</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>LabelBinarizer</b></td>
+        <td>>=0.1</td>
+	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>LabelEncoder</b></td>
+        <td>>=0.8</td>
 	</tr>
 </table>

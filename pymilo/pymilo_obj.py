@@ -2,7 +2,7 @@
 """PyMilo modules."""
 from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
 from .utils.util import get_sklearn_type
-from .pymilo_param import PYMILO_VERSION, PYMILO_VERSION_DOES_NOT_EXIST, UNEQUAL_PYMILO_VERSIONS
+from .pymilo_param import PYMILO_VERSION, PYMILO_VERSION_DOES_NOT_EXIST, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
 import json
 
 from .exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
@@ -104,6 +104,8 @@ class Import:
                 raise Exception(PYMILO_VERSION_DOES_NOT_EXIST)
             if not serialized_model_obj["pymilo_version"] == PYMILO_VERSION:
                 warn(UNEQUAL_PYMILO_VERSIONS, category=Warning)
+            if not serialized_model_obj["sklearn_version"] == get_sklearn_version():
+                warn(UNEQUAL_SKLEARN_VERSIONS, category=Warning)
             self.data = serialized_model_obj["data"]
             self.version = serialized_model_obj["sklearn_version"]
             self.type = serialized_model_obj["model_type"]

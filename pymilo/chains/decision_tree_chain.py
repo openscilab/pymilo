@@ -4,6 +4,9 @@ from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.tree_transporter import TreeTransporter
+from ..transporters.randomstate_transporter import RandomStateTransporter
+
+from ..utils.util import get_sklearn_type
 
 from ..pymilo_param import SKLEARN_DECISION_TREE_TABLE
 
@@ -14,6 +17,7 @@ from traceback import format_exc
 
 DECISION_TREE_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
+    "RandomStateTransporter": RandomStateTransporter(),
     "TreeTransporter": TreeTransporter(),
 }
 
@@ -29,10 +33,10 @@ def is_decision_tree(model):
     if isinstance(model, str):
         return model in SKLEARN_DECISION_TREE_TABLE
     else:
-        return type(model) in SKLEARN_DECISION_TREE_TABLE.values()
+        return get_sklearn_type(model) in SKLEARN_DECISION_TREE_TABLE.keys()
 
 
-def transport_decision_tree(request, command):
+def transport_decision_tree(request, command, is_inner_model=False):
     """
     Return the transported (Serialized or Deserialized) model.
 
@@ -40,9 +44,12 @@ def transport_decision_tree(request, command):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
+    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :type is_inner_model: boolean
     :return: the transported request as a json string or sklearn decision tree model
     """
-    _validate_input(request, command)
+    if not is_inner_model:
+        _validate_input(request, command)
 
     if command == Command.SERIALIZE:
         try:
@@ -60,7 +67,7 @@ def transport_decision_tree(request, command):
 
     elif command == Command.DESERIALZIE:
         try:
-            return deserialize_decision_tree(request)
+            return deserialize_decision_tree(request, is_inner_model)
         except Exception as e:
             raise PymiloDeserializationException(
                 {
@@ -85,20 +92,28 @@ def serialize_decision_tree(decision_tree_object):
     return decision_tree_object.__dict__
 
 
-def deserialize_decision_tree(decision_tree):
+def deserialize_decision_tree(decision_tree, is_inner_model=False):
     """
     Return the associated sklearn decision tree model of the given decision_tree.
 
     :param decision_tree: given json string of a decision tree model to get deserialized to associated sklearn decision tree model
     :type decision_tree: obj
+    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :type is_inner_model: boolean
     :return: associated sklearn decision tree model
     """
-    raw_model = SKLEARN_DECISION_TREE_TABLE[decision_tree.type]()
-    data = decision_tree.data
+    raw_model = None
+    data = None
+    if is_inner_model:
+        raw_model = SKLEARN_DECISION_TREE_TABLE[decision_tree["type"]]()
+        data = decision_tree["data"]
+    else:
+        raw_model = SKLEARN_DECISION_TREE_TABLE[decision_tree.type]()
+        data = decision_tree.data
 
     for transporter in DECISION_TREE_CHAIN:
         DECISION_TREE_CHAIN[transporter].transport(
-            decision_tree, Command.DESERIALZIE)
+            decision_tree, Command.DESERIALZIE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model

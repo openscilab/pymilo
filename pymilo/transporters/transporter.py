@@ -122,6 +122,8 @@ class AbstractTransporter(Transporter):
         :type request: object
         :param command: determines the type of transportation, it can be either Serialize or Deserialize
         :type command: Command class
+        :param is_inner_model: determines whether it is an inner linear model of a super ml model
+        :type is_inner_model: boolean
         :return: pymilo transported output of data[key]
         """
         if command == Command.SERIALIZE:
