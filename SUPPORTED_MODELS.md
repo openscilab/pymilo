@@ -1,20 +1,6 @@
 # Supported Models
 
-### Last Update: 2024-02-25
-
-## Table of Contents
-
-* **[Scikit-Learn](#scikit-learn)**
-	* [Linear Models](#scikit-learn-linear)
-	* [Neural Networks](#scikit-learn-nn)
-	* [Decision Trees](#scikit-learn-trees)
-	* [Clustering Models](#scikit-learn-clustering)
-	* [Naive Bayes](#scikit-learn-naivebayes)
-	* [Support Vector Machine](#scikit-learn-svm)
-	* [Neighbors](#scikit-learn-neighbors)
-	* [Ensemble](#scikit-learn-ensemble)
-	* [Pipeline](#scikit-learn-pipeline)
-	* [Preprocessing](#scikit-learn-preprocessing)
+**Last Update: 2024-02-25**
 
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
