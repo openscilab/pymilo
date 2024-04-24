@@ -100,7 +100,7 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ```pycon 
 >>> imported_sklearn_model = imported_model.to_model()
 ```
-#### Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
+* Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
 
 ## Supported ML models
 | scikit-learn | PyTorch | 
