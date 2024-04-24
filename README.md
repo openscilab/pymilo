@@ -18,20 +18,6 @@
 
 ----------
 
-## Table of contents
-
-* [Overview](https://github.com/openscilab/pymilo#overview)
-* [Installation](https://github.com/openscilab/pymilo#installation)
-* [Usage](https://github.com/openscilab/pymilo#usage)
-* [Issues & Bug Reports](https://github.com/openscilab/pymilo#issues--bug-reports)
-* [Contribution](https://github.com/openscilab/pymilo/blob/main/.github/CONTRIBUTING.md)
-* [Authors](https://github.com/openscilab/pymilo/blob/main/AUTHORS.md)
-* [License](https://github.com/openscilab/pymilo/blob/main/LICENSE)
-* [Show Your Support](https://github.com/openscilab/pymilo#show-your-support)
-* [Changelog](https://github.com/openscilab/pymilo/blob/main/CHANGELOG.md)
-* [Code of Conduct](https://github.com/openscilab/pymilo/blob/main/.github/CODE_OF_CONDUCT.md)
-
-
 ## Overview
 <p align="justify">
 PyMilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way. By this, the exported model can be used in other environments, transferred across different platforms, and shared with others. PyMilo allows the users to export the models that are trained using popular Python libraries like scikit-learn, and then use them in deployment environments, or share them without exposing the underlying code or dependencies. The transparency of the exported models ensures reliability and safety for the end users, as it eliminates the risks of binary or pickle formats.
