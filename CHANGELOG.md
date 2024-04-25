@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Pipeline` model
 - Ensemble models test runner
 - Ensemble chain
+- `SECURITY.md`
 ### Changed
 - `util.py` in utils updated
 - `test_pymilo.py` updated
