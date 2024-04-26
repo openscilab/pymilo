@@ -433,8 +433,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_list.append(self.deep_deserialize_ndarray(item))
             else:
                 if len(shape) == 1:
-                # shape in form if [int] so inner items should not be list.
-                # convert each inner item to tuple(if it a list)
+                    # shape in form if [int] so inner items should not be list.
+                    # convert each inner item to tuple(if it a list)
                     if isinstance(item, list):
                         new_list.append(tuple(item))
                     else:
