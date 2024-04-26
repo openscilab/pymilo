@@ -94,14 +94,8 @@ class TreePredictorTransporter(AbstractTransporter):
             "pymiloed-data-structure": 'TreePredictor',
             "pymiloed-data": {
                 "nodes": gdst.deep_serialize_ndarray(treepredictor.nodes),
-                "binned_left_cat_bitsets": {
-                    "content": gdst.deep_serialize_ndarray(treepredictor.binned_left_cat_bitsets),
-                    "shape": treepredictor.binned_left_cat_bitsets.shape
-                },
-                "raw_left_cat_bitsets": {
-                    "content": gdst.deep_serialize_ndarray(treepredictor.raw_left_cat_bitsets),
-                    "shape": treepredictor.raw_left_cat_bitsets.shape
-                },
+                "binned_left_cat_bitsets": gdst.deep_serialize_ndarray(treepredictor.binned_left_cat_bitsets),
+                "raw_left_cat_bitsets": gdst.deep_serialize_ndarray(treepredictor.raw_left_cat_bitsets),
             },
         }
 
@@ -126,11 +120,9 @@ class TreePredictorTransporter(AbstractTransporter):
             nodes=gdst.deep_deserialize_ndarray(
                 serialized_tree_predictor["pymiloed-data"]["nodes"]),
             binned_left_cat_bitsets=gdst.deep_deserialize_ndarray(
-                binned_left_cat_bitsets["content"]).reshape(
-                binned_left_cat_bitsets["shape"]),
+                binned_left_cat_bitsets),
             raw_left_cat_bitsets=gdst.deep_deserialize_ndarray(
-                raw_left_cat_bitsets["content"]).reshape(
-                raw_left_cat_bitsets["shape"]),
+                raw_left_cat_bitsets)
         )
 
     def serialize_possible_inner_tree_predictor(self, _list):
