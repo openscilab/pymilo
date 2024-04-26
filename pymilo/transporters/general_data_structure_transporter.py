@@ -388,6 +388,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         return {
             'pymiloed-ndarray-list': new_list,
             'pymiloed-ndarray-dtype': str(dtype),
+            'pymiloed-ndarray-shape': ndarray.shape,
             'pymiloed-data-structure': 'numpy.ndarray'
         }
 
@@ -421,6 +422,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         inner_list = deserialized_ndarray['pymiloed-ndarray-list']
         dtype = deserialized_ndarray['pymiloed-ndarray-dtype']
+        shape = deserialized_ndarray['pymiloed-ndarray-shape']
 
         if dtype.startswith("["):
             dtype = literal_eval(dtype)
@@ -430,6 +432,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             if self.is_deserialized_ndarray(item):
                 new_list.append(self.deep_deserialize_ndarray(item))
             else:
-                new_list.append(item)
-
-        return np.asarray(new_list, dtype=dtype)
+                if len(shape) == 1:
+                # shape in form if [int] so inner items should not be list.
+                # convert each inner item to tuple(if it a list)
+                    if isinstance(item, list):
+                        new_list.append(tuple(item))
+                    else:
+                        new_list.append(item)
+                else:
+                    new_list.append(item)
+        return np.asarray(new_list, dtype=dtype).reshape(shape)
