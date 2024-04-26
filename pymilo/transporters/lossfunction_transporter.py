@@ -191,15 +191,14 @@ class LossFunctionTransporter(AbstractTransporter):
                     return hgbc._get_loss(ensemble_loss["constant_hessian"])
 
             elif loss_type == "sklearn.ensemble._hist_gradient_boosting.loss.BaseLoss" and model_type in ["HistGradientBoostingRegressor", "HistGradientBoostingClassifier"]:
+                sample_weight = None if ensemble_loss["hessians_are_constant"] else True
                 if model_type == "HistGradientBoostingRegressor":
-                    sample_weight = None if ensemble_loss["hessians_are_constant"] else True
                     return HistGradientBoostingRegressor(
                         loss=ensemble_loss["loss"])._get_loss(sample_weight, ensemble_loss["n_threads"])
                 elif model_type == "HistGradientBoostingClassifier":
                     n_trees_per_iteration_ = ensemble_loss["n_trees_per_iteration_"]
                     hgbc = HistGradientBoostingClassifier(loss=ensemble_loss["loss"])
                     hgbc.__dict__["n_trees_per_iteration_"] = n_trees_per_iteration_
-                    sample_weight = None if ensemble_loss["hessians_are_constant"] else True
                     return hgbc._get_loss(sample_weight, ensemble_loss["n_threads"])
 
             elif loss_type == "sklearn.ensemble._gb_losses.LossFunction" and model_type in ["GradientBoostingRegressor", "GradientBoostingClassifier"]:
