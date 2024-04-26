@@ -168,27 +168,26 @@ class LossFunctionTransporter(AbstractTransporter):
             model_type = ensemble_loss["model_type"]
             loss_type = ensemble_loss["loss-library"]
             if loss_type == "sklearn._loss.loss.BaseLoss":
+                sample_weight = None if ensemble_loss["constant_hessian"] else True
                 if model_type == "GradientBoostingRegressor":
                     return GradientBoostingRegressor(
                         loss=ensemble_loss["loss"],
-                        alpha=ensemble_loss["alpha"])._get_loss(
-                        ensemble_loss["constant_hessian"])
+                        alpha=ensemble_loss["alpha"])._get_loss(sample_weight)
 
                 elif model_type == "GradientBoostingClassifier":
                     gbs = GradientBoostingClassifier(loss=ensemble_loss["loss"])
                     gbs.__dict__["n_classes_"] = ensemble_loss["n_classes"]
-                    return gbs._get_loss(ensemble_loss["constant_hessian"])
+                    return gbs._get_loss(sample_weight)
 
                 elif model_type == "HistGradientBoostingRegressor":
                     return HistGradientBoostingRegressor(
-                        loss=ensemble_loss["loss"])._get_loss(
-                        ensemble_loss["constant_hessian"])
+                        loss=ensemble_loss["loss"])._get_loss(sample_weight)
 
                 elif model_type == "HistGradientBoostingClassifier":
                     n_trees_per_iteration_ = ensemble_loss["n_trees_per_iteration_"]
                     hgbc = HistGradientBoostingClassifier()
                     hgbc.__dict__["n_trees_per_iteration_"] = n_trees_per_iteration_
-                    return hgbc._get_loss(ensemble_loss["constant_hessian"])
+                    return hgbc._get_loss(sample_weight)
 
             elif loss_type == "sklearn.ensemble._hist_gradient_boosting.loss.BaseLoss" and model_type in ["HistGradientBoostingRegressor", "HistGradientBoostingClassifier"]:
                 sample_weight = None if ensemble_loss["hessians_are_constant"] else True
