@@ -39,7 +39,7 @@ class PreprocessingTransporter():
                 "pymilo-preprocessing-data": pre_module.__dict__
                 }
         else:
-            raise("This Preprocessing module either doesn't exist in sklearn.preprocessing or is not supported yet.")
+            raise Exception("This Preprocessing module either doesn't exist in sklearn.preprocessing or is not supported yet.")
 
 
     def deserialize(self, serialized_pre_module):
@@ -58,4 +58,4 @@ class PreprocessingTransporter():
                 setattr(retrieved_pre_module, key, gdst.deserialize(data, key, ""))
             return retrieved_pre_module
         else:
-            raise("This object isn't a pymilo serialized preprocessing module")
+            raise Exception("This object isn't a pymilo serialized preprocessing module")
