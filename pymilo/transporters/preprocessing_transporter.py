@@ -77,12 +77,13 @@ class PreprocessingTransporter(AbstractTransporter):
         :return: pymilo serialized pre_module
         """
         _type = get_sklearn_type(pre_module)
+        associated_class = SKLEARN_PREPROCESSING_TABLE[_type]
         if _type == "OneHotEncoder":
             return {
                 "pymilo-bypass": True,
                 "pymilo-preprocessing-type": _type,
                 "pymilo-preprocessing-data": {
-                    "sparse_output": pre_module.__dict__["sparse_output"]
+                    "sparse_output": pre_module.sparse_output if has_named_parameter(associated_class, "sparse_output") else pre_module.sparse
                 }
             }
 
