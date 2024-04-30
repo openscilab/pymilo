@@ -206,7 +206,10 @@ SKLEARN_ENSEMBLE_TABLE = {
 }
 
 SKLEARN_PREPROCESSING_TABLE = {
-    "StandardScaler": preprocessing.StandardScaler
+    "StandardScaler": preprocessing.StandardScaler,
+    "OneHotEncoder": preprocessing.OneHotEncoder,
+    "LabelBinarizer": preprocessing.LabelBinarizer,
+    "LabelEncoder": preprocessing.LabelEncoder,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
