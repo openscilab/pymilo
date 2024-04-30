@@ -4,9 +4,7 @@ from ..transporters.transporter import Command
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.randomstate_transporter import RandomStateTransporter
 from ..transporters.lossfunction_transporter import LossFunctionTransporter
-from ..transporters.onehotencoder_transporter import OneHotEncoderTransporter
 from ..transporters.bunch_transporter import BunchTransporter
-from ..transporters.labelencoder_transporter import LabelEncoderTransporter
 from ..transporters.generator_transporter import GeneratorTransporter
 from ..transporters.treepredictor_transporter import TreePredictorTransporter
 from ..transporters.binmapper_transporter import BinMapperTransporter
@@ -28,14 +26,15 @@ from ast import literal_eval
 import copy
 
 ENSEMBLE_CHAIN = {
+    "PreprocessingTransporter": PreprocessingTransporter(),
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "TreePredictorTransporter": TreePredictorTransporter(),
     "BinMapperTransporter": BinMapperTransporter(),
     "GeneratorTransporter": GeneratorTransporter(),
     "RandomStateTransporter": RandomStateTransporter(),
     "LossFunctionTransporter": LossFunctionTransporter(),
-    "OneHotEncoderTransporter": OneHotEncoderTransporter(),
-    "LabelEncoderTransporter": LabelEncoderTransporter(),
+    # "OneHotEncoderTransporter": OneHotEncoderTransporter(),
+    # "LabelEncoderTransporter": LabelEncoderTransporter(),
     "BunchTransporter": BunchTransporter(),
 }
 
@@ -173,7 +172,7 @@ def serialize_ensemble(ensemble_object):
                     listed_tuple = list(item)
                     for inner_idx, inner_item in enumerate(listed_tuple):
                         if pt.is_preprocessing_module(inner_item):
-                            listed_tuple[inner_idx] = pt.serialize(inner_item)
+                            listed_tuple[inner_idx] = pt.serialize_pre_module(inner_item)
                         else:
                             has_inner_model, result = serialize_possible_ml_model(inner_item)
                             if has_inner_model:
@@ -333,7 +332,8 @@ def deserialize_ensemble(ensemble, is_inner_model=False):
                 pt = PreprocessingTransporter()
                 for listed_tuple in listed_tuples:
                     name, serialized_model = listed_tuple
-                    retrieved_model = pt.deserialize(serialized_model) if pt.is_preprocessing_module(serialized_model) else deserialize_possible_ml_model(serialized_model)[1]
+                    retrieved_model = pt.deserialize_pre_module(serialized_model) if pt.is_preprocessing_module(
+                        serialized_model) else deserialize_possible_ml_model(serialized_model)[1]
                     list_of_tuples.append(
                         (name, retrieved_model)
                     )
