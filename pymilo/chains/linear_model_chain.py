@@ -5,7 +5,7 @@ from ..transporters.transporter import Command
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.baseloss_transporter import BaseLossTransporter
 from ..transporters.lossfunction_transporter import LossFunctionTransporter
-from ..transporters.labelbinarizer_transporter import LabelBinarizerTransporter
+from ..transporters.preprocessing_transporter import PreprocessingTransporter
 
 from ..pymilo_param import SKLEARN_LINEAR_MODEL_TABLE
 from ..utils.util import get_sklearn_type, is_iterable
@@ -16,10 +16,11 @@ from traceback import format_exc
 
 
 LINEAR_MODEL_CHAIN = {
+    "PreprocessingTransporter": PreprocessingTransporter(),
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "BaseLossTransporter": BaseLossTransporter(),
     "LossFunctionTransporter": LossFunctionTransporter(),
-    "LabelBinarizerTransporter": LabelBinarizerTransporter()}
+}
 
 
 def is_linear_model(model):
@@ -101,9 +102,9 @@ def serialize_linear_model(linear_model_object):
     for key in linear_model_object.__dict__:
         if is_linear_model(linear_model_object.__dict__[key]):
             linear_model_object.__dict__[key] = {
-                "pymilo-inner-model-data": transport_linear_model(linear_model_object.__dict__[key], Command.SERIALIZE),
+                "pymilo-inner-model-data": transport_linear_model(linear_model_object.__dict__[key], Command.SERIALIZE, True),
                 "pymilo-inner-model-type": get_sklearn_type(linear_model_object.__dict__[key]),
-                "by-pass": True
+                "pymilo-by-pass": True
             }
     # now serializing non-linear model fields
     for transporter in LINEAR_MODEL_CHAIN:
