@@ -76,22 +76,11 @@ class PreprocessingTransporter(AbstractTransporter):
         :type pre_module: sklearn.preprocessing
         :return: pymilo serialized pre_module
         """
-        _type = get_sklearn_type(pre_module)
-        associated_class = SKLEARN_PREPROCESSING_TABLE[_type]
-        if _type == "OneHotEncoder":
-            return {
-                "pymilo-bypass": True,
-                "pymilo-preprocessing-type": _type,
-                "pymilo-preprocessing-data": {
-                    "sparse_output": pre_module.sparse_output if has_named_parameter(associated_class, "sparse_output") else pre_module.sparse
-                }
-            }
-
         gdst = GeneralDataStructureTransporter()
         gdst.transport(pre_module, Command.SERIALIZE, False)
         return {
             "pymilo-bypass": True,
-            "pymilo-preprocessing-type": _type,
+            "pymilo-preprocessing-type": get_sklearn_type(pre_module),
             "pymilo-preprocessing-data": pre_module.__dict__
         }
 
@@ -105,16 +94,7 @@ class PreprocessingTransporter(AbstractTransporter):
         :return: retrieved associated sklearn.preprocessing module
         """
         data = serialized_pre_module["pymilo-preprocessing-data"]
-        _type = serialized_pre_module["pymilo-preprocessing-type"]
         associated_type = SKLEARN_PREPROCESSING_TABLE[serialized_pre_module["pymilo-preprocessing-type"]]
-
-        if _type == "OneHotEncoder":
-            if has_named_parameter(associated_type, "sparse_output"):
-                return associated_type(
-                    sparse_output=serialized_pre_module["pymilo-preprocessing-data"]["sparse_output"])
-            elif has_named_parameter(associated_type, "sparse"):
-                return associated_type(sparse=serialized_pre_module["pymilo-preprocessing-data"]["sparse_output"])
-
         retrieved_pre_module = associated_type()
         gdst = GeneralDataStructureTransporter()
         for key in data:
