@@ -20,7 +20,7 @@ import sklearn.neighbors as neighbors
 import sklearn.dummy as dummy
 import sklearn.ensemble as ensemble
 import sklearn.pipeline as pipeline
-
+import sklearn.preprocessing as preprocessing
 
 quantile_regressor_support = False
 try:
@@ -203,6 +203,10 @@ SKLEARN_ENSEMBLE_TABLE = {
     "HistGradientBoostingClassifier": HistGradientBoostingClassifier if hist_gradient_boosting_support else NOT_SUPPORTED,
     ####
     "Pipeline": pipeline.Pipeline,
+}
+
+SKLEARN_PREPROCESSING_TABLE = {
+    "StandardScaler": preprocessing.StandardScaler
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
