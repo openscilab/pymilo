@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo Preprocessing transporter."""
 from ..pymilo_param import SKLEARN_PREPROCESSING_TABLE
-from ..utils.util import check_str_in_iterable, get_sklearn_type, has_named_parameter
+from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .transporter import AbstractTransporter, Command
 from .general_data_structure_transporter import GeneralDataStructureTransporter
 
