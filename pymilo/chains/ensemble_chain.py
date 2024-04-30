@@ -10,6 +10,7 @@ from ..transporters.labelencoder_transporter import LabelEncoderTransporter
 from ..transporters.generator_transporter import GeneratorTransporter
 from ..transporters.treepredictor_transporter import TreePredictorTransporter
 from ..transporters.binmapper_transporter import BinMapperTransporter
+from ..transporters.preprocessing_transporter import PreprocessingTransporter
 
 from ..pymilo_param import SKLEARN_ENSEMBLE_TABLE
 
@@ -166,14 +167,19 @@ def serialize_ensemble(ensemble_object):
     for key, value in ensemble_object.__dict__.items():
         if isinstance(value, list):
             has_inner_tuple_with_ml_model = False
+            pt = PreprocessingTransporter()
             for idx, item in enumerate(value):
                 if isinstance(item, tuple):
                     listed_tuple = list(item)
                     for inner_idx, inner_item in enumerate(listed_tuple):
-                        has_inner_model, result = serialize_possible_ml_model(inner_item)
-                        if has_inner_model:
-                            has_inner_tuple_with_ml_model = True
-                        listed_tuple[inner_idx] = result
+                        if pt.is_preprocessing_module(inner_item):
+                            listed_tuple[inner_idx] = pt.serialize(inner_item)
+                        else:
+                            has_inner_model, result = serialize_possible_ml_model(inner_item)
+                            if has_inner_model:
+                                has_inner_tuple_with_ml_model = True
+                            listed_tuple[inner_idx] = result
+                            
                     value[idx] = listed_tuple
                 else:
                     value[idx] = serialize_possible_ml_model(item)[1]
@@ -325,12 +331,15 @@ def deserialize_ensemble(ensemble, is_inner_model=False):
                                      value) and value["pymiloed-data-structure"] == "list of (str, estimator) tuples":
                 listed_tuples = value["pymiloed-data"]
                 list_of_tuples = []
+                pt = PreprocessingTransporter()
                 for listed_tuple in listed_tuples:
-                    name, serialized_ml_model = listed_tuple
+                    name, serialized_model = listed_tuple
+                    retrieved_model = pt.deserialize(serialized_model) if pt.is_preprocessing_module(serialized_model) else deserialize_possible_ml_model(serialized_model)[1]
                     list_of_tuples.append(
-                        (name, deserialize_possible_ml_model(serialized_ml_model)[1])
+                        (name, retrieved_model)
                     )
                 data[key] = list_of_tuples
+
             elif GeneralDataStructureTransporter().is_deserialized_ndarray(value):
                 has_inner_model, result = deserialize_models_in_ndarray(value)
                 if has_inner_model:
