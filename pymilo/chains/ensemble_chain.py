@@ -179,7 +179,6 @@ def serialize_ensemble(ensemble_object):
                             if has_inner_model:
                                 has_inner_tuple_with_ml_model = True
                             listed_tuple[inner_idx] = result
-                            
                     value[idx] = listed_tuple
                 else:
                     value[idx] = serialize_possible_ml_model(item)[1]

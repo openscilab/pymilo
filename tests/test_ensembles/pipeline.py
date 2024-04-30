@@ -10,5 +10,5 @@ def pipeline():
     x_train, y_train, x_test, y_test = prepare_simple_classification_datasets()
     pipeline = Pipeline([
         ('scaler', StandardScaler()),
-        ('svc', SVC())]).fit(x_train, y_train)    
+        ('svc', SVC())]).fit(x_train, y_train)
     pymilo_classification_test(pipeline, MODEL_NAME, (x_test, y_test))
