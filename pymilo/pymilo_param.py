@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 """Parameters and constants."""
-from numpy import uint8
-from numpy import intc
-from numpy import inf
-from numpy import float64
-from numpy import int32
-from numpy import int64
-from numpy import uint64
-from sklearn.preprocessing import LabelBinarizer
-
+import numpy as np
 import sklearn.linear_model as linear_model
 import sklearn.neural_network as neural_network
 import sklearn.tree as tree
@@ -213,9 +205,9 @@ SKLEARN_PREPROCESSING_TABLE = {
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
-    "_label_binarizer": LabelBinarizer,  # in Ridge Classifier
-    "active_": int32,  # in Lasso Lars
-    "n_nonzero_coefs_": int64,  # in OMP-CV
+    "_label_binarizer": preprocessing.LabelBinarizer,  # in Ridge Classifier
+    "active_": np.int32,  # in Lasso Lars
+    "n_nonzero_coefs_": np.int64,  # in OMP-CV
     "scores_": dict,  # in Logistic Regression CV,
     "_base_loss": {},  # BaseLoss in Logistic Regression,
     "loss_function_": {},  # LossFunction in SGD Classifier,
@@ -223,13 +215,14 @@ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
 }
 
 NUMPY_TYPE_DICT = {
-    "numpy.intc": intc,
-    "numpy.int32": int32,
-    "numpy.int64": int64,
-    "numpy.float64": float64,
-    "numpy.infinity": lambda _: inf,
-    "numpy.uint8": uint8,
-    "numpy.uint64": uint64,
+    "numpy.intc": np.intc,
+    "numpy.int32": np.int32,
+    "numpy.int64": np.int64,
+    "numpy.float64": np.float64,
+    "numpy.infinity": lambda _: np.inf,
+    "numpy.uint8": np.uint8,
+    "numpy.uint64": np.uint64,
+    "numpy.dtype": np.dtype,
 }
 
 EXPORTED_MODELS_PATH = {
