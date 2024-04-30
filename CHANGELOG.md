@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `PreprocessingTransporter` Transporter
 - ndarray shape config in `GeneralDataStructure` Transporter
 - `util.py` in chains
 - `BinMapperTransporter` Transporter
@@ -37,6 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Ensemble chain
 - `SECURITY.md`
 ### Changed
+- Preprocessing support added to Ensemble chain
+- Preprocessing params initialized in `pymilo_param`
 - `util.py` in utils updated
 - `test_pymilo.py` updated
 - `pymilo_func.py` updated
