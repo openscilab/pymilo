@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo LabelBinarizer transporter."""
 from ..pymilo_param import KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION
-from sklearn import preprocessing
+from sklearn.preprocessing import LabelBinarizer
 import numpy as np
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
@@ -26,7 +26,7 @@ class LabelBinarizerTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(data[key], preprocessing.LabelBinarizer):
+        if isinstance(data[key], LabelBinarizer):
             data[key] = self.get_serialized_label_binarizer(data[key])
         return data[key]
 
