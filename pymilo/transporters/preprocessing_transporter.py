@@ -7,7 +7,7 @@ from .general_data_structure_transporter import GeneralDataStructureTransporter
 
 
 class PreprocessingTransporter():
-    """Preprocessing object dedicated Transporter"""
+    """Preprocessing object dedicated Transporter."""
 
     def is_preprocessing_module(self, pre_module):
         """
