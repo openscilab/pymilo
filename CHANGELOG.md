@@ -6,14 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `StandardScaler` Transformer in `pymilo_param.py`
 - `PreprocessingTransporter` Transporter
 - ndarray shape config in `GeneralDataStructure` Transporter
 - `util.py` in chains
 - `BinMapperTransporter` Transporter
 - `BunchTransporter` Transporter
 - `GeneratorTransporter` Transporter
-- `LabelEncoderTransporter` Transporter
-- `OneHotEncoderTransporter` Transporter
 - `TreePredictorTransporter` Transporter
 - `AdaboostClassifier` model
 - `AdaboostRegressor` model
@@ -38,6 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Ensemble chain
 - `SECURITY.md`
 ### Changed
+- `Pipeline` test updated
+- `LabelBinarizer`,`LabelEncoder` and `OneHotEncoder` got embedded in `PreprocessingTransporter`
 - Preprocessing support added to Ensemble chain
 - Preprocessing params initialized in `pymilo_param`
 - `util.py` in utils updated
