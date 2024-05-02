@@ -33,8 +33,6 @@ ENSEMBLE_CHAIN = {
     "GeneratorTransporter": GeneratorTransporter(),
     "RandomStateTransporter": RandomStateTransporter(),
     "LossFunctionTransporter": LossFunctionTransporter(),
-    # "OneHotEncoderTransporter": OneHotEncoderTransporter(),
-    # "LabelEncoderTransporter": LabelEncoderTransporter(),
     "BunchTransporter": BunchTransporter(),
 }
 
