@@ -631,7 +631,7 @@
         <td>>=0.8</td>
 	</tr>
 	<tr align="center">
-		<td>3</td>
+		<td>4</td>
 		<td><b>StandardScaler</b></td>
         <td>>=0.8</td>
 	</tr>
