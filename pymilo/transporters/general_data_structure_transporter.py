@@ -93,8 +93,16 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
+        if isinstance(data[key], type):
+            raw_type = str(data[key])
+            raw_type = "numpy" + str(raw_type).split("numpy")[-1][:-2]
+            if raw_type in NUMPY_TYPE_DICT.keys():
+                data[key] = {
+                    "np-type": "numpy.dtype",
+                    "value": raw_type
+                }
         # 1. Handling numpy infinity, ransac
-        if isinstance(data[key], np.float64):
+        elif isinstance(data[key], np.float64):
             if np.inf == data[key]:
                 data[key] = {
                     "np-type": "numpy.infinity",
@@ -209,7 +217,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             return self.deep_deserialize_ndarray(content)
 
         if check_str_in_iterable("np-type", content) and check_str_in_iterable("value", content):
-            return NUMPY_TYPE_DICT[content["np-type"]](content["value"])
+            return self.get_deserialized_regular_primary_types(content)
 
         for key in content:
 
@@ -271,6 +279,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: the associated np.int32|np.int64|np.inf
         """
         if "np-type" in content:
+            if content["np-type"] == "numpy.dtype":
+                return NUMPY_TYPE_DICT[content["np-type"]](NUMPY_TYPE_DICT[content['value']])
             return NUMPY_TYPE_DICT[content["np-type"]](content['value'])
 
     def is_numpy_primary_type(self, content):
@@ -359,8 +369,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if is_primitive(primitive):
             return primitive
         elif check_str_in_iterable("np-type", primitive):
-            return NUMPY_TYPE_DICT[primitive["np-type"]
-                                   ](primitive['value'])
+            return self.get_deserialized_regular_primary_types(primitive)
         else:
             return primitive
 

@@ -5,6 +5,7 @@ from ..transporters.transporter import Command
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.tree_transporter import TreeTransporter
 from ..transporters.randomstate_transporter import RandomStateTransporter
+from ..transporters.preprocessing_transporter import PreprocessingTransporter
 
 from ..utils.util import get_sklearn_type
 
@@ -16,6 +17,7 @@ from traceback import format_exc
 
 
 DECISION_TREE_CHAIN = {
+    "PreprocessingTransporter": PreprocessingTransporter(),
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "RandomStateTransporter": RandomStateTransporter(),
     "TreeTransporter": TreeTransporter(),

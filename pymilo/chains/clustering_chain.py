@@ -5,6 +5,7 @@ from ..transporters.transporter import Command
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.function_transporter import FunctionTransporter
 from ..transporters.cfnode_transporter import CFNodeTransporter
+from ..transporters.preprocessing_transporter import PreprocessingTransporter
 
 from ..utils.util import get_sklearn_type
 
@@ -15,6 +16,7 @@ from traceback import format_exc
 
 bisecting_kmeans_support = SKLEARN_CLUSTERING_TABLE["BisectingKMeans"] != NOT_SUPPORTED
 CLUSTERING_CHAIN = {
+    "PreprocessingTransporter": PreprocessingTransporter(),
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "FunctionTransporter": FunctionTransporter(),
     "CFNodeTransporter": CFNodeTransporter(),

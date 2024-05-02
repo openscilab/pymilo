@@ -4,6 +4,7 @@ from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.randomstate_transporter import RandomStateTransporter
+from ..transporters.preprocessing_transporter import PreprocessingTransporter
 
 from ..pymilo_param import SKLEARN_SVM_TABLE
 from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
@@ -14,6 +15,7 @@ from ..utils.util import get_sklearn_type
 from traceback import format_exc
 
 SVM_CHAIN = {
+    "PreprocessingTransporter": PreprocessingTransporter(),
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "RandomStateTransporter": RandomStateTransporter(),
 }
