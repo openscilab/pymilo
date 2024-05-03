@@ -64,9 +64,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==0.7`
+- Run `pip install pymilo==0.8`
 ### Source code
-- Download [Version 0.7](https://github.com/openscilab/pymilo/archive/v0.7.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Download [Version 0.8](https://github.com/openscilab/pymilo/archive/v0.8.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
 
 ## Usage
@@ -114,7 +114,7 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 | Nearest Neighbors &#x2705; | -  |  
 | Ensemble Models &#x2705; | - | 
 | Pipeline Model &#x2705; | - |
-| Preprocessing Models &#x274C; | - |
+| Preprocessing Models ⏳ | - |
 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
