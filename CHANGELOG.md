@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+### Changed
+## [0.8] - 2024-05-06
+### Added
 - `StandardScaler` Transformer in `pymilo_param.py`
 - `PreprocessingTransporter` Transporter
 - ndarray shape config in `GeneralDataStructure` Transporter
@@ -215,7 +218,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.7...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.8...dev
+[0.8]: https://github.com/openscilab/pymilo/compare/v0.7...v0.8
 [0.7]: https://github.com/openscilab/pymilo/compare/v0.6...v0.7
 [0.6]: https://github.com/openscilab/pymilo/compare/v0.5...v0.6
 [0.5]: https://github.com/openscilab/pymilo/compare/v0.4...v0.5
