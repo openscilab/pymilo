@@ -118,6 +118,8 @@ def serialize_possible_ml_model(possible_ml_model):
     :type possible_ml_model: obj
     :return: tuple(bool, whether itself or dict)
     """
+    if isinstance(possible_ml_model, str):
+        return False, possible_ml_model
     ml_category, transporter = get_transporter(possible_ml_model)
     if transporter is not None:
         return True, {

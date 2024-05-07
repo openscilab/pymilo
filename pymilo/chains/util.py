@@ -29,8 +29,9 @@ def get_concrete_transporter(model):
     :return: tuple(ML_MODEL_CATEGORY, transporter function)
     """
     if isinstance(model, str):
-        if model.upper() in MODEL_TYPE_TRANSPORTER.keys():
-            return model, MODEL_TYPE_TRANSPORTER[model]
+        upper_model = model.upper()
+        if upper_model in MODEL_TYPE_TRANSPORTER.keys():
+            return upper_model, MODEL_TYPE_TRANSPORTER[upper_model]
 
     if is_linear_model(model):
         return "LINEAR_MODEL", transport_linear_model
