@@ -635,4 +635,9 @@
 		<td><b>StandardScaler</b></td>
         <td>>=0.8</td>
 	</tr>
+	<tr align="center">
+		<td>4</td>
+		<td><b>Binarizer</b></td>
+        <td>>=0.9</td>
+	</tr>
 </table>
