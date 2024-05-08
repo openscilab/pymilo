@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `Binarizer` preprocessing model
 ### Changed
+- preprocessing params fulfilled in `pymilo_param`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
+- `serialize_possible_ml_model` in the Ensemble chain
 ## [0.8] - 2024-05-06
 ### Added
 - `StandardScaler` Transformer in `pymilo_param.py`
