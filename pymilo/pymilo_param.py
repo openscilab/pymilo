@@ -202,6 +202,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "OneHotEncoder": preprocessing.OneHotEncoder,
     "LabelBinarizer": preprocessing.LabelBinarizer,
     "LabelEncoder": preprocessing.LabelEncoder,
+    "Binarizer": preprocessing.Binarizer,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
