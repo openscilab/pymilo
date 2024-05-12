@@ -15,7 +15,7 @@ def one_hot_encoder():
     post_pymilo_pre_model = pt.deserialize_pre_module(
         pt.serialize_pre_module(_one_hot_encoder)
     )
-    post_result = post_pymilo_pre_model.transform(X)
+    post_result = post_pymilo_pre_model.transform(X).toarray()
     
     comparison_result = array_equal(pre_result, post_result)
     report_status(comparison_result, MODEL_NAME)
