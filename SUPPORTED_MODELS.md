@@ -636,7 +636,7 @@
         <td>>=0.8</td>
 	</tr>
 	<tr align="center">
-		<td>4</td>
+		<td>5</td>
 		<td><b>Binarizer</b></td>
         <td>>=0.9</td>
 	</tr>
