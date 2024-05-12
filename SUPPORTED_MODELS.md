@@ -640,4 +640,9 @@
 		<td><b>Binarizer</b></td>
         <td>>=0.9</td>
 	</tr>
+	<tr align="center">
+		<td>6</td>
+		<td><b>FunctionTransformer</b></td>
+		<td>>=0.9</td>
+	</tr>
 </table>
