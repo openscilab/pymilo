@@ -99,12 +99,5 @@ ENV/
 out
 gen
 
-/tests/exported_linear_models 
-/tests/exported_neural_networks
-/tests/exported_decision_trees
-/tests/exported_clusterings
-/tests/exported_naive_bayes
-/tests/exported_svms
-/tests/exported_neighbors
-/tests/exported_ensembles
 /.VSCodeCounter
+/tests/exported*
