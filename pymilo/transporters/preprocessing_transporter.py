@@ -4,7 +4,12 @@ from ..pymilo_param import SKLEARN_PREPROCESSING_TABLE
 from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .transporter import AbstractTransporter, Command
 from .general_data_structure_transporter import GeneralDataStructureTransporter
+from .function_transporter import FunctionTransporter
 
+PREPROCESSING_CHAIN = {
+    "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
+    "FunctionTransporter": FunctionTransporter(),
+}
 
 class PreprocessingTransporter(AbstractTransporter):
     """Preprocessing object dedicated Transporter."""
@@ -76,8 +81,9 @@ class PreprocessingTransporter(AbstractTransporter):
         :type pre_module: sklearn.preprocessing
         :return: pymilo serialized pre_module
         """
-        gdst = GeneralDataStructureTransporter()
-        gdst.transport(pre_module, Command.SERIALIZE, False)
+        for transporter in PREPROCESSING_CHAIN:
+            PREPROCESSING_CHAIN[transporter].transport(
+                pre_module, Command.SERIALIZE)
         return {
             "pymilo-bypass": True,
             "pymilo-preprocessing-type": get_sklearn_type(pre_module),
@@ -96,7 +102,9 @@ class PreprocessingTransporter(AbstractTransporter):
         data = serialized_pre_module["pymilo-preprocessing-data"]
         associated_type = SKLEARN_PREPROCESSING_TABLE[serialized_pre_module["pymilo-preprocessing-type"]]
         retrieved_pre_module = associated_type()
-        gdst = GeneralDataStructureTransporter()
+        for key, _ in data.items():
+            for transporter in PREPROCESSING_CHAIN:
+                data[key] = PREPROCESSING_CHAIN[transporter].deserialize(data, key, "")
         for key in data:
-            setattr(retrieved_pre_module, key, gdst.deserialize(data, key, ""))
+            setattr(retrieved_pre_module, key, data[key])
         return retrieved_pre_module
