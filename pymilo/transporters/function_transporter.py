@@ -4,6 +4,7 @@
 from ..utils.util import import_function, check_str_in_iterable
 from .transporter import AbstractTransporter
 from types import FunctionType
+from numpy import ufunc
 
 array_function_dispatcher_support = False
 try:
@@ -30,12 +31,17 @@ class FunctionTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(
-                data[key],
-                FunctionType) or (
-                array_function_dispatcher_support and isinstance(
-                data[key],
-                _ArrayFunctionDispatcher)):
+        if isinstance(data[key], ufunc):
+            function = data[key]
+            data[key] = {
+                "function_name": function.__name__,
+                "function_module": "numpy",
+            }
+            return data[key]
+        
+        elif isinstance(data[key], FunctionType) or (
+            array_function_dispatcher_support and 
+            isinstance(data[key], _ArrayFunctionDispatcher)):
             function = data[key]
             data[key] = {
                 "function_name": function.__name__,
