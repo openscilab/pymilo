@@ -2,7 +2,6 @@ from numpy import array_equal, log1p
 from sklearn.preprocessing import FunctionTransformer
 from pymilo.transporters.preprocessing_transporter import PreprocessingTransporter
 from pymilo.utils.test_pymilo import report_status
-from pymilo.utils.util import import_function
 from util import get_path, write_and_read
 
 MODEL_NAME = "FunctionTransformer"
@@ -11,7 +10,7 @@ def function_transformer():
     f = log1p
     X = [[0, 1], [2, 3]]
 
-    _function_transformer = FunctionTransformer(log1p).fit(X)
+    _function_transformer = FunctionTransformer(f).fit(X)
     pre_result = _function_transformer.transform(X)
 
     pt = PreprocessingTransporter()

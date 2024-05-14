@@ -38,9 +38,9 @@ class FunctionTransporter(AbstractTransporter):
                 "function_module": "numpy",
             }
             return data[key]
-        
+
         elif isinstance(data[key], FunctionType) or (
-            array_function_dispatcher_support and 
+            array_function_dispatcher_support and
             isinstance(data[key], _ArrayFunctionDispatcher)):
             function = data[key]
             data[key] = {

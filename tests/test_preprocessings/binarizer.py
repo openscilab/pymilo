@@ -18,7 +18,7 @@ def binarizer():
     serialized_module = pt.serialize_pre_module(_binarizer)
     file_addr = get_path(MODEL_NAME)
     post_pymilo_pre_model = pt.deserialize_pre_module(write_and_read(serialized_module, file_addr))
-    
+
     post_result = post_pymilo_pre_model.transform(X)
 
     comparison_result = array_equal(pre_result, post_result)
