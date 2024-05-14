@@ -645,4 +645,9 @@
 		<td><b>FunctionTransformer</b></td>
 		<td>>=0.9</td>
 	</tr>
+	<tr align="center">
+		<td>7</td>
+		<td><b>KBinsDiscretizer</b></td>
+		<td>>=0.9</td>
+	</tr>	
 </table>

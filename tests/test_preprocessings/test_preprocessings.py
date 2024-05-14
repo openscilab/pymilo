@@ -7,13 +7,15 @@ from label_encoder import label_encoder
 from standard_scaler import standard_scaler
 from binarizer import binarizer
 from function_transformer import function_transformer
+from kbins_dicretizer import kbins_dicretizer
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
                   label_encoder,
                   standard_scaler,
                   binarizer,
-                  function_transformer
+                  function_transformer,
+                  kbins_dicretizer
                   ]
 
 @pytest.fixture(scope="session", autouse=True)
