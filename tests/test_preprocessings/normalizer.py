@@ -10,7 +10,7 @@ def normalizer():
     X = [[4, 1, 2, 2],
          [1, 3, 9, 3],
          [5, 7, 5, 1]]
-    
+
     _normalizer = Normalizer().fit(X)
     pre_result = _normalizer.transform(X)
 
@@ -18,7 +18,7 @@ def normalizer():
     post_pymilo_pre_model = pt.deserialize_pre_module(
         write_and_read(
             pt.serialize_pre_module(_normalizer),
-            get_path(MODEL_NAME)))    
+            get_path(MODEL_NAME)))
     post_result = post_pymilo_pre_model.transform(X)
 
     comparison_result = array_equal(pre_result, post_result)

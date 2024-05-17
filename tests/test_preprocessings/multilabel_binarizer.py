@@ -8,7 +8,7 @@ MODEL_NAME = "MultiLabelBinarizer"
 
 def multilabel_binarizer():
     X = [{'sci-fi', 'thriller'}, {'comedy'}]
-    
+
     mlb = MultiLabelBinarizer().fit(X)
     pre_result = mlb.transform(X)
 
@@ -17,7 +17,7 @@ def multilabel_binarizer():
         write_and_read(
             pt.serialize_pre_module(mlb),
             get_path(MODEL_NAME)))
-    
+
     post_result = post_pymilo_pre_model.transform(X)
 
     comparison_result = array_equal(pre_result, post_result)
