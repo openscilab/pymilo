@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- `PowerTransformer` preprocessing model
+- `RobustScaler` preprocessing model
 - `PolynomialFeatures` preprocessing model
 - `OrdinalEncoder` preprocessing model
 - `Normalizer` preprocessing model

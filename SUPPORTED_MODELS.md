@@ -677,7 +677,7 @@
 	</tr>
 	<tr align="center">
 		<td>13</td>
-		<td><b>PowerTransformer</b></td>
+		<td><b>RobustScaler</b></td>
 		<td>>=0.9</td>
 	</tr>
 </table>
