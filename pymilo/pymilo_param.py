@@ -208,6 +208,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "MultiLabelBinarizer": preprocessing.MultiLabelBinarizer,
     "MaxAbsScaler": preprocessing.MaxAbsScaler,
     "Normalizer": preprocessing.Normalizer,
+    "OrdinalEncoder": preprocessing.OrdinalEncoder,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {

@@ -11,6 +11,7 @@ from kernel_centerer import kernel_centerer
 from multilabel_binarizer import multilabel_binarizer
 from max_abs_scaler import max_abs_scaler
 from normalizer import normalizer
+from ordinal_encoder import ordinal_encoder
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
@@ -22,6 +23,7 @@ PREPROCESSINGS = [one_hot_encoder,
                   multilabel_binarizer,
                   max_abs_scaler,
                   normalizer,
+                  ordinal_encoder,
                   ]
 
 @pytest.fixture(scope="session", autouse=True)

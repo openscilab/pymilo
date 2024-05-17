@@ -665,4 +665,9 @@
 		<td><b>Normalizer</b></td>
 		<td>>=0.9</td>
 	</tr>
+	<tr align="center">
+		<td>11</td>
+		<td><b>OrdinalEncoder</b></td>
+		<td>>=0.9</td>
+	</tr>
 </table>

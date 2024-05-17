@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `OrdinalEncoder` preprocessing model
 - `Normalizer` preprocessing model
 - `MaxAbsScaler` preprocessing model
 - `MultiLabelBinarizer` preprocessing model
