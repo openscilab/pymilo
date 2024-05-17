@@ -384,7 +384,6 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if (not (isinstance(ndarray, np.ndarray))):
             return None  # throw error
 
-        ndarray = np.stack(ndarray)
         listed_ndarray = ndarray.tolist()
         dtype = ndarray.dtype
 
