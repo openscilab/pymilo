@@ -204,6 +204,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "LabelEncoder": preprocessing.LabelEncoder,
     "Binarizer": preprocessing.Binarizer,
     "FunctionTransformer": preprocessing.FunctionTransformer,
+    "KernelCenterer": preprocessing.KernelCenterer,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
