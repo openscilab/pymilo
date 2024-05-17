@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `MultiLabelBinarizer` preprocessing model
 - `KernelCenterer` preprocessing model
 - `FunctionTransformer` preprocessing model
 - `Binarizer` preprocessing model

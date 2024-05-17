@@ -8,6 +8,7 @@ from standard_scaler import standard_scaler
 from binarizer import binarizer
 from function_transformer import function_transformer
 from kernel_centerer import kernel_centerer
+from multilabel_binarizer import multilabel_binarizer
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
@@ -16,6 +17,7 @@ PREPROCESSINGS = [one_hot_encoder,
                   binarizer,
                   function_transformer,
                   kernel_centerer,
+                  multilabel_binarizer,
                   ]
 
 @pytest.fixture(scope="session", autouse=True)

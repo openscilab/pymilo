@@ -650,4 +650,9 @@
 		<td><b>KernelCenterer</b></td>
 		<td>>=0.9</td>
 	</tr>
+	<tr align="center">
+		<td>8</td>
+		<td><b>MultiLabelBinarizer</b></td>
+		<td>>=0.9</td>
+	</tr>
 </table>
