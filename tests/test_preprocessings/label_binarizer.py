@@ -15,8 +15,10 @@ def label_binarizer():
     pt = PreprocessingTransporter()
     serialized_module = pt.serialize_pre_module(lb)
     file_addr = get_path(MODEL_NAME)
-    post_pymilo_pre_model = pt.deserialize_pre_module(write_and_read(serialized_module, file_addr))
-
+    post_pymilo_pre_model = pt.deserialize_pre_module(
+        write_and_read(
+            pt.serialize_pre_module(lb),
+            get_path(MODEL_NAME)))
     post_result = post_pymilo_pre_model.transform(X)
 
     comparison_result = array_equal(pre_result, post_result)

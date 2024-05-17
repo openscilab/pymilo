@@ -15,9 +15,10 @@ def binarizer():
     pre_result = _binarizer.transform(X)
 
     pt = PreprocessingTransporter()
-    serialized_module = pt.serialize_pre_module(_binarizer)
-    file_addr = get_path(MODEL_NAME)
-    post_pymilo_pre_model = pt.deserialize_pre_module(write_and_read(serialized_module, file_addr))
+    post_pymilo_pre_model = pt.deserialize_pre_module(
+        write_and_read(
+            pt.serialize_pre_module(_binarizer),
+            get_path(MODEL_NAME)))
 
     post_result = post_pymilo_pre_model.transform(X)
 

@@ -14,11 +14,12 @@ def function_transformer():
     pre_result = _function_transformer.transform(X)
 
     pt = PreprocessingTransporter()
-    serialized_module = pt.serialize_pre_module(_function_transformer)
-    file_addr = get_path(MODEL_NAME)
-    post_pymilo_pre_model = pt.deserialize_pre_module(write_and_read(serialized_module, file_addr))
-
+    post_pymilo_pre_model = pt.deserialize_pre_module(
+        write_and_read(
+            pt.serialize_pre_module(_function_transformer),
+            get_path(MODEL_NAME)))
     post_result = post_pymilo_pre_model.transform(X)
+
     comparison_result = array_equal(pre_result, post_result)
     report_status(comparison_result, MODEL_NAME)
     assert comparison_result
