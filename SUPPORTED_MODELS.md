@@ -660,4 +660,9 @@
 		<td><b>MaxAbsScaler</b></td>
 		<td>>=0.9</td>
 	</tr>
+	<tr align="center">
+		<td>10</td>
+		<td><b>Normalizer</b></td>
+		<td>>=0.9</td>
+	</tr>
 </table>
