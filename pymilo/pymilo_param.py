@@ -212,6 +212,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "PolynomialFeatures": preprocessing.PolynomialFeatures,
     "RobustScaler": preprocessing.RobustScaler,
     "QuantileTransformer": preprocessing.QuantileTransformer,
+    "KBinsDiscretizer": preprocessing.KBinsDiscretizer,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
