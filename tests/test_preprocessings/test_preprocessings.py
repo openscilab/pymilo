@@ -1,5 +1,6 @@
 import os
 import pytest
+from pymilo.pymilo_param import SKLEARN_PREPROCESSING_TABLE, NOT_SUPPORTED
 
 from one_hot_encoder import one_hot_encoder
 from label_binarizer import label_binarizer
@@ -17,7 +18,8 @@ from robust_scaler import robust_scaler
 from quantile_transformer import quantile_transformer
 from kbins_discretizer import kbins_discretizer
 from power_transformer import power_transformer
-from spline_transformer import spline_transformer
+if SKLEARN_PREPROCESSING_TABLE["SplineTransformer"] != NOT_SUPPORTED:
+    from spline_transformer import spline_transformer
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
@@ -35,7 +37,8 @@ PREPROCESSINGS = [one_hot_encoder,
                   quantile_transformer,
                   kbins_discretizer,
                   power_transformer,
-                  spline_transformer,
+                  spline_transformer if SKLEARN_PREPROCESSING_TABLE["SplineTransformer"] != NOT_SUPPORTED else (None, "SplineTransformer"),
+        
                   ]
 
 @pytest.fixture(scope="session", autouse=True)
@@ -52,5 +55,10 @@ def reset_exported_models_directory():
             os.remove(json_file)
 
 def test_full():
-    for pre in PREPROCESSINGS:
-        pre()
+    for model in PREPROCESSINGS:
+        if isinstance(model, tuple):
+            func, model_name = model
+            if func == None:
+                print("Model: " + model_name + " is not supported in this python version.")
+                continue
+        model()
