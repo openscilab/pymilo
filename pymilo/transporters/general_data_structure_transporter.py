@@ -458,4 +458,3 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if not prefix_list(list(pre_result.shape), shape):
             return pre_result.reshape(shape)
         return pre_result
-
