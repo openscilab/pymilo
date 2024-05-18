@@ -455,9 +455,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             item = new_list[0]
             # check if inner items have specific dtype.
             try:
-                inner_dtype = item.dtype
-                pre_result = np.asarray(new_list)    
-            except:
+                _ = item.dtype
+                pre_result = np.asarray(new_list)
+            except AttributeError:
                 pre_result = np.asarray(new_list, dtype=dtype)
         else:
             pre_result = np.asarray(new_list, dtype=dtype)
