@@ -67,6 +67,13 @@ try:
 except BaseException:
     pass
 
+spline_transformer_support = False
+try:
+    from sklearn.preprocessing import SplineTransformer
+    spline_transformer_support = True
+except BaseException:
+    pass
+
 
 PYMILO_VERSION = "0.8"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -214,7 +221,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "QuantileTransformer": preprocessing.QuantileTransformer,
     "KBinsDiscretizer": preprocessing.KBinsDiscretizer,
     "PowerTransformer": preprocessing.PowerTransformer,
-    "SplineTransformer": preprocessing.SplineTransformer,
+    "SplineTransformer": SplineTransformer if spline_transformer_support else NOT_SUPPORTED,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
