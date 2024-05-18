@@ -18,8 +18,11 @@ from robust_scaler import robust_scaler
 from quantile_transformer import quantile_transformer
 from kbins_discretizer import kbins_discretizer
 from power_transformer import power_transformer
+
 if SKLEARN_PREPROCESSING_TABLE["SplineTransformer"] != NOT_SUPPORTED:
     from spline_transformer import spline_transformer
+if SKLEARN_PREPROCESSING_TABLE["TargetEncoder"] != NOT_SUPPORTED:
+    from target_encoder import target_encoder
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
@@ -38,7 +41,7 @@ PREPROCESSINGS = [one_hot_encoder,
                   kbins_discretizer,
                   power_transformer,
                   spline_transformer if SKLEARN_PREPROCESSING_TABLE["SplineTransformer"] != NOT_SUPPORTED else (None, "SplineTransformer"),
-        
+                  target_encoder if SKLEARN_PREPROCESSING_TABLE["TargetEncoder"] != NOT_SUPPORTED else (None, "TargetEncoder")
                   ]
 
 @pytest.fixture(scope="session", autouse=True)
