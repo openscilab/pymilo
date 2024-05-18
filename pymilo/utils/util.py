@@ -119,3 +119,19 @@ def has_named_parameter(func, param_name):
     _signature = signature(func)
     parameter_names = [p.name for p in _signature.parameters.values()]
     return param_name in parameter_names
+
+
+def prefix_list(a, b):
+    """
+    Check whether the b list is a sublist of the a list.
+
+    :param a: outer list
+    :type a: list
+    :param b: inner list
+    :type b: list
+
+    :return: boolean
+    """
+    if a[0] == b[0] and all(a[j] == b[j] for j in range(len(b))):
+        return True
+    return False
