@@ -74,6 +74,13 @@ try:
 except BaseException:
     pass
 
+target_encoder_support = False
+try:
+    from sklearn.preprocessing import TargetEncoder
+    target_encoder_support = True
+except BaseException:
+    pass
+
 
 PYMILO_VERSION = "0.8"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -222,6 +229,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "KBinsDiscretizer": preprocessing.KBinsDiscretizer,
     "PowerTransformer": preprocessing.PowerTransformer,
     "SplineTransformer": SplineTransformer if spline_transformer_support else NOT_SUPPORTED,
+    "TargetEncoder": TargetEncoder if target_encoder_support else NOT_SUPPORTED,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
