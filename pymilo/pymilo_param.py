@@ -213,6 +213,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "RobustScaler": preprocessing.RobustScaler,
     "QuantileTransformer": preprocessing.QuantileTransformer,
     "KBinsDiscretizer": preprocessing.KBinsDiscretizer,
+    "PowerTransformer": preprocessing.PowerTransformer,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
