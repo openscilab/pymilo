@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `prefix_list` function in `utils.util.py`
+- `KBinsDiscretizer` preprocessing model
+- `PowerTransformer` preprocessing model
+- `SplineTransformer` preprocessing model
+- `TargetEncoder` preprocessing model
 - `QuantileTransformer` preprocessing model
 - `RobustScaler` preprocessing model
 - `PolynomialFeatures` preprocessing model
@@ -17,6 +22,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `FunctionTransformer` preprocessing model
 - `Binarizer` preprocessing model
 ### Changed
+- `BSpline` Transportation in `PreprocessingTransporter` Transporter
+- one layer deeper transportation in `PreprocessingTransporter` Transporter
+- dictating outer ndarray dtype in `GeneralDataStructureTransporter` Transporter 
 - preprocessing params fulfilled in `pymilo_param`
 - `SUPPORTED_MODELS.md` updated
 - `README.md` updated
