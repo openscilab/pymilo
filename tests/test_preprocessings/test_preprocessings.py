@@ -14,6 +14,7 @@ from normalizer import normalizer
 from ordinal_encoder import ordinal_encoder
 from polynomial_features import polynomial_features
 from robust_scaler import robust_scaler
+from quantile_transformer import quantile_transformer
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
@@ -28,6 +29,7 @@ PREPROCESSINGS = [one_hot_encoder,
                   ordinal_encoder,
                   polynomial_features,
                   robust_scaler,
+                  quantile_transformer,
                   ]
 
 @pytest.fixture(scope="session", autouse=True)

@@ -211,6 +211,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "OrdinalEncoder": preprocessing.OrdinalEncoder,
     "PolynomialFeatures": preprocessing.PolynomialFeatures,
     "RobustScaler": preprocessing.RobustScaler,
+    "QuantileTransformer": preprocessing.QuantileTransformer,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
