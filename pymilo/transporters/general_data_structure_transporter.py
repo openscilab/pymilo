@@ -5,8 +5,8 @@ from ast import literal_eval
 
 from ..pymilo_param import NUMPY_TYPE_DICT
 
-from ..utils.util import get_homogeneous_type, all_same
-from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
+from ..utils.util import get_homogeneous_type, all_same, prefix_list
+from ..utils.util import is_primitive, check_str_in_iterable
 
 from .transporter import AbstractTransporter
 
@@ -455,3 +455,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             pre_result = np.asarray(new_list)
         else:
             pre_result = np.asarray(new_list)
+        if not prefix_list(list(pre_result.shape), shape):
+            return pre_result.reshape(shape)
+        return pre_result
+
