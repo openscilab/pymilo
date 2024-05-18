@@ -680,9 +680,4 @@
 		<td><b>RobustScaler</b></td>
 		<td>>=0.9</td>
 	</tr>
-	<tr align="center">
-		<td>14</td>
-		<td><b>TargetEncoder</b></td>
-		<td>>=0.9</td>
-	</tr>
 </table>
