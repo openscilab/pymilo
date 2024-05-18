@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `KernelCenterer` preprocessing model
 - `FunctionTransformer` preprocessing model
 - `Binarizer` preprocessing model
+- `util.py` in `test_preprocessing`
+- Preprocessing models test runner
 ### Changed
 - `BSpline` Transportation in `PreprocessingTransporter` Transporter
 - one layer deeper transportation in `PreprocessingTransporter` Transporter
@@ -34,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `StandardScaler` Transformer in `pymilo_param.py`
 - `PreprocessingTransporter` Transporter
 - ndarray shape config in `GeneralDataStructure` Transporter
-- `util.py` in chains
+- `util.py` in `chains`
 - `BinMapperTransporter` Transporter
 - `BunchTransporter` Transporter
 - `GeneratorTransporter` Transporter
