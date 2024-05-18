@@ -452,7 +452,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                     new_list.append(item)
 
         if dtype == "object":
-            pre_result = np.asarray(new_list)
+            item = new_list[0]
+            # check if inner items have specific dtype.
+            try:
+                inner_dtype = item.dtype
+                pre_result = np.asarray(new_list)    
+            except:
+                pre_result = np.asarray(new_list, dtype=dtype)
         else:
             pre_result = np.asarray(new_list, dtype=dtype)
         if not prefix_list(list(pre_result.shape), shape):
