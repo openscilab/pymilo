@@ -214,6 +214,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "QuantileTransformer": preprocessing.QuantileTransformer,
     "KBinsDiscretizer": preprocessing.KBinsDiscretizer,
     "PowerTransformer": preprocessing.PowerTransformer,
+    "SplineTransformer": preprocessing.SplineTransformer,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
