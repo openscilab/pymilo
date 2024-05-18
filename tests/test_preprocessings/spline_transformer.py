@@ -3,7 +3,6 @@ from sklearn.preprocessing import SplineTransformer
 from pymilo.utils.test_pymilo import report_status
 from pymilo.transporters.preprocessing_transporter import PreprocessingTransporter
 from util import get_path, write_and_read
-from pymilo.utils.util import get_sklearn_type
 
 MODEL_NAME = "SplineTransformer"
 
