@@ -132,6 +132,8 @@ def prefix_list(a, b):
 
     :return: boolean
     """
+    if len(a) < len(b):
+        return False
     if a[0] == b[0] and all(a[j] == b[j] for j in range(len(b))):
         return True
     return False
