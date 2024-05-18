@@ -16,6 +16,7 @@ from polynomial_features import polynomial_features
 from robust_scaler import robust_scaler
 from quantile_transformer import quantile_transformer
 from kbins_discretizer import kbins_discretizer
+from power_transformer import power_transformer
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
@@ -32,6 +33,7 @@ PREPROCESSINGS = [one_hot_encoder,
                   robust_scaler,
                   quantile_transformer,
                   kbins_discretizer,
+                  power_transformer,
                   ]
 
 @pytest.fixture(scope="session", autouse=True)
