@@ -81,6 +81,11 @@ class PreprocessingTransporter(AbstractTransporter):
         :type pre_module: sklearn.preprocessing
         :return: pymilo serialized pre_module
         """
+        # add one depth inner preprocessing module population
+        for key, value in pre_module.__dict__.items():
+            if self.is_preprocessing_module(value):
+                pre_module.__dict__[key] = self.serialize_pre_module(value)
+                
         for transporter in PREPROCESSING_CHAIN:
             PREPROCESSING_CHAIN[transporter].transport(
                 pre_module, Command.SERIALIZE)
@@ -103,6 +108,9 @@ class PreprocessingTransporter(AbstractTransporter):
         associated_type = SKLEARN_PREPROCESSING_TABLE[serialized_pre_module["pymilo-preprocessing-type"]]
         retrieved_pre_module = associated_type()
         for key, _ in data.items():
+            # add one depth inner preprocessing module population
+            if self.is_preprocessing_module(data[key]):
+                data[key] = self.deserialize_pre_module(data[key])
             for transporter in PREPROCESSING_CHAIN:
                 data[key] = PREPROCESSING_CHAIN[transporter].deserialize(data, key, "")
         for key in data:
