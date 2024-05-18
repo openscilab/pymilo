@@ -15,6 +15,7 @@ from ordinal_encoder import ordinal_encoder
 from polynomial_features import polynomial_features
 from robust_scaler import robust_scaler
 from quantile_transformer import quantile_transformer
+from kbins_discretizer import kbins_discretizer
 
 PREPROCESSINGS = [one_hot_encoder,
                   label_binarizer,
@@ -30,6 +31,7 @@ PREPROCESSINGS = [one_hot_encoder,
                   polynomial_features,
                   robust_scaler,
                   quantile_transformer,
+                  kbins_discretizer,
                   ]
 
 @pytest.fixture(scope="session", autouse=True)
