@@ -454,7 +454,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if dtype == "object":
             pre_result = np.asarray(new_list)
         else:
-            pre_result = np.asarray(new_list)
+            pre_result = np.asarray(new_list, dtype=dtype)
         if not prefix_list(list(pre_result.shape), shape):
             return pre_result.reshape(shape)
         return pre_result
