@@ -450,4 +450,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                         new_list.append(item)
                 else:
                     new_list.append(item)
-        return np.asarray(new_list, dtype=dtype).reshape(shape)
+        
+        if dtype == "object":
+            pre_result = np.asarray(new_list)
+        else:
+            pre_result = np.asarray(new_list)
