@@ -251,6 +251,7 @@ NUMPY_TYPE_DICT = {
     "numpy.uint8": np.uint8,
     "numpy.uint64": np.uint64,
     "numpy.dtype": np.dtype,
+    "numpy.nan": np.nan,
 }
 
 EXPORTED_MODELS_PATH = {
