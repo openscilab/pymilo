@@ -93,7 +93,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(data[key], type):
+        if not (isinstance(data[key], object) or isinstance(data[key], str)):
+            if np.isnan(data[key]): # throws exception on object & str types
+                data[key] = {
+                    "np-type": "numpy.nan",
+                    "value": "NaN"
+                }
+        elif isinstance(data[key], type):
             raw_type = str(data[key])
             raw_type = "numpy" + str(raw_type).split("numpy")[-1][:-2]
             if raw_type in NUMPY_TYPE_DICT.keys():
@@ -281,6 +287,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if "np-type" in content:
             if content["np-type"] == "numpy.dtype":
                 return NUMPY_TYPE_DICT[content["np-type"]](NUMPY_TYPE_DICT[content['value']])
+            if content["np-type"] == "numpy.nan":
+                return NUMPY_TYPE_DICT[content["np-type"]]
             return NUMPY_TYPE_DICT[content["np-type"]](content['value'])
 
     def is_numpy_primary_type(self, content):
