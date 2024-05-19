@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `util.py` in `test_preprocessing`
 - Preprocessing models test runner
 ### Changed
+- `NaN` type in `pymilo_param`
+- `NaN` type transportation in `GeneralDataStructureTransporter` Transporter
 - `BSpline` Transportation in `PreprocessingTransporter` Transporter
 - one layer deeper transportation in `PreprocessingTransporter` Transporter
 - dictating outer ndarray dtype in `GeneralDataStructureTransporter` Transporter 
