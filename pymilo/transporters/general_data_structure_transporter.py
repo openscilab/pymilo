@@ -6,7 +6,7 @@ from ast import literal_eval
 from ..pymilo_param import NUMPY_TYPE_DICT
 
 from ..utils.util import get_homogeneous_type, all_same, prefix_list
-from ..utils.util import is_primitive, check_str_in_iterable
+from ..utils.util import is_primitive, check_str_in_iterable, has_named_parameter
 
 from .transporter import AbstractTransporter
 
@@ -459,16 +459,10 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 else:
                     new_list.append(item)
 
-        if dtype == "object":
-            item = new_list[0]
+        pre_result = np.asarray(new_list, dtype=dtype)
+        if dtype == "object" and hasattr(new_list[0], dtype):
             # check if inner items have specific dtype.
-            try:
-                _ = item.dtype
-                pre_result = np.asarray(new_list)
-            except AttributeError:
-                pre_result = np.asarray(new_list, dtype=dtype)
-        else:
-            pre_result = np.asarray(new_list, dtype=dtype)
+            pre_result = np.asarray(new_list)
         if not prefix_list(list(pre_result.shape), shape):
             return pre_result.reshape(shape)
         return pre_result
