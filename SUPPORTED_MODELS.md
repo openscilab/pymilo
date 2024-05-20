@@ -685,4 +685,25 @@
 		<td><b>QuantileTransformer</b></td>
 		<td>>=0.9</td>
 	</tr>
+	<tr align="center">
+		<td>15</td>
+		<td><b>KBinsDiscretizer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>16</td>
+		<td><b>PowerTransformer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>17</td>
+		<td><b>SplineTransformer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>18</td>
+		<td><b>TargetEncoder</b></td>
+		<td>>=0.9</td>
+	</tr>
+
 </table>
