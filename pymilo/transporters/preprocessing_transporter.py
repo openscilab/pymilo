@@ -113,7 +113,7 @@ class PreprocessingTransporter(AbstractTransporter):
         data = serialized_pre_module["pymilo-preprocessing-data"]
         associated_type = SKLEARN_PREPROCESSING_TABLE[serialized_pre_module["pymilo-preprocessing-type"]]
         retrieved_pre_module = associated_type()
-        for key, _ in data.items():
+        for key in data:
             # add one depth inner preprocessing module population
             if self.is_preprocessing_module(data[key]):
                 data[key] = self.deserialize_pre_module(data[key])
@@ -171,7 +171,7 @@ class PreprocessingTransporter(AbstractTransporter):
         """
         data = serialized_bspline["pymilo-preprocessing-data"]
         associated_type = BSpline # if serialized_bspline["pymilo-preprocessing-type"] == "BSpline" else None
-        for key, _ in data.items():
+        for key in data:
             data[key] = PREPROCESSING_CHAIN["GeneralDataStructureTransporter"].deserialize(data, key, "")
         retrieved_pre_module = associated_type(
             t = data["t"],
