@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `KernelCenterer` preprocessing model
 - `FunctionTransformer` preprocessing model
 - `Binarizer` preprocessing model
-- `util.py` in `test_preprocessing`
+- `tests/test_preprocessings/util.py`
 - Preprocessing models test runner
 ### Changed
 - `NaN` type in `pymilo_param`
