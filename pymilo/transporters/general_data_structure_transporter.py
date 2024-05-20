@@ -94,7 +94,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :return: pymilo serialized output of data[key]
         """
         if not (isinstance(data[key], object) or isinstance(data[key], str)):
-            if np.isnan(data[key]): # throws exception on object & str types
+            if np.isnan(data[key]):  # throws exception on object & str types
                 data[key] = {
                     "np-type": "numpy.nan",
                     "value": "NaN"

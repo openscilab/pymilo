@@ -40,8 +40,8 @@ class FunctionTransporter(AbstractTransporter):
             return data[key]
 
         elif isinstance(data[key], FunctionType) or (
-            array_function_dispatcher_support and
-            isinstance(data[key], _ArrayFunctionDispatcher)):
+                array_function_dispatcher_support and
+                isinstance(data[key], _ArrayFunctionDispatcher)):
             function = data[key]
             data[key] = {
                 "function_name": function.__name__,
