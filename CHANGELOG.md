@@ -38,7 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `StandardScaler` Transformer in `pymilo_param.py`
 - `PreprocessingTransporter` Transporter
 - ndarray shape config in `GeneralDataStructure` Transporter
-- `util.py` in `chains`
+- `util.py` in chains
 - `BinMapperTransporter` Transporter
 - `BunchTransporter` Transporter
 - `GeneratorTransporter` Transporter
