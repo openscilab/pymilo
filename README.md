@@ -4,6 +4,7 @@
     <br/>
     <a href="https://codecov.io/gh/openscilab/pymilo"><img src="https://codecov.io/gh/openscilab/pymilo/branch/main/graph/badge.svg" alt="Codecov"/></a>
     <a href="https://badge.fury.io/py/pymilo"><img src="https://badge.fury.io/py/pymilo.svg" alt="PyPI version" height="18"></a>
+    <a href="https://anaconda.org/openscilab/pymilo"><img src="https://anaconda.org/openscilab/pymilo/badges/version.svg"></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
     <a href="https://discord.gg/mtuMS8AjDS"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
 </div>
@@ -68,6 +69,13 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ### Source code
 - Download [Version 0.8](https://github.com/openscilab/pymilo/archive/v0.8.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
+
+### Conda
+
+- Check [Conda Managing Package](https://conda.io/)
+- Update Conda using `conda update conda`
+- Run `conda install -c openscilab pymilo`
+
 
 ## Usage
 ### Model preparation 
