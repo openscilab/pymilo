@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Anaconda workflow
 ### Changed
+- `README.md` modified
 ## [0.8] - 2024-05-06
 ### Added
 - `StandardScaler` Transformer in `pymilo_param.py`
