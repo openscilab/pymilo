@@ -1,6 +1,5 @@
 numpy==1.26.4
-scikit-learn==1.4.2
-scipy>=0.19.1
+scikit-learn==1.5.0
 setuptools>=40.8.0
 vulture>=1.0
 bandit>=1.5.1
