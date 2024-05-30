@@ -121,17 +121,17 @@ def has_named_parameter(func, param_name):
     return param_name in parameter_names
 
 
-def prefix_list(a, b):
+def prefix_list(list1, list2):
     """
-    Check whether the b list is a sublist of the a list.
+    Check whether the list2 list is list1 sublist of the a list.
 
-    :param a: outer list
-    :type a: list
-    :param b: inner list
-    :type b: list
+    :param list1: outer list
+    :type list1: list
+    :param list2: inner list
+    :type list2: list
 
     :return: boolean
     """
-    if len(a) < len(b):
+    if len(list1) < len(list2):
         return False
-    return all(a[j] == b[j] for j in range(len(b)))
+    return all(list1[j] == list2[j] for j in range(len(list2)))
