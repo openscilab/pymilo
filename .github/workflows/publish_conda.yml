@@ -1,5 +1,7 @@
 name: publish_conda
 
+permissions: read-all
+
 on:
   push:
     # Sequence of patterns matched against refs/tags
