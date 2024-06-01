@@ -6,7 +6,7 @@ from ast import literal_eval
 from ..pymilo_param import NUMPY_TYPE_DICT
 
 from ..utils.util import get_homogeneous_type, all_same, prefix_list
-from ..utils.util import is_primitive, check_str_in_iterable, has_named_parameter
+from ..utils.util import is_primitive, check_str_in_iterable
 
 from .transporter import AbstractTransporter
 
