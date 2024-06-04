@@ -5,8 +5,8 @@ from ast import literal_eval
 
 from ..pymilo_param import NUMPY_TYPE_DICT
 
-from ..utils.util import get_homogeneous_type, all_same
-from ..utils.util import is_primitive, is_iterable, check_str_in_iterable
+from ..utils.util import get_homogeneous_type, all_same, prefix_list
+from ..utils.util import is_primitive, check_str_in_iterable
 
 from .transporter import AbstractTransporter
 
@@ -93,7 +93,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :type model_type: str
         :return: pymilo serialized output of data[key]
         """
-        if isinstance(data[key], type):
+        if not (isinstance(data[key], object) or isinstance(data[key], str)):
+            if np.isnan(data[key]):  # throws exception on object & str types
+                data[key] = {
+                    "np-type": "numpy.nan",
+                    "value": "NaN"
+                }
+        elif isinstance(data[key], type):
             raw_type = str(data[key])
             raw_type = "numpy" + str(raw_type).split("numpy")[-1][:-2]
             if raw_type in NUMPY_TYPE_DICT.keys():
@@ -281,6 +287,8 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if "np-type" in content:
             if content["np-type"] == "numpy.dtype":
                 return NUMPY_TYPE_DICT[content["np-type"]](NUMPY_TYPE_DICT[content['value']])
+            if content["np-type"] == "numpy.nan":
+                return NUMPY_TYPE_DICT[content["np-type"]]
             return NUMPY_TYPE_DICT[content["np-type"]](content['value'])
 
     def is_numpy_primary_type(self, content):
@@ -450,4 +458,11 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                         new_list.append(item)
                 else:
                     new_list.append(item)
-        return np.asarray(new_list, dtype=dtype).reshape(shape)
+
+        pre_result = np.asarray(new_list, dtype=dtype)
+        if dtype == "object" and hasattr(new_list[0], "dtype"):
+            # check if inner items have specific dtype.
+            pre_result = np.asarray(new_list)
+        if not prefix_list(list(pre_result.shape), shape):
+            return pre_result.reshape(shape)
+        return pre_result

@@ -1,6 +1,6 @@
 # Supported Models
 
-**Last Update: 2024-04-24**
+**Last Update: 2024-05-30**
 
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
@@ -635,4 +635,75 @@
 		<td><b>StandardScaler</b></td>
         <td>>=0.8</td>
 	</tr>
+	<tr align="center">
+		<td>5</td>
+		<td><b>Binarizer</b></td>
+        <td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>6</td>
+		<td><b>FunctionTransformer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>7</td>
+		<td><b>KernelCenterer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>8</td>
+		<td><b>MultiLabelBinarizer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>9</td>
+		<td><b>MaxAbsScaler</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>10</td>
+		<td><b>Normalizer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>11</td>
+		<td><b>OrdinalEncoder</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>12</td>
+		<td><b>PolynomialFeatures</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>13</td>
+		<td><b>RobustScaler</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>14</td>
+		<td><b>QuantileTransformer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>15</td>
+		<td><b>KBinsDiscretizer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>16</td>
+		<td><b>PowerTransformer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>17</td>
+		<td><b>SplineTransformer</b></td>
+		<td>>=0.9</td>
+	</tr>
+	<tr align="center">
+		<td>18</td>
+		<td><b>TargetEncoder</b></td>
+		<td>>=0.9</td>
+	</tr>
+
 </table>

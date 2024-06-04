@@ -119,3 +119,19 @@ def has_named_parameter(func, param_name):
     _signature = signature(func)
     parameter_names = [p.name for p in _signature.parameters.values()]
     return param_name in parameter_names
+
+
+def prefix_list(list1, list2):
+    """
+    Check whether the list2 list is list1 sublist of the a list.
+
+    :param list1: outer list
+    :type list1: list
+    :param list2: inner list
+    :type list2: list
+
+    :return: boolean
+    """
+    if len(list1) < len(list2):
+        return False
+    return all(list1[j] == list2[j] for j in range(len(list2)))

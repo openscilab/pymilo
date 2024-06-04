@@ -67,6 +67,20 @@ try:
 except BaseException:
     pass
 
+spline_transformer_support = False
+try:
+    from sklearn.preprocessing import SplineTransformer
+    spline_transformer_support = True
+except BaseException:
+    pass
+
+target_encoder_support = False
+try:
+    from sklearn.preprocessing import TargetEncoder
+    target_encoder_support = True
+except BaseException:
+    pass
+
 
 PYMILO_VERSION = "0.8"
 NOT_SUPPORTED = "NOT_SUPPORTED"
@@ -202,6 +216,20 @@ SKLEARN_PREPROCESSING_TABLE = {
     "OneHotEncoder": preprocessing.OneHotEncoder,
     "LabelBinarizer": preprocessing.LabelBinarizer,
     "LabelEncoder": preprocessing.LabelEncoder,
+    "Binarizer": preprocessing.Binarizer,
+    "FunctionTransformer": preprocessing.FunctionTransformer,
+    "KernelCenterer": preprocessing.KernelCenterer,
+    "MultiLabelBinarizer": preprocessing.MultiLabelBinarizer,
+    "MaxAbsScaler": preprocessing.MaxAbsScaler,
+    "Normalizer": preprocessing.Normalizer,
+    "OrdinalEncoder": preprocessing.OrdinalEncoder,
+    "PolynomialFeatures": preprocessing.PolynomialFeatures,
+    "RobustScaler": preprocessing.RobustScaler,
+    "QuantileTransformer": preprocessing.QuantileTransformer,
+    "KBinsDiscretizer": preprocessing.KBinsDiscretizer,
+    "PowerTransformer": preprocessing.PowerTransformer,
+    "SplineTransformer": SplineTransformer if spline_transformer_support else NOT_SUPPORTED,
+    "TargetEncoder": TargetEncoder if target_encoder_support else NOT_SUPPORTED,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
@@ -223,6 +251,7 @@ NUMPY_TYPE_DICT = {
     "numpy.uint8": np.uint8,
     "numpy.uint64": np.uint64,
     "numpy.dtype": np.dtype,
+    "numpy.nan": np.nan,
 }
 
 EXPORTED_MODELS_PATH = {
