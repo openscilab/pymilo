@@ -7,9 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Anaconda workflow
-### Changed
 - `README.md` modified
 - `meta.yaml` modified
+- `prefix_list` function in `utils.util.py`
+- `KBinsDiscretizer` preprocessing model
+- `PowerTransformer` preprocessing model
+- `SplineTransformer` preprocessing model
+- `TargetEncoder` preprocessing model
+- `QuantileTransformer` preprocessing model
+- `RobustScaler` preprocessing model
+- `PolynomialFeatures` preprocessing model
+- `OrdinalEncoder` preprocessing model
+- `Normalizer` preprocessing model
+- `MaxAbsScaler` preprocessing model
+- `MultiLabelBinarizer` preprocessing model
+- `KernelCenterer` preprocessing model
+- `FunctionTransformer` preprocessing model
+- `Binarizer` preprocessing model
+- Preprocessing models test runner
+### Changed
+- `NaN` type in `pymilo_param`
+- `NaN` type transportation in `GeneralDataStructureTransporter` Transporter
+- `BSpline` Transportation in `PreprocessingTransporter` Transporter
+- one layer deeper transportation in `PreprocessingTransporter` Transporter
+- dictating outer ndarray dtype in `GeneralDataStructureTransporter` Transporter 
+- preprocessing params fulfilled in `pymilo_param`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
+- `serialize_possible_ml_model` in the Ensemble chain
 ## [0.8] - 2024-05-06
 ### Added
 - `StandardScaler` Transformer in `pymilo_param.py`

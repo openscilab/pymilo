@@ -4,6 +4,13 @@ from ..pymilo_param import SKLEARN_PREPROCESSING_TABLE
 from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .transporter import AbstractTransporter, Command
 from .general_data_structure_transporter import GeneralDataStructureTransporter
+from .function_transporter import FunctionTransporter
+from scipy.interpolate._bsplines import BSpline
+
+PREPROCESSING_CHAIN = {
+    "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
+    "FunctionTransporter": FunctionTransporter(),
+}
 
 
 class PreprocessingTransporter(AbstractTransporter):
@@ -29,7 +36,6 @@ class PreprocessingTransporter(AbstractTransporter):
             return self.serialize_pre_module(data[key])
         return data[key]
 
-
     def deserialize(self, data, key, model_type):
         """
         Deserialize previously pymilo serialized preprocessing object.
@@ -52,7 +58,6 @@ class PreprocessingTransporter(AbstractTransporter):
             return self.deserialize_pre_module(content)
         return content
 
-
     def is_preprocessing_module(self, pre_module):
         """
         Check whether the given module is a sklearn Preprocessing module or not.
@@ -67,7 +72,6 @@ class PreprocessingTransporter(AbstractTransporter):
                 pre_module) and pre_module["pymilo-preprocessing-type"] in SKLEARN_PREPROCESSING_TABLE.keys()
         return get_sklearn_type(pre_module) in SKLEARN_PREPROCESSING_TABLE.keys()
 
-
     def serialize_pre_module(self, pre_module):
         """
         Serialize Preprocessing object.
@@ -76,14 +80,24 @@ class PreprocessingTransporter(AbstractTransporter):
         :type pre_module: sklearn.preprocessing
         :return: pymilo serialized pre_module
         """
-        gdst = GeneralDataStructureTransporter()
-        gdst.transport(pre_module, Command.SERIALIZE, False)
+        # add one depth inner preprocessing module population
+        for key, value in pre_module.__dict__.items():
+            if self.is_preprocessing_module(value):
+                pre_module.__dict__[key] = self.serialize_pre_module(value)
+            elif isinstance(value, BSpline):
+                pre_module.__dict__[key] = self.serialize_spline(value)
+            elif isinstance(value, list):
+                if len(value) > 0 and isinstance(value[0], BSpline):
+                    pre_module.__dict__[key] = [self.serialize_spline(bspline) for bspline in value]
+
+        for transporter in PREPROCESSING_CHAIN:
+            PREPROCESSING_CHAIN[transporter].transport(
+                pre_module, Command.SERIALIZE)
         return {
             "pymilo-bypass": True,
             "pymilo-preprocessing-type": get_sklearn_type(pre_module),
             "pymilo-preprocessing-data": pre_module.__dict__
         }
-
 
     def deserialize_pre_module(self, serialized_pre_module):
         """
@@ -96,7 +110,69 @@ class PreprocessingTransporter(AbstractTransporter):
         data = serialized_pre_module["pymilo-preprocessing-data"]
         associated_type = SKLEARN_PREPROCESSING_TABLE[serialized_pre_module["pymilo-preprocessing-type"]]
         retrieved_pre_module = associated_type()
-        gdst = GeneralDataStructureTransporter()
         for key in data:
-            setattr(retrieved_pre_module, key, gdst.deserialize(data, key, ""))
+            # add one depth inner preprocessing module population
+            if self.is_preprocessing_module(data[key]):
+                data[key] = self.deserialize_pre_module(data[key])
+            # check inner field is BSpline
+            if self.is_bspline(data[key]):
+                data[key] = self.deserialize_spline(data[key])
+            # check inner field is [BSpline]
+            if isinstance(data[key], list) and len(data[key]) > 0 and self.is_bspline(data[key][0]):
+                data[key] = [self.deserialize_spline(serialized_bspline) for serialized_bspline in data[key]]
+
+            for transporter in PREPROCESSING_CHAIN:
+                data[key] = PREPROCESSING_CHAIN[transporter].deserialize(data, key, "")
+        for key in data:
+            setattr(retrieved_pre_module, key, data[key])
+        return retrieved_pre_module
+
+    def is_bspline(self, bspline):
+        """
+        Check whether the given module is a scipy.interpolate._bsplines.BSpline or not.
+
+        :param bspline: given object
+        :type bspline: any
+        :return: bool
+        """
+        if isinstance(bspline, dict):
+            return check_str_in_iterable(
+                "pymilo-preprocessing-type",
+                bspline) and bspline["pymilo-preprocessing-type"] == "BSpline"
+        return get_sklearn_type(bspline) == "BSpline"
+
+    def serialize_spline(self, bspline):
+        """
+        Serialize scipy.interpolate._bsplines.BSpline object.
+
+        :param bspline: given scipy.interpolate._bsplines.BSpline module
+        :type bspline: scipy.interpolate._bsplines.BSpline
+        :return: pymilo serialized bspline
+        """
+        PREPROCESSING_CHAIN["GeneralDataStructureTransporter"].transport(bspline, Command.SERIALIZE)
+        return {
+            "pymilo-bypass": True,
+            "pymilo-preprocessing-type": get_sklearn_type(bspline),
+            "pymilo-preprocessing-data": bspline.__dict__
+        }
+
+    def deserialize_spline(self, serialized_bspline):
+        """
+        Deserialize BSpline object.
+
+        :param serialized_bspline: serializezd BSpline object(by pymilo)
+        :type serialized_bspline: dict
+        :return: retrieved associated scipy.interpolate._bsplines.BSpline object
+        """
+        data = serialized_bspline["pymilo-preprocessing-data"]
+        associated_type = BSpline  # if serialized_bspline["pymilo-preprocessing-type"] == "BSpline" else None
+        for key in data:
+            data[key] = PREPROCESSING_CHAIN["GeneralDataStructureTransporter"].deserialize(data, key, "")
+        retrieved_pre_module = associated_type(
+            t=data["t"],
+            k=data["k"],
+            c=data["c"],
+        )
+        for key in data:
+            setattr(retrieved_pre_module, key, data[key])
         return retrieved_pre_module
