@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Anaconda workflow
-- `README.md` modified
-- `meta.yaml` modified
 - `prefix_list` function in `utils.util.py`
 - `KBinsDiscretizer` preprocessing model
 - `PowerTransformer` preprocessing model
@@ -26,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Binarizer` preprocessing model
 - Preprocessing models test runner
 ### Changed
+- `README.md` modified
+- `meta.yaml` modified
 - `NaN` type in `pymilo_param`
 - `NaN` type transportation in `GeneralDataStructureTransporter` Transporter
 - `BSpline` Transportation in `PreprocessingTransporter` Transporter
