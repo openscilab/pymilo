@@ -135,7 +135,7 @@ You can now see your model as a json file. It should be something like bellow.
 ```
 In this file you can see all the learned parameter from the model. You can even change them as you want. This json representation is a transparent and safe version of your model.
 
-### Load model
+### Load model - Deserialize
 Now let's load it back. You can do it easily by using PyMilo `Export`.
 ```pycon
 >>> from pymilo import Export
