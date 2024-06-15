@@ -4,7 +4,7 @@ from enum import Enum
 from .pymilo_exception import PymiloException
 
 
-class DeSerilaizatoinErrorTypes(Enum):
+class DeserializationErrorTypes(Enum):
     """An enum class to determine the type of deserialization errors."""
 
     CORRUPTED_JSON_FILE = 1
@@ -41,11 +41,11 @@ class PymiloDeserializationException(PymiloException):
         message = "Pymilo Deserialization failed since {reason}"
         error_type = meta_data['error_type']
         error_type_to_message = {
-            DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
+            DeserializationErrorTypes.CORRUPTED_JSON_FILE:
             'the given json file is not a valid .json file.',
-            DeSerilaizatoinErrorTypes.INVALID_MODEL:
+            DeserializationErrorTypes.INVALID_MODEL:
             'the given model is not supported or is not a valid model.',
-            DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
+            DeserializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
             'the given model has some non-standard customized internal objects or functions.'}
         if error_type in error_type_to_message:
             reason = error_type_to_message[error_type]
@@ -61,7 +61,7 @@ class PymiloDeserializationException(PymiloException):
         :return: a dictionary of error details.
         """
         pymilo_report = super().to_pymilo_log()
-        if self.meta_data['error_type'] == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
+        if self.meta_data['error_type'] == DeserializationErrorTypes.CORRUPTED_JSON_FILE:
             pymilo_report['object']['json_file'] = self.meta_data['json_file']
         return pymilo_report
 

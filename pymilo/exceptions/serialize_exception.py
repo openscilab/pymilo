@@ -5,7 +5,7 @@ from enum import Enum
 from .pymilo_exception import PymiloException
 
 
-class SerilaizatoinErrorTypes(Enum):
+class SerializationErrorTypes(Enum):
     """An enum class used to determine the type of serialization errors."""
 
     INVALID_MODEL = 1
@@ -36,8 +36,8 @@ class PymiloSerializationException(PymiloException):
         message = "Pymilo Serialization failed since "
         error_type = meta_data['error_type']
         error_type_to_message = {
-            SerilaizatoinErrorTypes.INVALID_MODEL: 'the given model is not supported or is not a valid model.',
-            SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE: 'the given model has some non-standard customized internal objects or functions.'}
+            SerializationErrorTypes.INVALID_MODEL: 'the given model is not supported or is not a valid model.',
+            SerializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE: 'the given model has some non-standard customized internal objects or functions.'}
         if error_type in error_type_to_message:
             message += error_type_to_message[error_type]
         else:

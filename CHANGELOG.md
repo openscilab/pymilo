@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Binarizer` preprocessing model
 - Preprocessing models test runner
 ### Changed
+- `SerilaizatoinErrorTypes` renamed to `SerializationErrorTypes`
+- `DeSerilaizatoinErrorTypes` renamed to `DeserializationErrorTypes`
 - `meta.yaml` modified
 - `NaN` type in `pymilo_param`
 - `NaN` type transportation in `GeneralDataStructureTransporter` Transporter
