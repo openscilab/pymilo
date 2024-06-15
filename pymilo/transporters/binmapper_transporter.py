@@ -11,7 +11,7 @@ class BinMapperTransporter(AbstractTransporter):
 
     def serialize(self, data, key, model_type):
         """
-        Serialize _BinMapper object[usefull in HistGradientBoosting(Regressor,Classifier)].
+        Serialize _BinMapper object[useful in HistGradientBoosting(Regressor,Classifier)].
 
         serialize the data[key] of the given model which type is model_type.
         basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
@@ -41,7 +41,7 @@ class BinMapperTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        Deserialize previously pymilo serialized _BinMapper object[usefull in HistGradientBoosting(Regressor,Classifier)].
+        Deserialize previously pymilo serialized _BinMapper object[useful in HistGradientBoosting(Regressor,Classifier)].
 
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and

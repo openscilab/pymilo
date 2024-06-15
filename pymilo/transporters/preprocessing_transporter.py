@@ -160,7 +160,7 @@ class PreprocessingTransporter(AbstractTransporter):
         """
         Deserialize BSpline object.
 
-        :param serialized_bspline: serializezd BSpline object(by pymilo)
+        :param serialized_bspline: serialized BSpline object(by pymilo)
         :type serialized_bspline: dict
         :return: retrieved associated scipy.interpolate._bsplines.BSpline object
         """

@@ -152,7 +152,7 @@ class AbstractTransporter(Transporter):
             return
 
         else:
-            # TODO error handeling.
+            # TODO error handling.
             return None
 
     def reset(self):

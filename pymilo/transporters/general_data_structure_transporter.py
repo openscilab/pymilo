@@ -160,7 +160,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         Deserialize the general datastructures.
 
             1. Dictionary deserialization
-            2. Deep Convertion of lists to numpy.ndarray class
+            2. Deep conversion of lists to numpy.ndarray class
             3. Convert custom serializable object of np.int32|int64 to the main np.int32|int64 type
 
         deserialize the special loss_function_ of the SGDClassifier, SGDOneClassSVM, Perceptron and PassiveAggressiveClassifier.
@@ -205,10 +205,10 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         Deserialize the given previously made serializable dictionary.
 
-            1. convert numpy types values which previously made serializable to its origianl form
-            2. deep convertion of list values to nd arrays
+            1. convert numpy types values which previously made serializable to its original form
+            2. deep conversion of list values to nd arrays
 
-        It is mainly used in serializing/deserialzing the "scores_" field in Logistic regression([+CV]).
+        It is mainly used in serializing/deserializing the "scores_" field in Logistic regression([+CV]).
 
         :param content: given dictionary
         :type content: dict
@@ -259,7 +259,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             1. convert previously made serializable numpy types to its original form
             2. convert list to nd array
 
-        It is mainly used in serializing/deserialzing the "active_" array field in Lasso Lars.
+        It is mainly used in serializing/deserializing the "active_" array field in Lasso Lars.
 
         :param content: given list to get
         :type content: list
