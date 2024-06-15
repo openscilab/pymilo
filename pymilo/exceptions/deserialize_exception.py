@@ -14,7 +14,7 @@ class DeserializationErrorTypes(Enum):
 
 class PymiloDeserializationException(PymiloException):
     """
-    Handle exceptions associated with Deserializations.
+    Handle exceptions associated with Deserialization.
 
     There are 3 different types of deserialization exceptions:
 
@@ -35,7 +35,7 @@ class PymiloDeserializationException(PymiloException):
 
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dict [str:str]
-        :return: an intance of the PymiloDeserializationException class
+        :return: an instance of the PymiloDeserializationException class
         """
         # Call the base class constructor with the parameters it needs
         message = "Pymilo Deserialization failed since {reason}"
@@ -75,10 +75,10 @@ class PymiloDeserializationException(PymiloException):
         help_request = """
         \n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n
         """
-        discription = "#### Description\n Pymilo Import failed."
+        description = "#### Description\n Pymilo Import failed."
         steps_to_produce = "#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
-        expected_behaviour = "#### Expected Behavior\n A successfull Pymilo Import."
-        actual_behaviour = "#### Actual Behavior\n Pymilo Import failed."
+        expected_behavior = "#### Expected Behavior\n A successful Pymilo Import."
+        actual_behavior = "#### Actual Behavior\n Pymilo Import failed."
         operating_system = "#### Operating System\n {os}".format(
             os=pymilo_report['os']['full-description'])
         python_version = "#### Python Version\n {python_version}".format(
@@ -88,6 +88,6 @@ class PymiloDeserializationException(PymiloException):
         gathered_data = "#### Logged Data\n {logged_data}".format(
             logged_data=str(pymilo_report))
 
-        full_issue_form = help_request + discription + steps_to_produce + expected_behaviour + \
-            actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
+        full_issue_form = help_request + description + steps_to_produce + expected_behavior + \
+            actual_behavior + operating_system + python_version + pymilo_version + gathered_data
         return full_issue_form

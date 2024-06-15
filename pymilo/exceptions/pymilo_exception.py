@@ -19,7 +19,7 @@ class PymiloException(Exception, ABC):
         :type message: str
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dict [str:str]
-        :return: an intance of the PymiloDeserializationException class
+        :return: an instance of the PymiloDeserializationException class
         """
         # Call the base class constructor with the parameters it needs
         super().__init__(message)
