@@ -64,7 +64,7 @@ def transport_neighbor(request, command, is_inner_model=False):
                     'object': request,
                 })
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_neighbor(request, is_inner_model)
         except Exception as e:
@@ -112,7 +112,7 @@ def deserialize_neighbor(neighbor, is_inner_model=False):
 
     for transporter in NEIGHBORS_CHAIN:
         NEIGHBORS_CHAIN[transporter].transport(
-            neighbor, Command.DESERIALZIE, is_inner_model)
+            neighbor, Command.DESERIALIZE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
@@ -138,7 +138,7 @@ def _validate_input(model, command):
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         if is_neighbors(model.type):
             return
         else:

@@ -10,7 +10,7 @@ class Command(Enum):
     """Command is an enum class used to determine the type of transportation."""
 
     SERIALIZE = 1
-    DESERIALZIE = 2
+    DESERIALIZE = 2
 
 
 class Transporter(ABC):
@@ -136,7 +136,7 @@ class AbstractTransporter(Transporter):
                     data, key, get_sklearn_type(request))
             self.reset()
 
-        elif command == Command.DESERIALZIE:
+        elif command == Command.DESERIALIZE:
             # request is a pymilo-created import object
             data = None
             model_type = None

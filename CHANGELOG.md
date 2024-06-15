@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Binarizer` preprocessing model
 - Preprocessing models test runner
 ### Changed
+- `Command.DESERIALZIE` renamed to `Command.DESERIALIZE`
 - `SerilaizatoinErrorTypes` renamed to `SerializationErrorTypes`
 - `DeSerilaizatoinErrorTypes` renamed to `DeserializationErrorTypes`
 - `meta.yaml` modified

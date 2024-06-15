@@ -77,7 +77,7 @@ def transport_linear_model(request, command, is_inner_model=False):
                         'Traceback': format_exc()},
                     'object': request})
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_linear_model(request, is_inner_model)
         except Exception as e:
@@ -138,11 +138,11 @@ def deserialize_linear_model(linear_model, is_inner_model):
             data[key] = transport_linear_model({
                 "data": data[key]["pymilo-inner-model-data"],
                 "type": data[key]["pymilo-inner-model-type"]
-            }, Command.DESERIALZIE, is_inner_model=True)
+            }, Command.DESERIALIZE, is_inner_model=True)
     # now deserializing non-linear models fields
     for transporter in LINEAR_MODEL_CHAIN:
         LINEAR_MODEL_CHAIN[transporter].transport(
-            linear_model, Command.DESERIALZIE, is_inner_model)
+            linear_model, Command.DESERIALIZE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
@@ -168,7 +168,7 @@ def validate_input(model, command):
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         model_type = model.type
         if is_linear_model(model_type):
             return

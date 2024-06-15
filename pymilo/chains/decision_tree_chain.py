@@ -67,7 +67,7 @@ def transport_decision_tree(request, command, is_inner_model=False):
                     'object': request,
                 })
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_decision_tree(request, is_inner_model)
         except Exception as e:
@@ -115,7 +115,7 @@ def deserialize_decision_tree(decision_tree, is_inner_model=False):
 
     for transporter in DECISION_TREE_CHAIN:
         DECISION_TREE_CHAIN[transporter].transport(
-            decision_tree, Command.DESERIALZIE, is_inner_model)
+            decision_tree, Command.DESERIALIZE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
@@ -141,7 +141,7 @@ def _validate_input(model, command):
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         if is_decision_tree(model.type):
             return
         else:

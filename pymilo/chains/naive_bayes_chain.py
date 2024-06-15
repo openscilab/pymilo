@@ -62,7 +62,7 @@ def transport_naive_bayes(request, command, is_inner_model=False):
                     'object': request,
                 })
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_naive_bayes(request, is_inner_model)
         except Exception as e:
@@ -110,7 +110,7 @@ def deserialize_naive_bayes(naive_bayes, is_inner_model=False):
 
     for transporter in NAIVE_BAYES_CHAIN:
         NAIVE_BAYES_CHAIN[transporter].transport(
-            naive_bayes, Command.DESERIALZIE, is_inner_model)
+            naive_bayes, Command.DESERIALIZE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
@@ -136,7 +136,7 @@ def _validate_input(model, command):
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         if is_naive_bayes(model.type):
             return
         else:

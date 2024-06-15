@@ -72,7 +72,7 @@ def transport_clusterer(request, command, is_inner_model=False):
                     'object': request,
                 })
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_clusterer(request, is_inner_model)
         except Exception as e:
@@ -120,7 +120,7 @@ def deserialize_clusterer(clusterer, is_inner_model=False):
 
     for transporter in CLUSTERING_CHAIN:
         CLUSTERING_CHAIN[transporter].transport(
-            clusterer, Command.DESERIALZIE, is_inner_model)
+            clusterer, Command.DESERIALIZE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
@@ -146,7 +146,7 @@ def _validate_input(model, command):
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         if is_clusterer(model.type):
             return
         else:

@@ -97,7 +97,7 @@ def transport_ensemble(request, command, is_inner_model=False):
                     'object': request,
                 })
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_ensemble(request, is_inner_model)
         except Exception as e:
@@ -145,7 +145,7 @@ def deserialize_possible_ml_model(possible_serialized_ml_model):
         return True, transporter({
             "data": possible_serialized_ml_model["pymilo-inner-model-data"],
             "type": possible_serialized_ml_model["pymilo-inner-model-type"]
-        }, Command.DESERIALZIE, is_inner_model=True)
+        }, Command.DESERIALIZE, is_inner_model=True)
     else:
         return False, possible_serialized_ml_model
 
@@ -321,7 +321,7 @@ def deserialize_ensemble(ensemble, is_inner_model=False):
     for transporter in ENSEMBLE_CHAIN:
         if transporter != "GeneralDataStructureTransporter":
             ENSEMBLE_CHAIN[transporter].transport(
-                ensemble, Command.DESERIALZIE, is_inner_model)
+                ensemble, Command.DESERIALIZE, is_inner_model)
 
     for key, value in data.items():
         if isinstance(value, dict):
@@ -354,7 +354,7 @@ def deserialize_ensemble(ensemble, is_inner_model=False):
         if has_ml_model:
             data[key] = result
 
-    ENSEMBLE_CHAIN["GeneralDataStructureTransporter"].transport(ensemble, Command.DESERIALZIE, is_inner_model)
+    ENSEMBLE_CHAIN["GeneralDataStructureTransporter"].transport(ensemble, Command.DESERIALIZE, is_inner_model)
 
     _type = None
     raw_model = None
@@ -397,7 +397,7 @@ def _validate_input(model, command):
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         if is_ensemble(model.type):
             return
         else:
