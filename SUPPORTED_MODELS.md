@@ -623,7 +623,7 @@
 	<tr align="center">
 		<td>2</td>
 		<td><b>LabelBinarizer</b></td>
-        <td>>=0.8</td>
+        <td>>=0.1</td>
 	</tr>
 	<tr align="center">
 		<td>3</td>
