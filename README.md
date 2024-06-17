@@ -78,20 +78,20 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 
 
 ## Usage
-Let's say you want to train your `LinearRegression` model by your data `X`, `y`. After splitting the data into train/test segments you would have `X_train` and `y_train` as your training data. So you train your model.
+Imagine you want to train a `LinearRegression` model based on your dataset `X`, `y`. After splitting the data into train/test segments you would have `X_train` and `y_train` as your training data. So you train your model as follows.
 ```pycon
+>>> from sklearn.linear_model import LinearRegression
 >>> model = LinearRegression()
 >>> model.fit(X_train, Y_train)
 ```
 
 ### Save model - Serialize
-Now, let's say you want to have a transparent `.json` file from your trained model. Using PyMilo you can easily have than.
+Using PyMilo `Export` you can easily export your trained model into a `.json` file.
 ```pycon
 >>> from pymilo import Export
->>> exported_model = Export(model)
->>> exported_model.save("model.json")
+>>> Export(model).save("model.json")
 ```
-You can now see your model as a json file. It should be something like bellow.
+You can now see your model as a json file.
 ```json
 {
     "data": {
@@ -133,16 +133,15 @@ You can now see your model as a json file. It should be something like bellow.
     "model_type": "LinearRegression"
 }
 ```
-In this file you can see all the learned parameter from the model. You can even change them as you want. This json representation is a transparent and safe version of your model.
+You can see all the learned parameter from the model in this file. You can even change them as you want. This json representation is a transparent and safe version of your model.
 
 ### Load model - Deserialize
-Now let's load it back. You can do it easily by using PyMilo `Export`.
+Now let's load it back. You can do it easily by using PyMilo `Import`.
 ```pycon
->>> from pymilo import Export
->>> imported_model = Import("model.json")
->>> model = imported_model.to_model()
+>>> from pymilo import Import
+>>> model = Import("model.json").to_model()
 ```
-This model is exactly as same as the firstly trained model.
+This model is identical to the originally trained model.
 
 ## Supported ML models
 | scikit-learn | PyTorch | 
