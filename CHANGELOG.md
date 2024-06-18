@@ -25,8 +25,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Preprocessing models test runner
 ### Changed
 - `Command` enum class in `transporter.py`
-- `SerilaizatoinErrorTypes` error type in `serialize_exception.py`
-- `DeSerilaizatoinErrorTypes` error type in `deserialize_exception.py`
+- `SerializationErrorTypes` enum class in `serialize_exception.py`
+- `DeserializationErrorTypes` enum class in `deserialize_exception.py`
 - `meta.yaml` modified
 - `NaN` type in `pymilo_param`
 - `NaN` type transportation in `GeneralDataStructureTransporter` Transporter
