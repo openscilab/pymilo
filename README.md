@@ -82,7 +82,7 @@ Imagine you want to train a `LinearRegression` model based on your dataset `X`, 
 ```pycon
 >>> from sklearn.linear_model import LinearRegression
 >>> model = LinearRegression()
->>> model.fit(X_train, Y_train)
+>>> model.fit(X_train, y_train)
 ```
 
 ### Save model - Serialize
