@@ -133,7 +133,7 @@ You can now see your model as a json file.
     "model_type": "LinearRegression"
 }
 ```
-You can see all the learned parameter from the model in this file. You can even change them as you want. This json representation is a transparent and safe version of your model.
+You can see all the learned parameters of the model in this file and change them if you want. This JSON representation is a transparent version of your model.
 
 ### Load model - Deserialize
 Now let's load it back. You can do it easily by using PyMilo `Import`.
