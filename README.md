@@ -78,15 +78,19 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 
 
 ## Usage
-Imagine you want to train a `LinearRegression` model based on your dataset `X`, `y`. After splitting the data into train/test segments you would have `X_train` and `y_train` as your training data. So you train your model as follows.
+Imagine you want to train a `LinearRegression` model representing this equation: `y = 1 * x_0 + 2 * x_1 + 3`. You make your data points (`X`, `y`) and train your model as follows.
 ```pycon
+>>> import numpy as np
 >>> from sklearn.linear_model import LinearRegression
->>> model = LinearRegression()
->>> model.fit(X_train, y_train)
+>>> X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+>>> y = np.dot(X, np.array([1, 2])) + 3
+ # y = 1 * x_0 + 2 * x_1 + 3
+>>> model = LinearRegression().fit(X, y)
+>>> pred = model.predict(np.array([[3, 5]]))
+# pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
 
-### Save model - Serialize
-Using PyMilo `Export` you can easily export your trained model into a `.json` file.
+Using PyMilo `Export` you can easily export, serialize, your trained model into a `.json` file.
 ```pycon
 >>> from pymilo import Export
 >>> Export(model).save("model.json")
@@ -102,8 +106,8 @@ You can now see your model as a json file.
         "n_features_in_": 2,
         "coef_": {
             "pymiloed-ndarray-list": [
-                0.3060942475420746,
-                -237.63557011300682,
+                1.0000000000000002,
+                1.9999999999999991
             ],
             "pymiloed-ndarray-dtype": "float64",
             "pymiloed-ndarray-shape": [
@@ -114,8 +118,8 @@ You can now see your model as a json file.
         "rank_": 2,
         "singular_": {
             "pymiloed-ndarray-list": [
-                1.9578051002417807,
-                1.1797491126040702,
+                1.618033988749895,
+                0.6180339887498948
             ],
             "pymiloed-ndarray-dtype": "float64",
             "pymiloed-ndarray-shape": [
@@ -124,24 +128,25 @@ You can now see your model as a json file.
             "pymiloed-data-structure": "numpy.ndarray"
         },
         "intercept_": {
-            "value": 152.76429169049118,
+            "value": 3.0000000000000018,
             "np-type": "numpy.float64"
         }
     },
-    "sklearn_version": "1.2.2",
+    "sklearn_version": "1.4.2",
     "pymilo_version": "0.8",
     "model_type": "LinearRegression"
 }
 ```
 You can see all the learned parameters of the model in this file and change them if you want. This JSON representation is a transparent version of your model.
 
-### Load model - Deserialize
 Now let's load it back. You can do it easily by using PyMilo `Import`.
 ```pycon
 >>> from pymilo import Import
 >>> model = Import("model.json").to_model()
+>>> pred = model.predict(np.array([[3, 5]]))
+# pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
-This model is identical to the originally trained model.
+This loaded model is identical to the originally trained model.
 
 ## Supported ML models
 | scikit-learn | PyTorch | 
