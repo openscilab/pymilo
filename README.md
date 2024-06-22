@@ -78,7 +78,7 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 
 
 ## Usage
-Imagine you want to train a `LinearRegression` model representing this equation: `y = 1 * x_0 + 2 * x_1 + 3`. You make your data points (`X`, `y`) and train your model as follows.
+Imagine you want to train a `LinearRegression` model representing this equation: $y = x_0 + 2x_1 + 3$. You will create data points (`X`, `y`) and train your model as follows.
 ```pycon
 >>> import numpy as np
 >>> from sklearn.linear_model import LinearRegression
@@ -90,12 +90,13 @@ Imagine you want to train a `LinearRegression` model representing this equation:
 # pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
 
-Using PyMilo `Export` you can easily export, serialize, your trained model into a `.json` file.
+Using PyMilo `Export` class you can easily serialize and export your trained model into a JSON file.
 ```pycon
 >>> from pymilo import Export
 >>> Export(model).save("model.json")
 ```
-You can now see your model as a json file.
+
+You can check out your model as a JSON file now.
 ```json
 {
     "data": {
@@ -139,14 +140,14 @@ You can now see your model as a json file.
 ```
 You can see all the learned parameters of the model in this file and change them if you want. This JSON representation is a transparent version of your model.
 
-Now let's load it back. You can do it easily by using PyMilo `Import`.
+Now let's load it back. You can do it easily by using PyMilo `Import` class.
 ```pycon
 >>> from pymilo import Import
 >>> model = Import("model.json").to_model()
 >>> pred = model.predict(np.array([[3, 5]]))
 # pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
-This loaded model is identical to the originally trained model.
+This loaded model is exactly the same as the original trained model.
 
 ## Supported ML models
 | scikit-learn | PyTorch | 
