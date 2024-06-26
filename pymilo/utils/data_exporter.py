@@ -60,11 +60,11 @@ def prepare_simple_clustering_datasets():
 
 def prepare_logistic_regression_datasets(threshold=None):
     """
-    Generate a dataset for loggistic regression (the iris).
+    Generate a dataset for logistic regression (the iris).
 
-    :param threshold: threshold for train/test spliting
+    :param threshold: threshold for train/test splitting
     :int threshold: int
-    :return: splited dataset for loggistic regression
+    :return: splitted dataset for logistic regression
     """
     iris_X, iris_y = datasets.load_iris(return_X_y=True)
     threshold = threshold if threshold else len(iris_y) // 2

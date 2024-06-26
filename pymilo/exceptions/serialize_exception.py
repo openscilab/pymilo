@@ -5,7 +5,7 @@ from enum import Enum
 from .pymilo_exception import PymiloException
 
 
-class SerilaizatoinErrorTypes(Enum):
+class SerializationErrorTypes(Enum):
     """An enum class used to determine the type of serialization errors."""
 
     INVALID_MODEL = 1
@@ -30,14 +30,14 @@ class PymiloSerializationException(PymiloException):
 
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dict [str:str]
-        :return: an intance of the PymiloSerializationException class
+        :return: an instance of the PymiloSerializationException class
         """
         # Call the base class constructor with the parameters it needs
         message = "Pymilo Serialization failed since "
         error_type = meta_data['error_type']
         error_type_to_message = {
-            SerilaizatoinErrorTypes.INVALID_MODEL: 'the given model is not supported or is not a valid model.',
-            SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE: 'the given model has some non-standard customized internal objects or functions.'}
+            SerializationErrorTypes.INVALID_MODEL: 'the given model is not supported or is not a valid model.',
+            SerializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE: 'the given model has some non-standard customized internal objects or functions.'}
         if error_type in error_type_to_message:
             message += error_type_to_message[error_type]
         else:
@@ -64,10 +64,10 @@ class PymiloSerializationException(PymiloException):
         help_request = """
         \n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n
         """
-        discription = "#### Description\n Pymilo Export failed."
+        description = "#### Description\n Pymilo Export failed."
         steps_to_produce = "\n#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
-        expected_behaviour = "\n#### Expected Behavior\n A successfull Pymilo Export."
-        actual_behaviour = "\n#### Actual Behavior\n Pymilo Export failed."
+        expected_behavior = "\n#### Expected Behavior\n A successful Pymilo Export."
+        actual_behavior = "\n#### Actual Behavior\n Pymilo Export failed."
         operating_system = "#### Operating System\n {os}".format(
             os=pymilo_report['os']['full-description'])
         python_version = "#### Python Version\n {python_version}".format(
@@ -77,6 +77,6 @@ class PymiloSerializationException(PymiloException):
         gathered_data = "#### Logged Data\n {logged_data}".format(
             logged_data=str(pymilo_report))
 
-        full_issue_form = help_request + discription + steps_to_produce + expected_behaviour + \
-            actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
+        full_issue_form = help_request + description + steps_to_produce + expected_behavior + \
+            actual_behavior + operating_system + python_version + pymilo_version + gathered_data
         return full_issue_form

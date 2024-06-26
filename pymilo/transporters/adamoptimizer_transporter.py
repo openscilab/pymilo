@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo Adamoptimizer object transporter."""
+"""PyMilo Adam optimizer object transporter."""
 from sklearn.neural_network._stochastic_optimizers import AdamOptimizer
 from .transporter import AbstractTransporter
 

@@ -10,8 +10,8 @@ from ..transporters.preprocessing_transporter import PreprocessingTransporter
 from ..pymilo_param import SKLEARN_LINEAR_MODEL_TABLE
 from ..utils.util import get_sklearn_type, is_iterable
 
-from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
-from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+from ..exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
+from ..exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
 from traceback import format_exc
 
 
@@ -71,19 +71,19 @@ def transport_linear_model(request, command, is_inner_model=False):
         except Exception as e:
             raise PymiloSerializationException(
                 {
-                    'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
+                    'error_type': SerializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc()},
                     'object': request})
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_linear_model(request, is_inner_model)
         except Exception as e:
             raise PymiloDeserializationException(
                 {
-                    'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
+                    'error_type': SerializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc()},
@@ -138,11 +138,11 @@ def deserialize_linear_model(linear_model, is_inner_model):
             data[key] = transport_linear_model({
                 "data": data[key]["pymilo-inner-model-data"],
                 "type": data[key]["pymilo-inner-model-type"]
-            }, Command.DESERIALZIE, is_inner_model=True)
+            }, Command.DESERIALIZE, is_inner_model=True)
     # now deserializing non-linear models fields
     for transporter in LINEAR_MODEL_CHAIN:
         LINEAR_MODEL_CHAIN[transporter].transport(
-            linear_model, Command.DESERIALZIE, is_inner_model)
+            linear_model, Command.DESERIALIZE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
@@ -164,18 +164,18 @@ def validate_input(model, command):
         else:
             raise PymiloSerializationException(
                 {
-                    'error_type': SerilaizatoinErrorTypes.INVALID_MODEL,
+                    'error_type': SerializationErrorTypes.INVALID_MODEL,
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         model_type = model.type
         if is_linear_model(model_type):
             return
         else:
             raise PymiloDeserializationException(
                 {
-                    'error_type': DeSerilaizatoinErrorTypes.INVALID_MODEL,
+                    'error_type': DeserializationErrorTypes.INVALID_MODEL,
                     'object': model
                 }
             )

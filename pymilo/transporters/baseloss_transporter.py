@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo Baseloss transporter."""
+"""PyMilo Base loss transporter."""
 
 # Handle python 3.5 issues.
 from .transporter import AbstractTransporter
@@ -199,7 +199,7 @@ class BaseLossTransporter(AbstractTransporter):  # pragma: no cover
         # special legacy mode.
         if model_type in glm_models:
             if not legacy_version:
-                # latest GLMs or irrelavant models.
+                # latest GLMs or irrelevant models.
                 content = data[key]
                 if not check_str_in_iterable(
                         "pymilo_glm_base_loss", content):

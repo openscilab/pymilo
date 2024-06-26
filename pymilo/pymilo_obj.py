@@ -5,8 +5,8 @@ from .utils.util import get_sklearn_type
 from .pymilo_param import PYMILO_VERSION, PYMILO_VERSION_DOES_NOT_EXIST, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
 import json
 
-from .exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
-from .exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
+from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
+from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from traceback import format_exc
 from warnings import warn
 
@@ -62,7 +62,7 @@ class Export:
         except Exception as e:
             raise PymiloSerializationException(
                 {
-                    'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
+                    'error_type': SerializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc()},
@@ -119,7 +119,7 @@ class Import:
             raise PymiloDeserializationException(
                 {
                     'json_file': json_content,
-                    'error_type': DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE,
+                    'error_type': DeserializationErrorTypes.CORRUPTED_JSON_FILE,
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc()},

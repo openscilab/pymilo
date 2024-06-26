@@ -6,8 +6,8 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 from ..transporters.preprocessing_transporter import PreprocessingTransporter
 
 from ..pymilo_param import SKLEARN_NAIVE_BAYES_TABLE
-from ..exceptions.serialize_exception import PymiloSerializationException, SerilaizatoinErrorTypes
-from ..exceptions.deserialize_exception import PymiloDeserializationException, DeSerilaizatoinErrorTypes
+from ..exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
+from ..exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
 
 from ..utils.util import get_sklearn_type
 
@@ -54,7 +54,7 @@ def transport_naive_bayes(request, command, is_inner_model=False):
         except Exception as e:
             raise PymiloSerializationException(
                 {
-                    'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
+                    'error_type': SerializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc(),
@@ -62,13 +62,13 @@ def transport_naive_bayes(request, command, is_inner_model=False):
                     'object': request,
                 })
 
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         try:
             return deserialize_naive_bayes(request, is_inner_model)
         except Exception as e:
             raise PymiloDeserializationException(
                 {
-                    'error_type': SerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
+                    'error_type': SerializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE,
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc()},
@@ -110,7 +110,7 @@ def deserialize_naive_bayes(naive_bayes, is_inner_model=False):
 
     for transporter in NAIVE_BAYES_CHAIN:
         NAIVE_BAYES_CHAIN[transporter].transport(
-            naive_bayes, Command.DESERIALZIE, is_inner_model)
+            naive_bayes, Command.DESERIALIZE, is_inner_model)
     for item in data:
         setattr(raw_model, item, data[item])
     return raw_model
@@ -132,17 +132,17 @@ def _validate_input(model, command):
         else:
             raise PymiloSerializationException(
                 {
-                    'error_type': SerilaizatoinErrorTypes.INVALID_MODEL,
+                    'error_type': SerializationErrorTypes.INVALID_MODEL,
                     'object': model
                 }
             )
-    elif command == Command.DESERIALZIE:
+    elif command == Command.DESERIALIZE:
         if is_naive_bayes(model.type):
             return
         else:
             raise PymiloDeserializationException(
                 {
-                    'error_type': DeSerilaizatoinErrorTypes.INVALID_MODEL,
+                    'error_type': DeserializationErrorTypes.INVALID_MODEL,
                     'object': model
                 }
             )

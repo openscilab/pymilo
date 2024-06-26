@@ -4,7 +4,7 @@ from enum import Enum
 from .pymilo_exception import PymiloException
 
 
-class DeSerilaizatoinErrorTypes(Enum):
+class DeserializationErrorTypes(Enum):
     """An enum class to determine the type of deserialization errors."""
 
     CORRUPTED_JSON_FILE = 1
@@ -14,7 +14,7 @@ class DeSerilaizatoinErrorTypes(Enum):
 
 class PymiloDeserializationException(PymiloException):
     """
-    Handle exceptions associated with Deserializations.
+    Handle exceptions associated with Deserialization.
 
     There are 3 different types of deserialization exceptions:
 
@@ -35,17 +35,17 @@ class PymiloDeserializationException(PymiloException):
 
         :param meta_data: Details pertain to the populated error.
         :type meta_data: dict [str:str]
-        :return: an intance of the PymiloDeserializationException class
+        :return: an instance of the PymiloDeserializationException class
         """
         # Call the base class constructor with the parameters it needs
         message = "Pymilo Deserialization failed since {reason}"
         error_type = meta_data['error_type']
         error_type_to_message = {
-            DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
+            DeserializationErrorTypes.CORRUPTED_JSON_FILE:
             'the given json file is not a valid .json file.',
-            DeSerilaizatoinErrorTypes.INVALID_MODEL:
+            DeserializationErrorTypes.INVALID_MODEL:
             'the given model is not supported or is not a valid model.',
-            DeSerilaizatoinErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
+            DeserializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
             'the given model has some non-standard customized internal objects or functions.'}
         if error_type in error_type_to_message:
             reason = error_type_to_message[error_type]
@@ -61,7 +61,7 @@ class PymiloDeserializationException(PymiloException):
         :return: a dictionary of error details.
         """
         pymilo_report = super().to_pymilo_log()
-        if self.meta_data['error_type'] == DeSerilaizatoinErrorTypes.CORRUPTED_JSON_FILE:
+        if self.meta_data['error_type'] == DeserializationErrorTypes.CORRUPTED_JSON_FILE:
             pymilo_report['object']['json_file'] = self.meta_data['json_file']
         return pymilo_report
 
@@ -75,10 +75,10 @@ class PymiloDeserializationException(PymiloException):
         help_request = """
         \n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n
         """
-        discription = "#### Description\n Pymilo Import failed."
+        description = "#### Description\n Pymilo Import failed."
         steps_to_produce = "#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
-        expected_behaviour = "#### Expected Behavior\n A successfull Pymilo Import."
-        actual_behaviour = "#### Actual Behavior\n Pymilo Import failed."
+        expected_behavior = "#### Expected Behavior\n A successful Pymilo Import."
+        actual_behavior = "#### Actual Behavior\n Pymilo Import failed."
         operating_system = "#### Operating System\n {os}".format(
             os=pymilo_report['os']['full-description'])
         python_version = "#### Python Version\n {python_version}".format(
@@ -88,6 +88,6 @@ class PymiloDeserializationException(PymiloException):
         gathered_data = "#### Logged Data\n {logged_data}".format(
             logged_data=str(pymilo_report))
 
-        full_issue_form = help_request + discription + steps_to_produce + expected_behaviour + \
-            actual_behaviour + operating_system + python_version + pymilo_version + gathered_data
+        full_issue_form = help_request + description + steps_to_produce + expected_behavior + \
+            actual_behavior + operating_system + python_version + pymilo_version + gathered_data
         return full_issue_form

@@ -78,37 +78,76 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 
 
 ## Usage
-### Model preparation 
+Imagine you want to train a `LinearRegression` model representing this equation: $y = x_0 + 2x_1 + 3$. You will create data points (`X`, `y`) and train your model as follows.
 ```pycon
->>> from sklearn import datasets
->>> from pymilo import Export, Import
+>>> import numpy as np
 >>> from sklearn.linear_model import LinearRegression
->>> import os
->>> X, Y = datasets.load_diabetes(return_X_y=True)
->>> threshold = 20
->>> X_train, X_test = X[:-threshold], X[-threshold:]
->>> Y_train, Y_test = Y[:-threshold], Y[-threshold:]
->>> model = LinearRegression()
->>> #### Train the model using the training sets
->>> model.fit(X_train, Y_train)
+>>> X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+>>> y = np.dot(X, np.array([1, 2])) + 3
+ # y = 1 * x_0 + 2 * x_1 + 3
+>>> model = LinearRegression().fit(X, y)
+>>> pred = model.predict(np.array([[3, 5]]))
+# pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
-### Save model 
+
+Using PyMilo `Export` class you can easily serialize and export your trained model into a JSON file.
 ```pycon
->>> #### Export the fitted model to a transparent json file
->>> exported_model = Export(model)
->>> PATH_TO_JSON_FILE = os.path.join(os.getcwd(),"test.json")
->>> exported_model.save(PATH_TO_JSON_FILE)
+>>> from pymilo import Export
+>>> Export(model).save("model.json")
 ```
-### Load model
+
+You can check out your model as a JSON file now.
+```json
+{
+    "data": {
+        "fit_intercept": true,
+        "copy_X": true,
+        "n_jobs": null,
+        "positive": false,
+        "n_features_in_": 2,
+        "coef_": {
+            "pymiloed-ndarray-list": [
+                1.0000000000000002,
+                1.9999999999999991
+            ],
+            "pymiloed-ndarray-dtype": "float64",
+            "pymiloed-ndarray-shape": [
+                2
+            ],
+            "pymiloed-data-structure": "numpy.ndarray"
+        },
+        "rank_": 2,
+        "singular_": {
+            "pymiloed-ndarray-list": [
+                1.618033988749895,
+                0.6180339887498948
+            ],
+            "pymiloed-ndarray-dtype": "float64",
+            "pymiloed-ndarray-shape": [
+                2
+            ],
+            "pymiloed-data-structure": "numpy.ndarray"
+        },
+        "intercept_": {
+            "value": 3.0000000000000018,
+            "np-type": "numpy.float64"
+        }
+    },
+    "sklearn_version": "1.4.2",
+    "pymilo_version": "0.8",
+    "model_type": "LinearRegression"
+}
+```
+You can see all the learned parameters of the model in this file and change them if you want. This JSON representation is a transparent version of your model.
+
+Now let's load it back. You can do it easily by using PyMilo `Import` class.
 ```pycon
->>> #### Import the pymilo-exported model and get a real scikit model
->>> imported_model = Import(PATH_TO_JSON_FILE)
+>>> from pymilo import Import
+>>> model = Import("model.json").to_model()
+>>> pred = model.predict(np.array([[3, 5]]))
+# pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
-### Get the associated model
-```pycon 
->>> imported_sklearn_model = imported_model.to_model()
-```
-* Note: `imported_sklearn_model` has the **exact same** functionality as the `model` object earlier.
+This loaded model is exactly the same as the original trained model.
 
 ## Supported ML models
 | scikit-learn | PyTorch | 

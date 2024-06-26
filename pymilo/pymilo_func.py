@@ -37,7 +37,7 @@ def to_sklearn_model(import_obj):
     :return: sklearn model
     """
     _, transporter = get_transporter(import_obj.type)
-    return transporter(import_obj, Command.DESERIALZIE)
+    return transporter(import_obj, Command.DESERIALIZE)
 
 
 def compare_model_outputs(exported_output,
