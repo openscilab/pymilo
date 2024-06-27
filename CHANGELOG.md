@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+### Changed
+## [0.9] - 2024-07-01
+### Added
 - Anaconda workflow
 - `prefix_list` function in `utils.util.py`
 - `KBinsDiscretizer` preprocessing model
@@ -248,7 +251,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.8...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v0.9...dev
+[0.9]: https://github.com/openscilab/pymilo/compare/v0.8...v0.9
 [0.8]: https://github.com/openscilab/pymilo/compare/v0.7...v0.8
 [0.7]: https://github.com/openscilab/pymilo/compare/v0.6...v0.7
 [0.6]: https://github.com/openscilab/pymilo/compare/v0.5...v0.6
