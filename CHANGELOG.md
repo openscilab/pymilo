@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
+- `pymilo_obj.py` updated
 ## [0.9] - 2024-07-01
 ### Added
 - Anaconda workflow
