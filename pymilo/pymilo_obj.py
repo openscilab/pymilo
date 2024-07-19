@@ -9,6 +9,7 @@ from .exceptions.deserialize_exception import PymiloDeserializationException, De
 from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from traceback import format_exc
 from warnings import warn
+from copy import deepcopy
 
 
 class Export:
@@ -28,7 +29,7 @@ class Export:
         :type model: any class of the sklearn's linear models
         :return: an instance of the Pymilo Export class
         """
-        self.data = get_sklearn_data(model)
+        self.data = get_sklearn_data(deepcopy(model))
         self.version = get_sklearn_version()
         self.type = get_sklearn_type(model)
 
