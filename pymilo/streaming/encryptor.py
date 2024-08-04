@@ -2,7 +2,11 @@ from .interfaces import Encryptor
 
 
 class DummyEncryptor(Encryptor):
-    def encrypt(string):
-        return string 
-    def decrypt(string):
-        return string
+
+    @staticmethod
+    def encrypt(payload):
+        return payload
+
+    @staticmethod
+    def decrypt(payload):
+        return payload
