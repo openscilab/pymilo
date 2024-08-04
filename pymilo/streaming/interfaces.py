@@ -4,27 +4,37 @@ from abc import ABC, abstractmethod
 
 
 class Compressor(ABC):
+
     @abstractmethod
-    def compress(string):
+    def compress(payload):
         pass
+
     @abstractmethod
-    def extract(string):
+    def extract(payload):
         pass
 
 
 class Encryptor(ABC):
+
     @abstractmethod
-    def encrypt(string):
+    def encrypt(payload):
         pass
+
     @abstractmethod
-    def decrypt(string):
+    def decrypt(payload):
         pass
 
 
 class Communicator(ABC):
+
     @abstractmethod
-    def send(self, string):
+    def upload(self, payload):
         pass
+
     @abstractmethod
-    def receive(self, string):
+    def download(self, payload):
+        pass
+
+    @abstractmethod
+    def attribute_call(self, payload):
         pass
