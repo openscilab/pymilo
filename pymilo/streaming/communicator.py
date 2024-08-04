@@ -11,13 +11,13 @@ class RESTClientCommunicator(Communicator):
         self._server_url = server_url
 
     def download(self, payload):
-        return requests.get(url=self._server_url + "/download/", json=payload)
+        return requests.get(url=self._server_url + "/download/", json=payload, timeout=5)
 
     def upload(self, payload):
-        return requests.post(url=self._server_url + "/upload/", json=payload)
+        return requests.post(url=self._server_url + "/upload/", json=payload, timeout=5)
 
     def attribute_call(self, payload):
-        return requests.post(url=self._server_url + "/attribute_call/", json=payload)
+        return requests.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
 
 
 class RESTServerCommunicator():
