@@ -32,6 +32,7 @@ setup(
         'pymilo',
         'pymilo.utils',
         'pymilo.chains',
+        'pymilo.streaming',
         'pymilo.transporters',
         'pymilo.exceptions'],
     version='0.9',
