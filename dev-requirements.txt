@@ -1,5 +1,7 @@
 numpy==2.0.0
 scikit-learn==1.5.1
+uvicorn==0.30.0
+fastapi==0.100.0
 scipy>=0.19.1
 setuptools>=40.8.0
 vulture>=1.0
