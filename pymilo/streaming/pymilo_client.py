@@ -39,7 +39,7 @@ class PymiloClient:
         serialized_model = response.json()["payload"]
         self._model = Import(file_adr=None, json_dump=serialized_model).to_model()
         print("Local model updated successfully.")
-        
+
     def upload(self):
         response = self._communicator.upload({
             "client_id": self._client_id,    
@@ -50,10 +50,8 @@ class PymiloClient:
             print("Local model uploaded successfully.")
         else:
             print("Local model upload failed.")
-    
+
     def __getattr__(self, attribute):
-        if attribute in dir(self):
-            return self.attribute
         if self._mode == "LOCAL":
             if attribute in dir(self._model):
                 return getattr(self._model, attribute)
@@ -80,4 +78,5 @@ class PymiloClient:
                     )
                 ).json()
                 return gdst.deserialize(result, "payload", None)
+            relayer.__doc__ = getattr(self._model.__class__, attribute).__doc__
             return relayer
