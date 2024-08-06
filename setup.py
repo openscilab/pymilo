@@ -14,14 +14,14 @@ STREAMING_REQUIREMENTS = [
 
 
 def get_extra_ml_streaming_requires():
-    """Read requirements.txt."""
+    """Extract ML streaming extra requirments."""
     requirements = open("requirements.txt", "r").read()
     all_reqs = list(filter(lambda x: x != "", requirements.split()))
     return [req for req in all_reqs if any(streaming in req for streaming in STREAMING_REQUIREMENTS)]
 
 
 def get_core_requires():
-    """Read requirements.txt."""
+    """Extract PyMilo core requirments."""
     requirements = open("requirements.txt", "r").read()
     all_reqs = list(filter(lambda x: x != "", requirements.split()))
     return [req for req in all_reqs if not any(streaming in req for streaming in STREAMING_REQUIREMENTS)]
