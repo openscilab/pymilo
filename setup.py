@@ -1,15 +1,30 @@
 # -*- coding: utf-8 -*-
 """Setup module."""
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
 
-def get_requires():
+STREAMING_REQUIREMENTS = [
+    "uvicorn",
+    "fastapi",
+    "requests"
+]
+
+
+def get_extra_ml_streaming_requires():
     """Read requirements.txt."""
     requirements = open("requirements.txt", "r").read()
-    return list(filter(lambda x: x != "", requirements.split()))
+    all_reqs = list(filter(lambda x: x != "", requirements.split()))
+    return [req for req in all_reqs if any(streaming in req for streaming in STREAMING_REQUIREMENTS)]
+
+
+def get_core_requires():
+    """Read requirements.txt."""
+    requirements = open("requirements.txt", "r").read()
+    all_reqs = list(filter(lambda x: x != "", requirements.split()))
+    return [req for req in all_reqs if not any(streaming in req for streaming in STREAMING_REQUIREMENTS)]
 
 
 def read_description():
@@ -28,13 +43,7 @@ def read_description():
 
 setup(
     name='pymilo',
-    packages=[
-        'pymilo',
-        'pymilo.utils',
-        'pymilo.chains',
-        'pymilo.streaming',
-        'pymilo.transporters',
-        'pymilo.exceptions'],
+    packages=find_packages(include=['pymilo*'], exclude=['tests*']),
     version='0.9',
     description='Transportation of ML models',
     long_description=read_description(),
@@ -47,7 +56,10 @@ setup(
     project_urls={
             'Source': 'https://github.com/openscilab/pymilo',
     },
-    install_requires=get_requires(),
+    install_requires=get_core_requires(),
+    extras_require={
+        'streaming': get_extra_ml_streaming_requires(),
+    },
     python_requires='>=3.6',
     classifiers=[
         'Development Status :: 3 - Alpha',
