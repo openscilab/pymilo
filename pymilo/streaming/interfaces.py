@@ -25,7 +25,7 @@ class Encryptor(ABC):
         pass
 
 
-class Communicator(ABC):
+class ClientCommunicator(ABC):
 
     @abstractmethod
     def upload(self, payload):

@@ -2,10 +2,10 @@ import uvicorn
 import requests
 from fastapi import FastAPI
 from pydantic import BaseModel
-from .interfaces import Communicator
+from .interfaces import ClientCommunicator
 
 
-class RESTClientCommunicator(Communicator):
+class RESTClientCommunicator(ClientCommunicator):
 
     def __init__(self, server_url):
         self._server_url = server_url
