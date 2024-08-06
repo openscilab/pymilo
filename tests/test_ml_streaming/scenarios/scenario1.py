@@ -30,7 +30,7 @@ def scenario1():
     client.upload()
     # 5.
     client.download()
-    
+
     # 6.
     result = client.predict(x_test)
     mse_after = mean_squared_error(y_test, result)

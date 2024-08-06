@@ -32,7 +32,7 @@ def scenario2():
 
     # 5.
     client.download()
-    
+
     # 6.
     client.toggle_mode()
     result = client.predict(x_test)
