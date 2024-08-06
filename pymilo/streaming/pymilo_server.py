@@ -30,7 +30,7 @@ class PymiloServer:
 
     def export_model(self):
         return Export(self._model).to_json()
-    
+
     def update_model(self, serialized_model):
         self._model = Import(file_adr=None, json_dump=serialized_model).to_model()
 
@@ -47,7 +47,7 @@ class PymiloServer:
         args = gdst.deserialize(arguments, 'args', None)
         kwargs = gdst.deserialize(arguments, 'kwargs', None)
         output = retrieved_attribute(*args, **kwargs)
-        if type(output) == type(self._model):
+        if isinstance(output, type(self._model)):
             self._model = output
             return "The ML model has been updated in place."
         return gdst.serialize({'output': output}, 'output', None)
