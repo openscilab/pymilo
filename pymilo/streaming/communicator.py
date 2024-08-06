@@ -25,7 +25,7 @@ class RESTServerCommunicator():
     def __init__(
             self,
             ps,
-            host: str = "127.0.0.1", 
+            host: str = "127.0.0.1",
             port: int = 8000,
             ):
         self.app = FastAPI()
@@ -36,13 +36,13 @@ class RESTServerCommunicator():
 
     def setup_routes(self):
         class StandardPayload(BaseModel):
-            client_id: str                          
+            client_id: str
             model_id: str
         class DownloadPayload(StandardPayload):
             pass
         class UploadPayload(StandardPayload):
             model: str
-        class AttributePayload(StandardPayload):                     
+        class AttributePayload(StandardPayload):
             attribute: str
             args: list
             kwargs: dict
@@ -68,7 +68,6 @@ class RESTServerCommunicator():
         @self.app.post("/attribute_call/")
         async def attribute_call(payload: AttributePayload):
             message = "/attribute_call request from client: {} for model: {}".format(payload.client_id, payload.model_id)
-            payload
             return {
                 "message": message,
                 "payload": self._ps.execute_model(payload)
