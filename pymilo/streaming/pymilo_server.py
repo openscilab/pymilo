@@ -16,14 +16,19 @@ class PymiloServer:
         self._communicator = RESTServerCommunicator(ps=self)
         @self._communicator.app.middleware("http")
         async def preparation(request: Request, call_next):
-            body = await request.json()
-            body = self._compressor.extract(
-                self._encryptor.decrypt(
-                    body
+            requested_path = request.url.path
+            if requested_path.startswith('/'):
+                requested_path = requested_path[1:]
+            if requested_path.endswith('/'):
+                requested_path = requested_path[:-1]
+            if requested_path in ["download", "upload", "attribute_call"]:
+                body = await request.json()
+                body = self._compressor.extract(
+                    self._encryptor.decrypt(
+                        body
+                    )
                 )
-            )
-            request._body = json.dumps(body).encode('utf-8')
-            print("Preparation Done!")
+                request._body = json.dumps(body).encode('utf-8')
             response = await call_next(request)
             return response
         self._communicator.run()
