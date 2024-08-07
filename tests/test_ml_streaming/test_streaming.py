@@ -18,9 +18,7 @@ def prepare_server():
             "python",
             path,
         ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
+        )
     time.sleep(2)
     yield server_proc
     server_proc.terminate()
