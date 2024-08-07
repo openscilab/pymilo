@@ -34,4 +34,4 @@ def scenario1():
     # 6.
     result = client.predict(x_test)
     mse_after = mean_squared_error(y_test, result)
-    assert np.abs(mse_after-mse_before) == 0
+    return np.abs(mse_after-mse_before)

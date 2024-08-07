@@ -37,4 +37,4 @@ def scenario2():
     client.toggle_mode()
     result = client.predict(x_test)
     mse_local = mean_squared_error(y_test, result)
-    assert np.abs(mse_server-mse_local) == 0
+    return np.abs(mse_server-mse_local)
