@@ -9,15 +9,24 @@ class RESTClientCommunicator(ClientCommunicator):
 
     def __init__(self, server_url):
         self._server_url = server_url
+        self.session = requests.Session()
+        retries = requests.adapters.Retry(
+            total=5,
+            backoff_factor=0.1,
+            status_forcelist=[500, 502, 503, 504]
+        )
+        self.session.mount('http://', requests.adapters.HTTPAdapter(max_retries=retries))
+        self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
 
     def download(self, payload):
-        return requests.get(url=self._server_url + "/download/", json=payload, timeout=5)
+        return self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
 
     def upload(self, payload):
-        return requests.post(url=self._server_url + "/upload/", json=payload, timeout=5)
+        return self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
 
     def attribute_call(self, payload):
-        return requests.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
+        return self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
+
 
 
 class RESTServerCommunicator():
