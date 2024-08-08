@@ -2,6 +2,7 @@ import os
 import time
 import pytest
 import subprocess
+from sys import executable
 from scenarios.scenario1 import scenario1
 from scenarios.scenario2 import scenario2
 
@@ -15,7 +16,7 @@ def prepare_server():
         )
     server_proc = subprocess.Popen(
         [
-            "python",
+            executable,
             path,
         ],
         )
