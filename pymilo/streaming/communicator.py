@@ -1,6 +1,6 @@
 import uvicorn
 import requests
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from .interfaces import ClientCommunicator
 
@@ -48,17 +48,21 @@ class RESTServerCommunicator():
             kwargs: dict
 
         @self.app.get("/download/")
-        async def download(payload: DownloadPayload):
+        async def download(request: Request):
+            body = await request.json()
+            body = self.parse(body)
+            payload = DownloadPayload(**body)
             message = "/download request from client: {} for model: {}".format(payload.client_id, payload.model_id)
-            # todo retrieve model
-            # send model to client
             return {
                 "message": message,
                 "payload": self._ps.export_model(),
             }
 
         @self.app.post("/upload/")
-        async def upload(payload: UploadPayload):
+        async def upload(request: Request):
+            body = await request.json()
+            body = self.parse(body)
+            payload = UploadPayload(**body)
             message = "/upload request from client: {} for model: {}".format(payload.client_id, payload.model_id)
             return {
                 "message": message,
@@ -66,12 +70,22 @@ class RESTServerCommunicator():
             }
 
         @self.app.post("/attribute_call/")
-        async def attribute_call(payload: AttributePayload):
+        async def attribute_call(request: Request):
+            body = await request.json()
+            body = self.parse(body)
+            payload = AttributePayload(**body)
             message = "/attribute_call request from client: {} for model: {}".format(payload.client_id, payload.model_id)
             return {
                 "message": message,
                 "payload": self._ps.execute_model(payload)
             }
+
+    def parse(self, body):
+        return self._ps._compressor.extract(
+            self._ps._encryptor.decrypt(
+                body
+            )
+        )
 
     def run(self):
         uvicorn.run(self.app, host=self.host, port=self.port)
