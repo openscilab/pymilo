@@ -1,5 +1,3 @@
-import json
-from fastapi import Request
 from ..pymilo_obj import Export, Import
 from .compressor import DummyCompressor
 from .encryptor import DummyEncryptor
@@ -14,23 +12,6 @@ class PymiloServer:
         self._compressor = DummyCompressor()
         self._encryptor = DummyEncryptor()
         self._communicator = RESTServerCommunicator(ps=self)
-        @self._communicator.app.middleware("http")
-        async def preparation(request: Request, call_next):
-            requested_path = request.url.path
-            if requested_path.startswith('/'):
-                requested_path = requested_path[1:]
-            if requested_path.endswith('/'):
-                requested_path = requested_path[:-1]
-            if requested_path in ["download", "upload", "attribute_call"]:
-                body = await request.json()
-                body = self._compressor.extract(
-                    self._encryptor.decrypt(
-                        body
-                    )
-                )
-                request._body = json.dumps(body).encode('utf-8')
-            response = await call_next(request)
-            return response
         self._communicator.run()
 
     def export_model(self):
