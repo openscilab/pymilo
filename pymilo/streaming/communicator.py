@@ -84,9 +84,10 @@ class RESTServerCommunicator():
             body = self.parse(body)
             payload = AttributePayload(**body)
             message = "/attribute_call request from client: {} for model: {}".format(payload.client_id, payload.model_id)
+            result = self._ps.execute_model(payload)
             return {
                 "message": message,
-                "payload": self._ps.execute_model(payload)
+                "payload": result if result is not None else "The ML model has been updated in place."
             }
 
     def parse(self, body):

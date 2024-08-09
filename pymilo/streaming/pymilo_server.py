@@ -35,5 +35,5 @@ class PymiloServer:
         output = retrieved_attribute(*args, **kwargs)
         if isinstance(output, type(self._model)):
             self._model = output
-            return "The ML model has been updated in place."
+            return None
         return gdst.serialize({'output': output}, 'output', None)
