@@ -6,25 +6,11 @@ except ImportError:
     from distutils.core import setup
 
 
-STREAMING_REQUIREMENTS = [
-    "uvicorn",
-    "fastapi",
-    "requests"
-]
-
-
-def get_extra_ml_streaming_requires():
-    """Extract ML streaming extra requirments."""
-    requirements = open("requirements.txt", "r").read()
-    all_reqs = list(filter(lambda x: x != "", requirements.split()))
-    return [req for req in all_reqs if any(streaming in req for streaming in STREAMING_REQUIREMENTS)]
-
-
-def get_core_requires():
-    """Extract PyMilo core requirments."""
-    requirements = open("requirements.txt", "r").read()
-    all_reqs = list(filter(lambda x: x != "", requirements.split()))
-    return [req for req in all_reqs if not any(streaming in req for streaming in STREAMING_REQUIREMENTS)]
+def get_requires(streaming=False):
+    """Read requirements.txt."""
+    reqs = "requirements.txt" if not streaming else "streaming-requirements.txt"
+    requirements = open(reqs, "r").read()
+    return list(filter(lambda x: x != "", requirements.split()))
 
 
 def read_description():
@@ -56,9 +42,9 @@ setup(
     project_urls={
             'Source': 'https://github.com/openscilab/pymilo',
     },
-    install_requires=get_core_requires(),
+    install_requires=get_requires(),
     extras_require={
-        'streaming': get_extra_ml_streaming_requires(),
+        'streaming': get_requires(streaming=True),
     },
     python_requires='>=3.6',
     classifiers=[
