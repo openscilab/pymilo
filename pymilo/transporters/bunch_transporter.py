@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """PyMilo Bunch transporter."""
-
-from ..utils.util import check_str_in_iterable
 from .transporter import AbstractTransporter
+from ..utils.util import check_str_in_iterable
+
 bunch_support = False
 try:
     from sklearn.utils._bunch import Bunch
@@ -28,13 +28,13 @@ class BunchTransporter(AbstractTransporter):
         """
         if bunch_support and isinstance(data[key], Bunch):
             bunch = data[key]
-            dicted_bunch = {}
-            dicted_bunch["pymiloed-data-structure"] = "Bunch"
             _dict = {}
             for key, value in bunch.items():
                 _dict[key] = value
-            dicted_bunch["pymiloed-data"] = _dict
-            return dicted_bunch
+            return {
+                "pymilo-bypass": True,
+                "pymilo-bunch": _dict,
+            }
 
         return data[key]
 
@@ -56,12 +56,9 @@ class BunchTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-        if bunch_support and check_str_in_iterable(
-            "pymiloed-data-structure",
-                content) and content["pymiloed-data-structure"] == "Bunch":
+        if bunch_support and check_str_in_iterable("pymilo-bunch", content):
             bunch = Bunch()
-            dicted_bunch = content["pymiloed-data"]
-            for key, value in dicted_bunch.items():
+            for key, value in content["pymilo-bunch"].items():
                 bunch[key] = value
             return bunch
         else:
