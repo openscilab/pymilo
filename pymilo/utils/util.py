@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """utility module."""
-from inspect import signature
 import importlib
+from requests import get
+from inspect import signature
 
 
 def get_sklearn_type(model):
@@ -135,3 +136,22 @@ def prefix_list(list1, list2):
     if len(list1) < len(list2):
         return False
     return all(list1[j] == list2[j] for j in range(len(list2)))
+
+
+def download_model(url):
+    """
+    Download the model from the given url.
+
+    :param url: the url in which the previously exported JSON file has been uploaded
+    :type url: str
+
+    :return: obj
+    """
+    response = get(url)
+    if response.status_code == 200:
+        try:
+            return response.json()
+        except ValueError:
+            raise Exception("The downloaded content is not a valid JSON file.")
+    else:
+        raise Exception("Failed to download the JSON file, response status code: " + str(response.status_code))
