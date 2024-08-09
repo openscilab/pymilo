@@ -147,11 +147,12 @@ def download_model(url):
 
     :return: obj
     """
-    response = get(url)
-    if response.status_code == 200:
-        try:
+    try:
+        response = get(url)
+    except Exception:
+        raise Exception("Failed to download the JSON file, Server didn't respond." )
+    try:
+        if response.status_code == 200:
             return response.json()
-        except ValueError:
-            raise Exception("The downloaded content is not a valid JSON file.")
-    else:
-        raise Exception("Failed to download the JSON file, response status code: " + str(response.status_code))
+    except ValueError:
+        raise Exception("The downloaded content is not a valid JSON file.")

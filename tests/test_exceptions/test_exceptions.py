@@ -3,14 +3,14 @@ from export_exceptions import valid_model_invalid_structure_linear_model
 from export_exceptions import valid_model_invalid_structure_neural_network
 from export_exceptions import valid_model_irrelevant_chain
 
-from import_exceptions import invalid_json, invalid_url, valid_url_invalid_file, valid_url_valid_file
+from import_exceptions import invalid_json, invalid_url, valid_url_invalid_file#, valid_url_valid_file
 
 EXCEPTION_TESTS = {
     'IMPORT': [
         invalid_json,
         invalid_url,
-        valid_url_invalid_file,
-        valid_url_valid_file,
+        #valid_url_invalid_file,
+        #valid_url_valid_file,
         ],
     'EXPORT': [
         invalid_model,

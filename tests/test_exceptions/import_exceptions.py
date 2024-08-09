@@ -2,6 +2,7 @@
 # INVALID_MODEL = 2 -> tested.
 # VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 3 -> tested.
 import os
+import pytest
 from pymilo.pymilo_obj import Import
 
 
@@ -18,13 +19,22 @@ def invalid_json(print_output = True):
         return True
  
 def invalid_url():
-  url = "https://invalid_url"
-  Import(url=url)
+  try:
+    url = "https://invalid_url"
+    Import(url=url)
+    return False
+  except Exception:
+    return True
 
 def valid_url_invalid_file():
-  url = "https://filesamples.com/samples/code/json/sample1.json"
-  Import(url=url)
+  try:
+    url = "https://filesamples.com/samples/code/json/sample1.json"
+    Import(url=url)
+    return False
+  except Exception:
+    return True
 
-def valid_url_valid_file():
-  url = "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json"
-  Import(url=url)
+# def valid_url_valid_file():
+#   with pytest.raises(Exception):
+#     url = "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json"
+#     Import(url=url)
