@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """PyMilo modules."""
-from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
-from .utils.util import get_sklearn_type
-from .pymilo_param import PYMILO_VERSION, PYMILO_VERSION_DOES_NOT_EXIST, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
 import json
-
-from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
-from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
-from traceback import format_exc
-from warnings import warn
 from copy import deepcopy
+from warnings import warn
+from traceback import format_exc
+from .utils.util import get_sklearn_type, download_model
+from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
+from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
+from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
+from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
 
 
 class Export:
@@ -84,25 +83,29 @@ class Import:
     >>> imported_sklearn_model.predict(x_test)
     """
 
-    def __init__(self, file_adr, json_dump=None):
+    def __init__(self, file_adr=None, json_dump=None, url=None):
         """
         Initialize the Pymilo Import instance.
 
         :param file_adr: the file path where the serialized model's JSON file is located.
-        :type file_adr: string
+        :type file_adr: str or None
         :param json_dump: the json dump of the associated model, it can be None(reading from the file_adr)
         :type json_dump: str or None
+        :param url: the url in which the previously exported JSON file has been uploaded
+        :type: str or None
         :return: an instance of the Pymilo Import class
         """
         serialized_model_obj = None
+        if url is not None:
+            serialized_model_obj = download_model(url)
+        elif json_dump is not None and isinstance(json_dump, str):
+            serialized_model_obj = json.loads(json_dump)
+        elif file_adr is not None:
+            with open(file_adr, 'r') as fp:
+                serialized_model_obj = json.load(fp)
+        else:
+            raise Exception("Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class.")
         try:
-            if json_dump and isinstance(json_dump, str):
-                serialized_model_obj = json.loads(json_dump)
-            else:
-                with open(file_adr, 'r') as fp:
-                    serialized_model_obj = json.load(fp)
-            if "pymilo_version" not in serialized_model_obj:
-                raise Exception(PYMILO_VERSION_DOES_NOT_EXIST)
             if not serialized_model_obj["pymilo_version"] == PYMILO_VERSION:
                 warn(UNEQUAL_PYMILO_VERSIONS, category=Warning)
             if not serialized_model_obj["sklearn_version"] == get_sklearn_version():
@@ -114,9 +117,11 @@ class Import:
             json_content = None
             if json_dump and isinstance(json_dump, str):
                 json_content = json_dump
-            else:
+            elif file_adr is not None:
                 with open(file_adr) as f:
                     json_content = f.readlines()
+            else:
+                json_content = serialized_model_obj
             raise PymiloDeserializationException(
                 {
                     'json_file': json_content,
@@ -124,8 +129,8 @@ class Import:
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc()},
-                    'object': serialized_model_obj})
-
+                    'object': ""})
+        
     def to_model(self):
         """
         Convert imported model to sklearn model.
