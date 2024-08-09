@@ -1,0 +1,55 @@
+{
+    "data": {
+        "fit_intercept": true,
+        "copy_X": true,
+        "n_jobs": null,
+        "positive": false,
+        "n_features_in_": 10,
+        "coef_": {
+            "pymiloed-ndarray-list": [
+                0.30609424754267966,
+                -237.63557011300716,
+                510.53804765114097,
+                327.7298779909887,
+                -814.1119263534517,
+                492.7995945034062,
+                102.84123996793083,
+                184.6034960903708,
+                743.5093875957093,
+                76.09664636971895
+            ],
+            "pymiloed-ndarray-dtype": "float64",
+            "pymiloed-ndarray-shape": [
+                10
+            ],
+            "pymiloed-data-structure": "numpy.ndarray"
+        },
+        "rank_": 10,
+        "singular_": {
+            "pymiloed-ndarray-list": [
+                1.9578051002417796,
+                1.1797491126040702,
+                1.0755406405377144,
+                0.9579192686906345,
+                0.7980638292867588,
+                0.7594342409324799,
+                0.7216957209064547,
+                0.6459380350140406,
+                0.27271507089040337,
+                0.0915832239699
+            ],
+            "pymiloed-ndarray-dtype": "float64",
+            "pymiloed-ndarray-shape": [
+                10
+            ],
+            "pymiloed-data-structure": "numpy.ndarray"
+        },
+        "intercept_": {
+            "value": 152.76429169049118,
+            "np-type": "numpy.float64"
+        }
+    },
+    "sklearn_version": "1.3.0",
+    "pymilo_version": "0.9",
+    "model_type": "LinearRegression"
+}
