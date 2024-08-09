@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """PyMilo Tree(from sklearn.tree._tree) object transporter."""
-from sklearn.tree._tree import Tree
-
-from .transporter import AbstractTransporter
-from .general_data_structure_transporter import GeneralDataStructureTransporter
-from ..pymilo_param import NUMPY_TYPE_DICT
-
 import numpy as np
+from sklearn.tree._tree import Tree
+from ..pymilo_param import NUMPY_TYPE_DICT
+from .transporter import AbstractTransporter
+from ..utils.util import check_str_in_iterable
+from .general_data_structure_transporter import GeneralDataStructureTransporter
 
 
 class TreeTransporter(AbstractTransporter):
@@ -28,10 +27,9 @@ class TreeTransporter(AbstractTransporter):
             gdst = GeneralDataStructureTransporter()
             tree = data[key]
             tree_inner_state = tree.__getstate__()
-
             data[key] = {
                 'pymilo-bypass': True,
-                'params': {
+                'pymilo-tree': {
                     'internal_state': {
                         "max_depth": tree_inner_state["max_depth"],
                         "node_count": tree_inner_state["node_count"],
@@ -47,7 +45,6 @@ class TreeTransporter(AbstractTransporter):
                     'n_outputs': tree.n_outputs,
                 }
             }
-
         return data[key]
 
     def deserialize(self, data, key, model_type):
@@ -69,19 +66,12 @@ class TreeTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-
-        if (key == "tree_" and
-            (model_type == "DecisionTreeRegressor"
-             or model_type == "DecisionTreeClassifier"
-             or model_type == "ExtraTreeRegressor"
-             or model_type == "ExtraTreeClassifier"
-             )):
+        if check_str_in_iterable('pymilo-tree', content):
             gdst = GeneralDataStructureTransporter()
-            tree_params = content['params']
-
+            tree_params = content['pymilo-tree']
             tree_internal_state = tree_params["internal_state"]
-
             nodes_dtype_spec = []
+
             for idx, node_type in enumerate(tree_internal_state["nodes"]["types"]):
                 nodes_dtype_spec.append(
                     (tree_internal_state["nodes"]["field-names"][idx], NUMPY_TYPE_DICT["numpy." + node_type]))
@@ -106,10 +96,7 @@ class TreeTransporter(AbstractTransporter):
                 n_classes,
                 tree_params["n_outputs"]
             )
-
             _tree.__setstate__(tree_internal_state)
-
             return _tree
-
         else:
             return content

@@ -104,7 +104,7 @@ def serialize_linear_model(linear_model_object):
             linear_model_object.__dict__[key] = {
                 "pymilo-inner-model-data": transport_linear_model(linear_model_object.__dict__[key], Command.SERIALIZE, True),
                 "pymilo-inner-model-type": get_sklearn_type(linear_model_object.__dict__[key]),
-                "pymilo-by-pass": True
+                "pymilo-bypass": True
             }
     # now serializing non-linear model fields
     for transporter in LINEAR_MODEL_CHAIN:

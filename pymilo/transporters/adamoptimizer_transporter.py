@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """PyMilo Adam optimizer object transporter."""
-from sklearn.neural_network._stochastic_optimizers import AdamOptimizer
 from .transporter import AbstractTransporter
+from ..utils.util import check_str_in_iterable
+from sklearn.neural_network._stochastic_optimizers import AdamOptimizer
 
 
 class AdamOptimizerTransporter(AbstractTransporter):
@@ -24,7 +25,8 @@ class AdamOptimizerTransporter(AbstractTransporter):
         if isinstance(data[key], AdamOptimizer):
             optimizer = data[key]
             data[key] = {
-                'params': {
+                "pymilo-bypass": True,
+                'pymilo-adamoptimizer': {
                     "params": data["coefs_"] + data["intercepts_"],
                     'type': "AdamOptimizer",
                     'beta_1': optimizer.beta_1,
@@ -55,10 +57,8 @@ class AdamOptimizerTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-
-        if (key == "_optimizer" and (model_type ==
-                                     "MLPRegressor" or model_type == "MLPClassifier")):
-            optimizer = content['params']
+        if check_str_in_iterable("pymilo-adamoptimizer", content):
+            optimizer = content["pymilo-adamoptimizer"]
             if (optimizer["type"] == "AdamOptimizer"):
                 return AdamOptimizer(
                     params=optimizer["params"],

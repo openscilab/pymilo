@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """PyMilo SGDOptimizer object transporter."""
-from sklearn.neural_network._stochastic_optimizers import SGDOptimizer
 from .transporter import AbstractTransporter
+from ..utils.util import check_str_in_iterable
+from sklearn.neural_network._stochastic_optimizers import SGDOptimizer
 
 
 class SGDOptimizerTransporter(AbstractTransporter):
@@ -24,7 +25,8 @@ class SGDOptimizerTransporter(AbstractTransporter):
         if isinstance(data[key], SGDOptimizer):
             optimizer = data[key]
             data[key] = {
-                'params': {
+                "pymilo-bypass": True,
+                'pymilo-sgdoptimizer': {
                     'type': "SGDOptimizer",
                     'learning_rate': optimizer.learning_rate,
                     'momentum': optimizer.momentum,
@@ -55,10 +57,8 @@ class SGDOptimizerTransporter(AbstractTransporter):
         :return: pymilo deserialized output of data[key]
         """
         content = data[key]
-
-        if (key == "_optimizer" and (model_type ==
-                                     "MLPRegressor" or model_type == "MLPClassifier")):
-            optimizer = content['params']
+        if check_str_in_iterable('pymilo-sgdoptimizer', content):
+            optimizer = content['pymilo-sgdoptimizer']
             if (optimizer["type"] == "SGDOptimizer"):
                 return SGDOptimizer(
                     learning_rate=optimizer['learning_rate'],
