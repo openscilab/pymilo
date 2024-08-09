@@ -187,13 +187,7 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 return self.get_deserialized_dict(data[key])
 
         elif isinstance(data[key], list):
-            new_list = []
-            for item in data[key]:
-                if self.is_deserialized_ndarray(item):
-                    new_list.append(self.deep_deserialize_ndarray(item))
-                else:
-                    new_list.append(self.deserialize_primitive_type(item))
-            return new_list
+            return self.get_deserialized_list(data[key])
 
         elif self.is_numpy_primary_type(data[key]):
             return self.get_deserialized_regular_primary_types(data[key])
@@ -265,12 +259,13 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         :type content: list
         :return: the original list
         """
-        if not isinstance(content, list):
-            return None
         new_list = []
         for item in content:
-            new_list.append(self.deserialize_primitive_type(item))
-        return np.array(new_list)
+            if self.is_deserialized_ndarray(item):
+                new_list.append(self.deep_deserialize_ndarray(item))
+            else:
+                new_list.append(self.deserialize_primitive_type(item))
+        return new_list
 
     def get_deserialized_regular_primary_types(self, content):
         """

@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """Setup module."""
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
 
-def get_requires():
+def get_requires(streaming=False):
     """Read requirements.txt."""
-    requirements = open("requirements.txt", "r").read()
+    reqs = "requirements.txt" if not streaming else "streaming-requirements.txt"
+    requirements = open(reqs, "r").read()
     return list(filter(lambda x: x != "", requirements.split()))
 
 
@@ -28,12 +29,7 @@ def read_description():
 
 setup(
     name='pymilo',
-    packages=[
-        'pymilo',
-        'pymilo.utils',
-        'pymilo.chains',
-        'pymilo.transporters',
-        'pymilo.exceptions'],
+    packages=find_packages(include=['pymilo*'], exclude=['tests*']),
     version='0.9',
     description='Transportation of ML models',
     long_description=read_description(),
@@ -47,6 +43,9 @@ setup(
             'Source': 'https://github.com/openscilab/pymilo',
     },
     install_requires=get_requires(),
+    extras_require={
+        'streaming': get_requires(streaming=True),
+    },
     python_requires='>=3.6',
     classifiers=[
         'Development Status :: 3 - Alpha',
