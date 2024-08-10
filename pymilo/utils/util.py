@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """utility module."""
+import requests
 import importlib
-from requests import get
 from inspect import signature
 
 
@@ -147,8 +147,16 @@ def download_model(url):
 
     :return: obj
     """
+    s = requests.Session()
+    retries = requests.adapters.Retry(
+        total=5,
+        backoff_factor=0.1,
+        status_forcelist=[500, 502, 503, 504]
+    )
+    s.mount('http://', requests.adapters.HTTPAdapter(max_retries=retries))
+    s.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
     try:
-        response = get(url)
+        response = s.get(url)
     except Exception:
         raise Exception("Failed to download the JSON file, Server didn't respond." )
     try:
