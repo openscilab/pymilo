@@ -9,7 +9,7 @@ EXCEPTION_TESTS = {
     'IMPORT': [
         invalid_json,
         invalid_url,
-        #valid_url_invalid_file,
+        valid_url_invalid_file,
         #valid_url_valid_file,
         ],
     'EXPORT': [

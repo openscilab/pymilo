@@ -2,7 +2,6 @@
 # INVALID_MODEL = 2 -> tested.
 # VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 3 -> tested.
 import os
-import pytest
 from pymilo.pymilo_obj import Import
 
 
@@ -17,7 +16,7 @@ def invalid_json(print_output = True):
       except Exception as e:
         if print_output: print("An Exception occured\n", e)
         return True
- 
+
 def invalid_url():
   try:
     url = "https://invalid_url"

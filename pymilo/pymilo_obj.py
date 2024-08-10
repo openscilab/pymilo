@@ -130,7 +130,7 @@ class Import:
                         'Exception': repr(e),
                         'Traceback': format_exc()},
                     'object': ""})
-        
+
     def to_model(self):
         """
         Convert imported model to sklearn model.
