@@ -23,7 +23,7 @@ def scenario2():
     client.upload()
 
     # 3.
-    client.toggle_mode()
+    client.toggle_mode(mode="DELEGATE")
     client.fit(x_train, y_train)
 
     # 4.
@@ -34,7 +34,7 @@ def scenario2():
     client.download()
 
     # 6.
-    client.toggle_mode()
+    client.toggle_mode(mode="LOCAL")
     result = client.predict(x_test)
     mse_local = mean_squared_error(y_test, result)
     return np.abs(mse_server-mse_local)

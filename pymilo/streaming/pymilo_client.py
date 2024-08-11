@@ -22,11 +22,11 @@ class PymiloClient:
             server_url="{}:{}".format(server, port)
         )
 
-    def toggle_mode(self):
-        if self._mode == "LOCAL":
-            self._mode = "DELEGATE"
-        else:
-            self._mode = "LOCAL"
+    def toggle_mode(self, mode="LOCAL"):
+        mode = mode.upper()
+        if mode not in ["LOCAL", "DELEGATE"]:
+            raise Exception("Invalid mode, the given mode should be either `LOCAL`[default] or `DELEGATE`.")
+        self._mode = mode
 
     def download(self):
         response = self._communicator.download({
