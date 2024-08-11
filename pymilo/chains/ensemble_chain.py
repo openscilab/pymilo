@@ -188,19 +188,16 @@ def serialize_ensemble(ensemble_object):
                 }
 
         elif isinstance(value, dict):
-            if not check_str_in_iterable("pymilo-bypass", value):
-                if check_str_in_iterable(
-                    "pymiloed-data-structure",
-                        value) and value["pymiloed-data-structure"] == "Bunch":
-                    new_value = {}
-                    for inner_key, inner_value in value["pymiloed-data"].items():
-                        new_value[inner_key] = serialize_possible_ml_model(inner_value)[1]
-                    value["pymiloed-data"] = new_value
-                else:
-                    new_value = {}
-                    for inner_key, inner_value in value.items():
-                        new_value[inner_key] = serialize_possible_ml_model(inner_value)[1]
-                    ensemble_object.__dict__[key] = new_value
+            if check_str_in_iterable("pymilo-bunch", value):
+                new_value = {}
+                for inner_key, inner_value in value["pymilo-bunch"].items():
+                    new_value[inner_key] = serialize_possible_ml_model(inner_value)[1]
+                value["pymilo-bunch"] = new_value
+            else:
+                new_value = {}
+                for inner_key, inner_value in value.items():
+                    new_value[inner_key] = serialize_possible_ml_model(inner_value)[1]
+                ensemble_object.__dict__[key] = new_value
 
         elif isinstance(value, ndarray):
             has_inner_model, result = serialize_models_in_ndarray(value)
