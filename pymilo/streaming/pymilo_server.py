@@ -25,7 +25,7 @@ class PymiloServer:
         attribute = request.attribute
         retrieved_attribute = getattr(self._model, attribute, None)
         if retrieved_attribute is None:
-            return "ERROR"
+            raise Exception("The requested attribute doesn't exist in this model.")
         arguments = {
             'args': request.args,
             'kwargs': request.kwargs
