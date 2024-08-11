@@ -5,11 +5,16 @@ try:
 except ImportError:
     from distutils.core import setup
 
+INSTALLATION_MODES = {
+    'core': 'requirements.txt',
+    'streaming': 'streaming-requirements.txt',
+}
 
-def get_requires(streaming=False):
-    """Read requirements.txt."""
-    reqs = "requirements.txt" if not streaming else "streaming-requirements.txt"
-    requirements = open(reqs, "r").read()
+
+def get_requires(mode='core'):
+    """Read associated requirements to install."""
+    reqs_path = INSTALLATION_MODES[mode]
+    requirements = open(reqs_path, "r").read()
     return list(filter(lambda x: x != "", requirements.split()))
 
 
@@ -44,7 +49,7 @@ setup(
     },
     install_requires=get_requires(),
     extras_require={
-        'streaming': get_requires(streaming=True),
+        'streaming': get_requires(mode='streaming'),
     },
     python_requires='>=3.6',
     classifiers=[
