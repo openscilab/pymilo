@@ -91,7 +91,7 @@ class Import:
         :type file_adr: str or None
         :param json_dump: the json dump of the associated model, it can be None(reading from the file_adr)
         :type json_dump: str or None
-        :param url: the url in which the previously exported JSON file has been uploaded
+        :param url: url to exported JSON file
         :type: str or None
         :return: an instance of the Pymilo Import class
         """

@@ -142,7 +142,7 @@ def download_model(url):
     """
     Download the model from the given url.
 
-    :param url: the url in which the previously exported JSON file has been uploaded
+    :param url: url to exported JSON file
     :type url: str
 
     :return: obj
