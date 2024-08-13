@@ -8,7 +8,7 @@ from .utils.util import get_sklearn_type, download_model
 from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
 from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
-from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
+from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS, INVALID_IMPORT_INIT_PARAMS
 
 
 class Export:
@@ -104,7 +104,7 @@ class Import:
             with open(file_adr, 'r') as fp:
                 serialized_model_obj = json.load(fp)
         else:
-            raise Exception("Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class.")
+            raise Exception(INVALID_IMPORT_INIT_PARAMS)
         try:
             if not serialized_model_obj["pymilo_version"] == PYMILO_VERSION:
                 warn(UNEQUAL_PYMILO_VERSIONS, category=Warning)

@@ -3,6 +3,7 @@
 import requests
 import importlib
 from inspect import signature
+from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL
 
 
 def get_sklearn_type(model):
@@ -158,9 +159,9 @@ def download_model(url):
     try:
         response = s.get(url)
     except Exception:
-        raise Exception("Failed to download the JSON file, Server didn't respond." )
+        raise Exception(DOWNLOAD_MODEL_FAILED)
     try:
         if response.status_code == 200:
             return response.json()
     except ValueError:
-        raise Exception("The downloaded content is not a valid JSON file.")
+        raise Exception(INVALID_DOWNLOADED_MODEL)
