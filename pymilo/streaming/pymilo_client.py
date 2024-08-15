@@ -61,12 +61,12 @@ class PymiloClient:
             print("Local model upload failed.")
 
     def __getattr__(self, attribute):
-        if self._mode == "LOCAL":
+        if self._mode == Mode.LOCAL:
             if attribute in dir(self._model):
                 return getattr(self._model, attribute)
             else:
                 raise AttributeError("This attribute doesn't exist either in PymiloClient or the inner ML model.")
-        elif self._mode == "DELEGATE":
+        elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             def relayer(*args, **kwargs):
                 print(f"Method '{attribute}' called with args: {args} and kwargs: {kwargs}")
