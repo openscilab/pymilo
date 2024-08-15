@@ -148,7 +148,5 @@ class RESTServerCommunicator():
         )
 
     def run(self):
-        """
-        Run internal fastapi server.
-        """
+        """Run internal fastapi server."""
         uvicorn.run(self.app, host=self.host, port=self.port)

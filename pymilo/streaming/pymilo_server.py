@@ -20,7 +20,6 @@ class PymiloServer:
         self._compressor = DummyCompressor()
         self._encryptor = DummyEncryptor()
         self._communicator = RESTServerCommunicator(ps=self)
-        self._communicator.run()
 
     def export_model(self):
         """
@@ -32,7 +31,7 @@ class PymiloServer:
 
     def update_model(self, serialized_model):
         """
-        Update the PyMilo Server's ML model
+        Update the PyMilo Server's ML model.
 
         :param serialized_model: the json dump of a pymilo export ml model
         :type serialized_model: str
@@ -42,7 +41,7 @@ class PymiloServer:
 
     def execute_model(self, request):
         """
-        Execute the request attribute call from PyMilo Client
+        Execute the request attribute call from PyMilo Client.
 
         :param request: request obj containing requested attribute to call with the associated args and kwargs
         :type request: obj

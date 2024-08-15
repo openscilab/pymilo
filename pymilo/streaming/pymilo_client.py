@@ -83,7 +83,7 @@ class PymiloClient:
 
     def __getattr__(self, attribute):
         """
-        Overload the __getattr__ default function to extract requested 
+        Overload the __getattr__ default function to extract requested.
 
             1. If self._mode is LOCAL, extract the requested from inner ML model and returns it
             2. If self._mode is DELEGATE, returns a wrapper relayer which delegates the request to the remote server by execution
