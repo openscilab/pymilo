@@ -2,7 +2,7 @@
 """PyMilo RandomState(MT19937) object transporter."""
 import numpy as np
 from .transporter import AbstractTransporter
-
+from ..utils.util import check_str_in_iterable
 
 class RandomStateTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle RandomState field."""
@@ -24,14 +24,15 @@ class RandomStateTransporter(AbstractTransporter):
         if isinstance(data[key], np.random.RandomState):
             inner_random_state = data[key]
             data[key] = {
-                'state': (
+                "pymilo-bypass": True,
+                "pymilo-randomstate": (
                     inner_random_state.get_state()[0],
                     inner_random_state.get_state()[1].tolist(),
                     inner_random_state.get_state()[2],
                     inner_random_state.get_state()[3],
-                    inner_random_state.get_state()[4]
-                )
-            }
+                    inner_random_state.get_state()[4],
+                    ),
+                }
         return data[key]
 
     def deserialize(self, data, key, model_type):
@@ -56,15 +57,14 @@ class RandomStateTransporter(AbstractTransporter):
         """
         content = data[key]
 
-        if key == "_random_state" and (
-                model_type == "MLPRegressor" or model_type == "MLPClassifier"):
-            inner_random_state = content['state']
+        if check_str_in_iterable("pymilo-randomstate", content):
+            inner_random_state = content["pymilo-randomstate"]
             inner_random_state = (
                 inner_random_state[0],
                 np.array(inner_random_state[1]),
                 inner_random_state[2],
                 inner_random_state[3],
-                inner_random_state[4]
+                inner_random_state[4],
             )
             _random_state = np.random.RandomState()
             _random_state.set_state(inner_random_state)

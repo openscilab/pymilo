@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """utility module."""
-from inspect import signature
+import requests
 import importlib
+from inspect import signature
+from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL
 
 
 def get_sklearn_type(model):
@@ -135,3 +137,31 @@ def prefix_list(list1, list2):
     if len(list1) < len(list2):
         return False
     return all(list1[j] == list2[j] for j in range(len(list2)))
+
+
+def download_model(url):
+    """
+    Download the model from the given url.
+
+    :param url: url to exported JSON file
+    :type url: str
+
+    :return: obj
+    """
+    s = requests.Session()
+    retries = requests.adapters.Retry(
+        total=5,
+        backoff_factor=0.1,
+        status_forcelist=[500, 502, 503, 504]
+    )
+    s.mount('http://', requests.adapters.HTTPAdapter(max_retries=retries))
+    s.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
+    try:
+        response = s.get(url)
+    except Exception:
+        raise Exception(DOWNLOAD_MODEL_FAILED)
+    try:
+        if response.status_code == 200:
+            return response.json()
+    except ValueError:
+        raise Exception(INVALID_DOWNLOADED_MODEL)

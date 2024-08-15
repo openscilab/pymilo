@@ -42,7 +42,7 @@ class PymiloDeserializationException(PymiloException):
         error_type = meta_data['error_type']
         error_type_to_message = {
             DeserializationErrorTypes.CORRUPTED_JSON_FILE:
-            'the given json file is not a valid .json file.',
+            'the given file is not a valid .json file.',
             DeserializationErrorTypes.INVALID_MODEL:
             'the given model is not supported or is not a valid model.',
             DeserializationErrorTypes.VALID_MODEL_INVALID_INTERNAL_STRUCTURE:
