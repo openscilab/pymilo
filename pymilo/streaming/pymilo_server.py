@@ -6,8 +6,16 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 
 
 class PymiloServer:
+    """
+    The Pymilo PymiloServer class facilitates streaming the ML models.
+    """
 
     def __init__(self):
+        """
+        Initialize the Pymilo PymiloServer instance.
+
+        :return: an instance of the Pymilo PymiloServer class
+        """
         self._model = None
         self._compressor = DummyCompressor()
         self._encryptor = DummyEncryptor()
@@ -15,12 +23,31 @@ class PymiloServer:
         self._communicator.run()
 
     def export_model(self):
+        """
+        Export the ML model to string json dump using PyMilo Export class.
+
+        :return: str
+        """
         return Export(self._model).to_json()
 
     def update_model(self, serialized_model):
+        """
+        Update the PyMilo Server's ML model
+
+        :param serialized_model: the json dump of a pymilo export ml model
+        :type serialized_model: str
+        :return: None
+        """
         self._model = Import(file_adr=None, json_dump=serialized_model).to_model()
 
     def execute_model(self, request):
+        """
+        Execute the request attribute call from PyMilo Client
+
+        :param request: request obj containing requested attribute to call with the associated args and kwargs
+        :type request: obj
+        :return: str | dict
+        """
         gdst = GeneralDataStructureTransporter()
         attribute = request.attribute
         retrieved_attribute = getattr(self._model, attribute, None)
