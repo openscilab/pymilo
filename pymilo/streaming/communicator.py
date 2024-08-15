@@ -6,8 +6,18 @@ from .interfaces import ClientCommunicator
 
 
 class RESTClientCommunicator(ClientCommunicator):
+    """
+    The Pymilo RESTClientCommunicator class facilitates working with the communication medium from the client side for the REST protocol.
+    """
 
     def __init__(self, server_url):
+        """
+        Initialize the Pymilo RESTClientCommunicator instance.
+
+        :param server_url: the url in which PyMilo Server listens to
+        :type server_url: str
+        :return: an instance of the Pymilo RESTClientCommunicator class
+        """
         self._server_url = server_url
         self.session = requests.Session()
         retries = requests.adapters.Retry(
@@ -19,12 +29,33 @@ class RESTClientCommunicator(ClientCommunicator):
         self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
 
     def download(self, payload):
+        """
+        Request for the remote ML model to download.
+
+        :param payload: download request payload
+        :type payload: dict
+        :return: requests.Response
+        """
         return self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
 
     def upload(self, payload):
+        """
+        Upload the local ML model to the remote server.
+
+        :param payload: upload request payload
+        :type payload: dict
+        :return: requests.Response
+        """
         return self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
 
     def attribute_call(self, payload):
+        """
+        Delegate the requested attribute call to the remote server.
+
+        :param payload: attribute call request payload
+        :type payload: dict
+        :return: requests.Response
+        """
         return self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
 
 
