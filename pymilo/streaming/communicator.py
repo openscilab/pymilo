@@ -87,7 +87,7 @@ class RESTServerCommunicator():
         self.setup_routes()
 
     def setup_routes(self):
-        """Setup endpoints to handle RESTClientCommunicator requests."""
+        """Configure endpoints to handle RESTClientCommunicator requests."""
         class StandardPayload(BaseModel):
             client_id: str
             model_id: str
@@ -135,6 +135,13 @@ class RESTServerCommunicator():
             }
 
     def parse(self, body):
+        """
+        Parse the compressed encrypted body of the request.
+
+        :param body: request body
+        :type body: str
+        :return: str (the extracted decrypted version)
+        """
         return self._ps._compressor.extract(
             self._ps._encryptor.decrypt(
                 body
