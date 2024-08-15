@@ -61,6 +61,9 @@ class RESTClientCommunicator(ClientCommunicator):
 
 
 class RESTServerCommunicator():
+    """
+    The Pymilo RESTServerCommunicator class facilitates working with the communication medium from the Server side for the REST protocol.
+    """
 
     def __init__(
             self,
@@ -68,6 +71,17 @@ class RESTServerCommunicator():
             host: str = "127.0.0.1",
             port: int = 8000,
             ):
+        """
+        Initialize the Pymilo RESTServerCommunicator instance.
+
+        :param ps: reference to the PyMilo server this RESTServerCommunicator instance will belong to
+        :type ps: pymilo.streaming.PymiloServer
+        :param host: the url in which PyMilo Server listens to
+        :type host: str
+        :param port: the port in which PyMilo Server listens to
+        :type port: int
+        :return: an instance of the Pymilo RESTServerCommunicator class
+        """
         self.app = FastAPI()
         self.host = host
         self.port = port
@@ -75,6 +89,9 @@ class RESTServerCommunicator():
         self.setup_routes()
 
     def setup_routes(self):
+        """
+        Setup endpoints to handle RESTClientCommunicator requests.
+        """
         class StandardPayload(BaseModel):
             client_id: str
             model_id: str
@@ -129,4 +146,7 @@ class RESTServerCommunicator():
         )
 
     def run(self):
+        """
+        Run internal fastapi server.
+        """
         uvicorn.run(self.app, host=self.host, port=self.port)
