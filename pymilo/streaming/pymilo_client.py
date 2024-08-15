@@ -17,6 +17,7 @@ class PymiloClient:
             ):
         """
         Initialize the Pymilo PymiloClient instance.
+
         :param model: the ML model PyMiloClient wrapped around
         :type model: Any
         :param mode: the mode in which PymiloClient should work, either LOCAL mode or DELEGATE

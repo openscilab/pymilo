@@ -8,9 +8,7 @@ from .interfaces import ClientCommunicator
 
 
 class RESTClientCommunicator(ClientCommunicator):
-    """
-    The Pymilo RESTClientCommunicator class facilitates working with the communication medium from the client side for the REST protocol.
-    """
+    """The Pymilo RESTClientCommunicator class facilitates working with the communication medium from the client side for the REST protocol."""
 
     def __init__(self, server_url):
         """
@@ -63,9 +61,7 @@ class RESTClientCommunicator(ClientCommunicator):
 
 
 class RESTServerCommunicator():
-    """
-    The Pymilo RESTServerCommunicator class facilitates working with the communication medium from the Server side for the REST protocol.
-    """
+    """The Pymilo RESTServerCommunicator class facilitates working with the communication medium from the Server side for the REST protocol."""
 
     def __init__(
             self,
@@ -91,9 +87,7 @@ class RESTServerCommunicator():
         self.setup_routes()
 
     def setup_routes(self):
-        """
-        Setup endpoints to handle RESTClientCommunicator requests.
-        """
+        """Setup endpoints to handle RESTClientCommunicator requests."""
         class StandardPayload(BaseModel):
             client_id: str
             model_id: str
