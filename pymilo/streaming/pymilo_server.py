@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMiloServer for RESTFull protocol."""
 from ..pymilo_obj import Export, Import
 from .compressor import DummyCompressor
 from .encryptor import DummyEncryptor
@@ -6,9 +8,7 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 
 
 class PymiloServer:
-    """
-    The Pymilo PymiloServer class facilitates streaming the ML models.
-    """
+    """The Pymilo PymiloServer class facilitates streaming the ML models."""
 
     def __init__(self):
         """

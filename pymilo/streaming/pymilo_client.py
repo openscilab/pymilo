@@ -1,12 +1,12 @@
+# -*- coding: utf-8 -*-
+"""PyMiloClient for RESTFull protocol."""
 from .encryptor import DummyEncryptor
 from .compressor import DummyCompressor
 from ..pymilo_obj import Export, Import
 from .communicator import RESTClientCommunicator
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 class PymiloClient:
-    """
-    The Pymilo PymiloClient class facilitates working with PyMiloServer.
-    """
+    """The Pymilo PymiloClient class facilitates working with PyMiloServer."""
 
     def __init__(
             self,
@@ -100,7 +100,7 @@ class PymiloClient:
             def relayer(*args, **kwargs):
                 print(f"Method '{attribute}' called with args: {args} and kwargs: {kwargs}")
                 payload = {
-                    "client_id": self._client_id,                   
+                    "client_id": self._client_id,
                     "model_id": self._model_id,
                     'attribute': attribute,
                     'args': args,

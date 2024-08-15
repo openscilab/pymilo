@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo RESTFull Communication mediums."""
 import uvicorn
 import requests
 from fastapi import FastAPI, Request
