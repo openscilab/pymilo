@@ -6,7 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `PymiloServer` class in `streaming.pymilo_server.py`
+- `PymiloClient` class in `streaming.pymilo_client.py`
+- `Communicator` interface in `streaming.interfaces.py`
+- `RESTClientCommunicator` class in `streaming.communicator.py`
+- `RESTServerCommunicator` class in `streaming.communicator.py`
+- `Compressor` interface in `streaming.interfaces.py`
+- `DummyCompressor` class in `streaming.compressor.py`
+- `Encryptor` interface in `streaming.interfaces.py`
+- `DummyEncryptor` class in `streaming.encryptor.py`
+- `ML Streaming` RESTful testcases
 ### Changed
+- `serialize` function in `GeneralDataStructureTransporter` Transporter refactored
+- `get_deserialized_list` function in `GeneralDataStructureTransporter` Transporter refactored
 - `Export` class call by reference bug fixed
 ## [0.9] - 2024-07-01
 ### Added
