@@ -10,16 +10,18 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 class PymiloServer:
     """The Pymilo PymiloServer class facilitates streaming the ML models."""
 
-    def __init__(self):
+    def __init__(self, port=8000):
         """
         Initialize the Pymilo PymiloServer instance.
-
-        :return: an instance of the Pymilo PymiloServer class
+        
+        :param port: the port to which PyMiloServer listens
+        :type port: int
+        :return: an instance of the PymiloServer class
         """
         self._model = None
         self._compressor = DummyCompressor()
         self._encryptor = DummyEncryptor()
-        self._communicator = RESTServerCommunicator(ps=self)
+        self._communicator = RESTServerCommunicator(ps=self, port=port)
 
     def export_model(self):
         """

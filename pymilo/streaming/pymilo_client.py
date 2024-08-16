@@ -1,17 +1,27 @@
 # -*- coding: utf-8 -*-
-"""PyMiloClient for RESTFull protocol."""
+"""PyMiloClient for RESTFull Protocol."""
+from enum import Enum
 from .encryptor import DummyEncryptor
 from .compressor import DummyCompressor
 from ..pymilo_obj import Export, Import
 from .communicator import RESTClientCommunicator
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
+
+
+class Mode(Enum):
+    """fallback state of the PyMiloClient."""
+
+    LOCAL = 1
+    DELEGATE = 2
+
+
 class PymiloClient:
     """The Pymilo PymiloClient class facilitates working with PyMiloServer."""
 
     def __init__(
             self,
             model=None,
-            mode="LOCAL",
+            mode=Mode.LOCAL,
             server="http://127.0.0.1",
             port= 8000
             ):
@@ -38,14 +48,14 @@ class PymiloClient:
             server_url="{}:{}".format(server, port)
         )
 
-    def toggle_mode(self, mode="LOCAL"):
+
+    def toggle_mode(self, mode=Mode.LOCAL):
         """
         Toggle the PyMiloClient mode, either from LOCAL to DELEGATE or vice versa.
 
         :return: None
         """
-        mode = mode.upper()
-        if mode not in ["LOCAL", "DELEGATE"]:
+        if mode not in Mode.__members__.values():
             raise Exception("Invalid mode, the given mode should be either `LOCAL`[default] or `DELEGATE`.")
         self._mode = mode
 
@@ -91,12 +101,12 @@ class PymiloClient:
 
         :return: Any
         """
-        if self._mode == "LOCAL":
+        if self._mode == Mode.LOCAL:
             if attribute in dir(self._model):
                 return getattr(self._model, attribute)
             else:
-                raise AttributeError("This attribute doesn't exist either in PymiloClient or the inner ML model.")
-        elif self._mode == "DELEGATE":
+                raise AttributeError("This attribute doesn't exist in either PymiloClient or the inner ML model.")
+        elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             def relayer(*args, **kwargs):
                 print(f"Method '{attribute}' called with args: {args} and kwargs: {kwargs}")
