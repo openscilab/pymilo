@@ -7,7 +7,7 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 
 
 class Mode(Enum):
-    """Mode is an enum class used to determine the fallback state of the PyMiloClient ."""
+    """fallback state of the PyMiloClient."""
 
     LOCAL = 1
     DELEGATE = 2
