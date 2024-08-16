@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
-from pymilo.streaming.pymilo_client import PymiloClient
+from pymilo.streaming.pymilo_client import PymiloClient, Mode
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
@@ -20,7 +20,7 @@ def scenario1():
 
     # 2.
     linear_regression.fit(x_train, y_train)
-    client = PymiloClient(model=linear_regression, mode="LOCAL")
+    client = PymiloClient(model=linear_regression, mode=Mode.LOCAL)
 
     # 3.
     result = client.predict(x_test)

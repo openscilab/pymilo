@@ -7,11 +7,11 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 
 class PymiloServer:
 
-    def __init__(self):
+    def __init__(self, port=8000):
         self._model = None
         self._compressor = DummyCompressor()
         self._encryptor = DummyEncryptor()
-        self._communicator = RESTServerCommunicator(ps=self)
+        self._communicator = RESTServerCommunicator(ps=self, port=port)
         self._communicator.run()
 
     def export_model(self):

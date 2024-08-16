@@ -1,14 +1,24 @@
+from enum import Enum
 from .encryptor import DummyEncryptor
 from .compressor import DummyCompressor
 from ..pymilo_obj import Export, Import
 from .communicator import RESTClientCommunicator
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
+
+
+class Mode(Enum):
+    """fallback state of the PyMiloClient."""
+
+    LOCAL = 1
+    DELEGATE = 2
+
+
 class PymiloClient:
 
     def __init__(
             self,
             model=None,
-            mode="LOCAL",
+            mode=Mode.LOCAL,
             server="http://127.0.0.1",
             port= 8000
             ):
@@ -22,9 +32,8 @@ class PymiloClient:
             server_url="{}:{}".format(server, port)
         )
 
-    def toggle_mode(self, mode="LOCAL"):
-        mode = mode.upper()
-        if mode not in ["LOCAL", "DELEGATE"]:
+    def toggle_mode(self, mode=Mode.LOCAL):
+        if mode not in Mode.__members__.values():
             raise Exception("Invalid mode, the given mode should be either `LOCAL`[default] or `DELEGATE`.")
         self._mode = mode
 
@@ -52,12 +61,12 @@ class PymiloClient:
             print("Local model upload failed.")
 
     def __getattr__(self, attribute):
-        if self._mode == "LOCAL":
+        if self._mode == Mode.LOCAL:
             if attribute in dir(self._model):
                 return getattr(self._model, attribute)
             else:
                 raise AttributeError("This attribute doesn't exist either in PymiloClient or the inner ML model.")
-        elif self._mode == "DELEGATE":
+        elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             def relayer(*args, **kwargs):
                 print(f"Method '{attribute}' called with args: {args} and kwargs: {kwargs}")
