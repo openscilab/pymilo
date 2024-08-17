@@ -94,8 +94,6 @@ class CFNodeTransporter(AbstractTransporter):
                     if isinstance(value[0], _CFSubcluster):
                         data[key] = {"pymilo_model_type": "_CFSubcluster", "pymilo_subclusters_value": [
                             self.serialize_cfsubcluster(cf_subcluster, gdst) for cf_subcluster in value], }
-                else:
-                    data[key] = gdst.serialize(data, key, str(_CFNode))  # TODO model name
             else:
                 data[key] = gdst.serialize(data, key, str(_CFNode))
         return data

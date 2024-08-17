@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMiloClient for RESTFull Protocol."""
 from enum import Enum
 from .encryptor import DummyEncryptor
 from .compressor import DummyCompressor
@@ -14,6 +16,7 @@ class Mode(Enum):
 
 
 class PymiloClient:
+    """Facilitate working with the PyMilo server."""
 
     def __init__(
             self,
@@ -22,6 +25,19 @@ class PymiloClient:
             server="http://127.0.0.1",
             port= 8000
             ):
+        """
+        Initialize the Pymilo PymiloClient instance.
+
+        :param model: the ML model PyMiloClient wrapped around
+        :type model: Any
+        :param mode: the mode in which PymiloClient should work, either LOCAL mode or DELEGATE
+        :type mode: str (LOCAL|DELEGATE)
+        :param server: the url to which PyMilo Server listens
+        :type server: str
+        :param port: the port to which PyMilo Server listens
+        :type port: int
+        :return: an instance of the Pymilo PymiloClient class
+        """
         self._client_id = "0x_client_id"
         self._model_id = "0x_model_id"
         self._model = model
@@ -32,12 +48,23 @@ class PymiloClient:
             server_url="{}:{}".format(server, port)
         )
 
+
     def toggle_mode(self, mode=Mode.LOCAL):
+        """
+        Toggle the PyMiloClient mode, either from LOCAL to DELEGATE or vice versa.
+
+        :return: None
+        """
         if mode not in Mode.__members__.values():
             raise Exception("Invalid mode, the given mode should be either `LOCAL`[default] or `DELEGATE`.")
         self._mode = mode
 
     def download(self):
+        """
+        Request for the remote ML model to download.
+
+        :return: None
+        """
         response = self._communicator.download({
             "client_id": self._client_id,    
             "model_id": self._model_id
@@ -50,6 +77,11 @@ class PymiloClient:
         print("Local model updated successfully.")
 
     def upload(self):
+        """
+        Upload the local ML model to the remote server.
+
+        :return: None
+        """
         response = self._communicator.upload({
             "client_id": self._client_id,    
             "model_id": self._model_id,
@@ -61,17 +93,25 @@ class PymiloClient:
             print("Local model upload failed.")
 
     def __getattr__(self, attribute):
+        """
+        Overwrite the __getattr__ default function to extract requested.
+
+            1. If self._mode is LOCAL, extract the requested from inner ML model and returns it
+            2. If self._mode is DELEGATE, returns a wrapper relayer which delegates the request to the remote server by execution
+
+        :return: Any
+        """
         if self._mode == Mode.LOCAL:
             if attribute in dir(self._model):
                 return getattr(self._model, attribute)
             else:
-                raise AttributeError("This attribute doesn't exist either in PymiloClient or the inner ML model.")
+                raise AttributeError("This attribute doesn't exist in either PymiloClient or the inner ML model.")
         elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             def relayer(*args, **kwargs):
                 print(f"Method '{attribute}' called with args: {args} and kwargs: {kwargs}")
                 payload = {
-                    "client_id": self._client_id,                   
+                    "client_id": self._client_id,
                     "model_id": self._model_id,
                     'attribute': attribute,
                     'args': args,

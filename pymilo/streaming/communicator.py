@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""PyMilo RESTFull Communication Mediums."""
 import uvicorn
 import requests
 from fastapi import FastAPI, Request
@@ -6,8 +8,16 @@ from .interfaces import ClientCommunicator
 
 
 class RESTClientCommunicator(ClientCommunicator):
+    """Facilitate working with the communication medium from the client side for the REST protocol."""
 
     def __init__(self, server_url):
+        """
+        Initialize the Pymilo RESTClientCommunicator instance.
+
+        :param server_url: the url to which PyMilo Server listens
+        :type server_url: str
+        :return: an instance of the Pymilo RESTClientCommunicator class
+        """
         self._server_url = server_url
         self.session = requests.Session()
         retries = requests.adapters.Retry(
@@ -19,17 +29,39 @@ class RESTClientCommunicator(ClientCommunicator):
         self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
 
     def download(self, payload):
+        """
+        Request for the remote ML model to download.
+
+        :param payload: download request payload
+        :type payload: dict
+        :return: response of pymilo server
+        """
         return self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
 
     def upload(self, payload):
+        """
+        Upload the local ML model to the remote server.
+
+        :param payload: upload request payload
+        :type payload: dict
+        :return: response of pymilo server
+        """
         return self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
 
     def attribute_call(self, payload):
+        """
+        Delegate the requested attribute call to the remote server.
+
+        :param payload: attribute call request payload
+        :type payload: dict
+        :return: response of pymilo server
+        """
         return self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
 
 
 
 class RESTServerCommunicator():
+    """Facilitate working with the communication medium from the server side for the REST protocol."""
 
     def __init__(
             self,
@@ -37,6 +69,17 @@ class RESTServerCommunicator():
             host: str = "127.0.0.1",
             port: int = 8000,
             ):
+        """
+        Initialize the Pymilo RESTServerCommunicator instance.
+
+        :param ps: reference to the PyMilo server
+        :type ps: pymilo.streaming.PymiloServer
+        :param host: the url to which PyMilo Server listens
+        :type host: str
+        :param port: the port to which PyMilo Server listens
+        :type port: int
+        :return: an instance of the Pymilo RESTServerCommunicator class
+        """
         self.app = FastAPI()
         self.host = host
         self.port = port
@@ -44,6 +87,7 @@ class RESTServerCommunicator():
         self.setup_routes()
 
     def setup_routes(self):
+        """Configure endpoints to handle RESTClientCommunicator requests."""
         class StandardPayload(BaseModel):
             client_id: str
             model_id: str
@@ -91,6 +135,13 @@ class RESTServerCommunicator():
             }
 
     def parse(self, body):
+        """
+        Parse the compressed encrypted body of the request.
+
+        :param body: request body
+        :type body: str
+        :return: the extracted decrypted version
+        """
         return self._ps._compressor.extract(
             self._ps._encryptor.decrypt(
                 body
@@ -98,4 +149,5 @@ class RESTServerCommunicator():
         )
 
     def run(self):
+        """Run internal fastapi server."""
         uvicorn.run(self.app, host=self.host, port=self.port)
