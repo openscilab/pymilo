@@ -8,7 +8,7 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 
 
 class PymiloServer:
-    """The Pymilo PymiloServer class facilitates streaming the ML models."""
+    """Facilitate streaming the ML models."""
 
     def __init__(self, port=8000):
         """

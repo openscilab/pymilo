@@ -16,7 +16,7 @@ class Mode(Enum):
 
 
 class PymiloClient:
-    """The Pymilo PymiloClient class facilitates working with PyMiloServer."""
+    """Facilitate working with the PyMilo server."""
 
     def __init__(
             self,
@@ -32,9 +32,9 @@ class PymiloClient:
         :type model: Any
         :param mode: the mode in which PymiloClient should work, either LOCAL mode or DELEGATE
         :type mode: str (LOCAL|DELEGATE)
-        :param server: the url in which PyMilo Server listens to
+        :param server: the url to which PyMilo Server listens
         :type server: str
-        :param port: the port in which PyMilo Server listens to
+        :param port: the port to which PyMilo Server listens
         :type port: int
         :return: an instance of the Pymilo PymiloClient class
         """

@@ -17,7 +17,7 @@ class Compressor(ABC):
 
         :param payload: payload to get compressed
         :type payload: str
-        :return: str (compressed payload)
+        :return: the compressed version
         """
 
     @abstractmethod
@@ -27,7 +27,7 @@ class Compressor(ABC):
 
         :param payload: payload to get extracted
         :type payload: str
-        :return: str (extracted payload)
+        :return: the extracted version
         """
 
 
@@ -45,7 +45,7 @@ class Encryptor(ABC):
 
         :param payload: payload to get encrypted
         :type payload: str
-        :return: str (encrypted payload)
+        :return: the encrypted version
         """
 
     @abstractmethod
@@ -55,7 +55,7 @@ class Encryptor(ABC):
 
         :param payload: payload to get decrypted
         :type payload: str
-        :return: str (decrypted payload)
+        :return: the decrypted version
         """
 
 
@@ -73,7 +73,7 @@ class ClientCommunicator(ABC):
 
         :param payload: request payload
         :type payload: dict
-        :return: Response object (varies based on the Implemented Protocol)
+        :return: remote server response
         """
 
     @abstractmethod
@@ -83,7 +83,7 @@ class ClientCommunicator(ABC):
 
         :param payload: request payload
         :type payload: dict
-        :return: Response object (varies based on the Implemented Protocol)
+        :return: remote server response
         """
 
     @abstractmethod
@@ -93,5 +93,5 @@ class ClientCommunicator(ABC):
 
         :param payload: request payload
         :type payload: dict
-        :return: Response object (varies based on the Implemented Protocol)
+        :return: remote server response
         """

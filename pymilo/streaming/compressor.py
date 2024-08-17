@@ -4,7 +4,7 @@ from .interfaces import Compressor
 
 
 class DummyCompressor(Compressor):
-    """The Pymilo DummyCompressor class is a dummy implementation of the Compressor interface to act as a simple wire."""
+    """A dummy implementation of the Compressor interface."""
 
     @staticmethod
     def compress(payload):

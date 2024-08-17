@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo RESTFull Communication mediums."""
+"""PyMilo RESTFull Communication Mediums."""
 import uvicorn
 import requests
 from fastapi import FastAPI, Request
@@ -8,13 +8,13 @@ from .interfaces import ClientCommunicator
 
 
 class RESTClientCommunicator(ClientCommunicator):
-    """The Pymilo RESTClientCommunicator class facilitates working with the communication medium from the client side for the REST protocol."""
+    """Facilitate working with the communication medium from the client side for the REST protocol."""
 
     def __init__(self, server_url):
         """
         Initialize the Pymilo RESTClientCommunicator instance.
 
-        :param server_url: the url in which PyMilo Server listens to
+        :param server_url: the url to which PyMilo Server listens
         :type server_url: str
         :return: an instance of the Pymilo RESTClientCommunicator class
         """
@@ -34,7 +34,7 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: download request payload
         :type payload: dict
-        :return: requests.Response
+        :return: response of pymilo server
         """
         return self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
 
@@ -44,7 +44,7 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: upload request payload
         :type payload: dict
-        :return: requests.Response
+        :return: response of pymilo server
         """
         return self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
 
@@ -54,14 +54,14 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: attribute call request payload
         :type payload: dict
-        :return: requests.Response
+        :return: response of pymilo server
         """
         return self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
 
 
 
 class RESTServerCommunicator():
-    """The Pymilo RESTServerCommunicator class facilitates working with the communication medium from the Server side for the REST protocol."""
+    """Facilitate working with the communication medium from the server side for the REST protocol."""
 
     def __init__(
             self,
@@ -72,11 +72,11 @@ class RESTServerCommunicator():
         """
         Initialize the Pymilo RESTServerCommunicator instance.
 
-        :param ps: reference to the PyMilo server this RESTServerCommunicator instance will belong to
+        :param ps: reference to the PyMilo server
         :type ps: pymilo.streaming.PymiloServer
-        :param host: the url in which PyMilo Server listens to
+        :param host: the url to which PyMilo Server listens
         :type host: str
-        :param port: the port in which PyMilo Server listens to
+        :param port: the port to which PyMilo Server listens
         :type port: int
         :return: an instance of the Pymilo RESTServerCommunicator class
         """
@@ -140,7 +140,7 @@ class RESTServerCommunicator():
 
         :param body: request body
         :type body: str
-        :return: str (the extracted decrypted version)
+        :return: the extracted decrypted version
         """
         return self._ps._compressor.extract(
             self._ps._encryptor.decrypt(
