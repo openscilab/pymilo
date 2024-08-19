@@ -3,7 +3,7 @@ scikit-learn==1.5.1
 scipy>=0.19.1
 uvicorn==0.30.6
 fastapi==0.68.0
-requests==2.0.0
+requests==2.32.3
 setuptools>=40.8.0
 vulture>=1.0
 bandit>=1.5.1
