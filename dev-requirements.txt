@@ -2,7 +2,7 @@ numpy==2.0.1
 scikit-learn==1.5.1
 scipy>=0.19.1
 uvicorn==0.14.0
-fastapi==0.68.0
+fastapi==0.112.1
 requests==2.0.0
 setuptools>=40.8.0
 vulture>=1.0
