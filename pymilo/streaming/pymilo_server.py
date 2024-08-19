@@ -13,7 +13,7 @@ class PymiloServer:
     def __init__(self, port=8000):
         """
         Initialize the Pymilo PymiloServer instance.
-        
+
         :param port: the port to which PyMiloServer listens
         :type port: int
         :return: an instance of the PymiloServer class

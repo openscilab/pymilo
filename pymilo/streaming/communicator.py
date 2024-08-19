@@ -34,9 +34,12 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: download request payload
         :type payload: dict
-        :return: response of pymilo server
+        :return: string serialized model
         """
-        return self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
+        response = self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
+        if response.status_code != 200:
+            return None
+        return response.json()["payload"]
 
     def upload(self, payload):
         """
@@ -44,9 +47,13 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: upload request payload
         :type payload: dict
-        :return: response of pymilo server
+        :return: boolean indicating successfulness of upload action
         """
-        return self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
+        response = self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
+        if response.status_code == 200:
+            return True
+        else:
+            return False
 
     def attribute_call(self, payload):
         """
@@ -54,10 +61,10 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: attribute call request payload
         :type payload: dict
-        :return: response of pymilo server
+        :return: json-encoded response of pymilo server
         """
-        return self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
-
+        response = self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
+        return response.json()
 
 
 class RESTServerCommunicator():
@@ -68,7 +75,7 @@ class RESTServerCommunicator():
             ps,
             host: str = "127.0.0.1",
             port: int = 8000,
-            ):
+    ):
         """
         Initialize the Pymilo RESTServerCommunicator instance.
 
@@ -91,10 +98,13 @@ class RESTServerCommunicator():
         class StandardPayload(BaseModel):
             client_id: str
             model_id: str
+
         class DownloadPayload(StandardPayload):
             pass
+
         class UploadPayload(StandardPayload):
             model: str
+
         class AttributePayload(StandardPayload):
             attribute: str
             args: list
@@ -127,7 +137,8 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = AttributePayload(**body)
-            message = "/attribute_call request from client: {} for model: {}".format(payload.client_id, payload.model_id)
+            message = "/attribute_call request from client: {} for model: {}".format(
+                payload.client_id, payload.model_id)
             result = self._ps.execute_model(payload)
             return {
                 "message": message,
