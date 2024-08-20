@@ -66,3 +66,18 @@ class PymiloServer:
             self._model = output
             return None
         return gdst.serialize({'output': output}, 'output', None)
+
+    def is_callable_attribute(self, request):
+        """
+        Check whether the requested attribute is callable or not.
+
+        :param request: request obj containing requested attribute to check it's type
+        :type request: obj
+        :return: True if it is callable False otherwise
+        """
+        attribute = request.attribute
+        retrieved_attribute = getattr(self._model, attribute, None)
+        if callable(retrieved_attribute):
+            return True, None
+        else:
+            return False, GeneralDataStructureTransporter().serialize({'output': retrieved_attribute}, 'output', None)
