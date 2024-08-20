@@ -126,5 +126,5 @@ COMPRESSION_METHODS = {
 def get_compressor(method):
     """Retrieve associated Compressor."""
     if method not in Compression.__members__.values():
-        raise ("this compression method is not supported.")
+        raise Exception("this compression method is not supported.")
     return COMPRESSION_METHODS[method]
