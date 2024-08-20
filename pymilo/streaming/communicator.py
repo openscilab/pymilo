@@ -21,7 +21,7 @@ class RESTClientCommunicator(ClientCommunicator):
         self._server_url = server_url
         self.session = requests.Session()
         retries = requests.adapters.Retry(
-            total=5,
+            total=10,
             backoff_factor=0.1,
             status_forcelist=[500, 502, 503, 504]
         )
