@@ -52,6 +52,13 @@ class PymiloClient:
         )
 
     def compile(self, body):
+        """
+        Compress and Encrypt body payload.
+
+        :param body: body payload of the request
+        :type body: dict
+        :return: the compressed and encrypted version of the body payload
+        """
         return self._encryptor.encrypt(
             self._compressor.compress(
                 body
