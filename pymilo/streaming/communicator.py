@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """PyMilo RESTFull Communication Mediums."""
+import json
 import uvicorn
 import requests
-from fastapi import FastAPI, Request
 from pydantic import BaseModel
+from fastapi import FastAPI, Request
 from .interfaces import ClientCommunicator
 
 
@@ -59,7 +60,6 @@ class RESTClientCommunicator(ClientCommunicator):
         return self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
 
 
-
 class RESTServerCommunicator():
     """Facilitate working with the communication medium from the server side for the REST protocol."""
 
@@ -68,7 +68,7 @@ class RESTServerCommunicator():
             ps,
             host: str = "127.0.0.1",
             port: int = 8000,
-            ):
+    ):
         """
         Initialize the Pymilo RESTServerCommunicator instance.
 
@@ -91,10 +91,13 @@ class RESTServerCommunicator():
         class StandardPayload(BaseModel):
             client_id: str
             model_id: str
+
         class DownloadPayload(StandardPayload):
             pass
+
         class UploadPayload(StandardPayload):
             model: str
+
         class AttributePayload(StandardPayload):
             attribute: str
             args: list
@@ -127,7 +130,8 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = AttributePayload(**body)
-            message = "/attribute_call request from client: {} for model: {}".format(payload.client_id, payload.model_id)
+            message = "/attribute_call request from client: {} for model: {}".format(
+                payload.client_id, payload.model_id)
             result = self._ps.execute_model(payload)
             return {
                 "message": message,
@@ -142,9 +146,9 @@ class RESTServerCommunicator():
         :type body: str
         :return: the extracted decrypted version
         """
-        return self._ps._compressor.extract(
-            self._ps._encryptor.decrypt(
-                body
+        return json.loads(
+            self._ps._compressor.extract(
+                self._ps._encryptor.decrypt(body)
             )
         )
 
