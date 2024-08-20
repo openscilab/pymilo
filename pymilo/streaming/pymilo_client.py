@@ -51,7 +51,7 @@ class PymiloClient:
             server_url="{}:{}".format(server, port)
         )
 
-    def compile(self, body):
+    def encrypt_compress(self, body):
         """
         Compress and Encrypt body payload.
 
@@ -82,7 +82,7 @@ class PymiloClient:
         :return: None
         """
         response = self._communicator.download(
-            self.compile(
+            self.encrypt_compress(
                 {
                     "client_id": self._client_id,
                     "model_id": self._model_id,
@@ -103,7 +103,7 @@ class PymiloClient:
         :return: None
         """
         response = self._communicator.upload(
-            self.compile(
+            self.encrypt_compress(
                 {
                     "client_id": self._client_id,
                     "model_id": self._model_id,
@@ -144,7 +144,7 @@ class PymiloClient:
                 }
                 payload["args"] = gdst.serialize(payload, "args", None)
                 payload["kwargs"] = gdst.serialize(payload, "kwargs", None)
-                result = self._communicator.attribute_call(self.compile(payload)).json()
+                result = self._communicator.attribute_call(self.encrypt_compress(payload)).json()
                 return gdst.deserialize(result, "payload", None)
             relayer.__doc__ = getattr(self._model.__class__, attribute).__doc__
             return relayer
