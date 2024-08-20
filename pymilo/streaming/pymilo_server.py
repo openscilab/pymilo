@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """PyMiloServer for RESTFull protocol."""
 from ..pymilo_obj import Export, Import
-from .compressor import DummyCompressor
 from .encryptor import DummyEncryptor
+from .compressor import DummyCompressor
 from .communicator import RESTServerCommunicator
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 

@@ -2,8 +2,8 @@
 """PyMilo RESTFull Communication Mediums."""
 import uvicorn
 import requests
-from fastapi import FastAPI, Request
 from pydantic import BaseModel
+from fastapi import FastAPI, Request
 from .interfaces import ClientCommunicator
 
 
