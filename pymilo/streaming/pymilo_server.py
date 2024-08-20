@@ -4,6 +4,7 @@ from ..pymilo_obj import Export, Import
 from .encryptor import DummyEncryptor
 from .compressor import DummyCompressor
 from .communicator import RESTServerCommunicator
+from .param import PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
 
@@ -53,7 +54,7 @@ class PymiloServer:
         attribute = request.attribute
         retrieved_attribute = getattr(self._model, attribute, None)
         if retrieved_attribute is None:
-            raise Exception("The requested attribute doesn't exist in this model.")
+            raise Exception(PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE)
         arguments = {
             'args': request.args,
             'kwargs': request.kwargs

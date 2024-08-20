@@ -4,6 +4,9 @@ from enum import Enum
 from .encryptor import DummyEncryptor
 from .compressor import DummyCompressor
 from ..pymilo_obj import Export, Import
+from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED,\
+      PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED,\
+      PYMILO_CLIENT_INVALID_ATTRIBUTE, PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL
 from .communicator import RESTClientCommunicator
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
@@ -50,7 +53,7 @@ class PymiloClient:
         :return: None
         """
         if mode not in Mode.__members__.values():
-            raise Exception("Invalid mode, the given mode should be either `LOCAL`[default] or `DELEGATE`.")
+            raise Exception(PYMILO_CLIENT_INVALID_MODE)
         if mode != self._mode:
             self._mode = mode
 
@@ -65,10 +68,10 @@ class PymiloClient:
             "model_id": self._model_id
         })
         if serialized_model is None:
-            print("PyMiloClient failed to download the remote ML model.")
+            print(PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL)
             return
         self._model = Import(file_adr=None, json_dump=serialized_model).to_model()
-        print("PyMiloClient synched the local ML model with the remote one successfully.")
+        print(PYMILO_CLIENT_MODEL_SYNCHED)
 
     def upload(self):
         """
@@ -82,9 +85,9 @@ class PymiloClient:
             "model": Export(self._model).to_json(),
         })
         if succeed:
-            print("PyMiloClient uploaded the local model successfully.")
+            print(PYMILO_CLIENT_LOCAL_MODEL_UPLOADED)
         else:
-            print("PyMiloClient failed to upload the local model.")
+            print(PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED)
 
     def __getattr__(self, attribute):
         """
@@ -99,7 +102,7 @@ class PymiloClient:
             if attribute in dir(self._model):
                 return getattr(self._model, attribute)
             else:
-                raise AttributeError("This attribute doesn't exist in either PymiloClient or the inner ML model.")
+                raise AttributeError(PYMILO_CLIENT_INVALID_ATTRIBUTE)
         elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
 

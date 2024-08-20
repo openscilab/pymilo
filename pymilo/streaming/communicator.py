@@ -47,13 +47,10 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: upload request payload
         :type payload: dict
-        :return: boolean indicating successfulness of upload action
+        :return: True if upload was successful, False otherwise
         """
         response = self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
-        if response.status_code == 200:
-            return True
-        else:
-            return False
+        return response.status_code == 200
 
     def attribute_call(self, payload):
         """
