@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""Streaming Parameters and constants."""
 PYMILO_CLIENT_INVALID_MODE = "Invalid mode, the given mode should be either `LOCAL`[default] or `DELEGATE`."
 PYMILO_CLIENT_MODEL_SYNCHED = "PyMiloClient synched the local ML model with the remote one successfully."
 PYMILO_CLIENT_LOCAL_MODEL_UPLOADED = "PyMiloClient uploaded the local model successfully."
