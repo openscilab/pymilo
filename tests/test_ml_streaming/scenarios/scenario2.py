@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
+from pymilo.streaming.compressor import Compression
 from pymilo.streaming.pymilo_client import PymiloClient, Mode
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
@@ -17,7 +18,7 @@ def scenario2():
     # 1.
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     linear_regression = LinearRegression()
-    client = PymiloClient(model=linear_regression, mode=Mode.LOCAL)
+    client = PymiloClient(model=linear_regression, mode=Mode.LOCAL, compressor=Compression.LZMA)
 
     # 2.
     client.upload()
