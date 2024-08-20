@@ -161,7 +161,8 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = AttributeTypePayload(**body)
-            message = "/attribute_type request from client: {} for model: {}".format(payload.client_id, payload.model_id)
+            message = "/attribute_type request from client: {} for model: {}".format(
+                payload.client_id, payload.model_id)
             is_callable, field_value = self._ps.is_callable_attribute(payload)
             return {
                 "message": message,

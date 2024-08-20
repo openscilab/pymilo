@@ -4,9 +4,9 @@ from enum import Enum
 from .encryptor import DummyEncryptor
 from .compressor import DummyCompressor
 from ..pymilo_obj import Export, Import
-from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED,\
-      PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED,\
-      PYMILO_CLIENT_INVALID_ATTRIBUTE, PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL
+from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED, \
+    PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED, \
+    PYMILO_CLIENT_INVALID_ATTRIBUTE, PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL
 from .communicator import RESTClientCommunicator
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
@@ -109,9 +109,9 @@ class PymiloClient:
                 self._encryptor.encrypt(
                     self._compressor.compress(
                         {
-                        "client_id": self._client_id,
-                        "model_id": self._model_id,
-                        "attribute": attribute,
+                            "client_id": self._client_id,
+                            "model_id": self._model_id,
+                            "attribute": attribute,
                         }
                     )
                 )
