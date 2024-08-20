@@ -105,6 +105,19 @@ class PymiloClient:
                 raise AttributeError(PYMILO_CLIENT_INVALID_ATTRIBUTE)
         elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
+            response = self._communicator.attribute_type(
+                self._encryptor.encrypt(
+                    self._compressor.compress(
+                        {
+                        "client_id": self._client_id,
+                        "model_id": self._model_id,
+                        "attribute": attribute,
+                        }
+                    )
+                )
+            )
+            if response["attribute type"] == "field":
+                return gdst.deserialize(response, "attribute value", None)
 
             def relayer(*args, **kwargs):
                 payload = {
@@ -124,5 +137,4 @@ class PymiloClient:
                     )
                 )
                 return gdst.deserialize(result, "payload", None)
-            relayer.__doc__ = getattr(self._model.__class__, attribute).__doc__
             return relayer
