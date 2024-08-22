@@ -80,10 +80,14 @@ class PymiloClient:
 
         :return: None
         """
-        serialized_model = self._communicator.download({
-            "client_id": self._client_id,
-            "model_id": self._model_id
-        })
+        serialized_model = self._communicator.download(
+            self.encrypt_compress(
+                {
+                    "client_id": self._client_id,
+                    "model_id": self._model_id,
+                }
+            )
+        )
         if serialized_model is None:
             print(PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL)
             return
@@ -96,11 +100,15 @@ class PymiloClient:
 
         :return: None
         """
-        succeed = self._communicator.upload({
-            "client_id": self._client_id,
-            "model_id": self._model_id,
-            "model": Export(self._model).to_json(),
-        })
+        succeed = self._communicator.upload(
+            self.encrypt_compress(
+                {
+                    "client_id": self._client_id,
+                    "model_id": self._model_id,
+                    "model": Export(self._model).to_json(),
+                }
+            )
+        )
         if succeed:
             print(PYMILO_CLIENT_LOCAL_MODEL_UPLOADED)
         else:
@@ -123,8 +131,7 @@ class PymiloClient:
         elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             response = self._communicator.attribute_type(
-                self._encryptor.encrypt(
-                    self._compressor.compress(
+                self.encrypt_compress(
                         {
                             "client_id": self._client_id,
                             "model_id": self._model_id,
@@ -132,7 +139,6 @@ class PymiloClient:
                         }
                     )
                 )
-            )
             if response["attribute type"] == "field":
                 return gdst.deserialize(response, "attribute value", None)
 
@@ -147,10 +153,8 @@ class PymiloClient:
                 payload["args"] = gdst.serialize(payload, "args", None)
                 payload["kwargs"] = gdst.serialize(payload, "kwargs", None)
                 result = self._communicator.attribute_call(
-                    self._encryptor.encrypt(
-                        self._compressor.compress(
-                            payload
-                        )
+                    self.encrypt_compress(
+                        payload
                     )
                 )
                 return gdst.deserialize(result, "payload", None)
