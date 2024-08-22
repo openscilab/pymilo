@@ -4,6 +4,7 @@ from ..pymilo_obj import Export, Import
 from .compressor import get_compressor, Compression
 from .encryptor import DummyEncryptor
 from .communicator import RESTServerCommunicator
+from .param import PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
 
@@ -55,7 +56,7 @@ class PymiloServer:
         attribute = request.attribute
         retrieved_attribute = getattr(self._model, attribute, None)
         if retrieved_attribute is None:
-            raise Exception("The requested attribute doesn't exist in this model.")
+            raise Exception(PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE)
         arguments = {
             'args': request.args,
             'kwargs': request.kwargs
@@ -67,3 +68,18 @@ class PymiloServer:
             self._model = output
             return None
         return gdst.serialize({'output': output}, 'output', None)
+
+    def is_callable_attribute(self, request):
+        """
+        Check whether the requested attribute is callable or not.
+
+        :param request: request obj containing requested attribute to check it's type
+        :type request: obj
+        :return: True if it is callable False otherwise
+        """
+        attribute = request.attribute
+        retrieved_attribute = getattr(self._model, attribute, None)
+        if callable(retrieved_attribute):
+            return True, None
+        else:
+            return False, GeneralDataStructureTransporter().serialize({'output': retrieved_attribute}, 'output', None)

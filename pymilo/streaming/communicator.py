@@ -22,7 +22,7 @@ class RESTClientCommunicator(ClientCommunicator):
         self._server_url = server_url
         self.session = requests.Session()
         retries = requests.adapters.Retry(
-            total=5,
+            total=10,
             backoff_factor=0.1,
             status_forcelist=[500, 502, 503, 504]
         )
@@ -35,9 +35,12 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: download request payload
         :type payload: dict
-        :return: response of pymilo server
+        :return: string serialized model
         """
-        return self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
+        response = self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
+        if response.status_code != 200:
+            return None
+        return response.json()["payload"]
 
     def upload(self, payload):
         """
@@ -45,9 +48,10 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: upload request payload
         :type payload: dict
-        :return: response of pymilo server
+        :return: True if upload was successful, False otherwise
         """
-        return self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
+        response = self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
+        return response.status_code == 200
 
     def attribute_call(self, payload):
         """
@@ -55,10 +59,21 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param payload: attribute call request payload
         :type payload: dict
+        :return: json-encoded response of pymilo server
+        """
+        response = self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
+        return response.json()
+
+    def attribute_type(self, payload):
+        """
+        Identify the attribute type of the requested attribute.
+
+        :param payload: attribute type request payload
+        :type payload: dict
         :return: response of pymilo server
         """
-        return self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
-
+        response = self.session.post(url=self._server_url + "/attribute_type/", json=payload, timeout=5)
+        return response.json()
 
 class RESTServerCommunicator():
     """Facilitate working with the communication medium from the server side for the REST protocol."""
@@ -98,10 +113,13 @@ class RESTServerCommunicator():
         class UploadPayload(StandardPayload):
             model: str
 
-        class AttributePayload(StandardPayload):
+        class AttributeCallPayload(StandardPayload):
             attribute: str
             args: list
             kwargs: dict
+
+        class AttributeTypePayload(StandardPayload):
+            attribute: str
 
         @self.app.get("/download/")
         async def download(request: Request):
@@ -129,13 +147,27 @@ class RESTServerCommunicator():
         async def attribute_call(request: Request):
             body = await request.json()
             body = self.parse(body)
-            payload = AttributePayload(**body)
+            payload = AttributeCallPayload(**body)
             message = "/attribute_call request from client: {} for model: {}".format(
                 payload.client_id, payload.model_id)
             result = self._ps.execute_model(payload)
             return {
                 "message": message,
                 "payload": result if result is not None else "The ML model has been updated in place."
+            }
+
+        @self.app.post("/attribute_type/")
+        async def attribute_type(request: Request):
+            body = await request.json()
+            body = self.parse(body)
+            payload = AttributeTypePayload(**body)
+            message = "/attribute_type request from client: {} for model: {}".format(
+                payload.client_id, payload.model_id)
+            is_callable, field_value = self._ps.is_callable_attribute(payload)
+            return {
+                "message": message,
+                "attribute type": "method" if is_callable else "field",
+                "attribute value": "" if is_callable else field_value,
             }
 
     def parse(self, body):
