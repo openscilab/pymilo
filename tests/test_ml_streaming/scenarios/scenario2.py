@@ -25,6 +25,7 @@ def scenario2():
     # 3.
     client.toggle_mode(Mode.DELEGATE)
     client.fit(x_train, y_train)
+    remote_field = client.coef_
 
     # 4.
     result = client.predict(x_test)
@@ -35,6 +36,7 @@ def scenario2():
 
     # 6.
     client.toggle_mode(mode=Mode.LOCAL)
+    local_field = client.coef_
     result = client.predict(x_test)
     mse_local = mean_squared_error(y_test, result)
-    return np.abs(mse_server-mse_local)
+    return np.abs(mse_server-mse_local) + np.abs(np.sum(local_field-remote_field))

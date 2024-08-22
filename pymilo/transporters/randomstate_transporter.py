@@ -4,6 +4,7 @@ import numpy as np
 from .transporter import AbstractTransporter
 from ..utils.util import check_str_in_iterable
 
+
 class RandomStateTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle RandomState field."""
 
@@ -31,8 +32,8 @@ class RandomStateTransporter(AbstractTransporter):
                     inner_random_state.get_state()[2],
                     inner_random_state.get_state()[3],
                     inner_random_state.get_state()[4],
-                    ),
-                }
+                ),
+            }
         return data[key]
 
     def deserialize(self, data, key, model_type):
