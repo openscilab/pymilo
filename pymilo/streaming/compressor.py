@@ -10,23 +10,13 @@ from enum import Enum
 from pymilo.streaming.interfaces import Compressor
 
 
-class Compression(Enum):
-    """Compression method used in end to end communication."""
-
-    NONE = 1
-    GZIP = 2
-    ZLIB = 3
-    LZMA = 4
-    BZ2 = 5
-
-
 class DummyCompressor(Compressor):
     """A dummy implementation of the Compressor interface."""
 
     @staticmethod
     def compress(payload):
         """Compress the given payload in a dummy way, simply just return it (no compression applied)."""
-        return payload
+        return payload if isinstance(payload, str) else json.dumps(payload)
 
     @staticmethod
     def extract(payload):
@@ -114,17 +104,11 @@ class BZ2Compressor(Compressor):
         return bz2.decompress(data).decode('utf-8')
 
 
-COMPRESSION_METHODS = {
-    Compression.NONE: DummyCompressor,
-    Compression.GZIP: GZIPCompressor,
-    Compression.ZLIB: ZLIBCompressor,
-    Compression.LZMA: LZMACompressor,
-    Compression.BZ2: BZ2Compressor,
-}
+class Compression(Enum):
+    """Compression method used in end to end communication."""
 
-
-def get_compressor(method):
-    """Retrieve associated Compressor."""
-    if method not in Compression.__members__.values():
-        raise Exception("this compression method is not supported.")
-    return COMPRESSION_METHODS[method]
+    NULL = DummyCompressor
+    GZIP = GZIPCompressor
+    ZLIB = ZLIBCompressor
+    LZMA = LZMACompressor
+    BZ2 = BZ2Compressor

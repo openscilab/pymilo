@@ -6,7 +6,7 @@ from pymilo.streaming.pymilo_client import PymiloClient, Mode
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
-def scenario2():
+def scenario2(compression_method):
     # 1. create model in local
     # 2. upload model to server
     # 3. train model in server
@@ -18,7 +18,7 @@ def scenario2():
     # 1.
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     linear_regression = LinearRegression()
-    client = PymiloClient(model=linear_regression, mode=Mode.LOCAL, compressor=Compression.LZMA)
+    client = PymiloClient(model=linear_regression, mode=Mode.LOCAL, compressor=Compression[compression_method])
 
     # 2.
     client.upload()

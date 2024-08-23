@@ -2,7 +2,7 @@
 """PyMiloClient for RESTFull Protocol."""
 from enum import Enum
 from .encryptor import DummyEncryptor
-from .compressor import get_compressor, Compression
+from .compressor import Compression
 from ..pymilo_obj import Export, Import
 from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED, \
     PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED, \
@@ -25,7 +25,7 @@ class PymiloClient:
             self,
             model=None,
             mode=Mode.LOCAL,
-            compressor=Compression.NONE,
+            compressor=Compression.NULL,
             server_url="http://127.0.0.1:8000",
     ):
         """
@@ -45,7 +45,7 @@ class PymiloClient:
         self._model_id = "0x_model_id"
         self._model = model
         self._mode = mode
-        self._compressor = get_compressor(compressor)
+        self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
         self._communicator = RESTClientCommunicator(server_url)
 
