@@ -132,13 +132,13 @@ class PymiloClient:
             gdst = GeneralDataStructureTransporter()
             response = self._communicator.attribute_type(
                 self.encrypt_compress(
-                        {
-                            "client_id": self._client_id,
-                            "model_id": self._model_id,
-                            "attribute": attribute,
-                        }
-                    )
+                    {
+                        "client_id": self._client_id,
+                        "model_id": self._model_id,
+                        "attribute": attribute,
+                    }
                 )
+            )
             if response["attribute type"] == "field":
                 return gdst.deserialize(response, "attribute value", None)
 

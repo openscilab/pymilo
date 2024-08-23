@@ -75,6 +75,7 @@ class RESTClientCommunicator(ClientCommunicator):
         response = self.session.post(url=self._server_url + "/attribute_type/", json=payload, timeout=5)
         return response.json()
 
+
 class RESTServerCommunicator():
     """Facilitate working with the communication medium from the server side for the REST protocol."""
 
