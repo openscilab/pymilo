@@ -183,6 +183,9 @@ You can also join our discord server
 
 <a href="https://www.python.org/psf/"><img src="https://github.com/sepandhaghighi/pycm/raw/master/Otherfiles/PSF.png" height="55px" alt="Python Software Foundation"></a>
 
+[Trelis Research](https://trelis.com/) grants PyMilo library partially for version **1.0**. [Trelis Research](https://trelis.com/) provides tools and tutorials for businesses and developers looking to fine-tune and deploy large language models.
+
+<a href="https://trelis.com/"><img src="https://trelis.com/wp-content/uploads/2023/10/android-chrome-512x512-1.png" height="75px" alt="Trelis Research"></a>
 
 
 ## Show your support
