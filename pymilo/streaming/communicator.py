@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """PyMilo RESTFull Communication Mediums."""
+import json
 import uvicorn
 import requests
 from pydantic import BaseModel
@@ -178,9 +179,9 @@ class RESTServerCommunicator():
         :type body: str
         :return: the extracted decrypted version
         """
-        return self._ps._compressor.extract(
-            self._ps._encryptor.decrypt(
-                body
+        return json.loads(
+            self._ps._compressor.extract(
+                self._ps._encryptor.decrypt(body)
             )
         )
 

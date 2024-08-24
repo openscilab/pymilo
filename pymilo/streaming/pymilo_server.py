@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """PyMiloServer for RESTFull protocol."""
 from ..pymilo_obj import Export, Import
+from .compressor import Compression
 from .encryptor import DummyEncryptor
-from .compressor import DummyCompressor
 from .communicator import RESTServerCommunicator
 from .param import PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
@@ -11,16 +11,18 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 class PymiloServer:
     """Facilitate streaming the ML models."""
 
-    def __init__(self, port=8000):
+    def __init__(self, port=8000, compressor=Compression.NULL):
         """
         Initialize the Pymilo PymiloServer instance.
 
         :param port: the port to which PyMiloServer listens
         :type port: int
+        :param compressor: the compression method to be used in client-server communications
+        :type compressor: pymilo.streaming.compressor.Compression
         :return: an instance of the PymiloServer class
         """
         self._model = None
-        self._compressor = DummyCompressor()
+        self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
         self._communicator = RESTServerCommunicator(ps=self, port=port)
 

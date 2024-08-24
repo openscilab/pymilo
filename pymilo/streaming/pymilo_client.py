@@ -2,7 +2,7 @@
 """PyMiloClient for RESTFull Protocol."""
 from enum import Enum
 from .encryptor import DummyEncryptor
-from .compressor import DummyCompressor
+from .compressor import Compression
 from ..pymilo_obj import Export, Import
 from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED, \
     PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED, \
@@ -25,6 +25,7 @@ class PymiloClient:
             self,
             model=None,
             mode=Mode.LOCAL,
+            compressor=Compression.NULL,
             server_url="http://127.0.0.1:8000",
     ):
         """
@@ -34,6 +35,8 @@ class PymiloClient:
         :type model: Any
         :param mode: the mode in which PymiloClient should work, either LOCAL mode or DELEGATE
         :type mode: str (LOCAL|DELEGATE)
+        :param compressor: the compression method to be used in client-server communications
+        :type compressor: pymilo.streaming.compressor.Compression
         :param server_url: the url to which PyMilo Server listens
         :type server_url: str
         :return: an instance of the Pymilo PymiloClient class
@@ -42,9 +45,23 @@ class PymiloClient:
         self._model_id = "0x_model_id"
         self._model = model
         self._mode = mode
-        self._compressor = DummyCompressor()
+        self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
         self._communicator = RESTClientCommunicator(server_url)
+
+    def encrypt_compress(self, body):
+        """
+        Compress and Encrypt body payload.
+
+        :param body: body payload of the request
+        :type body: dict
+        :return: the compressed and encrypted version of the body payload
+        """
+        return self._encryptor.encrypt(
+            self._compressor.compress(
+                body
+            )
+        )
 
     def toggle_mode(self, mode=Mode.LOCAL):
         """
@@ -63,10 +80,14 @@ class PymiloClient:
 
         :return: None
         """
-        serialized_model = self._communicator.download({
-            "client_id": self._client_id,
-            "model_id": self._model_id
-        })
+        serialized_model = self._communicator.download(
+            self.encrypt_compress(
+                {
+                    "client_id": self._client_id,
+                    "model_id": self._model_id,
+                }
+            )
+        )
         if serialized_model is None:
             print(PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL)
             return
@@ -79,11 +100,15 @@ class PymiloClient:
 
         :return: None
         """
-        succeed = self._communicator.upload({
-            "client_id": self._client_id,
-            "model_id": self._model_id,
-            "model": Export(self._model).to_json(),
-        })
+        succeed = self._communicator.upload(
+            self.encrypt_compress(
+                {
+                    "client_id": self._client_id,
+                    "model_id": self._model_id,
+                    "model": Export(self._model).to_json(),
+                }
+            )
+        )
         if succeed:
             print(PYMILO_CLIENT_LOCAL_MODEL_UPLOADED)
         else:
@@ -106,14 +131,12 @@ class PymiloClient:
         elif self._mode == Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             response = self._communicator.attribute_type(
-                self._encryptor.encrypt(
-                    self._compressor.compress(
-                        {
-                            "client_id": self._client_id,
-                            "model_id": self._model_id,
-                            "attribute": attribute,
-                        }
-                    )
+                self.encrypt_compress(
+                    {
+                        "client_id": self._client_id,
+                        "model_id": self._model_id,
+                        "attribute": attribute,
+                    }
                 )
             )
             if response["attribute type"] == "field":
@@ -130,10 +153,8 @@ class PymiloClient:
                 payload["args"] = gdst.serialize(payload, "args", None)
                 payload["kwargs"] = gdst.serialize(payload, "kwargs", None)
                 result = self._communicator.attribute_call(
-                    self._encryptor.encrypt(
-                        self._compressor.compress(
-                            payload
-                        )
+                    self.encrypt_compress(
+                        payload
                     )
                 )
                 return gdst.deserialize(result, "payload", None)
