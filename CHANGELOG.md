@@ -6,8 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Compression method test in `ML Streaming` RESTful testcases
+- `CLI` handler in `tests/test_ml_streaming/run_server.py`
+- `Compression` Enum in `streaming.compressor.py`
+- `GZIPCompressor` class in `streaming.compressor.py`
+- `ZLIBCompressor` class in `streaming.compressor.py`
+- `LZMACompressor` class in `streaming.compressor.py`
+- `BZ2Compressor` class in `streaming.compressor.py`
+- `encrypt_compress` function in `PymiloClient`
+- `parse` function in `RESTServerCommunicator`
+- `is_callable_attribute` function in `PymiloServer`
+- `streaming.param.py`
+- `attribute_type` function in `RESTServerCommunicator`
+- `AttributeTypePayload` class in `RESTServerCommunicator`
+- `attribute_type` function in `RESTClientCommunicator`
+- `Mode` Enum in `PymiloClient`
+- Import from url testcases
+- `download_model` function in `utils.util.py`
 - `PymiloServer` class in `streaming.pymilo_server.py`
-- `PymiloClient` class in `streaming.pymilo_client.py`
+- `PymiloClient` class in `PymiloClient`
 - `Communicator` interface in `streaming.interfaces.py`
 - `RESTClientCommunicator` class in `streaming.communicator.py`
 - `RESTServerCommunicator` class in `streaming.communicator.py`
@@ -16,7 +33,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Encryptor` interface in `streaming.interfaces.py`
 - `DummyEncryptor` class in `streaming.encryptor.py`
 - `ML Streaming` RESTful testcases
+- `streaming-requirements.txt`
 ### Changed
+- `ML Streaming` RESTful testcases
+- `attribute_call` function in `RESTServerCommunicator`
+- `AttributeCallPayload` class in `RESTServerCommunicator`
+- upload function in `RESTClientCommunicator`
+- download function in `RESTClientCommunicator`
+- `__init__` function in `RESTClientCommunicator`
+- `attribute_calls` function in `RESTClientCommunicator`
+- `requests` added to `requirements.txt`
+- `uvicorn`, `fastapi`, `requests` and `pydantic` added to `dev-requirements.txt`
+- `ML Streaming` RESTful testcases
+- `__init__` function in `PymiloServer`
+- `__getattr__` function in `PymiloClient`
+- `__init__` function in `PymiloClient`
+- `toggle_mode` function in `PymiloClient`
+- `upload` function in `PymiloClient`
+- `download` function in `PymiloClient`
+- `__init__` function in `PymiloServer`
+- `serialize_cfnode` function in `transporters.cfnode_transporter.py`
+- `__init__` function in `Import` class
+- `serialize` function in `transporters.tree_transporter.py`
+- `deserialize` function in `transporters.tree_transporter.py`
+- `serialize` function in `transporters.sgdoptimizer_transporter.py`
+- `deserialize` function in `transporters.sgdoptimizer_transporter.py`
+- `serialize` function in `transporters.randomstate_transporter.py`
+- `deserialize` function in `transporters.randomstate_transporter.py`
+- `serialize` function in `transporters.bunch_transporter.py`
+- `deserialize` function in `transporters.bunch_transporter.py`
+- `serialize` function in `transporters.adamoptimizer_transporter.py`
+- `deserialize` function in `transporters.adamoptimizer_transporter.py`
+- `serialize_linear_model` function in `chains.linear_model_chain.py`
+- `serialize_ensemble` function in `chains.ensemble_chain.py`
 - `serialize` function in `GeneralDataStructureTransporter` Transporter refactored
 - `get_deserialized_list` function in `GeneralDataStructureTransporter` Transporter refactored
 - `Export` class call by reference bug fixed
