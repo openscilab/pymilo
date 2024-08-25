@@ -181,7 +181,7 @@ You can also join our discord server
 
 [Python Software Foundation (PSF)](https://www.python.org/psf/) grants PyMilo library partially for version **1.0**. [PSF](https://www.python.org/psf/) is the organization behind Python. Their mission is to promote, protect, and advance the Python programming language and to support and facilitate the growth of a diverse and international community of Python programmers.
 
-<a href="https://www.python.org/psf/"><img src="https://github.com/sepandhaghighi/pycm/raw/master/Otherfiles/PSF.png" height="55px" alt="Python Software Foundation"></a>
+<a href="https://www.python.org/psf/"><img src="https://github.com/openscilab/pymilo/raw/main/otherfiles/psf.png" height="65px" alt="Python Software Foundation"></a>
 
 [Trelis Research](https://trelis.com/) grants PyMilo library partially for version **1.0**. [Trelis Research](https://trelis.com/) provides tools and tutorials for businesses and developers looking to fine-tune and deploy large language models.
 
