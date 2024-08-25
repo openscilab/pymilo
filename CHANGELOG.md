@@ -42,8 +42,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - download function in `RESTClientCommunicator`
 - `__init__` function in `RESTClientCommunicator`
 - `attribute_calls` function in `RESTClientCommunicator`
-- `requirements.txt`
-- `dev-requirements.txt`
+- `requests` added to `requirements.txt`
+- `uvicorn`, `fastapi`, `requests` and `pydantic` added to `dev-requirements.txt`
 - `ML Streaming` RESTful testcases
 - `__init__` function in `PymiloServer`
 - `__getattr__` function in `PymiloClient`
