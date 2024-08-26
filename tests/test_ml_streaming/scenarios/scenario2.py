@@ -7,6 +7,7 @@ from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
 def scenario2(compression_method):
+    # [PyMilo Server is not initialized with ML Model]
     # 1. create model in local
     # 2. upload model to server
     # 3. train model in server
