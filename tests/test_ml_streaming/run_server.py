@@ -8,9 +8,9 @@ from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 def main():
     parser = argparse.ArgumentParser(description='Run the Pymilo server with a specified compression method.')
     parser.add_argument(
-        '--compression', 
-        type=str, 
-        choices=['NULL', 'GZIP', 'ZLIB', 'LZMA', 'BZ2'], 
+        '--compression',
+        type=str,
+        choices=['NULL', 'GZIP', 'ZLIB', 'LZMA', 'BZ2'],
         default='NULL',
         help='Specify the compression method (NULL, GZIP, ZLIB, LZMA, or BZ2). Default is NULL.'
         )
