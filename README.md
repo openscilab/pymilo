@@ -149,15 +149,51 @@ Now let's load it back. You can do it easily by using PyMilo `Import` class.
 ```
 This loaded model is exactly the same as the original trained model.
 
+### ML Streaming
+You can easily serve your ML model from a remote server using `ML Streaming` feature of PyMilo. `ML Streaming` feature exists in versions `>=1.0`.
+In order to use `ML Streaming` feature, make sure you've installed the `streaming` mode of PyMilo:
+#### PyPI
+- Check [Python Packaging User Guide](https://packaging.python.org/installing/)
+- Run `pip install pymilo[streaming]==1.0` 
+#### Source code
+- Download [Version 1.0](https://github.com/openscilab/pymilo/archive/v1.0.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Run `pip install pymilo[streaming]`
+
+Now, let's assume you are in the remote server and you want to import the exported JSON file and start serving your model!
+```pycon
+>>> from pymilo import Import
+>>> from pymilo.streaming.pymilo_server import PymiloServer
+>>> my_model = Import("model.json").to_model()
+>>> communicator = PymiloServer(model=my_model, port=8000)._communicator
+>>> communicator.run()
+```
+Now PymiloServer will runs on port `8000`, by using PymiloClient you can easily connect to the remote server and execute any functionalities that the given ML model had, let's say you want to run `predict` function on your remote ML model and get the result.
+```pycon
+>>> from pymilo.streaming.pymilo_server
+>>> pymilo_client = PymiloClient(mode=Mode.LOCAL, server_url="SERVER_URL")
+>>> pymilo_client.toggle_mode(Mode.DELEGATE)
+>>> result = pymilo_client.predict(x_test)
+```
+you can download the remote ML model and execute functions locally on your model.
+```pycon
+>>> pymilo_client.download()
+>>> pymilo_client.toggle_mode(mode=Mode.LOCAL)
+>>> result = pymilo_client.predict(x_test)
+```
+PymiloClient wraps around the ML model, either to the local ML model or the remote ML model, and you can work with PymiloClient in the exact same way that you did with the ML model, you can run exact same functions with same signature on the PymiloClient and get the result.
+
+Through usage of `toggle_mode` function you can specify whether PymiloClient applies requests on the local ML model `pymilo_client.toggle_mode(mode=Mode.LOCAL)` or delegates it to the remote server `pymilo_client.toggle_mode(mode=Mode.DELEGATE)`
+
+
 ## Supported ML models
 | scikit-learn | PyTorch | 
 | ---------------- | ---------------- | 
 | Linear Models &#x2705; | - | 
-| Neural networks &#x2705; | -  | 
+| Neural Networks &#x2705; | -  | 
 | Trees &#x2705; | -  | 
 | Clustering &#x2705; | -  | 
 | Naïve Bayes &#x2705; | -  | 
-| Support vector machines (SVMs) &#x2705; | -  | 
+| Support Vector Machines (SVMs) &#x2705; | -  | 
 | Nearest Neighbors &#x2705; | -  |  
 | Ensemble Models &#x2705; | - | 
 | Pipeline Model &#x2705; | - |
