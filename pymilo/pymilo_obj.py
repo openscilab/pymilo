@@ -37,7 +37,7 @@ class Export:
         Save model in a file.
 
         :param file_adr: file address
-        :type file_adr: str
+        :type file_adr: FileDescriptorOrPath
         :return: None
         """
         with open(file_adr, 'w') as fp:
