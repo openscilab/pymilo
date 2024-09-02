@@ -25,9 +25,9 @@ def main():
         x_train, y_train, _, _ = prepare_simple_regression_datasets()
         linear_regression = LinearRegression()
         linear_regression.fit(x_train, y_train)
-        communicator = PymiloServer(model=linear_regression, port=9000, compressor=Compression[args.compression])._communicator
+        communicator = PymiloServer(model=linear_regression, port=9000, compressor=Compression[args.compression]).communicator
     else:
-        communicator = PymiloServer(port=8000, compressor=Compression[args.compression])._communicator
+        communicator = PymiloServer(port=8000, compressor=Compression[args.compression]).communicator
     communicator.run()
 
 if __name__ == '__main__':
