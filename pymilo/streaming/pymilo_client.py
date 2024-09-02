@@ -11,15 +11,14 @@ from .communicator import RESTClientCommunicator
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
 
-class Mode(Enum):
-    """fallback state of the PyMiloClient."""
-
-    LOCAL = 1
-    DELEGATE = 2
-
-
 class PymiloClient:
     """Facilitate working with the PyMilo server."""
+
+    class Mode(Enum):
+        """fallback state of the PyMiloClient."""
+
+        LOCAL = 1
+        DELEGATE = 2
 
     def __init__(
             self,
@@ -41,9 +40,9 @@ class PymiloClient:
         :type server_url: str
         :return: an instance of the Pymilo PymiloClient class
         """
-        self._client_id = "0x_client_id"
-        self._model_id = "0x_model_id"
-        self._model = model
+        self.model = model
+        self.client_id = "0x_client_id"
+        self.model_id = "0x_model_id"
         self._mode = mode
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
@@ -69,7 +68,7 @@ class PymiloClient:
 
         :return: None
         """
-        if mode not in Mode.__members__.values():
+        if mode not in PymiloClient.Mode.__members__.values():
             raise Exception(PYMILO_CLIENT_INVALID_MODE)
         if mode != self._mode:
             self._mode = mode
@@ -83,15 +82,15 @@ class PymiloClient:
         serialized_model = self._communicator.download(
             self.encrypt_compress(
                 {
-                    "client_id": self._client_id,
-                    "model_id": self._model_id,
+                    "client_id": self.client_id,
+                    "model_id": self.model_id,
                 }
             )
         )
         if serialized_model is None:
             print(PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL)
             return
-        self._model = Import(file_adr=None, json_dump=serialized_model).to_model()
+        self.model = Import(file_adr=None, json_dump=serialized_model).to_model()
         print(PYMILO_CLIENT_MODEL_SYNCHED)
 
     def upload(self):
@@ -103,9 +102,9 @@ class PymiloClient:
         succeed = self._communicator.upload(
             self.encrypt_compress(
                 {
-                    "client_id": self._client_id,
-                    "model_id": self._model_id,
-                    "model": Export(self._model).to_json(),
+                    "client_id": self.client_id,
+                    "model_id": self.model_id,
+                    "model": Export(self.model).to_json(),
                 }
             )
         )
@@ -123,18 +122,18 @@ class PymiloClient:
 
         :return: Any
         """
-        if self._mode == Mode.LOCAL:
-            if attribute in dir(self._model):
-                return getattr(self._model, attribute)
+        if self._mode == PymiloClient.Mode.LOCAL:
+            if attribute in dir(self.model):
+                return getattr(self.model, attribute)
             else:
                 raise AttributeError(PYMILO_CLIENT_INVALID_ATTRIBUTE)
-        elif self._mode == Mode.DELEGATE:
+        elif self._mode == PymiloClient.Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             response = self._communicator.attribute_type(
                 self.encrypt_compress(
                     {
-                        "client_id": self._client_id,
-                        "model_id": self._model_id,
+                        "client_id": self.client_id,
+                        "model_id": self.model_id,
                         "attribute": attribute,
                     }
                 )
@@ -144,8 +143,8 @@ class PymiloClient:
 
             def relayer(*args, **kwargs):
                 payload = {
-                    "client_id": self._client_id,
-                    "model_id": self._model_id,
+                    "client_id": self.client_id,
+                    "model_id": self.model_id,
                     'attribute': attribute,
                     'args': args,
                     'kwargs': kwargs,

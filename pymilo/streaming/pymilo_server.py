@@ -24,7 +24,7 @@ class PymiloServer:
         self._model = None
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
-        self._communicator = RESTServerCommunicator(ps=self, port=port)
+        self.communicator = RESTServerCommunicator(ps=self, port=port)
 
     def export_model(self):
         """
