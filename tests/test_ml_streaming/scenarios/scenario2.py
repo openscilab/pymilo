@@ -1,6 +1,5 @@
 import numpy as np
-from pymilo.streaming import Compression
-from pymilo.streaming import PymiloClient
+from pymilo.streaming import PymiloClient, Compression
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
