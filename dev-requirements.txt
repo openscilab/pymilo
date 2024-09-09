@@ -2,7 +2,7 @@ numpy==2.1.0
 scikit-learn==1.5.1
 scipy>=0.19.1
 uvicorn==0.30.6
-fastapi==0.112.2
+fastapi==0.114.0
 requests==2.32.3
 pydantic>=1.5.0
 setuptools>=40.8.0
