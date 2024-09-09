@@ -150,7 +150,7 @@ Now let's load it back. You can do it easily by using PyMilo `Import` class.
 ```
 This loaded model is exactly the same as the original trained model.
 
-### ML Streaming
+### ML streaming
 You can easily serve your ML model from a remote server using `ML Streaming` feature of PyMilo.
 
 ⚠️ `ML Streaming` feature exists in versions `>=1.0`
