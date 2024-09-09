@@ -16,7 +16,7 @@ class PymiloServer:
         Initialize the Pymilo PymiloServer instance.
 
         :param model: the ML model which will be streamed
-        :type model: Any
+        :type model: any
         :param port: the port to which PyMiloServer listens
         :type port: int
         :param compressor: the compression method to be used in client-server communications
