@@ -166,7 +166,7 @@ Let's assume you are in the remote server and you want to import the exported JS
 >>> communicator = PymiloServer(model=my_model, port=8000).communicator
 >>> communicator.run()
 ```
-Now PymiloServer runs on port `8000` and exposes REST API to `upload`, `download` and retrieve `attributes` either `data attributes` like `model._coef` or `method attributes` like `model.predict(x_test)`.
+Now PymiloServer runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
 
 #### Client
 By using PymiloClient you can easily connect to the remote PymiloServer and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
@@ -177,7 +177,7 @@ By using PymiloClient you can easily connect to the remote PymiloServer and exec
 >>> result = pymilo_client.predict(x_test)
 ```
 
-If you've deployed PymiloServer locally (on port `8000` for instance), then SERVER_URL would be `http://127.0.0.1:8000`.
+ℹ️ If you've deployed PymiloServer locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000`
 
 You can also download the remote ML model into your local and execute functions locally on your model.
 
@@ -186,7 +186,7 @@ Calling `download` function on PymiloClient will sync the local model that Pymil
 ```pycon
 >>> pymilo_client.download()
 ```
-Now if you want to save the ML model to a file in your local, you can use `Export` class.
+If you want to save the ML model to a file in your local, you can use `Export` class.
 ```pycon
 >>> from pymilo import Export
 >>> Export(pymilo_client.model).save("model.json")
