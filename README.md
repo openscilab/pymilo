@@ -154,6 +154,7 @@ This loaded model is exactly the same as the original trained model.
 You can easily serve your ML model from a remote server using `ML Streaming` feature of PyMilo.
 
 ⚠️ `ML Streaming` feature exists in versions `>=1.0`
+
 ⚠️ In order to use `ML Streaming` feature, make sure you've installed the `streaming` mode of PyMilo
 
 #### Server
@@ -176,11 +177,11 @@ By using PymiloClient you can easily connect to the remote PymiloServer and exec
 >>> result = pymilo_client.predict(x_test)
 ```
 
-ℹ️ If you've deployed PymiloServer locally (on port `8000` for instance), then SERVER_URL would be `http://127.0.0.1:8000`
+If you've deployed PymiloServer locally (on port `8000` for instance), then SERVER_URL would be `http://127.0.0.1:8000`.
 
 You can also download the remote ML model into your local and execute functions locally on your model.
 
-ℹ️ Calling `download` function on PymiloClient will sync the local model that PymiloClient wraps upon with the remote ML model, and it doesn't save model directly to a file.
+Calling `download` function on PymiloClient will sync the local model that PymiloClient wraps upon with the remote ML model, and it doesn't save model directly to a file.
 
 ```pycon
 >>> pymilo_client.download()
