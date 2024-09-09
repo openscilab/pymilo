@@ -151,11 +151,11 @@ Now let's load it back. You can do it easily by using PyMilo `Import` class.
 This loaded model is exactly the same as the original trained model.
 
 ### ML streaming
-You can easily serve your ML model from a remote server using `ML Streaming` feature of PyMilo.
+You can easily serve your ML model from a remote server using `ML streaming` feature of PyMilo.
 
-⚠️ `ML Streaming` feature exists in versions `>=1.0`
+⚠️ `ML streaming` feature exists in versions `>=1.0`
 
-⚠️ In order to use `ML Streaming` feature, make sure you've installed the `streaming` mode of PyMilo
+⚠️ In order to use `ML streaming` feature, make sure you've installed the `streaming` mode of PyMilo
 
 #### Server
 Let's assume you are in the remote server and you want to import the exported JSON file and start serving your model!
@@ -166,10 +166,10 @@ Let's assume you are in the remote server and you want to import the exported JS
 >>> communicator = PymiloServer(model=my_model, port=8000).communicator
 >>> communicator.run()
 ```
-Now PymiloServer runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
+Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
 
 #### Client
-By using PymiloClient you can easily connect to the remote PymiloServer and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
+By using `PymiloClient` you can easily connect to the remote `PymiloServer` and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
 ```pycon
 >>> from pymilo.streaming import PymiloClient
 >>> pymilo_client = PymiloClient(mode=PymiloClient.Mode.LOCAL, server_url="SERVER_URL")
@@ -177,11 +177,11 @@ By using PymiloClient you can easily connect to the remote PymiloServer and exec
 >>> result = pymilo_client.predict(x_test)
 ```
 
-ℹ️ If you've deployed PymiloServer locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000`
+ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000`
 
 You can also download the remote ML model into your local and execute functions locally on your model.
 
-Calling `download` function on PymiloClient will sync the local model that PymiloClient wraps upon with the remote ML model, and it doesn't save model directly to a file.
+Calling `download` function on `PymiloClient` will sync the local model that `PymiloClient` wraps upon with the remote ML model, and it doesn't save model directly to a file.
 
 ```pycon
 >>> pymilo_client.download()
@@ -196,9 +196,9 @@ Now that you've synced the remote model with your local model, you can run funct
 >>> pymilo_client.toggle_mode(mode=PymiloClient.Mode.LOCAL)
 >>> result = pymilo_client.predict(x_test)
 ```
-PymiloClient wraps around the ML model, either to the local ML model or the remote ML model, and you can work with PymiloClient in the exact same way that you did with the ML model, you can run exact same functions with same signature.
+`PymiloClient` wraps around the ML model, either to the local ML model or the remote ML model, and you can work with `PymiloClient` in the exact same way that you did with the ML model, you can run exact same functions with same signature.
 
-ℹ️ Through the usage of `toggle_mode` function you can specify whether PymiloClient applies requests on the local ML model `pymilo_client.toggle_mode(mode=Mode.LOCAL)` or delegates it to the remote server `pymilo_client.toggle_mode(mode=Mode.DELEGATE)`
+ℹ️ Through the usage of `toggle_mode` function you can specify whether `PymiloClient` applies requests on the local ML model `pymilo_client.toggle_mode(mode=Mode.LOCAL)` or delegates it to the remote server `pymilo_client.toggle_mode(mode=Mode.DELEGATE)`
 
 
 ## Supported ML models
