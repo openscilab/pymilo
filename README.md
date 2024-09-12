@@ -78,6 +78,7 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 
 
 ## Usage
+### Import/Export
 Imagine you want to train a `LinearRegression` model representing this equation: $y = x_0 + 2x_1 + 3$. You will create data points (`X`, `y`) and train your model as follows.
 ```pycon
 >>> import numpy as np
@@ -149,15 +150,66 @@ Now let's load it back. You can do it easily by using PyMilo `Import` class.
 ```
 This loaded model is exactly the same as the original trained model.
 
+### ML streaming
+You can easily serve your ML model from a remote server using `ML streaming` feature of PyMilo.
+
+⚠️ `ML streaming` feature exists in versions `>=1.0`
+
+⚠️ In order to use `ML streaming` feature, make sure you've installed the `streaming` mode of PyMilo
+
+#### Server
+Let's assume you are in the remote server and you want to import the exported JSON file and start serving your model!
+```pycon
+>>> from pymilo import Import
+>>> from pymilo.streaming import PymiloServer
+>>> my_model = Import("model.json").to_model()
+>>> communicator = PymiloServer(model=my_model, port=8000).communicator
+>>> communicator.run()
+```
+Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
+
+#### Client
+By using `PymiloClient` you can easily connect to the remote `PymiloServer` and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
+```pycon
+>>> from pymilo.streaming import PymiloClient
+>>> pymilo_client = PymiloClient(mode=PymiloClient.Mode.LOCAL, server_url="SERVER_URL")
+>>> pymilo_client.toggle_mode(PymiloClient.Mode.DELEGATE)
+>>> result = pymilo_client.predict(x_test)
+```
+
+ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000`
+
+You can also download the remote ML model into your local and execute functions locally on your model.
+
+Calling `download` function on `PymiloClient` will sync the local model that `PymiloClient` wraps upon with the remote ML model, and it doesn't save model directly to a file.
+
+```pycon
+>>> pymilo_client.download()
+```
+If you want to save the ML model to a file in your local, you can use `Export` class.
+```pycon
+>>> from pymilo import Export
+>>> Export(pymilo_client.model).save("model.json")
+```
+Now that you've synced the remote model with your local model, you can run functions.
+```pycon
+>>> pymilo_client.toggle_mode(mode=PymiloClient.Mode.LOCAL)
+>>> result = pymilo_client.predict(x_test)
+```
+`PymiloClient` wraps around the ML model, either to the local ML model or the remote ML model, and you can work with `PymiloClient` in the exact same way that you did with the ML model, you can run exact same functions with same signature.
+
+ℹ️ Through the usage of `toggle_mode` function you can specify whether `PymiloClient` applies requests on the local ML model `pymilo_client.toggle_mode(mode=Mode.LOCAL)` or delegates it to the remote server `pymilo_client.toggle_mode(mode=Mode.DELEGATE)`
+
+
 ## Supported ML models
 | scikit-learn | PyTorch | 
 | ---------------- | ---------------- | 
 | Linear Models &#x2705; | - | 
-| Neural networks &#x2705; | -  | 
+| Neural Networks &#x2705; | -  | 
 | Trees &#x2705; | -  | 
 | Clustering &#x2705; | -  | 
 | Naïve Bayes &#x2705; | -  | 
-| Support vector machines (SVMs) &#x2705; | -  | 
+| Support Vector Machines (SVMs) &#x2705; | -  | 
 | Nearest Neighbors &#x2705; | -  |  
 | Ensemble Models &#x2705; | - | 
 | Pipeline Model &#x2705; | - |

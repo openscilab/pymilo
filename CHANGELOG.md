@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `ML Streaming` RESTful testcases
 - `streaming-requirements.txt`
 ### Changed
+- `README.md` updated
 - `ML Streaming` RESTful testcases
 - `attribute_call` function in `RESTServerCommunicator`
 - `AttributeCallPayload` class in `RESTServerCommunicator`

@@ -1,12 +1,12 @@
 import numpy as np
-from pymilo.streaming import Compression
-from pymilo.streaming import PymiloClient
+from pymilo.streaming import PymiloClient, Compression
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
 def scenario2(compression_method):
+    # [PyMilo Server is not initialized with ML Model]
     # 1. create model in local
     # 2. upload model to server
     # 3. train model in server
