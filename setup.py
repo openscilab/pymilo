@@ -35,14 +35,14 @@ def read_description():
 setup(
     name='pymilo',
     packages=find_packages(include=['pymilo*'], exclude=['tests*']),
-    version='0.9',
+    version='1.0',
     description='Transportation of ML models',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='PyMilo Development Team',
     author_email='pymilo@openscilab.com',
     url='https://github.com/openscilab/pymilo',
-    download_url='https://github.com/openscilab/pymilo/tarball/v0.9',
+    download_url='https://github.com/openscilab/pymilo/tarball/v1.0',
     keywords="python3 python machine_learning ML",
     project_urls={
             'Source': 'https://github.com/openscilab/pymilo',

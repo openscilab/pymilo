@@ -4,7 +4,7 @@ import os
 import sys
 import codecs
 Failed = 0
-PYMILO_VERSION = "0.9"
+PYMILO_VERSION = "1.0"
 
 
 SETUP_ITEMS = [
