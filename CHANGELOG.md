@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- PyMilo Exception Types added in `exception/__init__`
+- PyMilo Exception Types added in `pymilo/__init__`
+### Changed
 ## [1.0] - 2024-09-16
 ### Added
 - Compression method test in `ML Streaming` RESTful testcases
