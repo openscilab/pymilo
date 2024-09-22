@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- PyMilo exception types added in `pymilo/exception/__init__.py`
+- PyMilo exception types added in `pymilo/exceptions/__init__.py`
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
 ## [1.0] - 2024-09-16
