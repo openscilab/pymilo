@@ -10,8 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
 - `Python 3.13` added to `test.yml`
-- `Python 3.13` added to `bug_report.yml`
-- `Python 3.13` added to `setup.py`
 ## [1.0] - 2024-09-16
 ### Added
 - Compression method test in `ML Streaming` RESTful testcases
