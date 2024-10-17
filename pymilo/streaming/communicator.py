@@ -19,6 +19,9 @@ class RESTClientCommunicator(ClientCommunicator):
         :type server_url: str
         :return: an instance of the Pymilo RESTClientCommunicator class
         """
+        is_valid, server_url = validate_http_url(server_url)
+        if not is_valid:
+            raise Exception(PYMILO_INVALID_URL)
         self._server_url = server_url
         self.session = requests.Session()
         retries = requests.adapters.Retry(
