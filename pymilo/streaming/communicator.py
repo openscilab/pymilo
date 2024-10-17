@@ -99,10 +99,10 @@ class RESTServerCommunicator():
         :type port: int
         :return: an instance of the Pymilo RESTServerCommunicator class
         """
-        self.app = FastAPI()
+        self._ps = ps
         self.host = host
         self.port = port
-        self._ps = ps
+        self.app = FastAPI()
         self.setup_routes()
 
     def setup_routes(self):
