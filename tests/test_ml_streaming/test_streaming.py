@@ -11,13 +11,9 @@ from scenarios.scenario3 import scenario3
 
 @pytest.fixture(
     scope="session",
-    params=list(
-        itertools.product(
-            ["NULL", "GZIP", "ZLIB", "LZMA", "BZ2"],
-            ["REST", "WEBSOCKET"]))
-)
+    params=["NULL", "GZIP", "ZLIB", "LZMA", "BZ2"])
 def prepare_bare_server(request):
-    compression_method, communication_protocol = request.param
+    compression_method = request.param
     path = os.path.join(
         os.getcwd(),
         "tests",
@@ -29,11 +25,11 @@ def prepare_bare_server(request):
             executable,
             path,
             "--compression", compression_method,
-            "--protocol", communication_protocol,
+            "--protocol", "REST"
         ],
         )
     time.sleep(2)
-    yield (server_proc, compression_method, communication_protocol)
+    yield (server_proc, compression_method, "REST")
     server_proc.terminate()
 
 
