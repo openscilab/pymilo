@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
-"""PyMilo RESTFull Communication Mediums."""
+"""PyMilo Communication Mediums."""
 import json
+import asyncio
 import uvicorn
 import requests
+import threading
+import websockets
+from enum import Enum
 from pydantic import BaseModel
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from .interfaces import ClientCommunicator
+from .param import PYMILO_INVALID_URL, PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED
+from .util import validate_websocket_url, validate_http_url
 
 
 class RESTClientCommunicator(ClientCommunicator):
