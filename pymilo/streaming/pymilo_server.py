@@ -3,7 +3,7 @@
 from ..pymilo_obj import Export, Import
 from .compressor import Compression
 from .encryptor import DummyEncryptor
-from .communicator import RESTServerCommunicator
+from .communicator import ServerCommunicator
 from .param import PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
@@ -11,7 +11,13 @@ from ..transporters.general_data_structure_transporter import GeneralDataStructu
 class PymiloServer:
     """Facilitate streaming the ML models."""
 
-    def __init__(self, model=None, port=8000, compressor=Compression.NULL):
+    def __init__(
+            self,
+            model=None,
+            port=8000,
+            compressor=Compression.NULL,
+            server_communicator=ServerCommunicator.REST,
+            ):
         """
         Initialize the Pymilo PymiloServer instance.
 
@@ -26,7 +32,7 @@ class PymiloServer:
         self._model = model
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
-        self.communicator = RESTServerCommunicator(ps=self, port=port)
+        self.communicator = server_communicator.value(ps=self, port=port)
 
     def export_model(self):
         """
@@ -55,13 +61,13 @@ class PymiloServer:
         :return: str | dict
         """
         gdst = GeneralDataStructureTransporter()
-        attribute = request.attribute
+        attribute = request["attribute"] if isinstance(request, dict) else request.attribute
         retrieved_attribute = getattr(self._model, attribute, None)
         if retrieved_attribute is None:
             raise Exception(PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE)
         arguments = {
-            'args': request.args,
-            'kwargs': request.kwargs
+            'args': request["args"] if isinstance(request, dict) else request.args,
+            'kwargs': request["kwargs"] if isinstance(request, dict) else request.kwargs,
         }
         args = gdst.deserialize(arguments, 'args', None)
         kwargs = gdst.deserialize(arguments, 'kwargs', None)
@@ -79,7 +85,7 @@ class PymiloServer:
         :type request: obj
         :return: True if it is callable False otherwise
         """
-        attribute = request.attribute
+        attribute = request["attribute"] if isinstance(request, dict) else request.attribute
         retrieved_attribute = getattr(self._model, attribute, None)
         if callable(retrieved_attribute):
             return True, None
