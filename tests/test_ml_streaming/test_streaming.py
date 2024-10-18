@@ -1,7 +1,6 @@
 import os
 import time
 import pytest
-import itertools
 import subprocess
 from sys import executable
 from scenarios.scenario1 import scenario1
@@ -28,7 +27,7 @@ def prepare_bare_server(request):
             "--protocol", "REST"
         ],
         )
-    time.sleep(2)
+    time.sleep(5)
     yield (server_proc, compression_method, "REST")
     server_proc.terminate()
 
@@ -55,7 +54,7 @@ def prepare_ml_server(request):
             "--init",
         ],
         )
-    time.sleep(2)
+    time.sleep(5)
     yield (server_proc, compression_method, communication_protocol)
     server_proc.terminate()
 
