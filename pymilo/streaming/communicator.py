@@ -493,3 +493,8 @@ class ClientCommunicator(Enum):
     WEBSOCKET = WebSocketClientCommunicator
 
 
+class ServerCommunicator(Enum):
+    """Communication protocol used in the server side."""
+
+    REST = RESTServerCommunicator
+    WEBSOCKET = WebSocketServerCommunicator
