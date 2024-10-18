@@ -1,11 +1,12 @@
 import numpy as np
 from pymilo.streaming import PymiloClient, Compression
+from pymilo.streaming.communicator import ClientCommunicator
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
-def scenario1(compression_method):
+def scenario1(compression_method, communication_protocol):
     # [PyMilo Server is not initialized with ML Model]
     # 1. create model in local
     # 2. train model in local
@@ -21,7 +22,12 @@ def scenario1(compression_method):
 
     # 2.
     linear_regression.fit(x_train, y_train)
-    client = PymiloClient(model=linear_regression, mode=PymiloClient.Mode.LOCAL, compressor=Compression[compression_method])
+    client = PymiloClient(
+        model=linear_regression,
+        mode=PymiloClient.Mode.LOCAL,
+        compressor=Compression[compression_method],
+        client_communicator=ClientCommunicator[communication_protocol],
+        )
 
     # 3.
     result = client.predict(x_test)

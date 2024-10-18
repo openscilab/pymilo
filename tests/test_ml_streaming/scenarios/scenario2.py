@@ -1,11 +1,12 @@
 import numpy as np
 from pymilo.streaming import PymiloClient, Compression
+from pymilo.streaming.communicator import ClientCommunicator
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
-def scenario2(compression_method):
+def scenario2(compression_method, communication_protocol):
     # [PyMilo Server is not initialized with ML Model]
     # 1. create model in local
     # 2. upload model to server
@@ -18,7 +19,12 @@ def scenario2(compression_method):
     # 1.
     x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
     linear_regression = LinearRegression()
-    client = PymiloClient(model=linear_regression, mode=PymiloClient.Mode.LOCAL, compressor=Compression[compression_method])
+    client = PymiloClient(
+        model=linear_regression,
+        mode=PymiloClient.Mode.LOCAL,
+        compressor=Compression[compression_method],
+        client_communicator=ClientCommunicator[communication_protocol],
+        )
 
     # 2.
     client.upload()
