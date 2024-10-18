@@ -204,7 +204,7 @@ class WebSocketClientCommunicator:
     def __init__(
             self,
             server_url: str = "ws://127.0.0.1:8000"
-            ):
+    ):
         """
         Initialize the WebSocketClientCommunicator instance.
 

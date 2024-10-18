@@ -17,7 +17,7 @@ class PymiloServer:
             port=8000,
             compressor=Compression.NULL,
             server_communicator=ServerCommunicator.REST,
-            ):
+    ):
         """
         Initialize the Pymilo PymiloServer instance.
 
