@@ -191,3 +191,132 @@ class RESTServerCommunicator():
     def run(self):
         """Run internal fastapi server."""
         uvicorn.run(self.app, host=self.host, port=self.port)
+
+
+class WebSocketClientCommunicator:
+    """Facilitate working with the communication medium from the client side for the WebSocket protocol."""
+
+    def __init__(
+            self,
+            server_url: str = "ws://127.0.0.1:8000"
+            ):
+        """
+        Initialize the WebSocketClientCommunicator instance.
+
+        :param server_url: The WebSocket server URL to connect to.
+        :type server_url: str
+        :return: an instance of the Pymilo WebSocketClientCommunicator class
+        """
+        is_valid, url = validate_websocket_url(server_url)
+        if not is_valid:
+            raise Exception(PYMILO_INVALID_URL)
+        self.server_url = url
+        self.websocket = None
+        self.connection_established = asyncio.Event()  # Event to signal connection status
+
+        # Create the event loop in a background thread
+        self.loop = asyncio.new_event_loop()
+        self.thread = threading.Thread(target=self._run_loop_in_thread, daemon=True)
+        self.thread.start()
+
+        # Connect asynchronously in the background thread
+        self.loop.call_soon_threadsafe(self.loop.create_task, self.connect())
+
+    def _run_loop_in_thread(self):
+        """
+        Run the event loop in a separate thread.
+
+        This allows non-blocking execution of asynchronous functions.
+        """
+        asyncio.set_event_loop(self.loop)
+        self.loop.run_forever()
+
+    async def connect(self):
+        """Establish a WebSocket connection with the server."""
+        if self.websocket is None or self.websocket.closed:
+            self.websocket = await websockets.connect(self.server_url)
+            print("Connected to the WebSocket server.")
+            self.connection_established.set()
+
+    async def disconnect(self):
+        """Close the WebSocket connection."""
+        if self.websocket:
+            await self.websocket.close()
+
+    async def send_message(self, action: str, payload: dict) -> dict:
+        """
+        Send a message to the WebSocket server.
+
+        :param action: The type of action to perform (e.g., 'download', 'upload').
+        :type action: str
+        :param payload: The payload associated with the action.
+        :type payload: dict
+        :return: The server's response as a JSON object.
+        """
+        await self.connection_established.wait()
+
+        if self.websocket is None or self.websocket.closed:
+            raise RuntimeError(PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED)
+
+        message = json.dumps({"action": action, "payload": payload})
+        await self.websocket.send(message)
+        response = await self.websocket.recv()
+        return json.loads(response)
+
+    def download(self, payload: dict) -> dict:
+        """
+        Request the remote ML model to download.
+
+        :param payload: The payload for the download request.
+        :type payload: dict
+        :return: The downloaded model data.
+        """
+        response_future = asyncio.run_coroutine_threadsafe(
+            self.send_message("download", payload), self.loop
+        )
+        response = response_future.result()
+        return response.get("payload")
+
+    def upload(self, payload: dict) -> bool:
+        """
+        Upload the local ML model to the remote server.
+
+        :param payload: The payload for the upload request.
+        :type payload: dict
+        :return: True if the upload request is acknowledged.
+        """
+        response_future = asyncio.run_coroutine_threadsafe(
+            self.send_message("upload", payload), self.loop
+        )
+        response = response_future.result()
+        return response.get("message") == "Upload request received."
+
+    def attribute_call(self, payload: dict) -> dict:
+        """
+        Delegate the requested attribute call to the remote server.
+
+        :param payload: The payload containing attribute call details.
+        :type payload: dict
+        :return: The server's response to the attribute call.
+        """
+        response_future = asyncio.run_coroutine_threadsafe(
+            self.send_message("attribute_call", payload), self.loop
+        )
+        response = response_future.result()
+        return response
+
+    def attribute_type(self, payload: dict) -> dict:
+        """
+        Identify the attribute type of the requested attribute.
+
+        :param payload: The payload containing attribute type request.
+        :type payload: dict
+        :return: The server's response with the attribute type.
+        """
+        response_future = asyncio.run_coroutine_threadsafe(
+            self.send_message("attribute_type", payload), self.loop
+        )
+        response = response_future.result()
+        return response
+
+
