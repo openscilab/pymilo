@@ -4,7 +4,6 @@ import json
 import asyncio
 import uvicorn
 import requests
-import threading
 import websockets
 from enum import Enum
 from pydantic import BaseModel
@@ -219,23 +218,7 @@ class WebSocketClientCommunicator:
         self.server_url = url
         self.websocket = None
         self.connection_established = asyncio.Event()  # Event to signal connection status
-
-        # Create the event loop in a background thread
-        self.loop = asyncio.new_event_loop()
-        self.thread = threading.Thread(target=self._run_loop_in_thread, daemon=True)
-        self.thread.start()
-
-        # Connect asynchronously in the background thread
-        self.loop.call_soon_threadsafe(self.loop.create_task, self.connect())
-
-    def _run_loop_in_thread(self):
-        """
-        Run the event loop in a separate thread.
-
-        This allows non-blocking execution of asynchronous functions.
-        """
-        asyncio.set_event_loop(self.loop)
-        self.loop.run_forever()
+        asyncio.get_event_loop().run_until_complete(self.connect())
 
     async def connect(self):
         """Establish a WebSocket connection with the server."""
@@ -277,10 +260,9 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: The downloaded model data.
         """
-        response_future = asyncio.run_coroutine_threadsafe(
-            self.send_message("download", payload), self.loop
+        response = asyncio.get_event_loop().run_until_complete(
+            self.send_message("download", payload)
         )
-        response = response_future.result()
         return response.get("payload")
 
     def upload(self, payload: dict) -> bool:
@@ -291,10 +273,9 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: True if the upload request is acknowledged.
         """
-        response_future = asyncio.run_coroutine_threadsafe(
-            self.send_message("upload", payload), self.loop
+        response = asyncio.get_event_loop().run_until_complete(
+            self.send_message("upload", payload)
         )
-        response = response_future.result()
         return response.get("message") == "Upload request received."
 
     def attribute_call(self, payload: dict) -> dict:
@@ -305,10 +286,9 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: The server's response to the attribute call.
         """
-        response_future = asyncio.run_coroutine_threadsafe(
-            self.send_message("attribute_call", payload), self.loop
+        response = asyncio.get_event_loop().run_until_complete(
+            self.send_message("attribute_call", payload)
         )
-        response = response_future.result()
         return response
 
     def attribute_type(self, payload: dict) -> dict:
@@ -319,10 +299,9 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: The server's response with the attribute type.
         """
-        response_future = asyncio.run_coroutine_threadsafe(
-            self.send_message("attribute_type", payload), self.loop
+        response = asyncio.get_event_loop().run_until_complete(
+            self.send_message("attribute_type", payload)
         )
-        response = response_future.result()
         return response
 
 
