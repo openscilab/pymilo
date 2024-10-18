@@ -320,3 +320,163 @@ class WebSocketClientCommunicator:
         return response
 
 
+class WebSocketServerCommunicator:
+    """Facilitate working with the communication medium from the server side for the WebSocket protocol."""
+
+    def __init__(
+            self,
+            ps,
+            host: str = "127.0.0.1",
+            port: int = 8000,
+    ):
+        """
+        Initialize the WebSocketServerCommunicator instance.
+
+        :param ps: Reference to the PyMilo server.
+        :type ps: pymilo.streaming.PymiloServer
+        :param host: The WebSocket server host address.
+        :type host: str
+        :param port: The WebSocket server port.
+        :type port: int
+        :return: An instance of the WebSocketServerCommunicator class.
+        """
+        self._ps = ps
+        self.host = host
+        self.port = port
+        self.app = FastAPI()
+        self.active_connections: list[WebSocket] = []
+        self.setup_routes()
+
+    def setup_routes(self):
+        """Configure the WebSocket endpoint to handle client connections."""
+        @self.app.websocket("/")
+        async def websocket_endpoint(websocket: WebSocket):
+            await self.connect(websocket)
+            try:
+                while True:
+                    message = await websocket.receive_text()
+                    await self.handle_message(websocket, message)
+            except WebSocketDisconnect:
+                self.disconnect(websocket)
+
+    async def connect(self, websocket: WebSocket):
+        """
+        Accept a WebSocket connection and store it.
+
+        :param websocket: The WebSocket connection to accept.
+        :type websocket: WebSocket
+        """
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        """
+        Handle WebSocket disconnection.
+
+        :param websocket: The WebSocket connection to remove.
+        :type websocket: WebSocket
+        """
+        self.active_connections.remove(websocket)
+
+    async def handle_message(self, websocket: WebSocket, message: str):
+        """
+        Handle messages received from WebSocket clients.
+
+        :param websocket: The WebSocket connection from which the message was received.
+        :type websocket: WebSocket
+        :param message: The message received from the client.
+        :type message: str
+        """
+        try:
+            message = json.loads(message)
+            action = message['action']
+            print(f"Server received action: {action}")
+            payload = self.parse(message['payload'])
+
+            if action == "download":
+                response = self._handle_download()
+            elif action == "upload":
+                response = self._handle_upload(payload)
+            elif action == "attribute_call":
+                response = self._handle_attribute_call(payload)
+            elif action == "attribute_type":
+                response = self._handle_attribute_type(payload)
+            else:
+                response = {"error": f"Unknown action: {action}"}
+
+            await websocket.send_text(json.dumps(response))
+        except Exception as e:
+            await websocket.send_text(json.dumps({"error": str(e)}))
+
+    def _handle_download(self) -> dict:
+        """
+        Handle download requests.
+
+        :return: A response containing the exported model.
+        """
+        return {
+            "message": "Download request received.",
+            "payload": self._ps.export_model(),
+        }
+
+    def _handle_upload(self, payload: dict) -> dict:
+        """
+        Handle upload requests.
+
+        :param payload: The payload containing the model data to upload.
+        :type payload: dict
+        :return: A response indicating that the upload was processed.
+        """
+        return {
+            "message": "Upload request received.",
+            "payload": self._ps.update_model(payload["model"]),
+        }
+
+    def _handle_attribute_call(self, payload: dict) -> dict:
+        """
+        Handle attribute call requests.
+
+        :param payload: The payload containing the attribute call details.
+        :type payload: dict
+        :return: A response with the result of the attribute call.
+        """
+        result = self._ps.execute_model(payload)
+        return {
+            "message": "Attribute call executed.",
+            "payload": result if result else "The ML model has been updated in place.",
+        }
+
+    def _handle_attribute_type(self, payload: dict) -> dict:
+        """
+        Handle attribute type queries.
+
+        :param payload: The payload containing the attribute to query.
+        :type payload: dict
+        :return: A response with the attribute type and value.
+        """
+        is_callable, field_value = self._ps.is_callable_attribute(payload)
+        return {
+            "message": "Attribute type query executed.",
+            "attribute type": "method" if is_callable else "field",
+            "attribute value": "" if is_callable else field_value,
+        }
+
+    def parse(self, message: str) -> dict:
+        """
+        Parse the encrypted and compressed message.
+
+        :param message: The encrypted and compressed message to parse.
+        :type message: str
+        :return: The decrypted and extracted version of the message.
+        """
+        return json.loads(
+            self._ps._compressor.extract(
+                self._ps._encryptor.decrypt(message)
+            )
+        )
+
+    def run(self):
+        """Run the internal FastAPI server."""
+        uvicorn.run(self.app, host=self.host, port=self.port)
+
+
