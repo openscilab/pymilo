@@ -218,7 +218,13 @@ class WebSocketClientCommunicator:
         self.server_url = url
         self.websocket = None
         self.connection_established = asyncio.Event()  # Event to signal connection status
-        asyncio.get_event_loop().run_until_complete(self.connect())
+        # check for even loop existance
+        if asyncio._get_running_loop() is None:
+            self.loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self.loop)
+        else:
+            self.loop = asyncio.get_event_loop()
+        self.loop.run_until_complete(self.connect())
 
     async def connect(self):
         """Establish a WebSocket connection with the server."""
@@ -260,7 +266,7 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: The downloaded model data.
         """
-        response = asyncio.get_event_loop().run_until_complete(
+        response = self.loop.run_until_complete(
             self.send_message("download", payload)
         )
         return response.get("payload")
@@ -273,7 +279,7 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: True if the upload request is acknowledged.
         """
-        response = asyncio.get_event_loop().run_until_complete(
+        response = self.loop.run_until_complete(
             self.send_message("upload", payload)
         )
         return response.get("message") == "Upload request received."
@@ -286,7 +292,7 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: The server's response to the attribute call.
         """
-        response = asyncio.get_event_loop().run_until_complete(
+        response = self.loop.run_until_complete(
             self.send_message("attribute_call", payload)
         )
         return response
@@ -299,7 +305,7 @@ class WebSocketClientCommunicator:
         :type payload: dict
         :return: The server's response with the attribute type.
         """
-        response = asyncio.get_event_loop().run_until_complete(
+        response = self.loop.run_until_complete(
             self.send_message("attribute_type", payload)
         )
         return response
