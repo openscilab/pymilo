@@ -208,7 +208,7 @@ class WebSocketClientCommunicator:
         """
         Initialize the WebSocketClientCommunicator instance.
 
-        :param server_url: The WebSocket server URL to connect to.
+        :param server_url: the WebSocket server URL to connect to.
         :type server_url: str
         :return: an instance of the Pymilo WebSocketClientCommunicator class
         """
@@ -242,11 +242,11 @@ class WebSocketClientCommunicator:
         """
         Send a message to the WebSocket server.
 
-        :param action: The type of action to perform (e.g., 'download', 'upload').
+        :param action: the type of action to perform (e.g., 'download', 'upload').
         :type action: str
-        :param payload: The payload associated with the action.
+        :param payload: the payload associated with the action.
         :type payload: dict
-        :return: The server's response as a JSON object.
+        :return: the server's response as a JSON object.
         """
         await self.connection_established.wait()
 
@@ -262,9 +262,9 @@ class WebSocketClientCommunicator:
         """
         Request the remote ML model to download.
 
-        :param payload: The payload for the download request.
+        :param payload: the payload for the download request.
         :type payload: dict
-        :return: The downloaded model data.
+        :return: the downloaded model data.
         """
         response = self.loop.run_until_complete(
             self.send_message("download", payload)
@@ -275,9 +275,9 @@ class WebSocketClientCommunicator:
         """
         Upload the local ML model to the remote server.
 
-        :param payload: The payload for the upload request.
+        :param payload: the payload for the upload request.
         :type payload: dict
-        :return: True if the upload request is acknowledged.
+        :return: true if the upload request is acknowledged.
         """
         response = self.loop.run_until_complete(
             self.send_message("upload", payload)
@@ -288,9 +288,9 @@ class WebSocketClientCommunicator:
         """
         Delegate the requested attribute call to the remote server.
 
-        :param payload: The payload containing attribute call details.
+        :param payload: the payload containing attribute call details.
         :type payload: dict
-        :return: The server's response to the attribute call.
+        :return: the server's response to the attribute call.
         """
         response = self.loop.run_until_complete(
             self.send_message("attribute_call", payload)
@@ -301,9 +301,9 @@ class WebSocketClientCommunicator:
         """
         Identify the attribute type of the requested attribute.
 
-        :param payload: The payload containing attribute type request.
+        :param payload: the payload containing attribute type request.
         :type payload: dict
-        :return: The server's response with the attribute type.
+        :return: the server's response with the attribute type.
         """
         response = self.loop.run_until_complete(
             self.send_message("attribute_type", payload)
@@ -323,13 +323,13 @@ class WebSocketServerCommunicator:
         """
         Initialize the WebSocketServerCommunicator instance.
 
-        :param ps: Reference to the PyMilo server.
+        :param ps: reference to the PyMilo server.
         :type ps: pymilo.streaming.PymiloServer
-        :param host: The WebSocket server host address.
+        :param host: the WebSocket server host address.
         :type host: str
-        :param port: The WebSocket server port.
+        :param port: the WebSocket server port.
         :type port: int
-        :return: An instance of the WebSocketServerCommunicator class.
+        :return: an instance of the WebSocketServerCommunicator class.
         """
         self._ps = ps
         self.host = host
@@ -354,8 +354,8 @@ class WebSocketServerCommunicator:
         """
         Accept a WebSocket connection and store it.
 
-        :param websocket: The WebSocket connection to accept.
-        :type websocket: WebSocket
+        :param websocket: the WebSocket connection to accept.
+        :type websocket: webSocket
         """
         await websocket.accept()
         self.active_connections.append(websocket)
@@ -364,8 +364,8 @@ class WebSocketServerCommunicator:
         """
         Handle WebSocket disconnection.
 
-        :param websocket: The WebSocket connection to remove.
-        :type websocket: WebSocket
+        :param websocket: the WebSocket connection to remove.
+        :type websocket: webSocket
         """
         self.active_connections.remove(websocket)
 
@@ -373,9 +373,9 @@ class WebSocketServerCommunicator:
         """
         Handle messages received from WebSocket clients.
 
-        :param websocket: The WebSocket connection from which the message was received.
-        :type websocket: WebSocket
-        :param message: The message received from the client.
+        :param websocket: the WebSocket connection from which the message was received.
+        :type websocket: webSocket
+        :param message: the message received from the client.
         :type message: str
         """
         try:
@@ -403,7 +403,7 @@ class WebSocketServerCommunicator:
         """
         Handle download requests.
 
-        :return: A response containing the exported model.
+        :return: a response containing the exported model.
         """
         return {
             "message": "Download request received.",
@@ -414,9 +414,9 @@ class WebSocketServerCommunicator:
         """
         Handle upload requests.
 
-        :param payload: The payload containing the model data to upload.
+        :param payload: the payload containing the model data to upload.
         :type payload: dict
-        :return: A response indicating that the upload was processed.
+        :return: a response indicating that the upload was processed.
         """
         return {
             "message": "Upload request received.",
@@ -427,9 +427,9 @@ class WebSocketServerCommunicator:
         """
         Handle attribute call requests.
 
-        :param payload: The payload containing the attribute call details.
+        :param payload: the payload containing the attribute call details.
         :type payload: dict
-        :return: A response with the result of the attribute call.
+        :return: a response with the result of the attribute call.
         """
         result = self._ps.execute_model(payload)
         return {
@@ -441,9 +441,9 @@ class WebSocketServerCommunicator:
         """
         Handle attribute type queries.
 
-        :param payload: The payload containing the attribute to query.
+        :param payload: the payload containing the attribute to query.
         :type payload: dict
-        :return: A response with the attribute type and value.
+        :return: a response with the attribute type and value.
         """
         is_callable, field_value = self._ps.is_callable_attribute(payload)
         return {
@@ -456,9 +456,9 @@ class WebSocketServerCommunicator:
         """
         Parse the encrypted and compressed message.
 
-        :param message: The encrypted and compressed message to parse.
+        :param message: the encrypted and compressed message to parse.
         :type message: str
-        :return: The decrypted and extracted version of the message.
+        :return: the decrypted and extracted version of the message.
         """
         return json.loads(
             self._ps._compressor.extract(
