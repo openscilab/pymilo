@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PyMilo exception types added in `pymilo/exceptions/__init__.py`
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
+- action run limit added to `test.yml`
 - `Python 3.13` added to `test.yml`
 ## [1.0] - 2024-09-16
 ### Added
