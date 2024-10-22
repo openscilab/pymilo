@@ -3,7 +3,7 @@
 from ..pymilo_obj import Export, Import
 from .compressor import Compression
 from .encryptor import DummyEncryptor
-from .communicator import ServerCommunicationProtocol
+from .communicator import CommunicationProtocol
 from .param import PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
@@ -16,7 +16,7 @@ class PymiloServer:
             model=None,
             port=8000,
             compressor=Compression.NULL,
-            server_communicator=ServerCommunicationProtocol.REST,
+            communication_protocol=CommunicationProtocol.REST,
     ):
         """
         Initialize the Pymilo PymiloServer instance.
@@ -27,12 +27,14 @@ class PymiloServer:
         :type port: int
         :param compressor: the compression method to be used in client-server communications
         :type compressor: pymilo.streaming.compressor.Compression
+        :param communication_protocol: The communication protocol to be used by PymiloServer
+        :type communication_protocol: pymilo.streaming.communicator.CommunicationProtocol
         :return: an instance of the PymiloServer class
         """
         self._model = model
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
-        self.communicator = server_communicator.value(ps=self, port=port)
+        self.communicator = communication_protocol.value["SERVER"](ps=self, port=port)
 
     def export_model(self):
         """

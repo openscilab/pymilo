@@ -471,15 +471,14 @@ class WebSocketServerCommunicator:
         uvicorn.run(self.app, host=self.host, port=self.port)
 
 
-class ClientCommunicationProtocol(Enum):
-    """Communication protocol used in the client side."""
+class CommunicationProtocol(Enum):
+    """Communication protocol."""
 
-    REST = RESTClientCommunicator
-    WEBSOCKET = WebSocketClientCommunicator
-
-
-class ServerCommunicationProtocol(Enum):
-    """Communication protocol used in the server side."""
-
-    REST = RESTServerCommunicator
-    WEBSOCKET = WebSocketServerCommunicator
+    REST = {
+        "CLIENT": RESTClientCommunicator,
+        "SERVER": RESTServerCommunicator,
+    }
+    WEBSOCKET = {
+        "CLIENT": WebSocketClientCommunicator,
+        "SERVER": WebSocketServerCommunicator,
+    }
