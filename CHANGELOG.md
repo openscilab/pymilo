@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `client_communicator` parameter added to `PyMiloClient` class
 - `server_communicator` parameter added to `PyMiloServer` class
 - ML Streaming testcases updated to support protocol selection
+- GitHub actions are limited to the `dev` and `main` branches
 - `Python 3.13` added to `test.yml`
 ## [1.0] - 2024-09-16
 ### Added
