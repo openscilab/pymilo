@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error
 from pymilo.streaming import PymiloClient, Compression
-from pymilo.streaming.communicator import ClientCommunicator
+from pymilo.streaming.communicator import ClientCommunicationProtocol
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
@@ -18,7 +18,7 @@ def scenario3(compression_method, communication_protocol):
         mode=PymiloClient.Mode.LOCAL,
         compressor=Compression[compression_method],
         server_url="127.0.0.1:9000",
-        client_communicator=ClientCommunicator[communication_protocol],
+        client_communicator=ClientCommunicationProtocol[communication_protocol],
         )
     client.toggle_mode(PymiloClient.Mode.DELEGATE)
     result = client.predict(x_test)

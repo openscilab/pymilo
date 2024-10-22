@@ -1,7 +1,7 @@
 import argparse
 from sklearn.linear_model import LinearRegression
 from pymilo.streaming import PymiloServer, Compression
-from pymilo.streaming.communicator import ServerCommunicator
+from pymilo.streaming.communicator import ServerCommunicationProtocol
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
@@ -37,15 +37,15 @@ def main():
             model=linear_regression,
             port=9000,
             compressor=Compression[args.compression],
-            server_communicator= ServerCommunicator[args.protocol],
+            server_communicator= ServerCommunicationProtocol[args.protocol],
             ).communicator
     else:
         communicator = PymiloServer(
             port=8000,
             compressor=Compression[args.compression],
-            server_communicator=ServerCommunicator[args.protocol],
+            server_communicator=ServerCommunicationProtocol[args.protocol],
             ).communicator
-    
+
     communicator.run()
 
 if __name__ == '__main__':

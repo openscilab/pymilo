@@ -1,6 +1,6 @@
 import numpy as np
 from pymilo.streaming import PymiloClient, Compression
-from pymilo.streaming.communicator import ClientCommunicator
+from pymilo.streaming.communicator import ClientCommunicationProtocol
 from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
@@ -23,7 +23,7 @@ def scenario2(compression_method, communication_protocol):
         model=linear_regression,
         mode=PymiloClient.Mode.LOCAL,
         compressor=Compression[compression_method],
-        client_communicator=ClientCommunicator[communication_protocol],
+        client_communicator=ClientCommunicationProtocol[communication_protocol],
         )
 
     # 2.

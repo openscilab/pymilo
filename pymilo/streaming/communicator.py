@@ -198,7 +198,7 @@ class RESTServerCommunicator():
         uvicorn.run(self.app, host=self.host, port=self.port)
 
 
-class WebSocketClientCommunicator:
+class WebSocketClientCommunicator(ClientCommunicator):
     """Facilitate working with the communication medium from the client side for the WebSocket protocol."""
 
     def __init__(
@@ -471,14 +471,14 @@ class WebSocketServerCommunicator:
         uvicorn.run(self.app, host=self.host, port=self.port)
 
 
-class ClientCommunicator(Enum):
+class ClientCommunicationProtocol(Enum):
     """Communication protocol used in the client side."""
 
     REST = RESTClientCommunicator
     WEBSOCKET = WebSocketClientCommunicator
 
 
-class ServerCommunicator(Enum):
+class ServerCommunicationProtocol(Enum):
     """Communication protocol used in the server side."""
 
     REST = RESTServerCommunicator

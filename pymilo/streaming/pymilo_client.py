@@ -7,7 +7,7 @@ from ..pymilo_obj import Export, Import
 from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED, \
     PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED, \
     PYMILO_CLIENT_INVALID_ATTRIBUTE, PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL
-from .communicator import ClientCommunicator
+from .communicator import ClientCommunicationProtocol
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
 
@@ -26,7 +26,7 @@ class PymiloClient:
             mode=Mode.LOCAL,
             compressor=Compression.NULL,
             server_url="127.0.0.1:8000",
-            client_communicator=ClientCommunicator.REST,
+            client_communicator=ClientCommunicationProtocol.REST,
     ):
         """
         Initialize the Pymilo PymiloClient instance.
