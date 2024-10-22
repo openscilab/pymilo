@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """PyMilo modules."""
+import os
+import re
 import json
 from copy import deepcopy
 from warnings import warn
 from traceback import format_exc
 from .utils.util import get_sklearn_type, download_model
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
 from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
@@ -168,3 +171,43 @@ class Import:
         :return: sklearn model
         """
         return to_sklearn_model(self)
+
+    @staticmethod
+    def batch_import(file_addr):
+        """
+        Import a batch of models from individual JSON files in a specified directory.
+
+        This method takes a directory containing JSON files and imports each one into a model. 
+        The models are imported concurrently using multiple threads, ensuring that the files are 
+        processed in the order determined by their numeric suffixes. The function returns the 
+        successfully imported models in the same order as their filenames.
+
+        :param file_addr: The directory where the JSON files to be imported are located.
+        :type file_addr: str
+        :return: A tuple containing the count of models imported successfully and a list of the 
+                imported models in their filename order.
+        """
+        if not os.path.exists(file_addr):
+            raise FileNotFoundError(f"The directory '{file_addr}' does not exist.")
+
+        json_files = [f for f in os.listdir(file_addr) if f.endswith('.json')]
+        json_files.sort(key=lambda x: int(re.search(r'_(\d+)\.json$', x).group(1)))
+
+        models = [None] * len(json_files)
+        count = 0
+
+        def import_model(file_path, index):
+            try:
+                model = Import(file_path).to_model()
+                return index, model
+            except Exception as e:
+                return index, None
+
+        with ThreadPoolExecutor() as executor:
+            futures = {executor.submit(import_model, os.path.join(file_addr, file), index): index for index, file in enumerate(json_files)}
+            for future in as_completed(futures):
+                index, model = future.result()
+                if model is not None:
+                    models[index] = model
+                    count += 1
+            return count, models
