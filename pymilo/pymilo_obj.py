@@ -73,6 +73,36 @@ class Export:
                         "model_type": self.type},
                 })
 
+    @staticmethod
+    def batch_export(models, file_addr):
+        """
+        Export a batch of models to individual JSON files in a specified directory.
+
+        This method takes a list of trained models and exports each one into a JSON file. The models 
+        are exported concurrently using multiple threads, where each model is saved to a file named 
+        'model_{index}.json' in the provided directory.
+
+        :param models: List of models to get exported.
+        :type models: list
+        :param file_addr: The directory where exported JSON files will be saved.
+        :type file_addr: str
+        :return: the count of models exported successfully
+        """
+        if not os.path.exists(file_addr):
+            os.mkdir(file_addr)
+        def export_model(model, index):
+            try:
+                Export(model).save(file_adr=os.path.join(file_addr, f"model_{index}.json"))
+                return 1
+            except Exception as e:
+                return 0
+        with ThreadPoolExecutor() as executor:
+            futures = [executor.submit(export_model, model, index) for index, model in enumerate(models)]
+            count = 0
+            for future in as_completed(futures):
+                count += future.result()
+            return count
+
 
 class Import:
     """
