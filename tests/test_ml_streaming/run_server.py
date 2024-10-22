@@ -1,7 +1,6 @@
 import argparse
 from sklearn.linear_model import LinearRegression
-from pymilo.streaming import PymiloServer, Compression
-from pymilo.streaming.communicator import CommunicationProtocol
+from pymilo.streaming import PymiloServer, Compression, CommunicationProtocol
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 

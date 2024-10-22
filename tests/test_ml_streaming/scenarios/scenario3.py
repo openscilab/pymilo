@@ -1,7 +1,6 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error
-from pymilo.streaming import PymiloClient, Compression
-from pymilo.streaming.communicator import CommunicationProtocol
+from pymilo.streaming import PymiloClient, Compression, CommunicationProtocol
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
