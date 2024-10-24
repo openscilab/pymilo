@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- batch operation testcases
+- `batch_export` func in `pymilo/pymilo_obj.py` 
+- `batch_import` func in `pymilo/pymilo_obj.py`
 - PyMilo exception types added in `pymilo/exceptions/__init__.py`
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
