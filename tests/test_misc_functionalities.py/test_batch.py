@@ -9,7 +9,7 @@ from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
 def test_batch_execution():
-    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
+    x_train, y_train, x_test, _ = prepare_simple_regression_datasets()
     linear_regression = LinearRegression()
     linear_regression.fit(x_train, y_train)
     pre_models = [linear_regression]*100
@@ -24,4 +24,4 @@ def test_batch_execution():
         if pattern.match(filename):
             file_path = os.path.join(os.getcwd(), filename)
             os.remove(file_path)
-    return exp_n == imp_n and np.abs(mse) <= 10**(-8) 
+    return exp_n == imp_n and np.abs(mse) <= 10**(-8)

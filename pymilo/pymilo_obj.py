@@ -98,7 +98,7 @@ class Export:
             try:
                 Export(model).save(file_adr=os.path.join(file_addr, f"model_{index}.json"))
                 return 1
-            except Exception as e:
+            except Exception as _:
                 return 0
         with ThreadPoolExecutor() as executor:
             futures = [executor.submit(export_model, model, index) for index, model in enumerate(models)]
@@ -201,7 +201,7 @@ class Import:
             try:
                 model = Import(file_path).to_model()
                 return index, model
-            except Exception as e:
+            except Exception as _:
                 return index, None
 
         with ThreadPoolExecutor() as executor:
