@@ -81,8 +81,8 @@ class Export:
         """
         Export a batch of models to individual JSON files in a specified directory.
 
-        This method takes a list of trained models and exports each one into a JSON file. The models 
-        are exported concurrently using multiple threads, where each model is saved to a file named 
+        This method takes a list of trained models and exports each one into a JSON file. The models
+        are exported concurrently using multiple threads, where each model is saved to a file named
         'model_{index}.json' in the provided directory.
 
         :param models: List of models to get exported.
@@ -93,6 +93,7 @@ class Export:
         """
         if not os.path.exists(file_addr):
             os.mkdir(file_addr)
+
         def export_model(model, index):
             try:
                 Export(model).save(file_adr=os.path.join(file_addr, f"model_{index}.json"))
@@ -177,14 +178,14 @@ class Import:
         """
         Import a batch of models from individual JSON files in a specified directory.
 
-        This method takes a directory containing JSON files and imports each one into a model. 
-        The models are imported concurrently using multiple threads, ensuring that the files are 
-        processed in the order determined by their numeric suffixes. The function returns the 
+        This method takes a directory containing JSON files and imports each one into a model.
+        The models are imported concurrently using multiple threads, ensuring that the files are
+        processed in the order determined by their numeric suffixes. The function returns the
         successfully imported models in the same order as their filenames.
 
         :param file_addr: The directory where the JSON files to be imported are located.
         :type file_addr: str
-        :return: A tuple containing the count of models imported successfully and a list of the 
+        :return: A tuple containing the count of models imported successfully and a list of the
                 imported models in their filename order.
         """
         if not os.path.exists(file_addr):
@@ -204,7 +205,8 @@ class Import:
                 return index, None
 
         with ThreadPoolExecutor() as executor:
-            futures = {executor.submit(import_model, os.path.join(file_addr, file), index): index for index, file in enumerate(json_files)}
+            futures = {executor.submit(import_model, os.path.join(file_addr, file), index)
+                                       : index for index, file in enumerate(json_files)}
             for future in as_completed(futures):
                 index, model = future.result()
                 if model is not None:
