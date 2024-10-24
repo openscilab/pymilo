@@ -15,7 +15,7 @@ def test_batch_execution():
     pre_models = [linear_regression]*100
     exp_n = Export.batch_export(pre_models, os.getcwd())
     imp_n, post_models = Import.batch_import(os.getcwd())
-    r_index = random.randint(0, len(post_models))
+    r_index = random.randint(0, len(post_models) - 1)
     pre_result = pre_models[r_index].predict(x_test)
     post_result = post_models[r_index].predict(x_test)
     mse = mean_squared_error(post_result, pre_result)
