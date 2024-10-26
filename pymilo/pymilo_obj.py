@@ -11,7 +11,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
 from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
-from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS, INVALID_IMPORT_INIT_PARAMS
+from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
+from .pymilo_param import INVALID_IMPORT_INIT_PARAMS, BATCH_IMPORT_INVALID_DIRECTORY
 
 
 class Export:
@@ -77,7 +78,7 @@ class Export:
                 })
 
     @staticmethod
-    def batch_export(models, file_addr):
+    def batch_export(models, file_addr, run_parallel=False):
         """
         Export a batch of models to individual JSON files in a specified directory.
 
@@ -89,6 +90,8 @@ class Export:
         :type models: list
         :param file_addr: The directory where exported JSON files will be saved.
         :type file_addr: str
+        :param run_parallel: flag indicating the parallel execution of exports
+        :type run_parallel: boolean
         :return: the count of models exported successfully
         """
         if not os.path.exists(file_addr):
@@ -100,11 +103,17 @@ class Export:
                 return 1
             except Exception as _:
                 return 0
-        with ThreadPoolExecutor() as executor:
-            futures = [executor.submit(export_model, model, index) for index, model in enumerate(models)]
+        if run_parallel:
+            with ThreadPoolExecutor() as executor:
+                futures = [executor.submit(export_model, model, index) for index, model in enumerate(models)]
+                count = 0
+                for future in as_completed(futures):
+                    count += future.result()
+                return count
+        else:
             count = 0
-            for future in as_completed(futures):
-                count += future.result()
+            for index, model in enumerate(models):
+                count += export_model(model, index)
             return count
 
 
@@ -174,7 +183,7 @@ class Import:
         return to_sklearn_model(self)
 
     @staticmethod
-    def batch_import(file_addr):
+    def batch_import(file_addr, run_parallel=False):
         """
         Import a batch of models from individual JSON files in a specified directory.
 
@@ -185,11 +194,13 @@ class Import:
 
         :param file_addr: The directory where the JSON files to be imported are located.
         :type file_addr: str
+        :param run_parallel: flag indicating the parallel execution of imports
+        :type run_parallel: boolean
         :return: A tuple containing the count of models imported successfully and a list of the
                 imported models in their filename order.
         """
         if not os.path.exists(file_addr):
-            raise FileNotFoundError(f"The directory '{file_addr}' does not exist.")
+            raise FileNotFoundError(BATCH_IMPORT_INVALID_DIRECTORY)
 
         json_files = [f for f in os.listdir(file_addr) if f.endswith('.json')]
         json_files.sort(key=lambda x: int(re.search(r'_(\d+)\.json$', x).group(1)))
@@ -204,11 +215,26 @@ class Import:
             except Exception as _:
                 return index, None
 
-        with ThreadPoolExecutor() as executor:
-            futures = {executor.submit(import_model, os.path.join(file_addr, file), index)
-                                       : index for index, file in enumerate(json_files)}
-            for future in as_completed(futures):
-                index, model = future.result()
+        if run_parallel:
+            with ThreadPoolExecutor() as executor:
+                futures = {
+                    executor.submit(
+                        import_model,
+                        os.path.join(
+                            file_addr,
+                            file),
+                        index): index for index,
+                    file in enumerate(json_files)}
+                for future in as_completed(futures):
+                    index, model = future.result()
+                    if model is not None:
+                        models[index] = model
+                        count += 1
+                return count, models
+        else:
+            count = 0
+            for index, file in enumerate(json_files):
+                model = Import(os.path.join(file_addr, file)).to_model()
                 if model is not None:
                     models[index] = model
                     count += 1
