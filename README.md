@@ -214,6 +214,8 @@ Now that you've synced the remote model with your local model, you can run funct
 | Ensemble Models &#x2705; | - | 
 | Pipeline Model &#x2705; | - |
 | Preprocessing Models &#x2705; | - |
+| Cross Decomposition Models &#x2705; | - |
+
 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
