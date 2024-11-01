@@ -46,7 +46,7 @@ def transport_decision_tree(request, command, is_inner_model=False):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: the transported request as a json string or sklearn decision tree model
     """
@@ -100,7 +100,7 @@ def deserialize_decision_tree(decision_tree, is_inner_model=False):
 
     :param decision_tree: given json string of a decision tree model to get deserialized to associated sklearn decision tree model
     :type decision_tree: obj
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: associated sklearn decision tree model
     """

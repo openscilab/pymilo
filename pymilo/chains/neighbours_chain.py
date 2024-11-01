@@ -43,7 +43,7 @@ def transport_neighbor(request, command, is_inner_model=False):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: the transported request as a json string or sklearn neighbors model
     """
@@ -97,7 +97,7 @@ def deserialize_neighbor(neighbor, is_inner_model=False):
 
     :param neighbor: given json string of a neighbor model to get deserialized to associated sklearn neighbors model
     :type neighbor: obj
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: associated sklearn neighbor model
     """

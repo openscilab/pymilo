@@ -58,9 +58,9 @@ def transport_linear_model(request, command, is_inner_model=False):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
-    :return: the transported request as a json string or sklearn linear model
+    :return: the transported request as a json string or sklearn model
     """
     if not is_inner_model:
         validate_input(request, command)
@@ -119,7 +119,7 @@ def deserialize_linear_model(linear_model, is_inner_model):
 
     :param linear_model: given json string of a linear model to get deserialized to associated sklearn linear model
     :type linear_model: obj
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: associated sklearn linear model
     """

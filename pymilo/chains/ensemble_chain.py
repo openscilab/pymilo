@@ -76,7 +76,7 @@ def transport_ensemble(request, command, is_inner_model=False):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether it is an inner ensemble model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: the transported request as a json string or sklearn ensemble model
     """
