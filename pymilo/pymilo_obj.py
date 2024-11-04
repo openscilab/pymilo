@@ -86,9 +86,9 @@ class Export:
         are exported concurrently using multiple threads, where each model is saved to a file named
         'model_{index}.json' in the provided directory.
 
-        :param models: List of models to get exported.
+        :param models: list of models to get exported.
         :type models: list
-        :param file_addr: The directory where exported JSON files will be saved.
+        :param file_addr: the directory where exported JSON files will be saved.
         :type file_addr: str
         :param run_parallel: flag indicating the parallel execution of exports
         :type run_parallel: boolean
@@ -192,11 +192,11 @@ class Import:
         processed in the order determined by their numeric suffixes. The function returns the
         successfully imported models in the same order as their filenames.
 
-        :param file_addr: The directory where the JSON files to be imported are located.
+        :param file_addr: the directory where the JSON files to be imported are located.
         :type file_addr: str
         :param run_parallel: flag indicating the parallel execution of imports
         :type run_parallel: boolean
-        :return: A tuple containing the count of models imported successfully and a list of the
+        :return: a tuple containing the count of models imported successfully and a list of the
                 imported models in their filename order.
         """
         if not os.path.exists(file_addr):
