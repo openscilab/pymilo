@@ -6,11 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- `validate_http_url` in `streaming.util.py`
-- `validate_websocket_url` in `streaming.util.py`
+- `validate_http_url` function in `streaming.util.py`
+- `validate_websocket_url` function in `streaming.util.py`
 - `ML Streaming` WebSocket testcases
-- `ClientCommunicationProtocol` Enum in `streaming.communicator.py`
-- `ServerCommunicationProtocol` Enum in `streaming.communicator.py`
+- `CommunicationProtocol` Enum in `streaming.communicator.py`
 - `WebSocketClientCommunicator` class in `streaming.communicator.py`
 - `WebSocketServerCommunicator` class in `streaming.communicator.py`
 - PyMilo exception types added in `pymilo/exceptions/__init__.py`
