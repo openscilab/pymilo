@@ -1,6 +1,6 @@
 # Supported Models
 
-**Last Update: 2024-05-30**
+**Last Update: 2024-10-31**
 
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
@@ -706,4 +706,30 @@
 		<td>>=0.9</td>
 	</tr>
 
+</table>
+
+
+<h3 id="scikit-learn-cross-decomposition">Cross Decomposition Modules</h3> 
+📚 <a href="https://scikit-learn.org/stable/api/sklearn.cross_decomposition.html" target="_blank"><b>Models Document</b></a>
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>PLSRegression</b></td>
+		<td>>=1.1</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>PLSCanonical</b></td>
+		<td>>=1.1</td>
+	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>CCA</b></td>
+		<td>>=1.1</td>
+	</tr>
 </table>
