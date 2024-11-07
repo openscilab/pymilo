@@ -19,9 +19,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
     <tr>
         <td align="center">PyPI Counter</td>
         <td align="center">
-            <a href="http://pepy.tech/project/pymilo">
-                <img src="http://pepy.tech/badge/pymilo">
-            </a>
+	    <a href="https://pepy.tech/projects/pymilo">
+	        <img src="https://static.pepy.tech/badge/pymilo" alt="PyPI Downloads">
+	    </a>
         </td>
     </tr>
     <tr>
