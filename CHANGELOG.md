@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PyMilo exception types added in `pymilo/exceptions/__init__.py`
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
+- `README.md` updated
 - Tests config modified
 - Cross decomposition params initialized in `pymilo_param`
 - Cross decomposition support added to `pymilo_func.py`
