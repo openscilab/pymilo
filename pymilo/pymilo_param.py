@@ -13,6 +13,7 @@ import sklearn.dummy as dummy
 import sklearn.ensemble as ensemble
 import sklearn.pipeline as pipeline
 import sklearn.preprocessing as preprocessing
+from sklearn.cross_decomposition import PLSRegression, PLSCanonical, CCA
 
 quantile_regressor_support = False
 try:
@@ -90,7 +91,7 @@ UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differs from the S
 INVALID_IMPORT_INIT_PARAMS = "Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class."
 DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond."
 INVALID_DOWNLOADED_MODEL = "The downloaded content is not a valid JSON file."
-
+BATCH_IMPORT_INVALID_DIRECTORY = "The given directory does not exist."
 
 SKLEARN_LINEAR_MODEL_TABLE = {
     "DummyRegressor": dummy.DummyRegressor,
@@ -236,6 +237,12 @@ SKLEARN_PREPROCESSING_TABLE = {
     "TargetEncoder": TargetEncoder if target_encoder_support else NOT_SUPPORTED,
 }
 
+SKLEARN_CROSS_DECOMPOSITION_TABLE = {
+    "PLSRegression": PLSRegression,
+    "PLSCanonical": PLSCanonical,
+    "CCA": CCA,
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": preprocessing.LabelBinarizer,  # in Ridge Classifier
     "active_": np.int32,  # in Lasso Lars
@@ -267,4 +274,5 @@ EXPORTED_MODELS_PATH = {
     "SVM": "exported_svms",
     "NEIGHBORS": "exported_neighbors",
     "ENSEMBLE": "exported_ensembles",
+    "CROSS_DECOMPOSITION": "exported_cross_decomposition",
 }
