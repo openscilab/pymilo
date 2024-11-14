@@ -19,9 +19,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
     <tr>
         <td align="center">PyPI Counter</td>
         <td align="center">
-            <a href="http://pepy.tech/project/pymilo">
-                <img src="http://pepy.tech/badge/pymilo">
-            </a>
+	    <a href="https://pepy.tech/projects/pymilo">
+	        <img src="https://static.pepy.tech/badge/pymilo" alt="PyPI Downloads">
+	    </a>
         </td>
     </tr>
     <tr>
@@ -214,6 +214,8 @@ Now that you've synced the remote model with your local model, you can run funct
 | Ensemble Models &#x2705; | - | 
 | Pipeline Model &#x2705; | - |
 | Preprocessing Models &#x2705; | - |
+| Cross Decomposition Models &#x2705; | - |
+
 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 

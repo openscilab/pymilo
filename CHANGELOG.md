@@ -9,9 +9,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - batch operation testcases
 - `batch_export` function in `pymilo/pymilo_obj.py` 
 - `batch_import` function in `pymilo/pymilo_obj.py`
+- `CCA` model
+- `PLSCanonical` model
+- `PLSRegression` model
+- Cross decomposition models test runner
+- Cross decomposition chain
 - PyMilo exception types added in `pymilo/exceptions/__init__.py`
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
+- `README.md` updated
+- Tests config modified
+- Cross decomposition params initialized in `pymilo_param`
+- Cross decomposition support added to `pymilo_func.py`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
+- GitHub actions are limited to the `dev` and `main` branches
 - `Python 3.13` added to `test.yml`
 ## [1.0] - 2024-09-16
 ### Added

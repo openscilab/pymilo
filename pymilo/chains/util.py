@@ -7,7 +7,7 @@ from .clustering_chain import transport_clusterer, is_clusterer
 from .naive_bayes_chain import transport_naive_bayes, is_naive_bayes
 from .svm_chain import transport_svm, is_svm
 from .neighbours_chain import transport_neighbor, is_neighbors
-
+from .cross_decomposition_chain import transport_cross_decomposition, is_cross_decomposition
 
 MODEL_TYPE_TRANSPORTER = {
     "LINEAR_MODEL": transport_linear_model,
@@ -16,7 +16,8 @@ MODEL_TYPE_TRANSPORTER = {
     "CLUSTERING": transport_clusterer,
     "NAIVE_BAYES": transport_naive_bayes,
     "SVM": transport_svm,
-    "NEIGHBORS": transport_neighbor
+    "NEIGHBORS": transport_neighbor,
+    "CROSS_DECOMPOSITION": transport_cross_decomposition,
 }
 
 
@@ -47,5 +48,7 @@ def get_concrete_transporter(model):
         return "SVM", transport_svm
     elif is_neighbors(model):
         return "NEIGHBORS", transport_neighbor
+    elif is_cross_decomposition(model):
+        return "CROSS_DECOMPOSITION", transport_cross_decomposition
     else:
         return None, None
