@@ -91,7 +91,7 @@ UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differs from the S
 INVALID_IMPORT_INIT_PARAMS = "Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class."
 DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond."
 INVALID_DOWNLOADED_MODEL = "The downloaded content is not a valid JSON file."
-
+BATCH_IMPORT_INVALID_DIRECTORY = "The given directory does not exist."
 
 SKLEARN_LINEAR_MODEL_TABLE = {
     "DummyRegressor": dummy.DummyRegressor,
