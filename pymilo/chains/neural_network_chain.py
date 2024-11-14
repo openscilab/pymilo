@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo chain for linear models."""
+"""PyMilo chain for neural network models."""
 from ..transporters.transporter import Command
 
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
@@ -49,7 +49,7 @@ def transport_neural_network(request, command, is_inner_model=False):
     :type request: any object
     :param command: command to specify whether the request should be serialized or deserialized
     :type command: transporter.Command
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: the transported request as a json string or sklearn neural network model
     """
@@ -103,7 +103,7 @@ def deserialize_neural_network(neural_network, is_inner_model=False):
 
     :param neural_network: given json string of a neural network model to get deserialized to associated sklearn NN model
     :type neural_network: obj
-    :param is_inner_model: determines whether it is an inner linear model of a super ml model
+    :param is_inner_model: determines whether it is an inner model of a super ml model
     :type is_inner_model: boolean
     :return: associated sklearn NN model
     """
