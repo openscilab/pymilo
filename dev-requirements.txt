@@ -4,8 +4,8 @@ scipy>=0.19.1
 uvicorn==0.32.0
 fastapi==0.115.2
 requests==2.32.3
-pydantic>=1.5.0
-websockets>=9.0
+pydantic==1.5.0
+websockets==9.0
 setuptools>=40.8.0
 vulture>=1.0
 bandit>=1.5.1
