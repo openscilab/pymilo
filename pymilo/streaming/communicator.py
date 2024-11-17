@@ -226,9 +226,22 @@ class WebSocketClientCommunicator(ClientCommunicator):
             self.loop = asyncio.get_event_loop()
         self.loop.run_until_complete(self.connect())
 
+    def is_socket_closed(self):
+        """
+        Check if the WebSocket connection is closed.
+
+        :return: `True` if the WebSocket connection is closed or uninitialized, `False` otherwise.
+        """  
+        if self.websocket is None:
+            return True
+        elif hasattr(self.websocket, "closed"):  # For older versions
+            return self.websocket.closed
+        elif hasattr(self.websocket, "state"):  # For newer versions
+            return self.websocket.state is websockets.protocol.State.CLOSED
+
     async def connect(self):
         """Establish a WebSocket connection with the server."""
-        if self.websocket is None or self.websocket.closed:
+        if self.is_socket_closed():
             self.websocket = await websockets.connect(self.server_url)
             print("Connected to the WebSocket server.")
             self.connection_established.set()
@@ -250,7 +263,7 @@ class WebSocketClientCommunicator(ClientCommunicator):
         """
         await self.connection_established.wait()
 
-        if self.websocket is None or self.websocket.closed:
+        if self.is_socket_closed():
             raise RuntimeError(PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED)
 
         message = json.dumps({"action": action, "payload": payload})
