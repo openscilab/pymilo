@@ -3,7 +3,7 @@ scikit-learn==1.5.2
 uvicorn==0.32.0
 fastapi==0.115.4
 requests==2.32.3
-websockets==9.0
+websockets>=9.0
 setuptools>=40.8.0
 vulture>=1.0
 bandit>=1.5.1
