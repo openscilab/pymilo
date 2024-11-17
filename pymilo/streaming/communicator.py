@@ -231,7 +231,7 @@ class WebSocketClientCommunicator(ClientCommunicator):
         Check if the WebSocket connection is closed.
 
         :return: `True` if the WebSocket connection is closed or uninitialized, `False` otherwise.
-        """  
+        """
         if self.websocket is None:
             return True
         elif hasattr(self.websocket, "closed"):  # For older versions
