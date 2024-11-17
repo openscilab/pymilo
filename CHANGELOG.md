@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `is_socket_closed` function in `streaming.communicator.py`
 - `validate_http_url` function in `streaming.util.py`
 - `validate_websocket_url` function in `streaming.util.py`
 - `ML Streaming` WebSocket testcases
