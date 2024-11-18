@@ -17,6 +17,8 @@ on:
 env:
   TEST_PYTHON_VERSION: 3.9
   TEST_OS: 'ubuntu-20.04'
+  SKIP_STREAMING_OS: 'windows-2022'
+  SKIP_STREAMING_PYTHON_VERSION: 3.11
 
 jobs:
   build:
@@ -40,12 +42,21 @@ jobs:
         run: |
           python otherfiles/requirements-splitter.py
           pip install --upgrade --upgrade-strategy=only-if-needed -r test-requirements.txt
-      - name: Pymilo Functionality Tests with pytest 
+      - name: Pymilo Core Functionality Tests with pytest
         run: |
-          python -m pytest . --cov=pymilo --cov-report=term
+          python -m pytest . --ignore=./tests/test_ml_streaming --cov=pymilo --cov-report=term --cov-report=xml:coverage_core.xml
+      - name: Pymilo Streaming Functionality Tests with pytest
+        run: |
+          python -m pytest ./tests/test_ml_streaming --cov=pymilo --cov-report=term --cov-report=xml:coverage_streaming.xml
+        if: matrix.python-version == env.SKIP_STREAMING_PYTHON_VERSION && matrix.os == env.SKIP_STREAMING_OS
+      - name: Merge coverage files
+        run: |
+          coverage combine
+          coverage xml -o coverage_combined.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
+            files: coverage_combined.xml
             fail_ci_if_error: false
         if: matrix.python-version == env.TEST_PYTHON_VERSION && matrix.os == env.TEST_OS
       - name: Vulture, Bandit and Pydocstyle Tests
