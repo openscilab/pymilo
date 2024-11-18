@@ -1,10 +1,10 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error
-from pymilo.streaming import PymiloClient, Compression
+from pymilo.streaming import PymiloClient, Compression, CommunicationProtocol
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
-def scenario3(compression_method):
+def scenario3(compression_method, communication_protocol):
     # [PyMilo Server is initialized with ML Model]
     # 1. calculate mse in server
     # 2. download model in local
@@ -16,7 +16,8 @@ def scenario3(compression_method):
     client = PymiloClient(
         mode=PymiloClient.Mode.LOCAL,
         compressor=Compression[compression_method],
-        server_url="http://127.0.0.1:9000",
+        server_url="127.0.0.1:9000",
+        communication_protocol=CommunicationProtocol[communication_protocol],
         )
     client.toggle_mode(PymiloClient.Mode.DELEGATE)
     result = client.predict(x_test)

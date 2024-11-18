@@ -7,7 +7,7 @@ from ..pymilo_obj import Export, Import
 from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED, \
     PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED, \
     PYMILO_CLIENT_INVALID_ATTRIBUTE, PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL
-from .communicator import RESTClientCommunicator
+from .communicator import CommunicationProtocol
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
 
@@ -25,7 +25,8 @@ class PymiloClient:
             model=None,
             mode=Mode.LOCAL,
             compressor=Compression.NULL,
-            server_url="http://127.0.0.1:8000",
+            server_url="127.0.0.1:8000",
+            communication_protocol=CommunicationProtocol.REST,
     ):
         """
         Initialize the Pymilo PymiloClient instance.
@@ -38,6 +39,8 @@ class PymiloClient:
         :type compressor: pymilo.streaming.compressor.Compression
         :param server_url: the url to which PyMilo Server listens
         :type server_url: str
+        :param communication_protocol: The communication protocol to be used by PymiloClient
+        :type communication_protocol: pymilo.streaming.communicator.CommunicationProtocol
         :return: an instance of the Pymilo PymiloClient class
         """
         self.model = model
@@ -46,7 +49,7 @@ class PymiloClient:
         self._mode = mode
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
-        self._communicator = RESTClientCommunicator(server_url)
+        self._communicator = communication_protocol.value["CLIENT"](server_url)
 
     def encrypt_compress(self, body):
         """

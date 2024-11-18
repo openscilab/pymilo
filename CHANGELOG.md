@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `is_socket_closed` function in `streaming.communicator.py`
+- `validate_http_url` function in `streaming.util.py`
+- `validate_websocket_url` function in `streaming.util.py`
+- `ML Streaming` WebSocket testcases
+- `CommunicationProtocol` Enum in `streaming.communicator.py`
+- `WebSocketClientCommunicator` class in `streaming.communicator.py`
+- `WebSocketServerCommunicator` class in `streaming.communicator.py`
 - batch operation testcases
 - `batch_export` function in `pymilo/pymilo_obj.py` 
 - `batch_import` function in `pymilo/pymilo_obj.py`
@@ -17,6 +24,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PyMilo exception types added in `pymilo/exceptions/__init__.py`
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
+- `communication_protocol` parameter added to `PyMiloClient` class
+- `communication_protocol` parameter added to `PyMiloServer` class
+- `ML Streaming` testcases updated to support protocol selection
 - `README.md` updated
 - Tests config modified
 - Cross decomposition params initialized in `pymilo_param`
