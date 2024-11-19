@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PyMilo exception types added in `pymilo/exceptions/__init__.py`
 - PyMilo exception types added in `pymilo/__init__.py`
 ### Changed
+- `core` and `streaming` tests divided in `test.yml`
 - `communication_protocol` parameter added to `PyMiloClient` class
 - `communication_protocol` parameter added to `PyMiloServer` class
 - `ML Streaming` testcases updated to support protocol selection
