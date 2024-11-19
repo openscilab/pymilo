@@ -18,7 +18,7 @@ env:
   TEST_PYTHON_VERSION: 3.9
   TEST_OS: 'ubuntu-20.04'
   SKIP_STREAMING_OS: 'windows-2022'
-  SKIP_STREAMING_PYTHON_VERSION: 3.11
+  SKIP_STREAMING_PYTHON_VERSION: 3.11.0
 
 jobs:
   build:
@@ -48,7 +48,7 @@ jobs:
       - name: Pymilo Streaming Functionality Tests with pytest
         run: |
           python -m pytest ./tests/test_ml_streaming --cov=pymilo --cov-report=term --cov-report=xml:coverage_streaming.xml
-        if: matrix.python-version == env.SKIP_STREAMING_PYTHON_VERSION && matrix.os == env.SKIP_STREAMING_OS
+        if: matrix.python-version != env.SKIP_STREAMING_PYTHON_VERSION && matrix.os != env.SKIP_STREAMING_OS
       - name: Merge coverage files
         run: |
           coverage combine
