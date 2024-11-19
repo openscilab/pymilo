@@ -43,9 +43,13 @@ jobs:
           python otherfiles/requirements-splitter.py
           pip install --upgrade --upgrade-strategy=only-if-needed -r test-requirements.txt
       - name: Pymilo Core Functionality Tests with pytest
+        env:
+          COVERAGE_FILE: .coverage.core
         run: |
           python -m pytest . --ignore=./tests/test_ml_streaming --cov=pymilo --cov-report=term --cov-report=xml:coverage_core.xml
       - name: Pymilo Streaming Functionality Tests with pytest
+        env:
+          COVERAGE_FILE: .coverage.streaming
         run: |
           python -m pytest ./tests/test_ml_streaming --cov=pymilo --cov-report=term --cov-report=xml:coverage_streaming.xml
         if: matrix.python-version != env.SKIP_STREAMING_PYTHON_VERSION && matrix.os != env.SKIP_STREAMING_OS
