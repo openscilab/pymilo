@@ -52,7 +52,7 @@ jobs:
           COVERAGE_FILE: .coverage.streaming
         run: |
           python -m pytest ./tests/test_ml_streaming --cov=pymilo --cov-report=term --cov-report=xml:coverage_streaming.xml
-        if: matrix.python-version != env.SKIP_STREAMING_PYTHON_VERSION && matrix.os != env.SKIP_STREAMING_OS
+        if: matrix.python-version != env.SKIP_STREAMING_PYTHON_VERSION || matrix.os != env.SKIP_STREAMING_OS
       - name: Merge coverage files
         run: |
           ls -a
