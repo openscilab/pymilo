@@ -55,7 +55,6 @@ jobs:
         if: matrix.python-version != env.SKIP_STREAMING_PYTHON_VERSION || matrix.os != env.SKIP_STREAMING_OS
       - name: Merge coverage files
         run: |
-          ls -a
           coverage combine
           coverage xml -o coverage_combined.xml
       - name: Upload coverage to Codecov
