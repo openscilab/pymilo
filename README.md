@@ -157,13 +157,15 @@ You can easily serve your ML model from a remote server using `ML streaming` fea
 
 ⚠️ In order to use `ML streaming` feature, make sure you've installed the `streaming` mode of PyMilo
 
+You can choose either `REST` or `WebSocket` as the communication medium protocol.
+
 #### Server
-Let's assume you are in the remote server and you want to import the exported JSON file and start serving your model!
+Let's assume you are in the remote server and you want to import the exported JSON file and start serving your model through `REST` protocol!
 ```pycon
 >>> from pymilo import Import
->>> from pymilo.streaming import PymiloServer
+>>> from pymilo.streaming import PymiloServer, CommunicationProtocol
 >>> my_model = Import("model.json").to_model()
->>> communicator = PymiloServer(model=my_model, port=8000).communicator
+>>> communicator = PymiloServer(model=my_model, port=8000, communication_protocol= CommunicationProtocol["REST"]).communicator
 >>> communicator.run()
 ```
 Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
@@ -171,13 +173,17 @@ Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `downlo
 #### Client
 By using `PymiloClient` you can easily connect to the remote `PymiloServer` and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
 ```pycon
->>> from pymilo.streaming import PymiloClient
->>> pymilo_client = PymiloClient(mode=PymiloClient.Mode.LOCAL, server_url="SERVER_URL")
+>>> from pymilo.streaming import PymiloClient, CommunicationProtocol
+>>> pymilo_client = PymiloClient(
+>>>     mode=PymiloClient.Mode.LOCAL,
+>>>     server_url="SERVER_URL",
+>>>     communication_protocol=CommunicationProtocol["REST"],
+>>>     )
 >>> pymilo_client.toggle_mode(PymiloClient.Mode.DELEGATE)
 >>> result = pymilo_client.predict(x_test)
 ```
 
-ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000`
+ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000` or `ws://127.0.0.1:8000` based on the selected protocol for the communication medium.
 
 You can also download the remote ML model into your local and execute functions locally on your model.
 
