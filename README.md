@@ -165,7 +165,11 @@ Let's assume you are in the remote server and you want to import the exported JS
 >>> from pymilo import Import
 >>> from pymilo.streaming import PymiloServer, CommunicationProtocol
 >>> my_model = Import("model.json").to_model()
->>> communicator = PymiloServer(model=my_model, port=8000, communication_protocol= CommunicationProtocol["REST"]).communicator
+>>> communicator = PymiloServer(
+>>>     model=my_model,
+>>>     port=8000,
+>>>     communication_protocol=CommunicationProtocol["REST"],
+>>>     ).communicator
 >>> communicator.run()
 ```
 Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
