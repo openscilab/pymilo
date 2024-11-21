@@ -83,7 +83,7 @@ except BaseException:
     pass
 
 
-PYMILO_VERSION = "1.0"
+PYMILO_VERSION = "1.1"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
 UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differs from the PyMilo version used to create the JSON file."

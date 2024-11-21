@@ -86,6 +86,7 @@ body:
       label: PyMilo version
       description: Which version of PyMilo are you using?
       options:
+        - PyMilo 1.1
         - PyMilo 1.0
         - PyMilo 0.9
         - PyMilo 0.8
