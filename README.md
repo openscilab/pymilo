@@ -80,21 +80,21 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ## Usage
 ### Import/Export
 Imagine you want to train a `LinearRegression` model representing this equation: $y = x_0 + 2x_1 + 3$. You will create data points (`X`, `y`) and train your model as follows.
-```pycon
->>> import numpy as np
->>> from sklearn.linear_model import LinearRegression
->>> X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
->>> y = np.dot(X, np.array([1, 2])) + 3
- # y = 1 * x_0 + 2 * x_1 + 3
->>> model = LinearRegression().fit(X, y)
->>> pred = model.predict(np.array([[3, 5]]))
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+y = np.dot(X, np.array([1, 2])) + 3
+# y = 1 * x_0 + 2 * x_1 + 3
+model = LinearRegression().fit(X, y)
+pred = model.predict(np.array([[3, 5]]))
 # pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
 
 Using PyMilo `Export` class you can easily serialize and export your trained model into a JSON file.
-```pycon
->>> from pymilo import Export
->>> Export(model).save("model.json")
+```python
+from pymilo import Export
+Export(model).save("model.json")
 ```
 
 You can check out your model as a JSON file now.
@@ -142,10 +142,10 @@ You can check out your model as a JSON file now.
 You can see all the learned parameters of the model in this file and change them if you want. This JSON representation is a transparent version of your model.
 
 Now let's load it back. You can do it easily by using PyMilo `Import` class.
-```pycon
->>> from pymilo import Import
->>> model = Import("model.json").to_model()
->>> pred = model.predict(np.array([[3, 5]]))
+```python
+from pymilo import Import
+model = Import("model.json").to_model()
+pred = model.predict(np.array([[3, 5]]))
 # pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
 This loaded model is exactly the same as the original trained model.
@@ -157,44 +157,54 @@ You can easily serve your ML model from a remote server using `ML streaming` fea
 
 ⚠️ In order to use `ML streaming` feature, make sure you've installed the `streaming` mode of PyMilo
 
+You can choose either `REST` or `WebSocket` as the communication medium protocol.
+
 #### Server
-Let's assume you are in the remote server and you want to import the exported JSON file and start serving your model!
-```pycon
->>> from pymilo import Import
->>> from pymilo.streaming import PymiloServer
->>> my_model = Import("model.json").to_model()
->>> communicator = PymiloServer(model=my_model, port=8000).communicator
->>> communicator.run()
+Let's assume you are in the remote server and you want to import the exported JSON file and start serving your model through `REST` protocol!
+```python
+from pymilo import Import
+from pymilo.streaming import PymiloServer, CommunicationProtocol
+my_model = Import("model.json").to_model()
+communicator = PymiloServer(
+    model=my_model,
+    port=8000,
+    communication_protocol=CommunicationProtocol["REST"],
+    ).communicator
+communicator.run()
 ```
 Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
 
 #### Client
 By using `PymiloClient` you can easily connect to the remote `PymiloServer` and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
-```pycon
->>> from pymilo.streaming import PymiloClient
->>> pymilo_client = PymiloClient(mode=PymiloClient.Mode.LOCAL, server_url="SERVER_URL")
->>> pymilo_client.toggle_mode(PymiloClient.Mode.DELEGATE)
->>> result = pymilo_client.predict(x_test)
+```python
+from pymilo.streaming import PymiloClient, CommunicationProtocol
+pymilo_client = PymiloClient(
+    mode=PymiloClient.Mode.LOCAL,
+    server_url="SERVER_URL",
+    communication_protocol=CommunicationProtocol["REST"],
+    )
+pymilo_client.toggle_mode(PymiloClient.Mode.DELEGATE)
+result = pymilo_client.predict(x_test)
 ```
 
-ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000`
+ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000` or `ws://127.0.0.1:8000` based on the selected protocol for the communication medium.
 
 You can also download the remote ML model into your local and execute functions locally on your model.
 
 Calling `download` function on `PymiloClient` will sync the local model that `PymiloClient` wraps upon with the remote ML model, and it doesn't save model directly to a file.
 
-```pycon
->>> pymilo_client.download()
+```python
+pymilo_client.download()
 ```
 If you want to save the ML model to a file in your local, you can use `Export` class.
-```pycon
->>> from pymilo import Export
->>> Export(pymilo_client.model).save("model.json")
+```python
+from pymilo import Export
+Export(pymilo_client.model).save("model.json")
 ```
 Now that you've synced the remote model with your local model, you can run functions.
-```pycon
->>> pymilo_client.toggle_mode(mode=PymiloClient.Mode.LOCAL)
->>> result = pymilo_client.predict(x_test)
+```python
+pymilo_client.toggle_mode(mode=PymiloClient.Mode.LOCAL)
+result = pymilo_client.predict(x_test)
 ```
 `PymiloClient` wraps around the ML model, either to the local ML model or the remote ML model, and you can work with `PymiloClient` in the exact same way that you did with the ML model, you can run exact same functions with same signature.
 
