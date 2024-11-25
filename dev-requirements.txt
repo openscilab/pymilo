@@ -5,7 +5,7 @@ uvicorn==0.32.0
 fastapi==0.115.5
 requests==2.32.3
 pydantic==1.10
-websockets==10.4
+websockets==14.1
 setuptools>=40.8.0
 vulture>=1.0
 bandit>=1.5.1
