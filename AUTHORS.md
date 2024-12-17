@@ -1,5 +1,4 @@
-# Authors #
-
+# Core Developers
 ----------
 - AmirHosein Rostami  - Open Science Laboratory ([Github](https://github.com/AHReccese)) **
 - Sepand Haghighi - Open Science Laboratory ([Github](https://github.com/sepandhaghighi))
@@ -9,6 +8,9 @@
 
 ** **Maintainer**
 
-# Other Contributors #
+# Other Contributors
 ----------
-- Zahra Mobasher ([Instagram](https://www.instagram.com/littleblackoyster/?hl=en))
+- [@zhmbshr](https://github.com/zhmbshr) ++
+
+
+++ **Graphic designer**
