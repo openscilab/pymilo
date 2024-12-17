@@ -43,7 +43,7 @@ setup(
     author_email='pymilo@openscilab.com',
     url='https://github.com/openscilab/pymilo',
     download_url='https://github.com/openscilab/pymilo/tarball/v1.1',
-    keywords="python3 python machine_learning ML",
+    keywords="machine_learning ml ai mlops model export import",
     project_urls={
             'Source': 'https://github.com/openscilab/pymilo',
     },
