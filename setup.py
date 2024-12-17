@@ -29,14 +29,14 @@ def read_description():
             description += c.read()
         return description
     except Exception:
-        return '''Transportation of ML models'''
+        return '''PyMilo: Python for ML I/O'''
 
 
 setup(
     name='pymilo',
     packages=find_packages(include=['pymilo*'], exclude=['tests*']),
     version='1.1',
-    description='Transportation of ML models',
+    description='PyMilo: Python for ML I/O',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='PyMilo Development Team',
