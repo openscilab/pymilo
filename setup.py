@@ -54,7 +54,6 @@ setup(
     python_requires='>=3.6',
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -66,6 +65,7 @@ setup(
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3.13',
+        'Intended Audience :: Developers',
         'Intended Audience :: Education',
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Manufacturing',
