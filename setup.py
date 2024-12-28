@@ -29,21 +29,21 @@ def read_description():
             description += c.read()
         return description
     except Exception:
-        return '''Transportation of ML models'''
+        return '''PyMilo: Python for ML I/O'''
 
 
 setup(
     name='pymilo',
     packages=find_packages(include=['pymilo*'], exclude=['tests*']),
     version='1.1',
-    description='Transportation of ML models',
+    description='PyMilo: Python for ML I/O',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='PyMilo Development Team',
     author_email='pymilo@openscilab.com',
     url='https://github.com/openscilab/pymilo',
     download_url='https://github.com/openscilab/pymilo/tarball/v1.1',
-    keywords="python3 python machine_learning ML",
+    keywords="machine_learning ml ai mlops model export import",
     project_urls={
             'Source': 'https://github.com/openscilab/pymilo',
     },
@@ -54,7 +54,6 @@ setup(
     python_requires='>=3.6',
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 ### Changed
 - testcase for LogisticRegressionCV, LogisticRegression
+- `README.md` updated
+- `AUTHORS.md` updated
 ## [1.1] - 2024-11-25
 ### Added
 - `is_socket_closed` function in `streaming.communicator.py`
