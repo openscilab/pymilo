@@ -56,16 +56,3 @@ def prepare_simple_clustering_datasets():
     X = iris.data  # Features
     y = iris.target  # Target (labels)
     return X, y
-
-
-def prepare_logistic_regression_datasets(threshold=None):
-    """
-    Generate a dataset for logistic regression (the iris).
-
-    :param threshold: threshold for train/test splitting
-    :int threshold: int
-    :return: splitted dataset for logistic regression
-    """
-    iris_X, iris_y = datasets.load_iris(return_X_y=True)
-    threshold = threshold if threshold else len(iris_y) // 2
-    return _split_X_y(iris_X, iris_y, threshold)
