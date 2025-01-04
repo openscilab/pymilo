@@ -6,7 +6,8 @@ from numpy import array_equal
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
-from ..pymilo_func import get_transporter, compare_model_outputs
+from ..chains.ensemble_chain import ensemble_chain
+from ..pymilo_func import compare_model_outputs
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
 from sklearn.metrics import mean_squared_error, r2_score
@@ -21,7 +22,7 @@ def pymilo_export_path(model):
     :type model: any sklearn's model class
     :return: folder name
     """
-    model_type, _ = get_transporter(model)
+    model_type, _ = ensemble_chain.get_transporter(model)
     return EXPORTED_MODELS_PATH[model_type]
 
 
