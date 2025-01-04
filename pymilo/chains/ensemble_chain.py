@@ -31,7 +31,8 @@ ENSEMBLE_CHAIN = {
     "BunchTransporter": BunchTransporter(),
 }
 
-class EnsembleModelChain(AbstractChain):    
+
+class EnsembleModelChain(AbstractChain):
     """EnsembleModelChain developed to handle sklearn Ensemble ML model transportation."""
 
     def get_transporter(self, model):
@@ -258,7 +259,7 @@ class EnsembleModelChain(AbstractChain):
         for key, value in data.items():
             if isinstance(value, dict):
                 if check_str_in_iterable("pymiloed-data-structure",
-                                        value) and value["pymiloed-data-structure"] == "list of (str, estimator) tuples":
+                                         value) and value["pymiloed-data-structure"] == "list of (str, estimator) tuples":
                     listed_tuples = value["pymiloed-data"]
                     list_of_tuples = []
                     pt = PreprocessingTransporter()
@@ -307,5 +308,6 @@ class EnsembleModelChain(AbstractChain):
         for item in data:
             setattr(raw_model, item, data[item])
         return raw_model
+
 
 ensemble_chain = EnsembleModelChain(ENSEMBLE_CHAIN, SKLEARN_ENSEMBLE_TABLE)

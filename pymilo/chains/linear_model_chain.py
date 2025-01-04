@@ -18,6 +18,7 @@ LINEAR_MODEL_CHAIN = {
     "LossFunctionTransporter": LossFunctionTransporter(),
 }
 
+
 def is_deserialized_linear_model(content):
     """
     Check if the given content is a previously serialized model by Pymilo's Export or not.
@@ -30,7 +31,8 @@ def is_deserialized_linear_model(content):
         return False
     return "pymilo-inner-model-type" in content and "pymilo-inner-model-data" in content
 
-class LinearModelChain(AbstractChain):    
+
+class LinearModelChain(AbstractChain):
     """LinearModelChain developed to handle sklearn Linear ML model transportation."""
 
     def serialize(self, linear_model_object):
@@ -88,5 +90,6 @@ class LinearModelChain(AbstractChain):
         for item in data:
             setattr(raw_model, item, data[item])
         return raw_model
+
 
 linear_chain = LinearModelChain(LINEAR_MODEL_CHAIN, SKLEARN_LINEAR_MODEL_TABLE)

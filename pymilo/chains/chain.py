@@ -9,6 +9,7 @@ from ..transporters.transporter import Command
 from ..exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from ..exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
 
+
 class Chain(ABC):
     """
     Chain Interface.
@@ -76,6 +77,7 @@ class Chain(ABC):
         :type command: transporter.Command
         :return: None
         """
+
 
 class AbstractChain(Chain):
     """Abstract Chain with the general implementation of the Chain interface."""
