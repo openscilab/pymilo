@@ -7,16 +7,16 @@ from ast import literal_eval
 from numpy import ndarray, asarray
 
 from ..chains.chain import AbstractChain
-from ..pymilo_param import SKLEARN_ENSEMBLE_TABLE
 from ..transporters.binmapper_transporter import BinMapperTransporter
 from ..transporters.bunch_transporter import BunchTransporter
+from ..transporters.transporter import Command
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 from ..transporters.generator_transporter import GeneratorTransporter
 from ..transporters.lossfunction_transporter import LossFunctionTransporter
 from ..transporters.preprocessing_transporter import PreprocessingTransporter
 from ..transporters.randomstate_transporter import RandomStateTransporter
-from ..transporters.transporter import Command
 from ..transporters.treepredictor_transporter import TreePredictorTransporter
+from ..pymilo_param import SKLEARN_ENSEMBLE_TABLE
 from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .util import get_concrete_transporter
 
