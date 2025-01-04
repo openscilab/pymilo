@@ -6,7 +6,7 @@ from numpy import array_equal
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
-from ..chains.ensemble_chain import ensemble_chain
+from ..chains.ensemble_chain import get_transporter
 from ..pymilo_func import compare_model_outputs
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
@@ -22,7 +22,7 @@ def pymilo_export_path(model):
     :type model: any sklearn's model class
     :return: folder name
     """
-    model_type, _ = ensemble_chain.get_transporter(model)
+    model_type, _ = get_transporter(model)
     return EXPORTED_MODELS_PATH[model_type]
 
 

@@ -3,7 +3,7 @@
 import numpy as np
 import sklearn
 
-from .chains.ensemble_chain import ensemble_chain
+from .chains.ensemble_chain import get_transporter
 from .transporters.transporter import Command
 
 
@@ -24,7 +24,7 @@ def get_sklearn_data(model):
     :type model: any sklearn's model class
     :return: sklearn data
     """
-    _, transporter = ensemble_chain.get_transporter(model)
+    _, transporter = get_transporter(model)
     return transporter(model, Command.SERIALIZE)
 
 
@@ -36,7 +36,7 @@ def to_sklearn_model(import_obj):
     :type import_obj: pymilo.Import
     :return: sklearn model
     """
-    _, transporter = ensemble_chain.get_transporter(import_obj.type)
+    _, transporter = get_transporter(import_obj.type)
     return transporter(import_obj, Command.DESERIALIZE)
 
 
