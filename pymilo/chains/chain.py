@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""PyMilo Chain Module"""
+"""PyMilo Chain Module."""
 from traceback import format_exc
 from abc import ABC, abstractmethod
 
