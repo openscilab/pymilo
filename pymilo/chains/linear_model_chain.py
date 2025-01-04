@@ -19,19 +19,6 @@ LINEAR_MODEL_CHAIN = {
 }
 
 
-def is_deserialized_linear_model(content):
-    """
-    Check if the given content is a previously serialized model by Pymilo's Export or not.
-
-    :param content: given object to be authorized as a valid pymilo exported serialized model
-    :type content: any object
-    :return: check result as bool
-    """
-    if not is_iterable(content):
-        return False
-    return "pymilo-inner-model-type" in content and "pymilo-inner-model-data" in content
-
-
 class LinearModelChain(AbstractChain):
     """LinearModelChain developed to handle sklearn Linear ML model transportation."""
 
@@ -91,5 +78,16 @@ class LinearModelChain(AbstractChain):
             setattr(raw_model, item, data[item])
         return raw_model
 
-
 linear_chain = LinearModelChain(LINEAR_MODEL_CHAIN, SKLEARN_LINEAR_MODEL_TABLE)
+
+def is_deserialized_linear_model(content):
+    """
+    Check if the given content is a previously serialized model by Pymilo's Export or not.
+
+    :param content: given object to be authorized as a valid pymilo exported serialized model
+    :type content: any object
+    :return: check result as bool
+    """
+    if not is_iterable(content):
+        return False
+    return "pymilo-inner-model-type" in content and "pymilo-inner-model-data" in content
