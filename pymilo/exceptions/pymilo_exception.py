@@ -71,11 +71,15 @@ class PymiloException(Exception, ABC):
         associated_pymilo_class = "Export" if "Serialization" in self.message else "Import"
         description = "#### Description\n Pymilo {pymilo_class} failed.".format(pymilo_class=associated_pymilo_class)
         steps_to_produce = "\n#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
-        expected_behavior = "\n#### Expected Behavior\n A successful Pymilo {pymilo_class}.".format(pymilo_class=associated_pymilo_class)
-        actual_behavior = "\n#### Actual Behavior\n Pymilo {pymilo_class} failed.".format(pymilo_class=associated_pymilo_class)
+        expected_behavior = "\n#### Expected Behavior\n A successful Pymilo {pymilo_class}.".format(
+            pymilo_class=associated_pymilo_class)
+        actual_behavior = "\n#### Actual Behavior\n Pymilo {pymilo_class} failed.".format(
+            pymilo_class=associated_pymilo_class)
         operating_system = "#### Operating System\n {os}".format(os=pymilo_report['os']['full-description'])
-        python_version = "#### Python Version\n {python_version}".format(python_version=pymilo_report['versions']["python-version"])
-        pymilo_version = "#### PyMilo Version\n {pymilo_version}".format(pymilo_version=pymilo_report['versions']["pymilo-version"])
+        python_version = "#### Python Version\n {python_version}".format(
+            python_version=pymilo_report['versions']["python-version"])
+        pymilo_version = "#### PyMilo Version\n {pymilo_version}".format(
+            pymilo_version=pymilo_report['versions']["pymilo-version"])
         gathered_data = "#### Logged Data\n {logged_data}".format(logged_data=str(pymilo_report))
 
         full_issue_form = help_request + description + steps_to_produce + expected_behavior + \
