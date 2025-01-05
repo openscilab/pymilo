@@ -64,30 +64,3 @@ class PymiloDeserializationException(PymiloException):
         if self.meta_data['error_type'] == DeserializationErrorTypes.CORRUPTED_JSON_FILE:
             pymilo_report['object']['json_file'] = self.meta_data['json_file']
         return pymilo_report
-
-    def to_pymilo_issue(self):
-        """
-        Generate an issue form from the populated error.
-
-        :return: issue form of the associated error as a string
-        """
-        pymilo_report = self.to_pymilo_log()
-        help_request = """
-        \n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n
-        """
-        description = "#### Description\n Pymilo Import failed."
-        steps_to_produce = "#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
-        expected_behavior = "#### Expected Behavior\n A successful Pymilo Import."
-        actual_behavior = "#### Actual Behavior\n Pymilo Import failed."
-        operating_system = "#### Operating System\n {os}".format(
-            os=pymilo_report['os']['full-description'])
-        python_version = "#### Python Version\n {python_version}".format(
-            python_version=pymilo_report['versions']["python-version"])
-        pymilo_version = "#### PyMilo Version\n {pymilo_version}".format(
-            pymilo_version=pymilo_report['versions']["pymilo-version"])
-        gathered_data = "#### Logged Data\n {logged_data}".format(
-            logged_data=str(pymilo_report))
-
-        full_issue_form = help_request + description + steps_to_produce + expected_behavior + \
-            actual_behavior + operating_system + python_version + pymilo_version + gathered_data
-        return full_issue_form
