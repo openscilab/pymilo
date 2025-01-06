@@ -91,6 +91,7 @@ PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't e
 UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differs from the PyMilo version used to create the JSON file."
 UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differs from the Scikit version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
 INVALID_IMPORT_INIT_PARAMS = "Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class."
+URL_REGEX = r'^(http|https)://[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}(/\S*)?$'
 DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond."
 INVALID_DOWNLOADED_MODEL = "The downloaded content is not a valid JSON file."
 BATCH_IMPORT_INVALID_DIRECTORY = "The given directory does not exist."
