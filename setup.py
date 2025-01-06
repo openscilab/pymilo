@@ -79,4 +79,9 @@ setup(
         'Topic :: Scientific/Engineering :: Physics',
     ],
     license='MIT',
+    entry_points={
+            'console_scripts': [
+                'pymilo = pymilo.__main__:main',
+            ]
+    }
 )
