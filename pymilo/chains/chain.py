@@ -14,7 +14,7 @@ class Chain(ABC):
     """
     Chain Interface.
 
-    Each Chain transports(either serializes or deserializes) the given model according to the given command.
+    Each Chain serializes/deserializes the given model.
     """
 
     @abstractmethod
@@ -22,7 +22,7 @@ class Chain(ABC):
         """
         Check if the given model is a sklearn's ML model supported by this chain.
 
-        :param model: is a string name of a ML model or a sklearn object of it
+        :param model: a string name of an ML model or a sklearn object of it
         :type model: any object
         :return: check result as bool
         """
@@ -30,7 +30,7 @@ class Chain(ABC):
     @abstractmethod
     def transport(self, request, command, is_inner_model=False):
         """
-        Return the transported (Serialized or Deserialized) model.
+        Return the transported (serialized or deserialized) model.
 
         :param request: given ML model to be transported
         :type request: any object
@@ -45,9 +45,6 @@ class Chain(ABC):
     def serialize(self, model):
         """
         Return the serialized json string of the given model.
-
-        basically in order to fully serialize a model, we should pass it through the chain of associated
-        transporters to get fully serialized.
 
         :param model: given ML model to be get serialized
         :type model: sklearn ML model
@@ -99,7 +96,7 @@ class AbstractChain(Chain):
         """
         Check if the given model is a sklearn's ML model supported by this chain.
 
-        :param model: is a string name of a ML model or a sklearn object of it
+        :param model: a string name of an ML model or a sklearn object of it
         :type model: any object
         :return: check result as bool
         """
@@ -108,7 +105,7 @@ class AbstractChain(Chain):
 
     def transport(self, request, command, is_inner_model=False):
         """
-        Return the transported (Serialized or Deserialized) model.
+        Return the transported (serialized or deserialized) model.
 
         :param request: given ML model to be transported
         :type request: any object
@@ -151,9 +148,6 @@ class AbstractChain(Chain):
     def serialize(self, model):
         """
         Return the serialized json string of the given model.
-
-        basically in order to fully serialize a model, we should pass it through the chain of associated
-        transporters to get fully serialized.
 
         :param model: given ML model to be get serialized
         :type model: sklearn ML model
