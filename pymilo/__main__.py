@@ -14,6 +14,7 @@ try:
 except BaseException:
     ml_streaming_support = False
 
+
 def main():
     parser = argparse.ArgumentParser(description='Run the Pymilo server with a specified compression method.')
     parser.add_argument(
@@ -22,21 +23,21 @@ def main():
         choices=['NULL', 'GZIP', 'ZLIB', 'LZMA', 'BZ2'],
         default='NULL',
         help='Specify the compression method (NULL, GZIP, ZLIB, LZMA, or BZ2). Default is NULL.'
-        )
+    )
     parser.add_argument(
         '--port',
         type=int,
         default=8000,
         help='Specify PyMiloServer port number',
         metavar="",
-        )
+    )
     parser.add_argument(
         '--protocol',
         type=str,
         choices=['REST', 'WEBSOCKET'],
         default='REST',
         help='Specify the communication protocol (REST or WEBSOCKET). Default is REST.'
-        )
+    )
     parser.add_argument(
         '--load',
         type=str,
@@ -80,13 +81,14 @@ def main():
             model=model,
             port=args.port,
             compressor=Compression[args.compression],
-            communication_protocol= CommunicationProtocol[args.protocol],
-            ).communicator.run()
+            communication_protocol=CommunicationProtocol[args.protocol],
+        ).communicator.run()
     elif args.init:
         model_name = args.init
         model_class = get_sklearn_class(model_name)
         if model_class is None:
-            print("The given ML model name is neither valid nor supported, use the list below: \n{print_supported_ml_models}")
+            print(
+                "The given ML model name is neither valid nor supported, use the list below: \n{print_supported_ml_models}")
             print_supported_ml_models()
             return
         PymiloServer(
@@ -94,17 +96,19 @@ def main():
             port=args.port,
             compressor=Compression[args.compression],
             communication_protocol=CommunicationProtocol[args.protocol],
-            ).communicator.run()
+        ).communicator.run()
     elif args.bare:
         PymiloServer(
             port=args.port,
             compressor=Compression[args.compression],
             communication_protocol=CommunicationProtocol[args.protocol],
-            ).communicator.run()
+        ).communicator.run()
     else:
         tprint("PyMilo")
         tprint("V:" + PYMILO_VERSION)
         pymilo_help()
         parser.print_help()
+
+
 if __name__ == '__main__':
     main()

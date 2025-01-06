@@ -166,6 +166,7 @@ def download_model(url):
     except ValueError:
         raise Exception(INVALID_DOWNLOADED_MODEL)
 
+
 def get_sklearn_class(model_name):
     """
     Return the sklearn class of the requested model name
@@ -176,7 +177,7 @@ def get_sklearn_class(model_name):
     :return: sklearn ML model class
     """
     for category in SKLEARN_SUPPORTED_CATEGORIES:
-        category_models = SKLEARN_SUPPORTED_CATEGORIES[category] 
+        category_models = SKLEARN_SUPPORTED_CATEGORIES[category]
         if model_name in category_models:
             return category_models[model_name]
     # todo raise exception
