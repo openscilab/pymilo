@@ -169,7 +169,7 @@ def download_model(url):
 
 def get_sklearn_class(model_name):
     """
-    Return the sklearn class of the requested model name
+    Return the sklearn class of the requested model name.
 
     :param model_name: model name
     :type model_name: str
