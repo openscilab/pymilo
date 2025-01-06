@@ -3,7 +3,7 @@
 import requests
 import importlib
 from inspect import signature
-from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL
+from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL, SKLEARN_SUPPORTED_CATEGORIES
 
 
 def get_sklearn_type(model):
@@ -165,3 +165,19 @@ def download_model(url):
             return response.json()
     except ValueError:
         raise Exception(INVALID_DOWNLOADED_MODEL)
+
+def get_sklearn_class(model_name):
+    """
+    Return the sklearn class of the requested model name
+
+    :param model_name: model name
+    :type model_name: str
+
+    :return: sklearn ML model class
+    """
+    for category in SKLEARN_SUPPORTED_CATEGORIES:
+        category_models = SKLEARN_SUPPORTED_CATEGORIES[category] 
+        if model_name in category_models:
+            return category_models[model_name]
+    # todo raise exception
+    return None
