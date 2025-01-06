@@ -62,3 +62,19 @@ def compare_model_outputs(exported_output,
             return False  # TODO: throw exception
         total_error += np.abs(imported_output[key] - exported_output[key])
     return np.abs(total_error) < epsilon_error
+
+
+def print_supported_ml_models():
+    """
+    Print the supported sklearn ML models categorized by type.
+
+    :return: None
+    """
+    print("Supported Machine Learning Models:")
+    for category, table in SKLEARN_SUPPORTED_CATEGORIES.items():
+        print(f"**{category}**:")
+        for model_name in table:
+            if table[model_name] != NOT_SUPPORTED:
+                print(f"- {model_name}")
+
+
