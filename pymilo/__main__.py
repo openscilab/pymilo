@@ -16,6 +16,11 @@ except BaseException:
 
 
 def main():
+    """
+    CLI main function.
+
+    :return: None
+    """
     parser = argparse.ArgumentParser(description='Run the Pymilo server with a specified compression method.')
     parser.add_argument(
         '--compression',
