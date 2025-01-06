@@ -5,6 +5,7 @@ import sklearn
 
 from .chains.ensemble_chain import get_transporter
 from .transporters.transporter import Command
+from .pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW
 
 
 def get_sklearn_version():
@@ -78,3 +79,12 @@ def print_supported_ml_models():
                 print(f"- {model_name}")
 
 
+def pymilo_help():
+    """
+    Print PyMilo details.
+
+    :return: None
+    """
+    print(OVERVIEW)
+    print("Repo : https://github.com/openscilab/pymilo")
+    print("Webpage : https://openscilab.com/\n")
