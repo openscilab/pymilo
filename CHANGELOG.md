@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
+- `valid_url_valid_file` testcase added in `test_exceptions.py`
+- `valid_url_valid_file` function in `import_exceptions.py`
+- `StandardPayload` in `RESTServerCommunicator`
 - testcase for LogisticRegressionCV, LogisticRegression
 - `README.md` updated
 - `AUTHORS.md` updated
