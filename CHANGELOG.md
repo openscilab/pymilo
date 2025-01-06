@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
+- `to_pymilo_issue` function in `PymiloException`
 - testcase for LogisticRegressionCV, LogisticRegression
 - `README.md` updated
 - `AUTHORS.md` updated
