@@ -45,7 +45,7 @@ class PymiloClient:
         """
         self.model = model
         self.client_id = "0x_client_id"
-        self.model_id = "0x_model_id"
+        self.ml_model_id = "0x_ml_model_id"
         self._mode = mode
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
@@ -86,7 +86,7 @@ class PymiloClient:
             self.encrypt_compress(
                 {
                     "client_id": self.client_id,
-                    "model_id": self.model_id,
+                    "ml_model_id": self.ml_model_id,
                 }
             )
         )
@@ -106,7 +106,7 @@ class PymiloClient:
             self.encrypt_compress(
                 {
                     "client_id": self.client_id,
-                    "model_id": self.model_id,
+                    "ml_model_id": self.ml_model_id,
                     "model": Export(self.model).to_json(),
                 }
             )
@@ -136,7 +136,7 @@ class PymiloClient:
                 self.encrypt_compress(
                     {
                         "client_id": self.client_id,
-                        "model_id": self.model_id,
+                        "ml_model_id": self.ml_model_id,
                         "attribute": attribute,
                     }
                 )
@@ -147,7 +147,7 @@ class PymiloClient:
             def relayer(*args, **kwargs):
                 payload = {
                     "client_id": self.client_id,
-                    "model_id": self.model_id,
+                    "ml_model_id": self.ml_model_id,
                     'attribute': attribute,
                     'args': args,
                     'kwargs': kwargs,
