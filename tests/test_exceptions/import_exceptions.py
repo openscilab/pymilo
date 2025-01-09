@@ -33,7 +33,7 @@ def valid_url_invalid_file():
   except Exception:
     return True
 
-# def valid_url_valid_file():
-#   with pytest.raises(Exception):
-#     url = "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json"
-#     Import(url=url)
+def valid_url_valid_file():
+    url = "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json"
+    _ = Import(url=url).to_model()
+    return True

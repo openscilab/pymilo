@@ -27,7 +27,7 @@ def prepare_bare_server(request):
             "--protocol", "REST"
         ],
         )
-    time.sleep(5)
+    time.sleep(10)
     yield (server_proc, compression_method, "REST")
     server_proc.terminate()
 
