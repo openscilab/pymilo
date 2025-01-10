@@ -79,15 +79,16 @@ def main():
         pymilo_help()
         parser.print_help()
         return
+    ps = None
     if args.load:
         path = args.load
         model = Import(url=path) if re.match(URL_REGEX, path) else Import(file_adr=path)
-        PymiloServer(
+        ps = PymiloServer(
             model=model,
             port=args.port,
             compressor=Compression[args.compression],
             communication_protocol=CommunicationProtocol[args.protocol],
-        ).communicator.run()
+        )
     elif args.init:
         model_name = args.init
         model_class = get_sklearn_class(model_name)
@@ -96,24 +97,25 @@ def main():
                 "The given ML model name is neither valid nor supported, use the list below: \n{print_supported_ml_models}")
             print_supported_ml_models()
             return
-        PymiloServer(
+        ps = PymiloServer(
             model=model_class(),
             port=args.port,
             compressor=Compression[args.compression],
             communication_protocol=CommunicationProtocol[args.protocol],
-        ).communicator.run()
+        )
     elif args.bare:
-        PymiloServer(
+        ps = PymiloServer(
             port=args.port,
             compressor=Compression[args.compression],
             communication_protocol=CommunicationProtocol[args.protocol],
-        ).communicator.run()
-    else:
+        )
+    if not ps:
         tprint("PyMilo")
         tprint("V:" + PYMILO_VERSION)
         pymilo_help()
         parser.print_help()
-
+    else:
+        ps.communicator.run()
 
 if __name__ == '__main__':
     main()
