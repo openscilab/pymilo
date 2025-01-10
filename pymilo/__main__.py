@@ -79,16 +79,15 @@ def main():
         pymilo_help()
         parser.print_help()
         return
-    ps = None
+    run_ps = False
+    _model = None
+    _port = args.port
+    _compressor = Compression[args.compression]
+    _communication_protocol = CommunicationProtocol[args.protocol]
     if args.load:
         path = args.load
-        model = Import(url=path) if re.match(URL_REGEX, path) else Import(file_adr=path)
-        ps = PymiloServer(
-            model=model,
-            port=args.port,
-            compressor=Compression[args.compression],
-            communication_protocol=CommunicationProtocol[args.protocol],
-        )
+        run_ps = True
+        _model = Import(url=path) if re.match(URL_REGEX, path) else Import(file_adr=path)
     elif args.init:
         model_name = args.init
         model_class = get_sklearn_class(model_name)
@@ -97,25 +96,23 @@ def main():
                 "The given ML model name is neither valid nor supported, use the list below: \n{print_supported_ml_models}")
             print_supported_ml_models()
             return
-        ps = PymiloServer(
-            model=model_class(),
-            port=args.port,
-            compressor=Compression[args.compression],
-            communication_protocol=CommunicationProtocol[args.protocol],
-        )
+        run_ps = True
+        _model = model_class()
     elif args.bare:
-        ps = PymiloServer(
-            port=args.port,
-            compressor=Compression[args.compression],
-            communication_protocol=CommunicationProtocol[args.protocol],
-        )
-    if not ps:
+        run_ps = True
+        _model = model_class()
+    if not run_ps:
         tprint("PyMilo")
         tprint("V:" + PYMILO_VERSION)
         pymilo_help()
         parser.print_help()
     else:
-        ps.communicator.run()
+        PymiloServer(
+            model=_model,
+            port=_port,
+            compressor=_compressor,
+            communication_protocol=_communication_protocol,
+        ).communicator.run()
 
 if __name__ == '__main__':
     main()
