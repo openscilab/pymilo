@@ -2,7 +2,7 @@
 # VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 2 -> tested.
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from pymilo.utils.test_pymilo import pymilo_regression_test
-from pymilo.chains.neural_network_chain import transport_neural_network
+from pymilo.chains.neural_network_chain import neural_network_chain
 from pymilo.transporters.transporter import Command
 
 from sklearn.linear_model import LinearRegression
@@ -60,7 +60,7 @@ def valid_model_irrelevant_chain(print_output = True):
     # Train the model using the training sets
     linear_regression.fit(x_train, y_train)
     try:
-      transport_neural_network(linear_regression, Command.SERIALIZE)
+      neural_network_chain.transport(linear_regression, Command.SERIALIZE)
       return False
     except Exception as e:
       if print_output: print("An Exception occured\n", e)

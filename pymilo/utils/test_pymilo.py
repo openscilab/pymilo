@@ -6,7 +6,8 @@ from numpy import array_equal
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
-from ..pymilo_func import get_transporter, compare_model_outputs
+from ..chains.ensemble_chain import get_transporter
+from ..pymilo_func import compare_model_outputs
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
 from sklearn.metrics import mean_squared_error, r2_score
