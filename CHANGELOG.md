@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `CLI` handler
+- `print_supported_ml_models` function in `pymilo_func.py`
+- `pymilo_help` function in `pymilo_func.py`
+- `SKLEARN_SUPPORTED_CATEGORIES` in `pymilo_param.py`
+- `OVERVIEW` in `pymilo_param.py`
+- `get_sklearn_class` in `utils.util.py`
 ### Changed
 - `to_pymilo_issue` function in `PymiloException`
 - `valid_url_valid_file` testcase added in `test_exceptions.py`

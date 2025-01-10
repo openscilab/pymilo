@@ -5,6 +5,7 @@ import sklearn
 
 from .chains.ensemble_chain import get_transporter
 from .transporters.transporter import Command
+from .pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW
 
 
 def get_sklearn_version():
@@ -62,3 +63,28 @@ def compare_model_outputs(exported_output,
             return False  # TODO: throw exception
         total_error += np.abs(imported_output[key] - exported_output[key])
     return np.abs(total_error) < epsilon_error
+
+
+def print_supported_ml_models():
+    """
+    Print the supported sklearn ML models categorized by type.
+
+    :return: None
+    """
+    print("Supported Machine Learning Models:")
+    for category, table in SKLEARN_SUPPORTED_CATEGORIES.items():
+        print(f"**{category}**:")
+        for model_name in table:
+            if table[model_name] != NOT_SUPPORTED:
+                print(f"- {model_name}")
+
+
+def pymilo_help():
+    """
+    Print PyMilo details.
+
+    :return: None
+    """
+    print(OVERVIEW)
+    print("Repo : https://github.com/openscilab/pymilo")
+    print("Webpage : https://openscilab.com/\n")

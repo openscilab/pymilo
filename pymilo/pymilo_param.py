@@ -82,13 +82,16 @@ try:
 except BaseException:
     pass
 
-
+OVERVIEW = """
+PyMilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way.
+"""
 PYMILO_VERSION = "1.1"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
 UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differs from the PyMilo version used to create the JSON file."
 UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differs from the Scikit version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
 INVALID_IMPORT_INIT_PARAMS = "Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class."
+URL_REGEX = r'^(http|https)://[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}(/\S*)?$'
 DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond."
 INVALID_DOWNLOADED_MODEL = "The downloaded content is not a valid JSON file."
 BATCH_IMPORT_INVALID_DIRECTORY = "The given directory does not exist."
@@ -275,4 +278,16 @@ EXPORTED_MODELS_PATH = {
     "NEIGHBORS": "exported_neighbors",
     "ENSEMBLE": "exported_ensembles",
     "CROSS_DECOMPOSITION": "exported_cross_decomposition",
+}
+
+SKLEARN_SUPPORTED_CATEGORIES = {
+    "LINEAR_MODEL": SKLEARN_LINEAR_MODEL_TABLE,
+    "NEURAL_NETWORK": SKLEARN_NEURAL_NETWORK_TABLE,
+    "DECISION_TREE": SKLEARN_DECISION_TREE_TABLE,
+    "CLUSTERING": SKLEARN_CLUSTERING_TABLE,
+    "NAIVE_BAYES": SKLEARN_NAIVE_BAYES_TABLE,
+    "SVM": SKLEARN_SVM_TABLE,
+    "NEIGHBORS": SKLEARN_NEIGHBORS_TABLE,
+    "ENSEMBLE": SKLEARN_ENSEMBLE_TABLE,
+    "CROSS_DECOMPOSITION": SKLEARN_CROSS_DECOMPOSITION_TABLE,
 }
