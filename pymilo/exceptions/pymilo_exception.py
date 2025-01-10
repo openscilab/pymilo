@@ -27,7 +27,6 @@ class PymiloException(Exception, ABC):
         self.message = message
         self.meta_data = meta_data
 
-    # collect All pymilo related data.
     def to_pymilo_log(self):
         """
         Generate a comprehensive report of the populated error.
@@ -59,13 +58,33 @@ class PymiloException(Exception, ABC):
 
         return pymilo_report
 
-    @abstractmethod
     def to_pymilo_issue(self):
         """
         Generate an issue form from the populated error.
 
         :return: issue form of the associated error as string
         """
+        pymilo_report = self.to_pymilo_log()
+        help_request = """
+        \n\nIn order to help us enhance Pymilo's functionality, please open an issue associated with this error and put the message below inside.\n
+        """
+        associated_pymilo_class = "Export" if "Serialization" in self.message else "Import"
+        description = "#### Description\n Pymilo {pymilo_class} failed.".format(pymilo_class=associated_pymilo_class)
+        steps_to_produce = "\n#### Steps/Code to Reproduce\n It is auto-reported from the pymilo logger."
+        expected_behavior = "\n#### Expected Behavior\n A successful Pymilo {pymilo_class}.".format(
+            pymilo_class=associated_pymilo_class)
+        actual_behavior = "\n#### Actual Behavior\n Pymilo {pymilo_class} failed.".format(
+            pymilo_class=associated_pymilo_class)
+        operating_system = "#### Operating System\n {os}".format(os=pymilo_report['os']['full-description'])
+        python_version = "#### Python Version\n {python_version}".format(
+            python_version=pymilo_report['versions']["python-version"])
+        pymilo_version = "#### PyMilo Version\n {pymilo_version}".format(
+            pymilo_version=pymilo_report['versions']["pymilo-version"])
+        gathered_data = "#### Logged Data\n {logged_data}".format(logged_data=str(pymilo_report))
+
+        full_issue_form = help_request + description + steps_to_produce + expected_behavior + \
+            actual_behavior + operating_system + python_version + pymilo_version + gathered_data
+        return full_issue_form
 
     def __str__(self):
         """
