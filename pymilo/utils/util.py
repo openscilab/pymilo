@@ -176,8 +176,7 @@ def get_sklearn_class(model_name):
 
     :return: sklearn ML model class
     """
-    for category in SKLEARN_SUPPORTED_CATEGORIES:
-        category_models = SKLEARN_SUPPORTED_CATEGORIES[category]
+    for _, category_models in SKLEARN_SUPPORTED_CATEGORIES.items():
         if model_name in category_models:
             return category_models[model_name]
     # todo raise exception
