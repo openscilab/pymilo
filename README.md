@@ -252,6 +252,23 @@ You can also join our discord server
 
 <a href="https://trelis.com/"><img src="https://trelis.com/wp-content/uploads/2023/10/android-chrome-512x512-1.png" height="75px" alt="Trelis Research"></a>
 
+## Cite
+
+If you use PyMilo in your research, we would appreciate citations to the following paper :
+
+<pre>
+Rostami, A., Haghighi, S., Sabouri, S., & Zolanvari, A. (2024). PyMilo: A Python Library for ML I/O. arXiv e-prints , arXiv-2501.
+</pre>
+
+<pre>
+@article{rostami2024pymilo,
+  title={PyMilo: A Python Library for ML I/O},
+  author={Rostami, AmirHosein and Haghighi, Sepand and Sabouri, Sadra and Zolanvari, Alireza},
+  journal={arXiv e-prints},
+  pages={arXiv--2501},
+  year={2024}
+}
+</pre>
 
 ## Show your support
 
