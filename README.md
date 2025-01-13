@@ -256,11 +256,9 @@ You can also join our discord server
 
 If you use PyMilo in your research, we would appreciate citations to the following paper :
 
-<pre>
-Rostami, A., Haghighi, S., Sabouri, S., & Zolanvari, A. (2024). PyMilo: A Python Library for ML I/O. arXiv e-prints , arXiv-2501.
-</pre>
+`Rostami, A., Haghighi, S., Sabouri, S., & Zolanvari, A. (2024). PyMilo: A Python Library for ML I/O. arXiv e-prints , arXiv-2501.`
 
-<pre>
+```bibtex
 @article{rostami2024pymilo,
   title={PyMilo: A Python Library for ML I/O},
   author={Rostami, AmirHosein and Haghighi, Sepand and Sabouri, Sadra and Zolanvari, Alireza},
@@ -268,7 +266,7 @@ Rostami, A., Haghighi, S., Sabouri, S., & Zolanvari, A. (2024). PyMilo: A Python
   pages={arXiv--2501},
   year={2024}
 }
-</pre>
+```
 
 ## Show your support
 
