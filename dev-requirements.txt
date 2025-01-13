@@ -1,5 +1,5 @@
 numpy==2.2.1
-scikit-learn==1.6.0
+scikit-learn==1.6.1
 scipy>=0.19.1
 uvicorn==0.34.0
 fastapi==0.115.6
