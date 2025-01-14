@@ -1,3 +1,4 @@
+import os
 import time
 import pytest
 import subprocess
@@ -40,10 +41,11 @@ def prepare_ml_server(request):
             "--compression", compression_method,
             "--protocol", communication_protocol,
             "--port", "9000",
-            "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
+            "--load", os.path.join(os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json")
+            # "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
         ],
         )
-    time.sleep(5)
+    time.sleep(10)
     yield (server_proc, compression_method, communication_protocol)
     server_proc.terminate()
 
