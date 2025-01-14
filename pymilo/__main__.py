@@ -9,7 +9,7 @@ from .pymilo_param import (
     CLI_MORE_INFO,
     CLI_UNKNOWN_MODEL,
     CLI_ML_STREAMING_NOT_INSTALLED,
-    )
+)
 from .pymilo_func import print_supported_ml_models, pymilo_help
 from .pymilo_obj import Import
 from .utils.util import get_sklearn_class
@@ -115,6 +115,7 @@ def main():
             compressor=_compressor,
             communication_protocol=_communication_protocol,
         ).communicator.run()
+
 
 if __name__ == '__main__':
     main()
