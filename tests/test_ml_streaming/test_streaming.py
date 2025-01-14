@@ -1,4 +1,3 @@
-import os
 import time
 import pytest
 import subprocess
@@ -13,21 +12,17 @@ from scenarios.scenario3 import scenario3
     params=["NULL", "GZIP", "ZLIB", "LZMA", "BZ2"])
 def prepare_bare_server(request):
     compression_method = request.param
-    path = os.path.join(
-        os.getcwd(),
-        "tests",
-        "test_ml_streaming",
-        "run_server.py",
-        )
     server_proc = subprocess.Popen(
         [
             executable,
-            path,
+            "-m", "pymilo",
             "--compression", compression_method,
-            "--protocol", "REST"
+            "--protocol", "REST",
+            "--port", "8000",
+            "--bare",
         ],
         )
-    time.sleep(10)
+    time.sleep(2)
     yield (server_proc, compression_method, "REST")
     server_proc.terminate()
 
@@ -38,23 +33,17 @@ def prepare_bare_server(request):
 def prepare_ml_server(request):
     communication_protocol = request.param
     compression_method = "ZLIB"
-    print(communication_protocol)
-    path = os.path.join(
-        os.getcwd(),
-        "tests",
-        "test_ml_streaming",
-        "run_server.py",
-        )
     server_proc = subprocess.Popen(
         [
             executable,
-            path,
+            "-m", "pymilo",
             "--compression", compression_method,
             "--protocol", communication_protocol,
-            "--init",
+            "--port", "9000",
+            "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
         ],
         )
-    time.sleep(5)
+    time.sleep(2)
     yield (server_proc, compression_method, communication_protocol)
     server_proc.terminate()
 
