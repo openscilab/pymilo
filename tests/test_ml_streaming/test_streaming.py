@@ -22,7 +22,7 @@ def prepare_bare_server(request):
             "--bare",
         ],
         )
-    time.sleep(2)
+    time.sleep(10)
     yield (server_proc, compression_method, "REST")
     server_proc.terminate()
 
@@ -43,7 +43,7 @@ def prepare_ml_server(request):
             "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
         ],
         )
-    time.sleep(2)
+    time.sleep(5)
     yield (server_proc, compression_method, communication_protocol)
     server_proc.terminate()
 
