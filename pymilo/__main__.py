@@ -92,6 +92,7 @@ def main():
         path = args.load
         run_ps = True
         _model = Import(url=path) if re.match(URL_REGEX, path) else Import(file_adr=path)
+        _model = _model.to_model()
     elif args.init:
         model_name = args.init
         model_class = get_sklearn_class(model_name)
@@ -102,7 +103,6 @@ def main():
         _model = model_class()
     elif args.bare:
         run_ps = True
-        _model = model_class()
     if not run_ps:
         tprint("PyMilo")
         tprint("V:" + PYMILO_VERSION)
