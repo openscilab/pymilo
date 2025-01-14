@@ -96,6 +96,12 @@ DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond
 INVALID_DOWNLOADED_MODEL = "The downloaded content is not a valid JSON file."
 BATCH_IMPORT_INVALID_DIRECTORY = "The given directory does not exist."
 
+CLI_ML_STREAMING_NOT_INSTALLED = """ML Streaming is not installed.
+To install ML Streaming, run the following command:
+pip install pymilo[streaming]"""
+CLI_MORE_INFO = "For more information, visit the PyMilo README at https://github.com/openscilab/pymilo"
+CLI_UNKNOWN_MODEL = "The provided ML model name is either invalid or unsupported."
+
 SKLEARN_LINEAR_MODEL_TABLE = {
     "DummyRegressor": dummy.DummyRegressor,
     "DummyClassifier": dummy.DummyClassifier,

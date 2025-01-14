@@ -3,7 +3,13 @@
 import re
 import argparse
 from art import tprint
-from .pymilo_param import PYMILO_VERSION, URL_REGEX
+from .pymilo_param import (
+    PYMILO_VERSION,
+    URL_REGEX,
+    CLI_MORE_INFO,
+    CLI_UNKNOWN_MODEL,
+    CLI_ML_STREAMING_NOT_INSTALLED,
+    )
 from .pymilo_func import print_supported_ml_models, pymilo_help
 from .pymilo_obj import Import
 from .utils.util import get_sklearn_class
@@ -70,10 +76,8 @@ def main():
         print(PYMILO_VERSION)
         return
     if not ml_streaming_support:
-        print("Error: ML Streaming is not installed.")
-        print("To install ML Streaming, run the following command:")
-        print("pip install pymilo[streaming]")
-        print("For more information, visit the PyMilo README at https://github.com/openscilab/pymilo")
+        print(CLI_ML_STREAMING_NOT_INSTALLED)
+        print(CLI_MORE_INFO)
         tprint("PyMilo")
         tprint("V:" + PYMILO_VERSION)
         pymilo_help()
@@ -92,9 +96,7 @@ def main():
         model_name = args.init
         model_class = get_sklearn_class(model_name)
         if model_class is None:
-            print(
-                "The given ML model name is neither valid nor supported, use the list below: \n{print_supported_ml_models}")
-            print_supported_ml_models()
+            print(f"{CLI_UNKNOWN_MODEL}\n{print_supported_ml_models()}")
             return
         run_ps = True
         _model = model_class()
