@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `cite` section in `README.md`
 - `CLI` handler
 - `print_supported_ml_models` function in `pymilo_func.py`
 - `pymilo_help` function in `pymilo_func.py`
