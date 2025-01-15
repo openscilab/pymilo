@@ -24,7 +24,7 @@ def prepare_bare_server(request):
         ],
         )
     time.sleep(10)
-    yield (server_proc, compression_method, "REST")
+    yield (compression_method, "REST")
     server_proc.terminate()
 
 
@@ -46,20 +46,20 @@ def prepare_ml_server(request):
         ],
         )
     time.sleep(10)
-    yield (server_proc, compression_method, communication_protocol)
+    yield (compression_method, communication_protocol)
     server_proc.terminate()
 
 
 def test1(prepare_bare_server):
-    _, compression_method, communication_protocol = prepare_bare_server
+    compression_method, communication_protocol = prepare_bare_server
     assert scenario1(compression_method, communication_protocol) == 0
 
 
 def test2(prepare_bare_server):
-    _, compression_method, communication_protocol = prepare_bare_server
+    compression_method, communication_protocol = prepare_bare_server
     assert scenario2(compression_method, communication_protocol) == 0
 
 
 def test3(prepare_ml_server):
-    _, compression_method, communication_protocol = prepare_ml_server
+    compression_method, communication_protocol = prepare_ml_server
     assert scenario3(compression_method, communication_protocol) == 0
