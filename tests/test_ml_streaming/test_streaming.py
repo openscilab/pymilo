@@ -13,14 +13,29 @@ from scenarios.scenario3 import scenario3
     params=["NULL", "GZIP", "ZLIB", "LZMA", "BZ2"])
 def prepare_bare_server(request):
     compression_method = request.param
+    # Using PyMilo direct CLI
+    # server_proc = subprocess.Popen(
+    #     [
+    #         executable,
+    #         "-m", "pymilo",
+    #         "--compression", compression_method,
+    #         "--protocol", "REST",
+    #         "--port", "8000",
+    #         "--bare",
+    #     ],
+    #     )
+    path = os.path.join(
+        os.getcwd(),
+        "tests",
+        "test_ml_streaming",
+        "run_server.py",
+        )
     server_proc = subprocess.Popen(
         [
             executable,
-            "-m", "pymilo",
+            path,
             "--compression", compression_method,
-            "--protocol", "REST",
-            "--port", "8000",
-            "--bare",
+            "--protocol", "REST"
         ],
         )
     time.sleep(10)
@@ -34,15 +49,31 @@ def prepare_bare_server(request):
 def prepare_ml_server(request):
     communication_protocol = request.param
     compression_method = "ZLIB"
+    # Using PyMilo direct CLI
+    # server_proc = subprocess.Popen(
+    #     [
+    #         executable,
+    #         "-m", "pymilo",
+    #         "--compression", compression_method,
+    #         "--protocol", communication_protocol,
+    #         "--port", "9000",
+    #         "--load", os.path.join(os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json")
+    #         # "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
+    #     ],
+    #     )
+    path = os.path.join(
+        os.getcwd(),
+        "tests",
+        "test_ml_streaming",
+        "run_server.py",
+        )
     server_proc = subprocess.Popen(
         [
             executable,
-            "-m", "pymilo",
+            path,
             "--compression", compression_method,
             "--protocol", communication_protocol,
-            "--port", "9000",
-            "--load", os.path.join(os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json")
-            # "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
+            "--init",
         ],
         )
     time.sleep(10)
