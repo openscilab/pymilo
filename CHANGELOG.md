@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `generate_dockerfile` function in `streaming.util.py`
 - `cite` section in `README.md`
 - `CLI` handler
 - `print_supported_ml_models` function in `pymilo_func.py`
