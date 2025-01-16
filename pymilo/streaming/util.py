@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """ML Streaming utility module."""
+import os
 import re
-
+from ..pymilo_param import URL_REGEX
 
 def validate_websocket_url(url: str) -> str:
     """
@@ -39,3 +40,66 @@ def validate_http_url(url: str) -> str:
     if not re.match(full_pattern, url):
         return False, None
     return True, url
+
+
+def generate_dockerfile(
+        model_path=None,
+        compression='NULL',
+        protocol='REST',
+        port=8000,
+        init_model=None,
+        bare=False
+        ):
+    """
+    Generates a Dockerfile for running a PyMilo server with specified configurations.
+
+    :param model_path: Path or URL to the exported model JSON file.
+    :param compression: Compression method (default: NULL).
+    :param protocol: Communication protocol (default: REST).
+    :param port: Port for the PyMilo server (default: 8000).
+    :param init_model: Initialize the server with a specific model.
+    :param bare: Run the server without an internal ML model.
+    """
+    dockerfile_content = f"""
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install pymilo
+RUN pip install pymilo[streaming]
+    """
+    is_url = False
+    if model_path:
+        if re.match(URL_REGEX, model_path):
+            is_url = True
+        else:
+            dockerfile_content += f"\nCOPY {os.path.basename(model_path)} /app/model.json"
+
+    # Expose the specified port
+    dockerfile_content += f"\nEXPOSE {port}"
+
+    cmd = "CMD [\"python\", \"-m\", \"pymilo\""
+    cmd += f", \"--compression\", \"{compression}\""
+    cmd += f", \"--protocol\", \"{protocol}\""
+    cmd += f", \"--port\", \"{port}\""
+
+    if model_path:
+        if is_url:
+            cmd += f", \"--load\", \"{model_path}\""
+        else:
+            cmd += f", \"--load\", \"/app/model.json\""
+    elif init_model:
+        cmd += f", \"--init\" \"{init_model}\""
+    elif bare:
+        cmd += f", \"--bare\""
+
+    cmd += "]"
+    dockerfile_content += f"\n{cmd}"
+
+    with open('Dockerfile', 'w') as f:
+        f.write(dockerfile_content)
+
+# generate_dockerfile(model_path="https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json")
+# generate_dockerfile(model_path="linear_regression.json")
