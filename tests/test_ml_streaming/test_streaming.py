@@ -83,20 +83,21 @@ def test_dockerfile():
         "docker_files",
     )
     generate_dockerfile(
-        dockerfile_name="Dockerfile1",
+        dockerfile_name="Dockerfile",
         model_path="https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json")
-    r1 = cmp('Dockerfile1', os.path.join(
+    r1 = cmp('Dockerfile', os.path.join(
         docker_files_folder,
         "Dockerfile1"
         )
     )
     generate_dockerfile(
-        dockerfile_name="Dockerfile2",
+        dockerfile_name="Dockerfile",
         model_path="linear_regression.json",
         )
-    r2 = cmp('Dockerfile2', os.path.join(
+    r2 = cmp('Dockerfile', os.path.join(
         docker_files_folder,
         "Dockerfile2"
         )
     )
+    os.remove(path='Dockerfile')
     assert r1 and r2
