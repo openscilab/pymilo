@@ -51,7 +51,7 @@ def generate_dockerfile(
         bare=False
         ):
     """
-    Generates a Dockerfile for running a PyMilo server with specified configurations.
+    Generate a Dockerfile for running a PyMilo server with specified configurations.
 
     :param model_path: Path or URL to the exported model JSON file.
     :param compression: Compression method (default: NULL).
