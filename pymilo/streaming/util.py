@@ -43,6 +43,7 @@ def validate_http_url(url: str) -> str:
 
 
 def generate_dockerfile(
+        dockerfile_name="Dockerfile",
         model_path=None,
         compression='NULL',
         protocol='REST',
@@ -98,8 +99,5 @@ RUN pip install pymilo[streaming]
     cmd += "]"
     dockerfile_content += f"\n{cmd}"
 
-    with open('Dockerfile', 'w') as f:
+    with open(dockerfile_name, 'w') as f:
         f.write(dockerfile_content)
-
-# generate_dockerfile(model_path="https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json")
-# generate_dockerfile(model_path="linear_regression.json")
