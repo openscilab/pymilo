@@ -61,8 +61,7 @@ def generate_dockerfile(
     :param init_model: Initialize the server with a specific model.
     :param bare: Run the server without an internal ML model.
     """
-    dockerfile_content = f"""
-# Use an official Python runtime as a parent image
+    dockerfile_content = f"""# Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
 # Set the working directory in the container
@@ -97,7 +96,7 @@ RUN pip install pymilo[streaming]
         cmd += f", \"--bare\""
 
     cmd += "]"
-    dockerfile_content += f"\n{cmd}"
+    dockerfile_content += f"\n{cmd}\n"
 
     with open(dockerfile_name, 'w') as f:
         f.write(dockerfile_content)
