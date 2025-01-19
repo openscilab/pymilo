@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `OVERVIEW` in `pymilo_param.py`
 - `get_sklearn_class` in `utils.util.py`
 ### Changed
+- `ML Streaming` testcases modified to use PyMilo CLI
 - `to_pymilo_issue` function in `PymiloException`
 - `valid_url_valid_file` testcase added in `test_exceptions.py`
 - `valid_url_valid_file` function in `import_exceptions.py`
