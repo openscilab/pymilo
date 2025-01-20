@@ -1,0 +1,12 @@
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install pymilo
+RUN pip install pymilo[streaming]
+    
+COPY linear_regression.json /app/model.json
+EXPOSE 8000
+CMD ["python", "-m", "pymilo", "--compression", "NULL", "--protocol", "REST", "--port", "8000", "--load", "/app/model.json"]
