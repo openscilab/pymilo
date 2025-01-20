@@ -4,7 +4,7 @@ scipy>=0.19.1
 uvicorn==0.34.0
 fastapi==0.115.6
 requests==2.32.3
-websockets==14.1
+websockets==14.2
 pydantic==2.10.5
 setuptools>=40.8.0
 vulture>=1.0
