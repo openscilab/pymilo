@@ -54,12 +54,20 @@ def generate_dockerfile(
     """
     Generate a Dockerfile for running a PyMilo server with specified configurations.
 
+    :param dockerfile_name: Name of the dockerfile.
+    :type dockerfile_name: str
     :param model_path: Path or URL to the exported model JSON file.
+    :type model_path: str
     :param compression: Compression method (default: NULL).
+    :type compression: str
     :param protocol: Communication protocol (default: REST).
+    :type protocol: str
     :param port: Port for the PyMilo server (default: 8000).
-    :param init_model: Initialize the server with a specific model.
-    :param bare: Run the server without an internal ML model.
+    :type port: int
+    :param init_model: The model that the server initialized with.
+    :type init_model: boolean
+    :param bare: A flag that sets if the server runs without an internal ML model.
+    :type bare: boolean
     """
     dockerfile_content = f"""# Use an official Python runtime as a parent image
 FROM python:3.11-slim
