@@ -4,6 +4,7 @@ import os
 import re
 from ..pymilo_param import URL_REGEX
 
+
 def validate_websocket_url(url: str) -> str:
     """
     Validate a WebSocket URL and add the 'ws://' protocol if missing.
@@ -50,7 +51,7 @@ def generate_dockerfile(
         port=8000,
         init_model=None,
         bare=False
-        ):
+):
     """
     Generate a Dockerfile for running a PyMilo server with specified configurations.
 

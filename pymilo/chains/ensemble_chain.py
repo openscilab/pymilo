@@ -170,7 +170,9 @@ class EnsembleModelChain(AbstractChain):
             setattr(raw_model, item, data[item])
         return raw_model
 
+
 ensemble_chain = EnsembleModelChain(ENSEMBLE_CHAIN, SKLEARN_ENSEMBLE_TABLE)
+
 
 def get_transporter(model):
     """
@@ -187,6 +189,7 @@ def get_transporter(model):
         return "ENSEMBLE", ensemble_chain.transport
     else:
         return get_concrete_transporter(model)
+
 
 def serialize_possible_ml_model(possible_ml_model):
     """
@@ -209,6 +212,7 @@ def serialize_possible_ml_model(possible_ml_model):
     else:
         return False, possible_ml_model
 
+
 def deserialize_possible_ml_model(possible_serialized_ml_model):
     """
     Check whether the given object is previously serialized ML model and if it is, deserialize it back to the associated ML model.
@@ -225,6 +229,7 @@ def deserialize_possible_ml_model(possible_serialized_ml_model):
         }, Command.DESERIALIZE, is_inner_model=True)
     else:
         return False, possible_serialized_ml_model
+
 
 def serialize_models_in_ndarray(ndarray_instance):
     """
@@ -267,6 +272,7 @@ def serialize_models_in_ndarray(ndarray_instance):
             'pymiloed-ndarray-dtype': str(dtype),
             'pymiloed-data-structure': 'numpy.ndarray'
         }
+
 
 def deserialize_models_in_ndarray(serialized_ndarray):
     """

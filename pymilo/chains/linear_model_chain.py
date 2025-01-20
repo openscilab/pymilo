@@ -78,7 +78,9 @@ class LinearModelChain(AbstractChain):
             setattr(raw_model, item, data[item])
         return raw_model
 
+
 linear_chain = LinearModelChain(LINEAR_MODEL_CHAIN, SKLEARN_LINEAR_MODEL_TABLE)
+
 
 def is_deserialized_linear_model(content):
     """
