@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Zenodo badge to `README.md`
 ### Changed
 - Test system modified
 ## [1.2] - 2025-01-22

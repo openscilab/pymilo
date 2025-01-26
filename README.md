@@ -258,6 +258,13 @@ If you use PyMilo in your research, we would appreciate citations to the followi
 
 [Rostami, A., Haghighi, S., Sabouri, S., & Zolanvari, A. (2024). *PyMilo: A Python Library for ML I/O*. *arXiv e-prints*, arXiv-2501.](https://arxiv.org/abs/2501.00528)
 
+<table>
+	<tr>
+		<td align="center">Zenodo</td>
+		<td align="center"><a href="https://doi.org/10.5281/zenodo.14713078"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.14713078.svg" alt="DOI 10.5281/zenodo.14713078"></a></td>
+	</tr>
+</table>
+
 ```bibtex
 @article{rostami2024pymilo,
   title={PyMilo: A Python Library for ML I/O},
