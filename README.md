@@ -261,7 +261,7 @@ If you use PyMilo in your research, we would appreciate citations to the followi
 <table>
 	<tr>
 		<td align="center">Zenodo</td>
-		<td align="center"><a href="https://doi.org/10.5281/zenodo.14713078"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.14713078.svg" alt="DOI"></a></td>
+		<td align="center"><a href="https://doi.org/10.5281/zenodo.14713078"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.14713078.svg" alt="DOI 10.5281/zenodo.14713078"></a></td>
 	</tr>
 </table>
 
