@@ -281,7 +281,11 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         if "np-type" in content:
             if content["np-type"] == "numpy.dtype":
-                return NUMPY_TYPE_DICT[content["np-type"]](NUMPY_TYPE_DICT[content['value']])
+                if isinstance(content["value"], str):
+                    # when the value is the associated type name like numpy.float64
+                    return NUMPY_TYPE_DICT[content["value"]]
+                else:
+                    return NUMPY_TYPE_DICT[content["np-type"]](NUMPY_TYPE_DICT[content['value']])
             if content["np-type"] == "numpy.nan":
                 return NUMPY_TYPE_DICT[content["np-type"]]
             return NUMPY_TYPE_DICT[content["np-type"]](content['value'])
