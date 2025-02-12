@@ -10,7 +10,7 @@ def dict_vectorizer():
     v = DictVectorizer(sparse=False)
     D = [{'foo': 1, 'bar': 2}, {'foo': 3, 'baz': 1}]
     _ = v.fit_transform(D)
-    
+
     pre_result = v.transform({'foo': 4, 'unseen_feature': 3})
     
     fe = FeatureExtractorTransporter()
