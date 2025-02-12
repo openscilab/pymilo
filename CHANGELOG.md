@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `FeatureExtractorTransporter` to Ensemble chain
+- Feature Extraction classes to `pymilo_param.py`
 - Feature Extraction models test runner
 - `DictVectorizer` feature extractor
 - `FeatureHasher` feature extractor
