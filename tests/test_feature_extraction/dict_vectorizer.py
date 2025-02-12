@@ -12,7 +12,7 @@ def dict_vectorizer():
     _ = v.fit_transform(D)
 
     pre_result = v.transform({'foo': 4, 'unseen_feature': 3})
-    
+
     fe = FeatureExtractorTransporter()
     post_pymilo_pre_model = fe.deserialize_fe_module(
         write_and_read(
