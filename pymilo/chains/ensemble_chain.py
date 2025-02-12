@@ -7,6 +7,7 @@ from ast import literal_eval
 from numpy import ndarray, asarray
 
 from ..chains.chain import AbstractChain
+from ..transporters.feature_extraction_transporter import FeatureExtractorTransporter
 from ..transporters.binmapper_transporter import BinMapperTransporter
 from ..transporters.bunch_transporter import BunchTransporter
 from ..transporters.transporter import Command
@@ -21,6 +22,7 @@ from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .util import get_concrete_transporter
 
 ENSEMBLE_CHAIN = {
+    "FeatureExtractorTransporter": FeatureExtractorTransporter(),
     "PreprocessingTransporter": PreprocessingTransporter(),
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "TreePredictorTransporter": TreePredictorTransporter(),
