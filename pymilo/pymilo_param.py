@@ -13,7 +13,8 @@ import sklearn.dummy as dummy
 import sklearn.ensemble as ensemble
 import sklearn.pipeline as pipeline
 import sklearn.preprocessing as preprocessing
-from sklearn.cross_decomposition import PLSRegression, PLSCanonical, CCA
+import sklearn.cross_decomposition as cross_decomposition
+import sklearn.feature_extraction as feature_extraction
 
 quantile_regressor_support = False
 try:
@@ -246,10 +247,15 @@ SKLEARN_PREPROCESSING_TABLE = {
     "TargetEncoder": TargetEncoder if target_encoder_support else NOT_SUPPORTED,
 }
 
+SKLEARN_FEATURE_EXTRACTION_TABLE = {
+    "DictVectorizer": feature_extraction.DictVectorizer,
+    "FeatureHasher": feature_extraction.FeatureHasher,
+}
+
 SKLEARN_CROSS_DECOMPOSITION_TABLE = {
-    "PLSRegression": PLSRegression,
-    "PLSCanonical": PLSCanonical,
-    "CCA": CCA,
+    "PLSRegression": cross_decomposition.PLSRegression,
+    "PLSCanonical": cross_decomposition.PLSCanonical,
+    "CCA": cross_decomposition.CCA,
 }
 
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
