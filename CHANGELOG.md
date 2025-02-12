@@ -6,8 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Feature Extraction models test runner
+- `DictVectorizer` feature extractor
+- `FeatureHasher` feature extractor
+- `FeatureExtractorTransporter` Transporter
 - Zenodo badge to `README.md`
 ### Changed
+- `get_deserialized_regular_primary_types`
 - Test system modified
 ## [1.2] - 2025-01-22
 ### Added
