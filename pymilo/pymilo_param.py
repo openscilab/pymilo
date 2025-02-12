@@ -247,7 +247,7 @@ SKLEARN_PREPROCESSING_TABLE = {
     "TargetEncoder": TargetEncoder if target_encoder_support else NOT_SUPPORTED,
 }
 
-SKLEARN_FEATURE_EXTRACTION_TABLE = {
+SKLEARN_RAW_DATA_FEATURE_EXTRACTION_TABLE = {
     "DictVectorizer": feature_extraction.DictVectorizer,
     "FeatureHasher": feature_extraction.FeatureHasher,
 }
