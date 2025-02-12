@@ -9,6 +9,7 @@ FEATURE_EXTRACTION_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
 }
 
+
 class FeatureExtractorTransporter(AbstractTransporter):
     """Feature Extractor object dedicated Transporter."""
 
