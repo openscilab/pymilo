@@ -733,3 +733,23 @@
 		<td>>=1.1</td>
 	</tr>
 </table>
+
+<h3 id="scikit-learn-feature-extraction">Feature Extraction Modules</h3> 
+📚 <a href="https://scikit-learn.org/stable/api/sklearn.feature_extraction.html" target="_blank"><b>Models Document</b></a>
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>DictVectorizer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>FeatureHasher</b></td>
+		<td>>=1.3</td>
+	</tr>
+</table>
