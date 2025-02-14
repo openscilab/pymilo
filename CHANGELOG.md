@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `FeatureExtractorTransporter` to Ensemble chain
 - Feature Extraction classes to `pymilo_param.py`
 - Feature Extraction models test runner
+- `TfidfVectorizer` feature extractor
+- `TfidfTransformer` feature extractor
+- `HashingVectorizer` feature extractor
+- `CountVectorizer` feature extractor
+- `PatchExtractor` feature extractor
 - `DictVectorizer` feature extractor
 - `FeatureHasher` feature extractor
 - `FeatureExtractorTransporter` Transporter
