@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """PyMilo Feature Extraction transporter."""
-from ..pymilo_param import SKLEARN_RAW_DATA_FEATURE_EXTRACTION_TABLE
+from ..pymilo_param import SKLEARN_FEATURE_EXTRACTION_TABLE
 from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .transporter import AbstractTransporter, Command
 from .general_data_structure_transporter import GeneralDataStructureTransporter
+from .randomstate_transporter import RandomStateTransporter
 
 FEATURE_EXTRACTION_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
+    "RandomStateTransporter": RandomStateTransporter(),
 }
 
 
@@ -66,8 +68,8 @@ class FeatureExtractorTransporter(AbstractTransporter):
         if isinstance(fe_module, dict):
             return check_str_in_iterable(
                 "pymilo-feature_extraction-type",
-                fe_module) and fe_module["pymilo-feature_extraction-type"] in SKLEARN_RAW_DATA_FEATURE_EXTRACTION_TABLE.keys()
-        return get_sklearn_type(fe_module) in SKLEARN_RAW_DATA_FEATURE_EXTRACTION_TABLE.keys()
+                fe_module) and fe_module["pymilo-feature_extraction-type"] in SKLEARN_FEATURE_EXTRACTION_TABLE.keys()
+        return get_sklearn_type(fe_module) in SKLEARN_FEATURE_EXTRACTION_TABLE.keys()
 
     def serialize_fe_module(self, fe_module):
         """
@@ -100,7 +102,7 @@ class FeatureExtractorTransporter(AbstractTransporter):
         :return: retrieved associated sklearn.feature_extraction module
         """
         data = serialized_fe_module["pymilo-feature_extraction-data"]
-        associated_type = SKLEARN_RAW_DATA_FEATURE_EXTRACTION_TABLE[serialized_fe_module["pymilo-feature_extraction-type"]]
+        associated_type = SKLEARN_FEATURE_EXTRACTION_TABLE[serialized_fe_module["pymilo-feature_extraction-type"]]
         retrieved_fe_module = associated_type()
         for key in data:
             # add one depth inner feature extraction module population
