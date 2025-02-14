@@ -30,7 +30,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_tuple += (self.deep_serialize_ndarray(item),)
             else:
                 new_tuple += (item,)
-        return new_tuple
+        return {
+            "pymilo-tuple": new_tuple,
+        }
 
     # dict serializer for Logistic regression CV
     def serialize_dict(self, dictionary):
@@ -213,6 +215,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if not isinstance(content, dict):
             return content
 
+        if check_str_in_iterable("pymilo-tuple", content):
+            return tuple(self.get_deserialized_list(content["pymilo-tuple"]))
+
         if self.is_deserialized_ndarray(content):
             return self.deep_deserialize_ndarray(content)
 
@@ -261,7 +266,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         new_list = []
         for item in content:
-            if self.is_deserialized_ndarray(item):
+            if check_str_in_iterable("pymilo-tuple", item):
+                new_list.append(tuple(self.get_deserialized_list(content["pymilo-tuple"])))
+            elif self.is_deserialized_ndarray(item):
                 new_list.append(self.deep_deserialize_ndarray(item))
             else:
                 new_list.append(self.deserialize_primitive_type(item))
