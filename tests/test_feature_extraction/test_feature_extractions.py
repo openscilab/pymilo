@@ -1,11 +1,21 @@
 import os
 import pytest
+from count_vectorizer import count_vectorizer
 from dict_vectorizer import dict_vectorizer
 from feature_hasher import feature_hasher
+from hashing_vectorizer import hashing_vectorizer
+from patch_extractor import patch_extractor
+from tfidf_transformer import tfidf_transformer
+from tfidf_vectorizer import tfidf_vectorizer
 
 FEATURE_EXTRACTIONS = [
+    count_vectorizer,
     dict_vectorizer,
     feature_hasher,
+    hashing_vectorizer,
+    patch_extractor,
+    tfidf_transformer,
+    tfidf_vectorizer,
 ]
 
 @pytest.fixture(scope="session", autouse=True)
