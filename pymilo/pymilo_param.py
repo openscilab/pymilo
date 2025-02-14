@@ -247,9 +247,19 @@ SKLEARN_PREPROCESSING_TABLE = {
     "TargetEncoder": TargetEncoder if target_encoder_support else NOT_SUPPORTED,
 }
 
-SKLEARN_RAW_DATA_FEATURE_EXTRACTION_TABLE = {
+SKLEARN_FEATURE_EXTRACTION_TABLE = {
+    # for raw data:
     "DictVectorizer": feature_extraction.DictVectorizer,
     "FeatureHasher": feature_extraction.FeatureHasher,
+
+    # for image data:
+    "PatchExtractor": feature_extraction.image.PatchExtractor,
+
+    # for text data:
+    "CountVectorizer": feature_extraction.text.CountVectorizer,
+    "HashingVectorizer": feature_extraction.text.HashingVectorizer,
+    "TfidfTransformer": feature_extraction.text.TfidfTransformer,
+    "TfidfVectorizer": feature_extraction.text.TfidfVectorizer,
 }
 
 SKLEARN_CROSS_DECOMPOSITION_TABLE = {
