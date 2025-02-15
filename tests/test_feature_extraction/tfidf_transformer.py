@@ -19,7 +19,7 @@ def tfidf_transformer():
                     ('tfid', TfidfTransformer())]).fit(corpus)
 
     _tfidf = pipe['tfid']
-
+    print(_tfidf.__dict__)
     pre_result = _tfidf.idf_
 
     fe = FeatureExtractorTransporter()
