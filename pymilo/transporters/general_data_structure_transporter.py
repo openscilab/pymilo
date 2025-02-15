@@ -149,6 +149,11 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         elif isinstance(data[key], np.ndarray):
             data[key] = self.deep_serialize_ndarray(data[key])
 
+        elif isinstance(data[key], set):
+            data[key] = {
+                "pymilo-set": list(data[key])
+            }
+
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
 
@@ -217,6 +222,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         if check_str_in_iterable("pymilo-tuple", content):
             return tuple(self.get_deserialized_list(content["pymilo-tuple"]))
+
+        if check_str_in_iterable("pymilo-set", content):
+            return set(self.get_deserialized_list(content["pymilo-set"]))
 
         if self.is_deserialized_ndarray(content):
             return self.deep_deserialize_ndarray(content)
