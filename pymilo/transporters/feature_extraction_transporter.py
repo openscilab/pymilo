@@ -118,7 +118,11 @@ class FeatureExtractorTransporter(AbstractTransporter):
             if self.is_fe_module(data[key]):
                 data[key] = self.deserialize_fe_module(data[key])
             elif check_str_in_iterable("pymilo-csr_matrix", data[key]):
-                data[key] = FEATURE_EXTRACTION_CHAIN["GeneralDataStructureTransporter"].get_deserialized_dict(data[key]["pymilo-csr_matrix"])
+                csr_matrix_dict = FEATURE_EXTRACTION_CHAIN["GeneralDataStructureTransporter"].get_deserialized_dict(data[key]["pymilo-csr_matrix"])
+                cm = csr_matrix()
+                for key in csr_matrix_dict:
+                    setattr(cm, key, csr_matrix_dict[key])
+                data[key] = cm
 
             for transporter in FEATURE_EXTRACTION_CHAIN:
                 data[key] = FEATURE_EXTRACTION_CHAIN[transporter].deserialize(data, key, "")
