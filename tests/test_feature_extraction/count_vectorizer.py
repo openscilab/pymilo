@@ -19,12 +19,10 @@ def count_vectorizer():
     pre_result = X.toarray()
 
     fe = FeatureExtractorTransporter()
-    print("before: \n",cv.__dict__)
     post_pymilo_pre_model = fe.deserialize_fe_module(
         write_and_read(
             fe.serialize_fe_module(cv),
             get_path(MODEL_NAME)))
-    print("before: \n",post_pymilo_pre_model.__dict__)
     post_result = post_pymilo_pre_model.fit_transform(corpus).toarray()
 
     comparison_result = array_equal(pre_result, post_result)
