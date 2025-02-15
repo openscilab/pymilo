@@ -15,7 +15,6 @@ def tfidf_vectorizer():
     ]
     tfidf = TfidfVectorizer()
     X = tfidf.fit_transform(corpus)
-    tfidf.get_feature_names_out()
     pre_result = X.toarray()
 
     fe = FeatureExtractorTransporter()
