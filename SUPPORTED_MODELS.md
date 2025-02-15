@@ -752,4 +752,29 @@
 		<td><b>FeatureHasher</b></td>
 		<td>>=1.3</td>
 	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>PatchExtractor</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>4</td>
+		<td><b>CountVectorizer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>5</td>
+		<td><b>HashingVectorizer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>6</td>
+		<td><b>TfidfTransformer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>7</td>
+		<td><b>TfidfVectorizer</b></td>
+		<td>>=1.3</td>
+	</tr>
 </table>
