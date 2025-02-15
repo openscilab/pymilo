@@ -1,9 +1,8 @@
-from numpy import array_equal, random
-from sklearn.datasets import load_sample_images
+from numpy import array_equal
+from util import get_path, write_and_read
+from pymilo.utils.test_pymilo import report_status
 from sklearn.feature_extraction.text import CountVectorizer
 from pymilo.transporters.feature_extraction_transporter import FeatureExtractorTransporter
-from pymilo.utils.test_pymilo import report_status
-from util import get_path, write_and_read
 
 MODEL_NAME = "CountVectorizer"
 
