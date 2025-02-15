@@ -91,7 +91,7 @@ class FeatureExtractorTransporter(AbstractTransporter):
                     "pymilo-csr_matrix": FEATURE_EXTRACTION_CHAIN["GeneralDataStructureTransporter"].serialize_dict(
                         value.__dict__
                     )
-                }                
+                }
 
         for transporter in FEATURE_EXTRACTION_CHAIN:
             FEATURE_EXTRACTION_CHAIN[transporter].transport(
