@@ -26,5 +26,3 @@ def patch_extractor():
     comparison_result = array_equal(pre_result, post_result)
     report_status(comparison_result, MODEL_NAME)
     assert comparison_result
-
-patch_extractor()
