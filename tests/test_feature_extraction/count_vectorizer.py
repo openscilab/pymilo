@@ -16,8 +16,6 @@ def count_vectorizer():
     ]
     cv = CountVectorizer(analyzer='word', ngram_range=(2, 2))
     X = cv.fit_transform(corpus)
-    cv.get_feature_names_out()
-
     pre_result = X.toarray()
 
     fe = FeatureExtractorTransporter()
