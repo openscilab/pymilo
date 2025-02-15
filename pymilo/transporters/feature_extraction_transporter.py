@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """PyMilo Feature Extraction transporter."""
+from scipy.sparse._csr import csr_matrix
+
 from ..pymilo_param import SKLEARN_FEATURE_EXTRACTION_TABLE
 from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .transporter import AbstractTransporter, Command
@@ -83,6 +85,13 @@ class FeatureExtractorTransporter(AbstractTransporter):
         for key, value in fe_module.__dict__.items():
             if self.is_fe_module(value):
                 fe_module.__dict__[key] = self.serialize_fe_module(value)
+            elif isinstance(value, csr_matrix):
+                fe_module.__dict__[key] = {
+                    "pymilo-bypass": True,
+                    "pymilo-csr_matrix": FEATURE_EXTRACTION_CHAIN["GeneralDataStructureTransporter"].serialize_dict(
+                        value.__dict__
+                    )
+                }                
 
         for transporter in FEATURE_EXTRACTION_CHAIN:
             FEATURE_EXTRACTION_CHAIN[transporter].transport(
@@ -108,6 +117,8 @@ class FeatureExtractorTransporter(AbstractTransporter):
             # add one depth inner feature extraction module population
             if self.is_fe_module(data[key]):
                 data[key] = self.deserialize_fe_module(data[key])
+            elif check_str_in_iterable("pymilo-csr_matrix", data[key]):
+                data[key] = FEATURE_EXTRACTION_CHAIN["GeneralDataStructureTransporter"].get_deserialized_dict(data[key]["pymilo-csr_matrix"])
 
             for transporter in FEATURE_EXTRACTION_CHAIN:
                 data[key] = FEATURE_EXTRACTION_CHAIN[transporter].deserialize(data, key, "")
