@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """PyMilo Feature Extraction transporter."""
-from scipy.sparse._csr import csr_matrix
+from scipy.sparse import csr_matrix
 
 from ..pymilo_param import SKLEARN_FEATURE_EXTRACTION_TABLE
 from ..utils.util import check_str_in_iterable, get_sklearn_type
