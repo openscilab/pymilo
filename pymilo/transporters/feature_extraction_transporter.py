@@ -120,10 +120,9 @@ class FeatureExtractorTransporter(AbstractTransporter):
             elif check_str_in_iterable("pymilo-csr_matrix", data[key]):
                 csr_matrix_dict = FEATURE_EXTRACTION_CHAIN["GeneralDataStructureTransporter"].get_deserialized_dict(data[key]["pymilo-csr_matrix"])
                 cm = csr_matrix(csr_matrix_dict['_shape'])
-                for key in csr_matrix_dict:
-                    setattr(cm, key, csr_matrix_dict[key])
+                for _key in csr_matrix_dict:
+                    setattr(cm, _key, csr_matrix_dict[_key])
                 data[key] = cm
-
             for transporter in FEATURE_EXTRACTION_CHAIN:
                 data[key] = FEATURE_EXTRACTION_CHAIN[transporter].deserialize(data, key, "")
         for key in data:
