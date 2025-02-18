@@ -30,7 +30,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                 new_tuple += (self.deep_serialize_ndarray(item),)
             else:
                 new_tuple += (item,)
-        return new_tuple
+        return {
+            "pymilo-tuple": new_tuple,
+        }
 
     # dict serializer for Logistic regression CV
     def serialize_dict(self, dictionary):
@@ -147,6 +149,11 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         elif isinstance(data[key], np.ndarray):
             data[key] = self.deep_serialize_ndarray(data[key])
 
+        elif isinstance(data[key], set):
+            data[key] = {
+                "pymilo-set": list(data[key])
+            }
+
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
 
@@ -213,6 +220,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         if not isinstance(content, dict):
             return content
 
+        if check_str_in_iterable("pymilo-tuple", content):
+            return tuple(self.get_deserialized_list(content["pymilo-tuple"]))
+
+        if check_str_in_iterable("pymilo-set", content):
+            return set(self.get_deserialized_list(content["pymilo-set"]))
+
         if self.is_deserialized_ndarray(content):
             return self.deep_deserialize_ndarray(content)
 
@@ -261,7 +274,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         new_list = []
         for item in content:
-            if self.is_deserialized_ndarray(item):
+            if check_str_in_iterable("pymilo-tuple", item):
+                new_list.append(tuple(self.get_deserialized_list(content["pymilo-tuple"])))
+            elif self.is_deserialized_ndarray(item):
                 new_list.append(self.deep_deserialize_ndarray(item))
             else:
                 new_list.append(self.deserialize_primitive_type(item))
@@ -281,7 +296,11 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         if "np-type" in content:
             if content["np-type"] == "numpy.dtype":
-                return NUMPY_TYPE_DICT[content["np-type"]](NUMPY_TYPE_DICT[content['value']])
+                if isinstance(content["value"], str):
+                    # when the value is the associated type name like numpy.float64
+                    return NUMPY_TYPE_DICT[content["value"]]
+                else:
+                    return NUMPY_TYPE_DICT[content["np-type"]](NUMPY_TYPE_DICT[content['value']])
             if content["np-type"] == "numpy.nan":
                 return NUMPY_TYPE_DICT[content["np-type"]]
             return NUMPY_TYPE_DICT[content["np-type"]](content['value'])

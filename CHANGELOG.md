@@ -6,8 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `FeatureExtractorTransporter` to Ensemble chain
+- Feature Extraction classes to `pymilo_param.py`
+- Feature Extraction models test runner
+- `TfidfVectorizer` feature extractor
+- `TfidfTransformer` feature extractor
+- `HashingVectorizer` feature extractor
+- `CountVectorizer` feature extractor
+- `PatchExtractor` feature extractor
+- `DictVectorizer` feature extractor
+- `FeatureHasher` feature extractor
+- `FeatureExtractorTransporter` Transporter
 - Zenodo badge to `README.md`
 ### Changed
+- `get_deserialized_regular_primary_types`
 - Test system modified
 ## [1.2] - 2025-01-22
 ### Added

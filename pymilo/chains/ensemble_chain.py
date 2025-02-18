@@ -7,6 +7,7 @@ from ast import literal_eval
 from numpy import ndarray, asarray
 
 from ..chains.chain import AbstractChain
+from ..transporters.feature_extraction_transporter import FeatureExtractorTransporter
 from ..transporters.binmapper_transporter import BinMapperTransporter
 from ..transporters.bunch_transporter import BunchTransporter
 from ..transporters.transporter import Command
@@ -21,6 +22,7 @@ from ..utils.util import check_str_in_iterable, get_sklearn_type
 from .util import get_concrete_transporter
 
 ENSEMBLE_CHAIN = {
+    "FeatureExtractorTransporter": FeatureExtractorTransporter(),
     "PreprocessingTransporter": PreprocessingTransporter(),
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "TreePredictorTransporter": TreePredictorTransporter(),
@@ -51,6 +53,7 @@ class EnsembleModelChain(AbstractChain):
         for key, value in ensemble_object.__dict__.items():
             if isinstance(value, list):
                 has_inner_tuple_with_ml_model = False
+                fe = FeatureExtractorTransporter()
                 pt = PreprocessingTransporter()
                 for idx, item in enumerate(value):
                     if isinstance(item, tuple):
@@ -58,6 +61,8 @@ class EnsembleModelChain(AbstractChain):
                         for inner_idx, inner_item in enumerate(listed_tuple):
                             if pt.is_preprocessing_module(inner_item):
                                 listed_tuple[inner_idx] = pt.serialize_pre_module(inner_item)
+                            elif fe.is_fe_module(inner_item):
+                                listed_tuple[inner_idx] = fe.serialize_fe_module(inner_item)
                             else:
                                 has_inner_model, result = serialize_possible_ml_model(inner_item)
                                 if has_inner_model:
@@ -124,10 +129,16 @@ class EnsembleModelChain(AbstractChain):
                     listed_tuples = value["pymiloed-data"]
                     list_of_tuples = []
                     pt = PreprocessingTransporter()
+                    fe = FeatureExtractorTransporter()
                     for listed_tuple in listed_tuples:
                         name, serialized_model = listed_tuple
-                        retrieved_model = pt.deserialize_pre_module(serialized_model) if pt.is_preprocessing_module(
-                            serialized_model) else deserialize_possible_ml_model(serialized_model)[1]
+                        retrieved_model = None
+                        if pt.is_preprocessing_module(serialized_model):
+                            retrieved_model = pt.deserialize_pre_module(serialized_model)
+                        elif fe.is_fe_module(serialized_model):
+                            retrieved_model = fe.deserialize_fe_module(serialized_model)
+                        else:
+                            retrieved_model = deserialize_possible_ml_model(serialized_model)[1]
                         list_of_tuples.append(
                             (name, retrieved_model)
                         )
