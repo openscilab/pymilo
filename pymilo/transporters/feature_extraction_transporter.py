@@ -39,7 +39,7 @@ class FeatureExtractorTransporter(AbstractTransporter):
 
     def deserialize(self, data, key, model_type):
         """
-        Deserialize previously pymilo serialized preprocessing object.
+        Deserialize previously pymilo serialized feature extraction object.
 
         deserialize the data[key] of the given model which type is model_type.
         basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
@@ -61,7 +61,8 @@ class FeatureExtractorTransporter(AbstractTransporter):
 
     def is_fe_module(self, fe_module):
         """
-        Check whether the given module is a sklearn Preprocessing module or not.
+        Check whether the given module is a sklearn Feature
+        Extraction module or not.
 
         :param fe_module: given object
         :type fe_module: any
@@ -75,10 +76,10 @@ class FeatureExtractorTransporter(AbstractTransporter):
 
     def serialize_fe_module(self, fe_module):
         """
-        Serialize Preprocessing object.
+        Serialize Feature Extraction object.
 
         :param fe_module: given sklearn feature extraction module
-        :type fe_module: sklearn.preprocessing
+        :type fe_module: sklearn.feature_extraction
         :return: pymilo serialized fe_module
         """
         # add one depth inner preprocessing module population
