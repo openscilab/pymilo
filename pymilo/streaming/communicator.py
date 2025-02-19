@@ -130,6 +130,14 @@ class RESTServerCommunicator():
         class AttributeTypePayload(StandardPayload):
             attribute: str
 
+        @self.app.get("/register/")
+        async def register_client():
+            client_id = str(uuid.uuid4())
+            self._ps.add_client(client_id)
+            return {
+                "client_id": client_id
+            }
+
         @self.app.get("/download/")
         async def download(request: Request):
             body = await request.json()
