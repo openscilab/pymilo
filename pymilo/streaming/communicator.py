@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """PyMilo Communication Mediums."""
+import uuid
 import json
 import asyncio
 import uvicorn
