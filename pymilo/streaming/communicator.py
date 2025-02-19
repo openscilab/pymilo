@@ -8,7 +8,7 @@ import requests
 import websockets
 from enum import Enum
 from pydantic import BaseModel
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, HTTPException
 from .interfaces import ClientCommunicator
 from .param import PYMILO_INVALID_URL, PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED
 from .util import validate_websocket_url, validate_http_url
