@@ -117,10 +117,20 @@ class PymiloClient:
             print(PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED)
 
     def register(self):
+        """
+        Register client in the remote server.
+
+        :return: None
+        """
         _id = self._communicator.register_client()
         self.client_id = _id
 
     def register_ml_model(self):
+        """
+        Register ML model in the remote server.
+
+        :return: None
+        """
         _id = self._communicator.register_model(
             self.encrypt_compress(
                 {
@@ -131,9 +141,19 @@ class PymiloClient:
         self.ml_model_id = _id
 
     def get_clients(self):
+        """
+        Get all clients in the remote server.
+
+        :return: list of client ids
+        """
         return self._communicator.get_clients()
 
     def get_ml_models(self):
+        """
+        Get all registered ml models in the remote server for this client.
+
+        :return: list of ml model ids
+        """
         return self._communicator.get_ml_models(
             self.encrypt_compress(
                 {

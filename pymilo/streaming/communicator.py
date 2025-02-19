@@ -85,18 +85,42 @@ class RESTClientCommunicator(ClientCommunicator):
         return response.json()
 
     def register_client(self):
+        """
+        Register client in the PyMiloServer.
+
+        :return: newly allocated client id
+        """
         response = self.session.get(url=self._server_url + "/register/", timeout=5)
         return response.json()["client_id"]
     
     def register_model(self, payload):
+        """
+        Register ML model in the PyMiloServer.
+
+        :param payload: request payload
+        :type payload: dict
+        :return: newly allocated ml model id
+        """
         response = self.session.post(url=self._server_url + "/request_model_id/", json=payload, timeout=5)
         return response.json()["ml_model_id"]
 
     def get_clients(self):
+        """
+        Get all clients registered in the PyMiloServer.
+
+        :return: list of client ids
+        """
         response = self.session.get(url=self._server_url + "/clients/", timeout=5)
         return response.json()["clients_id"]
 
     def get_ml_models(self, payload):
+        """
+        Get all ML models registered for this specific client in the PyMiloServer.
+
+        :param payload: request payload
+        :type payload: dict
+        :return: list of ml model ids
+        """
         response = self.session.post(url=self._server_url + "/client/models/", json=payload, timeout=5)
         return response.json()["ml_models_id"]
 

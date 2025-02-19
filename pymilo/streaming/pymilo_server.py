@@ -101,6 +101,15 @@ class PymiloServer:
             return False, GeneralDataStructureTransporter().serialize({'output': retrieved_attribute}, 'output', None)
 
     def _validate_id(self, client_id, ml_model_id):
+        """
+        Validate the provided client ID and machine learning model ID.
+
+        :param client_id: The ID of the client to validate.
+        :type client_id: str
+        :param ml_model_id: The ID of the machine learning model to validate.
+        :type ml_model_id: str
+        :return: A tuple containing a boolean indicating validity and an error message if invalid.
+        """
         if client_id not in self._clients:
             return False, "The given client_id is invalid."
         if ml_model_id not in self._clients[client_id]:
@@ -108,21 +117,49 @@ class PymiloServer:
         return True, None
 
     def init_client(self, client_id):
+        """
+        Initialize a new client with the given client ID.
+
+        :param client_id: The ID of the client to initialize.
+        :type client_id: str
+        :return: A tuple containing a boolean indicating success and an error message if the client already exists.
+        """
         if client_id in self._clients:
             return False, f"The client with client_id: {client_id} already exists."
         self._clients[client_id] = {}
         return True, None
 
     def remove_client(self, client_id):
+        """
+        Remove an existing client by the given client ID.
+
+        :param client_id: The ID of the client to remove.
+        :type client_id: str
+        :return: A tuple containing a boolean indicating success and an error message if the client does not exist.
+        """
         if client_id not in self._clients:
             return False, f"The client with client_id: {client_id} doesn't exist."
         del self._clients[client_id]
         return True, None
 
     def get_clients(self):
+        """
+        Retrieve a list of all registered client IDs.
+
+        :return: A list of client IDs.
+        """
         return [id for id in self._clients.keys()]
 
     def init_ml_model(self, client_id, ml_model_id):
+        """
+        Initialize a new machine learning model for a given client.
+
+        :param client_id: The ID of the client to associate with the model.
+        :type client_id: str
+        :param ml_model_id: The ID of the machine learning model to initialize.
+        :type ml_model_id: str
+        :return: A tuple containing a boolean indicating success and an error message if the model already exists or the client ID is invalid.
+        """
         if client_id not in self._clients:
             return False, "The given client_id is invalid."
         
@@ -133,9 +170,29 @@ class PymiloServer:
         return True, None
 
     def set_ml_model(self, client_id, ml_model_id, ml_model):
+        """
+        Set or update the machine learning model for a given client.
+
+        :param client_id: The ID of the client.
+        :type client_id: str
+        :param ml_model_id: The ID of the machine learning model.
+        :type ml_model_id: str
+        :param ml_model: The machine learning model object to be set.
+        :type ml_model: obj
+        :return: None
+        """
         self._clients[client_id][ml_model_id] = ml_model
 
     def remove_ml_model(self, client_id, ml_model_id):
+        """
+        Remove an existing machine learning model for a given client.
+
+        :param client_id: The ID of the client.
+        :type client_id: str
+        :param ml_model_id: The ID of the machine learning model to remove.
+        :type ml_model_id: str
+        :return: A tuple containing a boolean indicating success and an error message if the client ID or model ID is invalid.
+        """
         if client_id not in self._clients:
             return False, "The given client_id is invalid."
         
@@ -146,4 +203,11 @@ class PymiloServer:
         return True, None
 
     def get_ml_models(self, client_id):
+        """
+        Retrieve a list of all machine learning model IDs associated with a given client.
+
+        :param client_id: The ID of the client.
+        :type client_id: str
+        :return: A list of machine learning model IDs.
+        """
         return [id for id in self._clients[client_id].keys()]
