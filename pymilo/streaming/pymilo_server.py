@@ -162,10 +162,10 @@ class PymiloServer:
         """
         if client_id not in self._clients:
             return False, "The given client_id is invalid."
-        
+
         if ml_model_id in self._clients[client_id]:
             return False, f"The given ml_model_id: {ml_model_id} already exists within ml models of the client with client_id of {client_id}."
-        
+
         self._clients[client_id][ml_model_id] = {}
         return True, None
 
@@ -195,10 +195,10 @@ class PymiloServer:
         """
         if client_id not in self._clients:
             return False, "The given client_id is invalid."
-        
+
         if ml_model_id not in self._clients[client_id]:
             return False, f"The client with client_id: {client_id} doesn't have any model with ml_model_id of {ml_model_id}."
-        
+
         del self._clients[client_id][ml_model_id]
         return True, None
 

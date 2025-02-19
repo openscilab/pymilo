@@ -92,7 +92,7 @@ class RESTClientCommunicator(ClientCommunicator):
         """
         response = self.session.get(url=self._server_url + "/register/", timeout=5)
         return response.json()["client_id"]
-    
+
     def register_model(self, payload):
         """
         Register ML model in the PyMiloServer.
@@ -123,6 +123,7 @@ class RESTClientCommunicator(ClientCommunicator):
         """
         response = self.session.post(url=self._server_url + "/client/models/", json=payload, timeout=5)
         return response.json()["ml_models_id"]
+
 
 class RESTServerCommunicator():
     """Facilitate working with the communication medium from the server side for the REST protocol."""
@@ -184,7 +185,7 @@ class RESTServerCommunicator():
             body = self.parse(body)
             client_id = body["client_id"]
             model_id = str(uuid.uuid4())
-            is_succeed, detail_message = self._ps.add_ml_model(client_id,model_id)
+            is_succeed, detail_message = self._ps.add_ml_model(client_id, model_id)
             if not is_succeed:
                 raise HTTPException(status_code=404, detail=detail_message)
             return {
