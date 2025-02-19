@@ -116,6 +116,32 @@ class PymiloClient:
         else:
             print(PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED)
 
+    def register(self):
+        _id = self._communicator.register_client()
+        self.client_id = _id
+
+    def register_ml_model(self):
+        _id = self._communicator.register_model(
+            self.encrypt_compress(
+                {
+                    "client_id": self.client_id,
+                }
+            )
+        )
+        self.ml_model_id = _id
+
+    def get_clients(self):
+        return self._communicator.get_clients()
+
+    def get_ml_models(self):
+        return self._communicator.get_ml_models(
+            self.encrypt_compress(
+                {
+                    "client_id": self.client_id,
+                }
+            )
+        )
+
     def __getattr__(self, attribute):
         """
         Overwrite the __getattr__ default function to extract requested.
