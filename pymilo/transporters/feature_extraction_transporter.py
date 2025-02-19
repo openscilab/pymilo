@@ -61,8 +61,7 @@ class FeatureExtractorTransporter(AbstractTransporter):
 
     def is_fe_module(self, fe_module):
         """
-        Check whether the given module is a sklearn Feature
-        Extraction module or not.
+        Check whether the given module is a sklearn Feature Extraction module or not.
 
         :param fe_module: given object
         :type fe_module: any
