@@ -31,20 +31,21 @@ class PymiloServer:
         :type communication_protocol: pymilo.streaming.communicator.CommunicationProtocol
         :return: an instance of the PymiloServer class
         """
-        self._model = model
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
         self.communicator = communication_protocol.value["SERVER"](ps=self, port=port)
+        # In-memory storage (replace with a database for persistence)
+        self._clients = {}
 
-    def export_model(self):
+    def export_model(self, client_id, ml_model_id):
         """
         Export the ML model to string json dump using PyMilo Export class.
 
         :return: str
         """
-        return Export(self._model).to_json()
+        return Export(self._clients[client_id][ml_model_id]).to_json()
 
-    def update_model(self, serialized_model):
+    def update_model(self, client_id, ml_model_id, serialized_model):
         """
         Update the PyMilo Server's ML model.
 
@@ -52,7 +53,7 @@ class PymiloServer:
         :type serialized_model: str
         :return: None
         """
-        self._model = Import(file_adr=None, json_dump=serialized_model).to_model()
+        self._clients[client_id][ml_model_id] = Import(file_adr=None, json_dump=serialized_model).to_model()
 
     def execute_model(self, request):
         """
@@ -64,7 +65,10 @@ class PymiloServer:
         """
         gdst = GeneralDataStructureTransporter()
         attribute = request["attribute"] if isinstance(request, dict) else request.attribute
-        retrieved_attribute = getattr(self._model, attribute, None)
+        _client_id = request["client_id"] if isinstance(request, dict) else request.client_id
+        _ml_model_id = request["ml_model_id"] if isinstance(request, dict) else request.ml_model_id
+        _ml_model = self._clients[_client_id][_ml_model_id]
+        retrieved_attribute = getattr(_ml_model, attribute, None)
         if retrieved_attribute is None:
             raise Exception(PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE)
         arguments = {
@@ -74,8 +78,8 @@ class PymiloServer:
         args = gdst.deserialize(arguments, 'args', None)
         kwargs = gdst.deserialize(arguments, 'kwargs', None)
         output = retrieved_attribute(*args, **kwargs)
-        if isinstance(output, type(self._model)):
-            self._model = output
+        if isinstance(output, type(_ml_model)):
+            self._clients[_client_id][_ml_model_id] = output
             return None
         return gdst.serialize({'output': output}, 'output', None)
 
@@ -88,7 +92,10 @@ class PymiloServer:
         :return: True if it is callable False otherwise
         """
         attribute = request["attribute"] if isinstance(request, dict) else request.attribute
-        retrieved_attribute = getattr(self._model, attribute, None)
+        _client_id = request["client_id"] if isinstance(request, dict) else request.client_id
+        _ml_model_id = request["ml_model_id"] if isinstance(request, dict) else request.ml_model_id
+        _ml_model = self._clients[_client_id][_ml_model_id]
+        retrieved_attribute = getattr(_ml_model, attribute, None)
         if callable(retrieved_attribute):
             return True, None
         else:
