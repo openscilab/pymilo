@@ -475,7 +475,7 @@ class WebSocketServerCommunicator:
             payload = self.parse(message['payload'])
 
             if action == "download":
-                response = self._handle_download()
+                response = self._handle_download(payload)
             elif action == "upload":
                 response = self._handle_upload(payload)
             elif action == "attribute_call":
@@ -489,15 +489,20 @@ class WebSocketServerCommunicator:
         except Exception as e:
             await websocket.send_text(json.dumps({"error": str(e)}))
 
-    def _handle_download(self) -> dict:
+    def _handle_download(self, payload) -> dict:
         """
         Handle download requests.
 
+        :param payload: the payload containing the ids associated with the requested model for download.
+        :type payload: dict
         :return: a response containing the exported model.
         """
         return {
             "message": "Download request received.",
-            "payload": self._ps.export_model(),
+            "payload": self._ps.export_model(
+                payload["client_id"],
+                payload["ml_model_id"],
+            ),
         }
 
     def _handle_upload(self, payload: dict) -> dict:
