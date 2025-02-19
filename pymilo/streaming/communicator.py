@@ -138,6 +138,21 @@ class RESTServerCommunicator():
                 "client_id": client_id
             }
 
+        @self.app.post("/request_model_id/")
+        async def request_model(request: Request):
+            body = await request.json()
+            body = self.parse(body)
+            client_id = body["client_id"]
+            model_id = str(uuid.uuid4())
+            is_succeed, detail_message = self._ps.add_ml_model(client_id,model_id)
+            if not is_succeed:
+                raise HTTPException(status_code=404, detail=detail_message)
+            return {
+                "client_id": client_id,
+                "ml_model_id": model_id,
+            }
+
+        @self.app.get("/clients/")
         @self.app.get("/download/")
         async def download(request: Request):
             body = await request.json()
