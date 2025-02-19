@@ -83,6 +83,21 @@ class RESTClientCommunicator(ClientCommunicator):
         response = self.session.post(url=self._server_url + "/attribute_type/", json=payload, timeout=5)
         return response.json()
 
+    def register_client(self):
+        response = self.session.get(url=self._server_url + "/register/", timeout=5)
+        return response.json()["client_id"]
+    
+    def register_model(self, payload):
+        response = self.session.post(url=self._server_url + "/request_model_id/", json=payload, timeout=5)
+        return response.json()["ml_model_id"]
+
+    def get_clients(self):
+        response = self.session.get(url=self._server_url + "/clients/", timeout=5)
+        return response.json()["clients_id"]
+
+    def get_ml_models(self, payload):
+        response = self.session.post(url=self._server_url + "/client/models/", json=payload, timeout=5)
+        return response.json()["ml_models_id"]
 
 class RESTServerCommunicator():
     """Facilitate working with the communication medium from the server side for the REST protocol."""
