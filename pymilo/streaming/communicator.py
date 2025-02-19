@@ -153,6 +153,12 @@ class RESTServerCommunicator():
             }
 
         @self.app.get("/clients/")
+        async def get_client():
+            return {
+                "clients_id": self._ps.get_clients(),
+            }
+
+        @self.app.post("/client/models/")
         @self.app.get("/download/")
         async def download(request: Request):
             body = await request.json()
