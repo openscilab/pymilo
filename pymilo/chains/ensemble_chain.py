@@ -50,11 +50,11 @@ class EnsembleModelChain(AbstractChain):
                 self._transporters[transporter].transport(
                     ensemble_object, Command.SERIALIZE)
 
+        pt = ENSEMBLE_CHAIN["PreprocessingTransporter"]
+        fe = ENSEMBLE_CHAIN["FeatureExtractorTransporter"]
         for key, value in ensemble_object.__dict__.items():
             if isinstance(value, list):
                 has_inner_tuple_with_ml_model = False
-                fe = FeatureExtractorTransporter()
-                pt = PreprocessingTransporter()
                 for idx, item in enumerate(value):
                     if isinstance(item, tuple):
                         listed_tuple = list(item)
@@ -122,14 +122,14 @@ class EnsembleModelChain(AbstractChain):
                 self._transporters[transporter].transport(
                     ensemble, Command.DESERIALIZE, is_inner_model)
 
+        pt = ENSEMBLE_CHAIN["PreprocessingTransporter"]
+        fe = ENSEMBLE_CHAIN["FeatureExtractorTransporter"]
         for key, value in data.items():
             if isinstance(value, dict):
                 if check_str_in_iterable("pymiloed-data-structure",
                                          value) and value["pymiloed-data-structure"] == "list of (str, estimator) tuples":
                     listed_tuples = value["pymiloed-data"]
                     list_of_tuples = []
-                    pt = PreprocessingTransporter()
-                    fe = FeatureExtractorTransporter()
                     for listed_tuple in listed_tuples:
                         name, serialized_model = listed_tuple
                         retrieved_model = None
