@@ -27,17 +27,21 @@ def scenario1(compression_method, communication_protocol):
         compressor=Compression[compression_method],
         communication_protocol=CommunicationProtocol[communication_protocol],
         )
+    
+    # 3. get client id + get ml model id [from remote server]
+    client.register()
+    client.register_ml_model()
 
-    # 3.
+    # 4.
     result = client.predict(x_test)
     mse_before = mean_squared_error(y_test, result)
 
-    # 4.
-    client.upload()
     # 5.
+    client.upload()
+    # 6.
     client.download()
 
-    # 6.
+    # 7.
     result = client.predict(x_test)
     mse_after = mean_squared_error(y_test, result)
     return np.abs(mse_after-mse_before)

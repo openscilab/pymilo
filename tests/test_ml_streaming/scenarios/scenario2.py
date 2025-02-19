@@ -25,22 +25,26 @@ def scenario2(compression_method, communication_protocol):
         communication_protocol=CommunicationProtocol[communication_protocol],
         )
 
-    # 2.
-    client.upload()
+    # 2. get client id + get ml model id [from remote server]
+    client.register()
+    client.register_ml_model()
 
     # 3.
+    client.upload()
+
+    # 4.
     client.toggle_mode(PymiloClient.Mode.DELEGATE)
     client.fit(x_train, y_train)
     remote_field = client.coef_
 
-    # 4.
+    # 5.
     result = client.predict(x_test)
     mse_server = mean_squared_error(y_test, result)
 
-    # 5.
+    # 6.
     client.download()
 
-    # 6.
+    # 7.
     client.toggle_mode(mode=PymiloClient.Mode.LOCAL)
     local_field = client.coef_
     result = client.predict(x_test)
