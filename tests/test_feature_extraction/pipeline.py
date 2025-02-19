@@ -6,9 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from pymilo.utils.test_pymilo import pymilo_classification_test
 
-
 MODEL_NAME = "Pipeline"
-
 
 def pipeline():
     corpus = ['this is the first document',
