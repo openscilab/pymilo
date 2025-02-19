@@ -13,7 +13,6 @@ class PymiloServer:
 
     def __init__(
             self,
-            model=None,
             port=8000,
             compressor=Compression.NULL,
             communication_protocol=CommunicationProtocol.REST,
@@ -100,3 +99,51 @@ class PymiloServer:
             return True, None
         else:
             return False, GeneralDataStructureTransporter().serialize({'output': retrieved_attribute}, 'output', None)
+
+    def _validate_id(self, client_id, ml_model_id):
+        if client_id not in self._clients:
+            return False, "The given client_id is invalid."
+        if ml_model_id not in self._clients[client_id]:
+            return False, "The given client_id is valid but requested ml_model_id is invalid."
+        return True, None
+
+    def init_client(self, client_id):
+        if client_id in self._clients:
+            return False, f"The client with client_id: {client_id} already exists."
+        self._clients[client_id] = {}
+        return True, None
+
+    def remove_client(self, client_id):
+        if client_id not in self._clients:
+            return False, f"The client with client_id: {client_id} doesn't exist."
+        del self._clients[client_id]
+        return True, None
+
+    def get_clients(self):
+        return [id for id in self._clients.keys()]
+
+    def init_ml_model(self, client_id, ml_model_id):
+        if client_id not in self._clients:
+            return False, "The given client_id is invalid."
+        
+        if ml_model_id in self._clients[client_id]:
+            return False, f"The given ml_model_id: {ml_model_id} already exists within ml models of the client with client_id of {client_id}."
+        
+        self._clients[client_id][ml_model_id] = {}
+        return True, None
+
+    def set_ml_model(self, client_id, ml_model_id, ml_model):
+        self._clients[client_id][ml_model_id] = ml_model
+
+    def remove_ml_model(self, client_id, ml_model_id):
+        if client_id not in self._clients:
+            return False, "The given client_id is invalid."
+        
+        if ml_model_id not in self._clients[client_id]:
+            return False, f"The client with client_id: {client_id} doesn't have any model with ml_model_id of {ml_model_id}."
+        
+        del self._clients[client_id][ml_model_id]
+        return True, None
+
+    def get_ml_models(self, client_id):
+        return [id for id in self._clients[client_id].keys()]
