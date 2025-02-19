@@ -27,7 +27,7 @@ def scenario1(compression_method, communication_protocol):
         compressor=Compression[compression_method],
         communication_protocol=CommunicationProtocol[communication_protocol],
         )
-    
+
     # 3. get client id + get ml model id [from remote server]
     client.register()
     client.register_ml_model()
