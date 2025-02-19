@@ -188,10 +188,15 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = DownloadPayload(**body)
-            message = "/download request from client: {} for model: {}".format(payload.client_id, payload.ml_model_id)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
+            message = "/download request from client: {} for model: {}".format(client_id, ml_model_id)
             return {
                 "message": message,
-                "payload": self._ps.export_model(),
+                "payload": self._ps.export_model(client_id, ml_model_id),
             }
 
         @self.app.post("/upload/")
@@ -199,10 +204,15 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = UploadPayload(**body)
-            message = "/upload request from client: {} for model: {}".format(payload.client_id, payload.ml_model_id)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
+            message = "/upload request from client: {} for model: {}".format(client_id, ml_model_id)
             return {
                 "message": message,
-                "payload": self._ps.update_model(payload.model)
+                "payload": self._ps.update_model(client_id, ml_model_id, payload.model)
             }
 
         @self.app.post("/attribute_call/")
@@ -210,8 +220,15 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = AttributeCallPayload(**body)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
             message = "/attribute_call request from client: {} for model: {}".format(
-                payload.client_id, payload.ml_model_id)
+                client_id,
+                ml_model_id,
+            )
             result = self._ps.execute_model(payload)
             return {
                 "message": message,
@@ -223,8 +240,15 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = AttributeTypePayload(**body)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
             message = "/attribute_type request from client: {} for model: {}".format(
-                payload.client_id, payload.ml_model_id)
+                client_id,
+                ml_model_id,
+            )
             is_callable, field_value = self._ps.is_callable_attribute(payload)
             return {
                 "message": message,
