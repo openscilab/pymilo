@@ -174,7 +174,7 @@ class RESTServerCommunicator():
         @self.app.get("/register/")
         async def register_client():
             client_id = str(uuid.uuid4())
-            self._ps.add_client(client_id)
+            self._ps.init_client(client_id)
             return {
                 "client_id": client_id
             }
@@ -185,7 +185,7 @@ class RESTServerCommunicator():
             body = self.parse(body)
             client_id = body["client_id"]
             model_id = str(uuid.uuid4())
-            is_succeed, detail_message = self._ps.add_ml_model(client_id, model_id)
+            is_succeed, detail_message = self._ps.init_ml_model(client_id, model_id)
             if not is_succeed:
                 raise HTTPException(status_code=404, detail=detail_message)
             return {
