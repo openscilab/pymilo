@@ -1,6 +1,6 @@
 # Supported Models
 
-**Last Update: 2024-10-31**
+**Last Update: 2025-2-15**
 
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
