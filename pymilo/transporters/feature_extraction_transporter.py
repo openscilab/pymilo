@@ -70,8 +70,8 @@ class FeatureExtractorTransporter(AbstractTransporter):
         if isinstance(fe_module, dict):
             return check_str_in_iterable(
                 "pymilo-feature_extraction-type",
-                fe_module) and fe_module["pymilo-feature_extraction-type"] in SKLEARN_FEATURE_EXTRACTION_TABLE.keys()
-        return get_sklearn_type(fe_module) in SKLEARN_FEATURE_EXTRACTION_TABLE.keys()
+                fe_module) and fe_module["pymilo-feature_extraction-type"] in SKLEARN_FEATURE_EXTRACTION_TABLE
+        return get_sklearn_type(fe_module) in SKLEARN_FEATURE_EXTRACTION_TABLE
 
     def serialize_fe_module(self, fe_module):
         """
