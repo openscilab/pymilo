@@ -66,9 +66,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==1.2`
+- Run `pip install pymilo==1.3`
 ### Source code
-- Download [Version 1.2](https://github.com/openscilab/pymilo/archive/v1.2.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Download [Version 1.3](https://github.com/openscilab/pymilo/archive/v1.3.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
 
 ### Conda
@@ -226,6 +226,7 @@ result = pymilo_client.predict(x_test)
 | Pipeline Model &#x2705; | - |
 | Preprocessing Models &#x2705; | - |
 | Cross Decomposition Models &#x2705; | - |
+| Feature Extractor Models &#x2705; | - |
 
 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
