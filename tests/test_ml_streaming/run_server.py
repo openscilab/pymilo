@@ -32,12 +32,17 @@ def main():
         x_train, y_train, _, _ = prepare_simple_regression_datasets()
         linear_regression = LinearRegression()
         linear_regression.fit(x_train, y_train)
-        communicator = PymiloServer(
-            model=linear_regression,
+        ps = PymiloServer(
             port=9000,
             compressor=Compression[args.compression],
             communication_protocol= CommunicationProtocol[args.protocol],
-            ).communicator
+            )
+        sample_client_id = "0x_demo_client_id"
+        sample_ml_model_id = "0x_demo_ml_model_id"
+        ps.init_client(sample_client_id)
+        ps.init_ml_model(sample_client_id, sample_ml_model_id)
+        ps.set_ml_model(sample_client_id, sample_ml_model_id, linear_regression)
+        communicator = ps.communicator
     else:
         communicator = PymiloServer(
             port=8000,

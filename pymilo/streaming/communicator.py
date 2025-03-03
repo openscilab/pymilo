@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """PyMilo Communication Mediums."""
+import uuid
 import json
 import asyncio
 import uvicorn
@@ -7,7 +8,7 @@ import requests
 import websockets
 from enum import Enum
 from pydantic import BaseModel
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, HTTPException
 from .interfaces import ClientCommunicator
 from .param import PYMILO_INVALID_URL, PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED
 from .util import validate_websocket_url, validate_http_url
@@ -83,6 +84,46 @@ class RESTClientCommunicator(ClientCommunicator):
         response = self.session.post(url=self._server_url + "/attribute_type/", json=payload, timeout=5)
         return response.json()
 
+    def register_client(self):
+        """
+        Register client in the PyMiloServer.
+
+        :return: newly allocated client id
+        """
+        response = self.session.get(url=self._server_url + "/register/", timeout=5)
+        return response.json()["client_id"]
+
+    def register_model(self, payload):
+        """
+        Register ML model in the PyMiloServer.
+
+        :param payload: request payload
+        :type payload: dict
+        :return: newly allocated ml model id
+        """
+        response = self.session.post(url=self._server_url + "/request_model_id/", json=payload, timeout=5)
+        return response.json()["ml_model_id"]
+
+    def get_clients(self):
+        """
+        Get all clients registered in the PyMiloServer.
+
+        :return: list of client ids
+        """
+        response = self.session.get(url=self._server_url + "/clients/", timeout=5)
+        return response.json()["clients_id"]
+
+    def get_ml_models(self, payload):
+        """
+        Get all ML models registered for this specific client in the PyMiloServer.
+
+        :param payload: request payload
+        :type payload: dict
+        :return: list of ml model ids
+        """
+        response = self.session.post(url=self._server_url + "/client/models/", json=payload, timeout=5)
+        return response.json()["ml_models_id"]
+
 
 class RESTServerCommunicator():
     """Facilitate working with the communication medium from the server side for the REST protocol."""
@@ -130,15 +171,58 @@ class RESTServerCommunicator():
         class AttributeTypePayload(StandardPayload):
             attribute: str
 
+        @self.app.get("/register/")
+        async def register_client():
+            client_id = str(uuid.uuid4())
+            self._ps.init_client(client_id)
+            return {
+                "client_id": client_id
+            }
+
+        @self.app.post("/request_model_id/")
+        async def request_model(request: Request):
+            body = await request.json()
+            body = self.parse(body)
+            client_id = body["client_id"]
+            model_id = str(uuid.uuid4())
+            is_succeed, detail_message = self._ps.init_ml_model(client_id, model_id)
+            if not is_succeed:
+                raise HTTPException(status_code=404, detail=detail_message)
+            return {
+                "client_id": client_id,
+                "ml_model_id": model_id,
+            }
+
+        @self.app.get("/clients/")
+        async def get_client():
+            return {
+                "clients_id": self._ps.get_clients(),
+            }
+
+        @self.app.post("/client/models/")
+        async def get_client_models(request: Request):
+            body = await request.json()
+            body = self.parse(body)
+            client_id = body["client_id"]
+            return {
+                "client_id": client_id,
+                "ml_models_id": self._ps.get_ml_models(client_id),
+            }
+
         @self.app.get("/download/")
         async def download(request: Request):
             body = await request.json()
             body = self.parse(body)
             payload = DownloadPayload(**body)
-            message = "/download request from client: {} for model: {}".format(payload.client_id, payload.ml_model_id)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
+            message = "/download request from client: {} for model: {}".format(client_id, ml_model_id)
             return {
                 "message": message,
-                "payload": self._ps.export_model(),
+                "payload": self._ps.export_model(client_id, ml_model_id),
             }
 
         @self.app.post("/upload/")
@@ -146,10 +230,15 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = UploadPayload(**body)
-            message = "/upload request from client: {} for model: {}".format(payload.client_id, payload.ml_model_id)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
+            message = "/upload request from client: {} for model: {}".format(client_id, ml_model_id)
             return {
                 "message": message,
-                "payload": self._ps.update_model(payload.model)
+                "payload": self._ps.update_model(client_id, ml_model_id, payload.model)
             }
 
         @self.app.post("/attribute_call/")
@@ -157,8 +246,15 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = AttributeCallPayload(**body)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
             message = "/attribute_call request from client: {} for model: {}".format(
-                payload.client_id, payload.ml_model_id)
+                client_id,
+                ml_model_id,
+            )
             result = self._ps.execute_model(payload)
             return {
                 "message": message,
@@ -170,8 +266,15 @@ class RESTServerCommunicator():
             body = await request.json()
             body = self.parse(body)
             payload = AttributeTypePayload(**body)
+            client_id = payload.client_id
+            ml_model_id = payload.ml_model_id
+            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+            if not is_valid:
+                raise HTTPException(status_code=404, detail=invalidity_reason)
             message = "/attribute_type request from client: {} for model: {}".format(
-                payload.client_id, payload.ml_model_id)
+                client_id,
+                ml_model_id,
+            )
             is_callable, field_value = self._ps.is_callable_attribute(payload)
             return {
                 "message": message,
@@ -398,7 +501,7 @@ class WebSocketServerCommunicator:
             payload = self.parse(message['payload'])
 
             if action == "download":
-                response = self._handle_download()
+                response = self._handle_download(payload)
             elif action == "upload":
                 response = self._handle_upload(payload)
             elif action == "attribute_call":
@@ -412,15 +515,20 @@ class WebSocketServerCommunicator:
         except Exception as e:
             await websocket.send_text(json.dumps({"error": str(e)}))
 
-    def _handle_download(self) -> dict:
+    def _handle_download(self, payload) -> dict:
         """
         Handle download requests.
 
+        :param payload: the payload containing the ids associated with the requested model for download.
+        :type payload: dict
         :return: a response containing the exported model.
         """
         return {
             "message": "Download request received.",
-            "payload": self._ps.export_model(),
+            "payload": self._ps.export_model(
+                payload["client_id"],
+                payload["ml_model_id"],
+            ),
         }
 
     def _handle_upload(self, payload: dict) -> dict:
