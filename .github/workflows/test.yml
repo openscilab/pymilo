@@ -16,7 +16,7 @@ on:
 
 env:
   TEST_PYTHON_VERSION: 3.9
-  TEST_OS: 'ubuntu-20.04'
+  TEST_OS: 'ubuntu-22.04'
   SKIP_STREAMING_OS: 'windows-2022'
   SKIP_STREAMING_PYTHON_VERSION: 3.11.0
 
