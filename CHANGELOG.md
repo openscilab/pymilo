@@ -5,11 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Removed
-- Python 3.6 support
 ### Added
 ### Changed
 - Test system modified
+### Removed
+- Python 3.6 support
 ## [1.3] - 2025-02-26
 ### Added
 - `TfidfVectorizer` feature extractor
