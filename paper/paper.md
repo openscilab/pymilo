@@ -55,6 +55,18 @@ SKOPS/TensorFlow.js: A few recent tools attempt to bridge the gaps for specific 
 
 Despite the variety of tools available (see Table \ref{toolcomparison}), there remains a conspicuous gap in machine learning model storage and exchange methods. No existing solution fully satisfies the core requirements of security, transparency, and end-to-end fidelity while maintaining broad applicability.
 
+**Table 1**: Comparison of PyMilo with existing model serialization tools.[]{#toolcomparison}
+
+| Package           | Transparent | Multi-Framework | End-to-End Preservation | Secure |
+|------------------|-------------|------------------|--------------------------|--------|
+| **Pickle**        | No          | Yes              | Yes                      | No     |
+| **Joblib**        | No          | Yes              | Yes                      | No     |
+| **ONNX**          | No          | Yes              | No                       | Yes    |
+| **PMML**          | Yes         | No               | No                       | Yes    |
+| **SKOPS**         | No          | No               | Yes                      | Yes    |
+| **TensorFlow.js** | Yes         | No               | No                       | Yes    |
+| **PyMilo**        | Yes         | Yes              | Yes                      | Yes    |
+
 PyMilo is proposed to address the above gaps. It is an open-source Python library designed as an end-to-end solution for exporting and importing machine learning models in a safe, non-executable, and human-readable format such as JSON. PyMilo serializes trained models from machine learning frameworks into a transparent format and deserializes them back into the same original model, preserving structure, functionality, and behavior. PyMilo fully recovers the original model without structural changes, which does not affect inference time or model performance. The approach ensures that models can be transported to any target device and imported without requiring additional dependencies, allowing seamless execution in inference mode. This provides a general solution for creating human-readable, transparent, and safe machine learning models that can be easily shared, inspected, and deployed. PyMilo benefits a wide range of stakeholders, including machine learning engineers, data scientists, and AI practitioners, by facilitating the development of more transparent and accountable AI systems. Furthermore, researchers working on transparent AI [@rauker2023toward], user privacy in ML [@bodimani2024assessing], and safe AI [@macrae2019governing] can use PyMilo as a framework that provides transparency and safety in the machine learning environment.
 
 # References
