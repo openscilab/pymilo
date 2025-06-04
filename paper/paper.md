@@ -9,11 +9,11 @@ tags:
   - MLOPS
 authors:
   - name: AmirHosein Rostami
-    orcid: 0000-0000-0000-0000
+    orcid: 0009-0000-0638-2263
     corresponding: true
     affiliation: 1 
   - name: Sepand Haghighi
-    orcid: 0000-0000-0000-0000
+    orcid: TODO-TODO-TODO-TODO
     corresponding: false
     affiliation: 1
   - name: Sadra Sabouri
@@ -21,7 +21,7 @@ authors:
     corresponding: false
     affiliation: 1
   - name: Alireza Zolanvari
-    orcid: 0000-0000-0000-0000
+    orcid: TODO-TODO-TODO-TODO
     corresponding: false
     affiliation: 1
 affiliations:
