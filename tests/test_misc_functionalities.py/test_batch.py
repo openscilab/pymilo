@@ -24,4 +24,4 @@ def test_batch_execution():
         if pattern.match(filename):
             file_path = os.path.join(os.getcwd(), filename)
             os.remove(file_path)
-    return exp_n == imp_n and np.abs(mse) <= 10**(-8)
+    assert exp_n == imp_n and np.abs(mse) <= 10**(-8)
