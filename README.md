@@ -175,7 +175,7 @@ communicator.run()
 ```
 Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
 
-ℹ️ By default, `PymiloServer` listens on the loopback interface (`127.0.0.1`). To make it accessible over a local network (LAN), specify your machine’s LAN IP address in the `host` parameter of the `PymiloServer` constructor. The default value is `127.0.0.1`.
+ℹ️ By default, `PymiloServer` listens on the loopback interface (`127.0.0.1`). To make it accessible over a local network (LAN), specify your machine’s LAN IP address in the `host` parameter of the `PymiloServer` constructor.
 
 #### Client
 By using `PymiloClient` you can easily connect to the remote `PymiloServer` and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
