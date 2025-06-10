@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
+- `README.md` updated
+- `__init__` function in `PyMiloServer`
 - Test system modified
 ### Removed
 - Python 3.6 support

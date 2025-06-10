@@ -15,6 +15,7 @@ class PymiloServer:
             self,
             model=None,
             port=8000,
+            host="127.0.0.1",
             compressor=Compression.NULL,
             communication_protocol=CommunicationProtocol.REST,
     ):
@@ -25,6 +26,8 @@ class PymiloServer:
         :type model: any
         :param port: the port to which PyMiloServer listens
         :type port: int
+        :param host: the url to which PyMilo Server listens
+        :type host: str
         :param compressor: the compression method to be used in client-server communications
         :type compressor: pymilo.streaming.compressor.Compression
         :param communication_protocol: The communication protocol to be used by PymiloServer
@@ -34,7 +37,7 @@ class PymiloServer:
         self._model = model
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
-        self.communicator = communication_protocol.value["SERVER"](ps=self, port=port)
+        self.communicator = communication_protocol.value["SERVER"](ps=self, host=host, port=port)
 
     def export_model(self):
         """
