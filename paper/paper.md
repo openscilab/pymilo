@@ -13,7 +13,7 @@ authors:
     corresponding: true
     affiliation: 1 
   - name: Sepand Haghighi
-    orcid: TODO-TODO-TODO-TODO
+    orcid: 0000-0001-9450-2375
     corresponding: false
     affiliation: 1
   - name: Sadra Sabouri
@@ -21,7 +21,7 @@ authors:
     corresponding: false
     affiliation: 1
   - name: Alireza Zolanvari
-    orcid: TODO-TODO-TODO-TODO
+    orcid: 0000-0003-2367-8343
     corresponding: false
     affiliation: 1
 affiliations:
