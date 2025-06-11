@@ -43,6 +43,10 @@ Despite ongoing concerns around transparency and safety, the dominant approach f
 
 To improve portability across environments, several standardized model interchange formats have been developed alongside `pickle`. Most notably, ONNX (Open Neural Network Exchange) and PMML (Predictive Model Markup Language) convert trained models into framework-neutral representations [@Verma2023; @ONNX2017], enabling deployment in diverse systems without relying on the original training code. ONNX uses a graph-based structure built from primitive operators (e.g., linear transforms, activations), while PMML provides an XML-based specification for traditional models like decision trees and regressions.
 
+Although these formats enhance security by avoiding executable serialization, they introduce compatibility and fidelity challenges. Exporting complex pipelines to ONNX or PMML often leads to structural approximations, missing metadata, or unsupported components, especially for custom logic [@Guazzelli2009; @Wang2020]. As a result, the exported model may differ in behavior, leading to performance degradation or loss of accuracy. One study reported accuracy drops of up to 10 to 15 percent after exporting models to ONNX in certain scenarios, highlighting the risk of behavioral drift between the original and exported versions [@Wang2020].
+
+ONNX uses a binary protocol buffer format that is not human-readable and has been associated with accuracy degradation due to structural transformations during export. PMML, while readable, is verbose and narrowly scoped, supporting only parts of scikit-learn, and does not provide a way for exported models to be restored back into Python, making it a one-way format unsuitable for reversible workflows.
+
 
 Despite the variety of tools available (see Table \ref{toolcomparison}), there remains a conspicuous gap in machine learning model storage and exchange methods. No existing solution fully satisfies the core requirements of security, transparency, and end-to-end fidelity while maintaining broad applicability.
 
