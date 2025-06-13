@@ -37,25 +37,25 @@ PyMilo is an open-source Python package that addresses the limitations of existi
 Current tools rely on black-box or executable formats that obscure internal model structures, making them difficult to audit, verify, or safely share. 
 Others apply structural transformations during export that may degrade predictive performance and reduce the model to a limited inference-only interface. 
 In contrast, PyMilo serializes models in a transparent human-readable format that preserves end-to-end model fidelity and enables reliable, safe, and interpretable exchange. 
-This package is designed to make the preservation and reuse of trained ML models safer, more interpretable, and easier to manage across different stages of the workflow.
+This package is designed to make the preservation and reuse of trained ML models safer, more interpretable, and easier to manage across different stages of the ML workflow.
 
 # Statement of Need
 Modern machine learning development is largely centered around the Python ecosystem, which has become a dominant platform for building and training models due to its rich libraries and community support [@Raschka2020]. 
-However, once a model is trained, sharing or deploying it securely and transparently remains a significant challenge. This issue is especially important in high-stakes domains such as healthcare, where ensuring model accountability and integrity is critical [@Garbin2022].
+However, once a model is trained, sharing or deploying it securely and transparently remains a significant challenge. This issue is especially important in high-stake domains such as healthcare, where ensuring model accountability and integrity is critical [@Garbin2022].
 In such settings, any lack of clarity about a model’s internal logic or origin can reduce trust in its predictions. Researchers have increasingly emphasized that greater transparency in AI systems is critical for maintaining user trust and protecting privacy in machine learning applications [@bodimani2024assessing].
 
 Despite ongoing concerns around transparency and safety, the dominant approach for exchanging Python-trained models remains ad hoc binary serialization, most commonly through Python’s `pickle` module or its variant `joblib`. 
 These formats allow developers to store complex model objects with minimal effort, but they were never designed with security or human interpretability in mind. In fact, loading a pickle file will execute arbitrary code contained within it, a known vulnerability that can be exploited if the file is maliciously crafted [@Brownlee2018]. 
-While this method, whether using `pickle` or `joblib`, preserves full model fidelity within the Python ecosystem, it poses serious security risks and lacks transparency, as the serialized files are opaque binary blobs that cannot be inspected without loading. 
+While these methods preserves full model fidelity within the Python ecosystem, it poses serious security risks and lacks transparency, as the serialized files are opaque binary blobs that cannot be inspected without loading. 
 Furthermore, compatibility is fragile because pickled models often depend on specific library versions, which may hinder long-term reproducibility [@Brownlee2018].
 
 To improve portability across environments, several standardized model interchange formats have been developed alongside `pickle`. 
-Most notably, ONNX (Open Neural Network Exchange) and PMML (Predictive Model Markup Language) convert trained models into framework-neutral representations [@Verma2023; @ONNX2017], enabling deployment in diverse systems without relying on the original training code. 
+Most notably, Open Neural Network Exchange (ONNX) and Predictive Model Markup Language (PMML) convert trained models into framework-agnostic representations [@Verma2023; @ONNX2017], enabling deployment in diverse systems without relying on the original training code. 
 ONNX uses a graph-based structure built from primitive operators (e.g., linear transforms, activations), while PMML provides an XML-based specification for traditional models like decision trees and regressions.
 
 Although these formats enhance security by avoiding executable serialization, they introduce compatibility and fidelity challenges. 
-Exporting complex pipelines to ONNX or PMML often leads to structural approximations, missing metadata, or unsupported components, especially for custom logic [@Guazzelli2009; @Wang2020]. 
-As a result, the exported model may differ in behavior, leading to performance degradation or loss of accuracy. 
+Exporting complex pipelines to ONNX or PMML often leads to structural approximations, missing metadata, or unsupported components, especially for customized models [@Guazzelli2009; @Wang2020]. 
+As a result, the exported model may differ in behavior, resulting in performance degradation or loss of accuracy. 
 One study reported accuracy drops of up to 10 to 15 percent after exporting models to ONNX in certain scenarios, highlighting the risk of behavioral drift between the original and exported versions [@Wang2020].
 
 ONNX uses a binary protocol buffer format that is not human-readable and has been associated with accuracy degradation due to structural transformations during export. 
@@ -85,7 +85,7 @@ The machine learning community still lacks a truly end-to-end solution that allo
 | **PyMilo**        | Yes         | Yes              | Yes                      | Yes    |
 
 PyMilo is proposed to address the above gaps. It is an open-source Python library that provides an end-to-end solution for exporting and importing machine learning models in a safe, non-executable, and human-readable format such as JSON. PyMilo serializes trained models into a transparent format and fully reconstructs them without structural changes, preserving their original functionality and behavior. 
-This process does not affect inference time or performance and allows models to be imported on any target device without additional dependencies, enabling seamless execution in inference mode. 
+This process does not affect inference time or performance and imports models on any target device without additional dependencies, enabling seamless execution in inference mode. 
 PyMilo benefits a wide range of stakeholders, including machine learning engineers, data scientists, and AI practitioners, by facilitating the development of more transparent and accountable AI systems. Furthermore, researchers working on transparent AI [@rauker2023toward], user privacy in ML [@bodimani2024assessing], and safe AI [@macrae2019governing] can use PyMilo as a framework that provides transparency and safety in the machine learning environment.
 
 # References
