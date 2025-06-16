@@ -36,7 +36,11 @@ PyMilo is an open-source Python package that addresses the limitations of existi
 Current tools rely on black-box or executable formats that obscure internal model structures, making them difficult to audit, verify, or safely share. 
 Others apply structural transformations during export that may degrade predictive performance and reduce the model to a limited inference-only interface. 
 In contrast, PyMilo serializes models in a transparent human-readable format that preserves end-to-end model fidelity and enables reliable, safe, and interpretable exchange. 
-This package is designed to make the preservation and reuse of trained ML models safer, more interpretable, and easier to manage across different stages of the ML workflow.
+This package is designed to make the preservation and reuse of trained ML models safer, more interpretable, and easier to manage across different stages of the ML workflow (\autoref{fig:overall}).
+
+![PyMilo is an end-to-end, transparent, and safe solution for transporting machine learning models from machine learning frameworks to target devices. Unlike other tools that transform models into alternative representations with structural differences, PyMilo preserves the original model's structure, allowing it to be imported back as the exact same object in its native framework.\label{fig:overall}](overall.png)
+
+\newpage
 
 # Statement of Need
 Modern machine learning development is largely centered around the Python ecosystem, which has become a dominant platform for building and training models due to its rich libraries and community support [@Raschka2020]. 
