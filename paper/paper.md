@@ -68,10 +68,10 @@ This process requires significant modifications to the original model architectu
 Models from other frameworks, such as scikit-learn or PyTorch, must be re-implemented or retrained in TensorFlow to be exported. 
 Additionally, running complex models in JavaScript runtimes introduces memory and speed limitations, making deployment of large neural networks prohibitively slow or even infeasible in the browser context [@NerdCorner2025].
 
-In summary, current solutions force practitioners into a trade-offs between security, transparency, end-to-end fidelity, and performance preservation (see Table \ref{toolcomparison}). 
+In summary, current solutions force practitioners into a trade-offs between security, transparency, end-to-end fidelity, and performance preservation (see Table 1). 
 The machine learning community still lacks a truly end-to-end solution that allows models to be shared safely (with no risk of arbitrary code execution), inspected easily by humans, and faithfully reconstructed for seamless use across diverse environments.
 
-**Table 1**: Comparison of PyMilo with existing model serialization tools.[]{label="toolcomparison"}
+**Table 1**: Comparison of PyMilo with existing model serialization tools.
 
 | Package           | Transparent | Multi-Framework | End-to-End Preservation | Secure |
 |------------------|-------------|------------------|--------------------------|--------|
