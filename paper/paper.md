@@ -1,7 +1,6 @@
 ---
 title: 'PyMilo: A Python Library for ML I/O'
 tags:
-  - Python
   - Machine Learning 
   - Model Deployment
   - Model Serialization
