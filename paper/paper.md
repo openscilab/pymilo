@@ -57,8 +57,8 @@ Exporting complex pipelines to ONNX or PMML often leads to structural approximat
 As a result, the exported model may differ in behavior, resulting in performance degradation or loss of accuracy. 
 For example Wang et. al. reported accuracy drops of up to 10 to 15 percent after exporting models to ONNX in certain scenarios [@Wang2020]. This highlights the risk of behavioral drift between the original and exported versions.
 
-ONNX uses a binary protocol buffer format that is not human-readable and has been associated with accuracy degradation due to structural transformations during export. 
-PMML, while readable, is verbose and narrowly scoped, supporting only parts of scikit-learn, and does not provide a way for exported models to be restored back into Python, making it a one-way format unsuitable for reversible workflows.
+Beyond concerns about end-to-end model preservation, ONNX and PMML also present limitations in transparency, scope, and reversibility. ONNX uses a binary protocol buffer format that is not human-readable, which limits interpretability and makes auditing difficult. 
+PMML, although readable, is verbose and narrowly scoped, supporting only a limited subset of scikit-learn models. Moreover, PMML does not provide a way to restore exported models back into Python, making it a one-way format unsuitable for end-to-end workflows.
 
 Other tools have been developed to address specific use cases, though they remain limited in scope. 
 SKOPS improves the safety of scikit-learn model storage by avoiding executable serialization and enabling limited inspection of model contents [@Noyan2023]. 
