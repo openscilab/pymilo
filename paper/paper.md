@@ -38,7 +38,7 @@ Others apply structural transformations during export that may degrade predictiv
 In contrast, PyMilo serializes models in a transparent human-readable format that preserves end-to-end model fidelity and enables reliable, safe, and interpretable exchange. 
 This package is designed to make the preservation and reuse of trained ML models safer, more interpretable, and easier to manage across different stages of the ML workflow (\autoref{fig:overall}).
 
-![PyMilo is an end-to-end, transparent, and safe solution for transporting machine learning models from machine learning frameworks to target devices. Unlike other tools that transform models into alternative representations with structural differences, PyMilo preserves the original model's structure, allowing it to be imported back as the exact same object in its native framework.\label{fig:overall}](overall.png)
+![PyMilo is an end-to-end, transparent, and safe solution for transporting machine learning models from machine learning frameworks to target devices. Unlike other tools that transform models into alternative representations with structural differences, PyMilo preserves the original model's structure, allowing it to be imported back as the exact same object in its native framework.\label{fig:overall}](pymilo_outlook.png)
 
 \newpage
 
