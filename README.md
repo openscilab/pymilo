@@ -66,9 +66,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==1.2`
+- Run `pip install pymilo==1.3`
 ### Source code
-- Download [Version 1.2](https://github.com/openscilab/pymilo/archive/v1.2.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Download [Version 1.3](https://github.com/openscilab/pymilo/archive/v1.3.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
 
 ### Conda
@@ -175,6 +175,8 @@ communicator.run()
 ```
 Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
 
+ℹ️ By default, `PymiloServer` listens on the loopback interface (`127.0.0.1`). To make it accessible over a local network (LAN), specify your machine’s LAN IP address in the `host` parameter of the `PymiloServer` constructor.
+
 #### Client
 By using `PymiloClient` you can easily connect to the remote `PymiloServer` and execute any functionalities that the given ML model has, let's say you want to run `predict` function on your remote ML model and get the result:
 ```python
@@ -226,6 +228,7 @@ result = pymilo_client.predict(x_test)
 | Pipeline Model &#x2705; | - |
 | Preprocessing Models &#x2705; | - |
 | Cross Decomposition Models &#x2705; | - |
+| Feature Extractor Models &#x2705; | - |
 
 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).

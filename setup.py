@@ -35,14 +35,14 @@ def read_description():
 setup(
     name='pymilo',
     packages=find_packages(include=['pymilo*'], exclude=['tests*']),
-    version='1.2',
+    version='1.3',
     description='PyMilo: Python for ML I/O',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='PyMilo Development Team',
     author_email='pymilo@openscilab.com',
     url='https://github.com/openscilab/pymilo',
-    download_url='https://github.com/openscilab/pymilo/tarball/v1.2',
+    download_url='https://github.com/openscilab/pymilo/tarball/v1.3',
     keywords="machine_learning ml ai mlops model export import",
     project_urls={
             'Source': 'https://github.com/openscilab/pymilo',
@@ -51,13 +51,12 @@ setup(
     extras_require={
         'streaming': get_requires(mode='streaming'),
     },
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',

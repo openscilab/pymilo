@@ -1,6 +1,6 @@
 # Supported Models
 
-**Last Update: 2024-10-31**
+**Last Update: 2025-2-15**
 
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
@@ -731,5 +731,50 @@
 		<td>3</td>
 		<td><b>CCA</b></td>
 		<td>>=1.1</td>
+	</tr>
+</table>
+
+<h3 id="scikit-learn-feature-extraction">Feature Extraction Modules</h3> 
+📚 <a href="https://scikit-learn.org/stable/api/sklearn.feature_extraction.html" target="_blank"><b>Models Document</b></a>
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+        <th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>DictVectorizer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>FeatureHasher</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>PatchExtractor</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>4</td>
+		<td><b>CountVectorizer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>5</td>
+		<td><b>HashingVectorizer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>6</td>
+		<td><b>TfidfTransformer</b></td>
+		<td>>=1.3</td>
+	</tr>
+	<tr align="center">
+		<td>7</td>
+		<td><b>TfidfVectorizer</b></td>
+		<td>>=1.3</td>
 	</tr>
 </table>

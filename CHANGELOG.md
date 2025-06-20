@@ -6,8 +6,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+### Changed
+- `README.md` updated
+- `__init__` function in `PyMiloServer`
+- Test system modified
+### Removed
+- Python 3.6 support
+## [1.3] - 2025-02-26
+### Added
+- `TfidfVectorizer` feature extractor
+- `TfidfTransformer` feature extractor
+- `HashingVectorizer` feature extractor
+- `CountVectorizer` feature extractor
+- `PatchExtractor` feature extractor
+- `DictVectorizer` feature extractor
+- `FeatureHasher` feature extractor
+- `FeatureExtractorTransporter` Transporter
+- `FeatureExtraction` support added to Ensemble chain
+- FeatureExtraction params initialized in `pymilo_param.py`
+- Feature Extraction models test runner
 - Zenodo badge to `README.md`
 ### Changed
+- `get_deserialized_list` in `GeneralDataStructureTransporter`
+- `get_deserialized_dict` in `GeneralDataStructureTransporter`
+- `serialize` in `GeneralDataStructureTransporter`
+- `serialize_tuple` in `GeneralDataStructureTransporter`
+- `AttributeCallPayload` in `streaming.communicator.py`
+- `get_deserialized_regular_primary_types` in `GeneralDataStructureTransporter`
 - Test system modified
 ## [1.2] - 2025-01-22
 ### Added
@@ -371,7 +396,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v1.2...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v1.3...dev
+[1.3]: https://github.com/openscilab/pymilo/compare/v1.2...v1.3
 [1.2]: https://github.com/openscilab/pymilo/compare/v1.1...v1.2
 [1.1]: https://github.com/openscilab/pymilo/compare/v1.0...v1.1
 [1.0]: https://github.com/openscilab/pymilo/compare/v0.9...v1.0

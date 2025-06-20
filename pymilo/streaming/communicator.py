@@ -165,7 +165,7 @@ class RESTServerCommunicator():
 
         class AttributeCallPayload(StandardPayload):
             attribute: str
-            args: list
+            args: dict
             kwargs: dict
 
         class AttributeTypePayload(StandardPayload):
