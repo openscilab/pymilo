@@ -1,7 +1,7 @@
 ---
 title: 'PyMilo: A Python Library for ML I/O'
 tags:
-  - Machine Learning 
+  - Machine Learning
   - Model Deployment
   - Model Serialization
   - Transparency
@@ -10,7 +10,7 @@ authors:
   - name: AmirHosein Rostami
     orcid: 0009-0000-0638-2263
     corresponding: true
-    affiliation: 1 
+    affiliation: 1
   - name: Sepand Haghighi
     orcid: 0000-0001-9450-2375
     corresponding: false
@@ -26,8 +26,7 @@ authors:
 affiliations:
  - name: Open Science Lab
    index: 1
-
-date: 10 June 2025
+date: 24 June 2025
 bibliography: paper.bib
 ---
 
@@ -48,29 +47,28 @@ However, once a model is trained, sharing or deploying it securely and transpare
 In such settings, any lack of clarity about a model’s internal logic or origin can reduce trust in its predictions. Researchers have increasingly emphasized that greater transparency in AI systems is critical for maintaining user trust and protecting privacy in machine learning applications [@bodimani2024assessing].
 
 Despite ongoing concerns around transparency and safety, the dominant approach for exchanging pretrained models remains ad hoc binary serialization, most commonly through Python’s `pickle` module or its variant `joblib`. 
-These formats allow developers to store complex model objects with minimal effort, but they were never designed with security or human interpretability in mind [@parida2025model]. In fact, loading a pickle file may execute arbitrary code contained within it, a known vulnerability that can be exploited if the file is maliciously crafted [@Brownlee2018]. 
-While these methods preserves full model fidelity within the Python ecosystem, it poses serious security risks and lacks transparency, as the serialized files are opaque binary blobs that cannot be inspected without loading. 
+These formats allow developers to store complex model objects with minimal effort, but they were never designed with security or human interpretability in mind [@parida2025model]. In fact, loading a pickle file may execute arbitrary code contained within it, a known vulnerability that can be exploited if the file is maliciously crafted [@Brownlee2018; @PythonPickleDocs]. 
+While these methods preserve full model fidelity within the Python ecosystem, it poses serious security risks and lacks transparency, as the serialized files are opaque binary blobs that cannot be inspected without loading. 
 Furthermore, compatibility is fragile because pickled models often depend on specific library versions, which may hinder long-term reproducibility [@Brownlee2018].
 
 To improve portability across environments, several standardized model interchange formats have been developed alongside `pickle`. 
-Most notably, Open Neural Network Exchange (ONNX) and Predictive Model Markup Language (PMML) convert trained models into framework-agnostic representations [@Verma2023; @ONNX2017], enabling deployment in diverse systems without relying on the original training code. 
+Most notably, Open Neural Network Exchange (ONNX) and Predictive Model Markup Language (PMML) convert trained models into framework-agnostic representations [@onnx; @pmml], enabling deployment in diverse systems without relying on the original training code. 
 ONNX uses a graph-based structure built from primitive operators (e.g., linear transforms, activations), while PMML provides an XML-based specification for traditional models like decision trees and regressions.
 
 Although these formats enhance security by avoiding executable serialization, they introduce compatibility and fidelity challenges. 
-Exporting complex pipelines to ONNX or PMML often leads to structural approximations, missing metadata, or unsupported components, especially for customized models [@Guazzelli2009; @Wang2020]. 
+Exporting complex pipelines to ONNX or PMML often leads to structural approximations, missing metadata, or unsupported components, especially for customized models [@pmml]. 
 As a result, the exported model may differ in behavior, resulting in performance degradation or loss of accuracy [@jajal2023analysis]. 
-For example Wang et. al. reported accuracy drops of up to 10 to 15 percent after exporting models to ONNX in certain scenarios [@Wang2020]. This highlights the risk of behavioral drift between the original and exported versions.
+Jajal et al. found that models exported to ONNX can produce incorrect predictions despite successful conversion, indicating semantic inconsistencies between the original and exported versions [jajal2023analysis]. These “wrong outputs” reflect predictive performance degradation and highlight the risks of silent behavioral drift in deployed systems.
 
 Beyond concerns about end-to-end model preservation, ONNX and PMML also present limitations in transparency, scope, and reversibility. ONNX uses a binary protocol buffer format that is not human-readable, which limits interpretability and makes auditing difficult. 
-PMML, although readable, is verbose and narrowly scoped, supporting only a limited subset of scikit-learn models [@cody2024extending]. Moreover, PMML does not provide a way to restore exported models back into Python, making it a one-way format unsuitable for end-to-end workflows.
+PMML, although XML-based and readable, is verbose and narrowly scoped, supporting only a limited subset of scikit-learn models. As noted by Cody et al., both ONNX and PMML focus on static model specification rather than operational testing or lifecycle validation workflows [@cody2024extending]. Moreover, PMML does not provide a mechanism to restore exported models into Python, making it a one-way format that limits reproducibility across ML workflows.
 
-Other tools have been developed to address specific use cases, though they remain limited in scope. 
-SKOPS improves the safety of scikit-learn model storage by avoiding executable serialization and enabling limited inspection of model contents [@Noyan2023]. 
+Other tools have been developed to address specific use cases, though they remain limited in scope. For example, SKOPS improves the safety of scikit-learn model storage by enabling limited inspection of model internals without requiring code execution [@Noyan2023]. 
 However, it supports only scikit-learn models, lacks compatibility with other frameworks, and does not provide a fully transparent or human-readable structure. 
-TensorFlow.js targets JavaScript environments by converting TensorFlow or Keras models into JSON and binary weight files for browser-based execution [@TFJS2018]. 
-This process requires significant modifications to the original model architecture, which often leads to compatibility issues, degraded performance, and changes in inference time [@quan2022towards]. 
+TensorFlow.js targets JavaScript environments by converting TensorFlow or Keras models into a JSON configuration file and binary weight files for execution in the browser or Node.js [@tfjs2019]. 
+However, this process has been shown to introduce compatibility issues, performance degradation, and inconsistencies in inference behavior due to backend limitations and environment-specific faults [@quan2022towards]. 
 Models from other frameworks, such as scikit-learn or PyTorch, must be re-implemented or retrained in TensorFlow to be exported. 
-Additionally, running complex models in JavaScript runtimes introduces memory and speed limitations, making deployment of large neural networks prohibitively slow or even infeasible in the browser context [@NerdCorner2025].
+Additionally, running complex models in JavaScript runtimes introduces memory and performance limitations, often making the deployment of large neural networks prohibitively slow or even infeasible in browser environments [@NerdCorner2025].
 
 In summary, current solutions force practitioners into a trade-offs between security, transparency, end-to-end fidelity, and performance preservation (see Table 1). 
 The machine learning community still lacks a safe and transparent end-to-end model serialization framework through which users can securely share models, inspect them easily, and accurately reconstruct them for use across diverse frameworks and environments.
