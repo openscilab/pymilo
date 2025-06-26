@@ -63,35 +63,164 @@ class ClientCommunicator(ABC):
     """
     ClientCommunicator Interface.
 
-    Each ClientCommunicator has methods to upload the local ML model, download the remote ML model and delegate attribute call to the remote server.
+    Defines the contract for client-server communication. Each implementation is responsible for:
+    - Registering and removing clients and models
+    - Uploading and downloading ML models
+    - Handling delegated attribute access
+    - Managing model allowances between clients
     """
 
     @abstractmethod
-    def upload(self, payload):
+    def register_client(self):
         """
-        Upload the given payload to the remote server.
+        Register the client in the remote server.
 
-        :param payload: request payload
-        :type payload: dict
-        :return: remote server response
-        """
-
-    @abstractmethod
-    def download(self, payload):
-        """
-        Download the remote ML model to local.
-
-        :param payload: request payload
-        :type payload: dict
-        :return: remote server response
+        :return: newly allocated client ID
+        :rtype: str
         """
 
     @abstractmethod
-    def attribute_call(self, payload):
+    def remove_client(self, client_id):
+        """
+        Remove the client from the remote server.
+
+        :param client_id: client ID to remove
+        :type client_id: str
+        :return: success status
+        :rtype: bool
+        """
+
+    @abstractmethod
+    def register_model(self, client_id):
+        """
+        Register an ML model for the given client.
+
+        :param client_id: client ID
+        :type client_id: str
+        :return: newly allocated model ID
+        :rtype: str
+        """
+
+    @abstractmethod
+    def remove_model(self, client_id, model_id):
+        """
+        Remove the specified ML model for the client.
+
+        :param client_id: client ID
+        :type client_id: str
+        :param model_id: model ID
+        :type model_id: str
+        :return: success status
+        :rtype: bool
+        """
+
+    @abstractmethod
+    def get_ml_models(self, client_id):
+        """
+        Get the list of ML models for the given client.
+
+        :param client_id: client ID
+        :type client_id: str
+        :return: list of model IDs
+        :rtype: list[str]
+        """
+
+    @abstractmethod
+    def grant_access(self, allower_id, allowee_id, model_id):
+        """
+        Grant access to a model from one client to another.
+
+        :param allower_id: client who owns the model
+        :type allower_id: str
+        :param allowee_id: client to be granted access
+        :type allowee_id: str
+        :param model_id: model ID
+        :type model_id: str
+        :return: success status
+        :rtype: bool
+        """
+
+    @abstractmethod
+    def revoke_access(self, revoker_id, revokee_id, model_id):
+        """
+        Revoke model access from one client to another.
+
+        :param revoker_id: client who owns the model
+        :type revoker_id: str
+        :param revokee_id: client to be revoked
+        :type revokee_id: str
+        :param model_id: model ID
+        :type model_id: str
+        :return: success status
+        :rtype: bool
+        """
+
+    @abstractmethod
+    def get_allowance(self, allower_id):
+        """
+        Get all clients and models this client has allowed.
+
+        :param allower_id: client who granted access
+        :type allower_id: str
+        :return: dictionary mapping allowee_id to list of model_ids
+        :rtype: dict
+        """
+
+    @abstractmethod
+    def get_allowed_models(self, allower_id, allowee_id):
+        """
+        Get the list of model IDs that `allowee_id` is allowed to access from `allower_id`.
+
+        :param allower_id: model owner
+        :type allower_id: str
+        :param allowee_id: recipient
+        :type allowee_id: str
+        :return: list of allowed model IDs
+        :rtype: list[str]
+        """
+
+    @abstractmethod
+    def upload(self, client_id, model_id, model):
+        """
+        Upload the local ML model to the remote server.
+
+        :param client_id: ID of the client
+        :param model_id: ID of the model
+        :param model: serialized model content
+        :return: True if upload was successful, False otherwise
+        """
+
+    @abstractmethod
+    def download(self, client_id, model_id):
+        """
+        Download the remote ML model.
+
+        :param client_id: ID of the requesting client
+        :param model_id: ID of the model to download
+        :return: string serialized model
+        """
+
+    @abstractmethod
+    def attribute_call(self, client_id, model_id, call_payload):
         """
         Execute an attribute call on the remote server.
 
-        :param payload: request payload
-        :type payload: dict
+        :param client_id: ID of the client
+        :param model_id: ID of the model
+        :param call_payload: payload containing attribute name, args, and kwargs
+        :return: remote server response
+        """
+
+    @abstractmethod
+    def attribute_type(self, client_id, model_id, attribute_name):
+        """
+        Identify the attribute type (method or field) on the remote model.
+
+        :param client_id: client ID
+        :type client_id: str
+        :param model_id: model ID
+        :type model_id: str
+        :param attribute_name: attribute name
+        :type attribute_name: str
         :return: remote server response
         """
