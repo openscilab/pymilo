@@ -18,14 +18,17 @@ authors:
   - name: Sadra Sabouri
     orcid: 0000-0003-1047-2346
     corresponding: false
-    affiliation: 1
+    affiliation: "1, 2"
   - name: Alireza Zolanvari
     orcid: 0000-0003-2367-8343
     corresponding: false
     affiliation: 1
 affiliations:
- - name: Open Science Lab
-   index: 1
+ - index: 1
+   name: Open Science Lab
+ - index: 2
+   name: University of Southern California, Los Angeles, United States
+   ror: 03taz7m60
 date: 24 June 2025
 bibliography: paper.bib
 ---
