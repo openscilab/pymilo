@@ -212,15 +212,12 @@ class ClientCommunicator(ABC):
         """
 
     @abstractmethod
-    def attribute_type(self, client_id, model_id, attribute_name):
+    def attribute_type(self, client_id, model_id, type_payload):
         """
         Identify the attribute type (method or field) on the remote model.
 
         :param client_id: client ID
-        :type client_id: str
         :param model_id: model ID
-        :type model_id: str
-        :param attribute_name: attribute name
-        :type attribute_name: str
+        :param type_payload: payload containing targeted attribute
         :return: remote server response
         """
