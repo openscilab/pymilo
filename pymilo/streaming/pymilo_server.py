@@ -38,6 +38,7 @@ class PymiloServer:
         # In-memory storage (replace with a database for persistence)
         self.communicator = communication_protocol.value["SERVER"](ps=self, host=host, port=port)
         self._clients = {}
+        self._allowance = {}
 
     def export_model(self, client_id, ml_model_id):
         """
@@ -130,6 +131,7 @@ class PymiloServer:
         if client_id in self._clients:
             return False, f"The client with client_id: {client_id} already exists."
         self._clients[client_id] = {}
+        self._allowance[client_id] = {}
         return True, None
 
     def remove_client(self, client_id):
@@ -143,7 +145,100 @@ class PymiloServer:
         if client_id not in self._clients:
             return False, f"The client with client_id: {client_id} doesn't exist."
         del self._clients[client_id]
+        del self._allowance[client_id]
         return True, None
+
+    def grant_access(self, allower_id, allowee_id, allowed_model_id):
+        """
+        Allow a client to access a specific machine learning model of another client.
+
+        :param allower_id: The ID of the client granting access.
+        :type allower_id: str
+        :param allowee_id: The ID of the client being granted access.
+        :type allowee_id: str
+        :param allowed_model_id: The ID of the machine learning model to be accessed.
+        :type allowed_model_id: str
+        :return: A tuple containing a boolean indicating success and an error message if the operation fails.
+        """
+        if allower_id not in self._clients:
+            return False, f"The allower client with client_id: {allower_id} doesn't exist."
+        if allowee_id not in self._clients:
+            return False, f"The allowee client with client_id: {allowee_id} doesn't exist."
+        if allowed_model_id not in self._clients[allower_id]:
+            return False, f"The model with ml_model_id: {allowed_model_id} doesn't exist for the allower client with client_id: {allower_id}."
+        
+        if allowed_model_id in self._allowance.get(allower_id).get(allowee_id, []):
+            return False, f"The model with ml_model_id: {allowed_model_id} is already allowed for the allowee client with client_id: {allowee_id} by the allower client with client_id: {allower_id}."
+
+        if allowee_id not in self._allowance[allower_id]:
+            self._allowance[allower_id][allowee_id] = [allowed_model_id]
+            return True, None
+
+        self._allowance[allower_id][allowee_id].append(allowed_model_id)
+        return True, None
+
+    def revoke_access(self, allower_id, allowee_id, allowed_model_id=None):
+        """
+        Revoke a client's access to a specific machine learning model of another client.
+
+        :param allower_id: The ID of the client revoking access.
+        :type allower_id: str
+        :param allowee_id: The ID of the client whose access is being revoked.
+        :type allowee_id: str
+        :param allowed_model_id: The ID of the machine learning model whose access is being revoked.
+        :type allowed_model_id: str
+        :return: A tuple containing a boolean indicating success and an error message if the operation fails.
+        """
+        if allower_id not in self._clients:
+            return False, f"The allower client with client_id: {allower_id} doesn't exist."
+        if allowee_id not in self._clients:
+            return False, f"The allowee client with client_id: {allowee_id} doesn't exist."
+
+        if allowed_model_id is None:
+            if allowee_id in self._allowance[allower_id]:
+                del self._allowance[allower_id][allowee_id]
+            return True, None
+
+        if allowed_model_id not in self._clients[allower_id]:
+            return False, f"The model with ml_model_id: {allowed_model_id} doesn't exist for the allower client with client_id: {allower_id}."
+
+        if allowee_id not in self._allowance[allower_id]:
+            return False, f"The allowee client with client_id: {allowee_id} doesn't have any access granted by the allower client with client_id: {allower_id}."
+
+        if allowed_model_id not in self._allowance[allower_id][allowee_id]:
+            return False, f"The model with ml_model_id: {allowed_model_id} is not allowed for the allowee client with client_id: {allowee_id} by the allower client with client_id: {allower_id}."
+
+        self._allowance[allower_id][allowee_id].remove(allowed_model_id)
+        return True, None
+
+    def get_allowed_models(self, allower_id, allowee_id):
+        """
+        Retrieve a list of machine learning model IDs that a client is allowed to access from another client.
+
+        :param allower_id: The ID of the client who granted access.
+        :type allower_id: str
+        :param allowee_id: The ID of the client who has been granted access.
+        :type allowee_id: str
+        :return: A list of allowed machine learning model IDs or an error message if access is not granted.
+        """
+        if allower_id not in self._clients:
+            return None, f"The allower client with client_id: {allower_id} doesn't exist."
+        if allowee_id not in self._clients:
+            return None, f"The allowee client with client_id: {allowee_id} doesn't exist."
+        
+        return self._allowance.get(allower_id).get(allowee_id, []), None
+    
+    def get_clients_allowance(self, client_id): 
+        """
+        Retrieve the allowance dictionary for a given client.
+
+        :param client_id: The ID of the client whose allowance is being retrieved.
+        :type client_id: str
+        :return: A dictionary containing the allowance information for the client.
+        """
+        if client_id not in self._allowance:
+            return None, f"The client with client_id: {client_id} doesn't exist."
+        return self._allowance[client_id], None
 
     def get_clients(self):
         """
