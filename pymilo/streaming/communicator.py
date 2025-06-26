@@ -7,10 +7,9 @@ import uvicorn
 import requests
 import websockets
 from enum import Enum
-from pydantic import BaseModel
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, HTTPException
 from .interfaces import ClientCommunicator
-from .param import PYMILO_INVALID_URL, PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED
+from .param import PYMILO_INVALID_URL, PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED, REST_API_PREFIX
 from .util import validate_websocket_url, validate_http_url
 
 
@@ -28,60 +27,69 @@ class RESTClientCommunicator(ClientCommunicator):
         is_valid, server_url = validate_http_url(server_url)
         if not is_valid:
             raise Exception(PYMILO_INVALID_URL)
-        self._server_url = server_url
+        self._server_url = server_url.rstrip("/") + "/api/v1"
         self.session = requests.Session()
         retries = requests.adapters.Retry(
             total=10,
             backoff_factor=0.1,
             status_forcelist=[500, 502, 503, 504]
         )
-        self.session.mount('http://', requests.adapters.HTTPAdapter(max_retries=retries))
-        self.session.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
+        adapter = requests.adapters.HTTPAdapter(max_retries=retries)
+        self.session.mount('http://', adapter)
+        self.session.mount('https://', adapter)
 
-    def download(self, payload):
+    def download(self, client_id, model_id):
         """
         Request for the remote ML model to download.
 
-        :param payload: download request payload
-        :type payload: dict
+        :param client_id: ID of the requesting client
+        :param model_id: ID of the model to download
         :return: string serialized model
         """
-        response = self.session.get(url=self._server_url + "/download/", json=payload, timeout=5)
-        if response.status_code != 200:
-            return None
+        url = f"{self._server_url}/clients/{client_id}/models/{model_id}/download"
+        response = self.session.get(url, timeout=5)
+        response.raise_for_status()
         return response.json()["payload"]
 
-    def upload(self, payload):
+    def upload(self, client_id, model_id, model):
         """
         Upload the local ML model to the remote server.
 
-        :param payload: upload request payload
-        :type payload: dict
+        :param client_id: ID of the client
+        :param model_id: ID of the model
+        :param model: serialized model content
         :return: True if upload was successful, False otherwise
         """
-        response = self.session.post(url=self._server_url + "/upload/", json=payload, timeout=5)
+        url = f"{self._server_url}/clients/{client_id}/models/{model_id}/upload"
+        response = self.session.post(url, json=model, timeout=5)
         return response.status_code == 200
 
-    def attribute_call(self, payload):
+    def attribute_call(self, client_id, model_id, call_payload):
         """
         Delegate the requested attribute call to the remote server.
 
-        :param payload: attribute call request payload
-        :type payload: dict
+        :param client_id: ID of the client
+        :param model_id: ID of the model
+        :param call_payload: payload containing attribute name, args, and kwargs
         :return: json-encoded response of pymilo server
         """
-        response = self.session.post(url=self._server_url + "/attribute_call/", json=payload, timeout=5)
+        url = f"{self._server_url}/clients/{client_id}/models/{model_id}/attribute-call"
+        response = self.session.post(url, json=call_payload, timeout=5)
+        response.raise_for_status()
         return response.json()
 
-    def attribute_type(self, payload):
+    def attribute_type(self, client_id, model_id, type_payload):
         """
         Identify the attribute type of the requested attribute.
 
-        :param payload: attribute type request payload
-        :type payload: dict
+        :param client_id: ID of the client
+        :param model_id: ID of the model
+        :param type_payload: payload containing attribute data to inspect
         :return: response of pymilo server
         """
-        response = self.session.post(url=self._server_url + "/attribute_type/", json=payload, timeout=5)
+        url = f"{self._server_url}/clients/{client_id}/models/{model_id}/attribute-type"
+        response = self.session.post(url, json=type_payload, timeout=5)
+        response.raise_for_status()
         return response.json()
 
     def register_client(self):
@@ -90,39 +98,107 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :return: newly allocated client id
         """
-        response = self.session.get(url=self._server_url + "/register/", timeout=5)
+        response = self.session.get(f"{self._server_url}/clients/register", timeout=5)
+        response.raise_for_status()
         return response.json()["client_id"]
 
-    def register_model(self, payload):
+    def remove_client(self, client_id):
+        """
+        Remove client from the PyMiloServer.
+
+        :param client_id: id of the client to remove
+        :type client_id: str
+        :return: True if removal was successful, False otherwise
+        """
+        response = self.session.delete(f"{self._server_url}/clients/{client_id}", timeout=5)
+        return response.status_code == 200
+
+    def register_model(self, client_id):
         """
         Register ML model in the PyMiloServer.
 
-        :param payload: request payload
-        :type payload: dict
+        :param client_id: id of the client who owns the model
+        :type client_id: str
         :return: newly allocated ml model id
         """
-        response = self.session.post(url=self._server_url + "/request_model_id/", json=payload, timeout=5)
+        response = self.session.post(f"{self._server_url}/clients/{client_id}/models/register", timeout=5)
+        response.raise_for_status()
         return response.json()["ml_model_id"]
 
-    def get_clients(self):
+    def remove_model(self, client_id, model_id):
         """
-        Get all clients registered in the PyMiloServer.
+        Remove ML model from the PyMiloServer.
 
-        :return: list of client ids
+        :param client_id: client owning the model
+        :type client_id: str
+        :param model_id: model to remove
+        :type model_id: str
+        :return: True if removal was successful, False otherwise
         """
-        response = self.session.get(url=self._server_url + "/clients/", timeout=5)
-        return response.json()["clients_id"]
+        response = self.session.delete(f"{self._server_url}/clients/{client_id}/models/{model_id}", timeout=5)
+        return response.status_code == 200
 
-    def get_ml_models(self, payload):
+    def get_ml_models(self, client_id):
         """
         Get all ML models registered for this specific client in the PyMiloServer.
 
-        :param payload: request payload
-        :type payload: dict
+        :param client_id: client whose models are being queried
+        :type client_id: str
         :return: list of ml model ids
         """
-        response = self.session.post(url=self._server_url + "/client/models/", json=payload, timeout=5)
+        response = self.session.get(f"{self._server_url}/clients/{client_id}/models", timeout=5)
+        response.raise_for_status()
         return response.json()["ml_models_id"]
+
+    def grant_access(self, allower_id, allowee_id, model_id):
+        """
+        Grant access to a model to another client.
+
+        :param allower_id: ID of the client granting access
+        :param allowee_id: ID of the client being granted access
+        :param model_id: ID of the model being shared
+        :return: True if successful, False otherwise
+        """
+        url = f"{self._server_url}/clients/{allower_id}/grant/{allowee_id}/models/{model_id}"
+        response = self.session.post(url, timeout=5)
+        return response.status_code == 200
+
+    def revoke_access(self, revoker_id, revokee_id, model_id):
+        """
+        Revoke previously granted model access.
+
+        :param revoker_id: ID of the client revoking access
+        :param revokee_id: ID of the client whose access is being revoked
+        :param model_id: ID of the model
+        :return: True if successful, False otherwise
+        """
+        url = f"{self._server_url}/clients/{revoker_id}/revoke/{revokee_id}/models/{model_id}"
+        response = self.session.post(url, timeout=5)
+        return response.status_code == 200
+
+    def get_allowance(self, allower_id):
+        """
+        Get the list of all allowees and their allowed models from a given allower.
+
+        :param allower_id: ID of the allower
+        :return: dict of allowees to model lists
+        """
+        response = self.session.get(f"{self._server_url}/clients/{allower_id}/allowances", timeout=5)
+        response.raise_for_status()
+        return response.json()["allowance"]
+
+    def get_allowed_models(self, allower_id, allowee_id):
+        """
+        Get the list of models that one client is allowed to access from another.
+
+        :param allower_id: ID of the model owner
+        :param allowee_id: ID of the requesting client
+        :return: list of model IDs
+        """
+        url = f"{self._server_url}/clients/{allower_id}/allowances/{allowee_id}"
+        response = self.session.get(url, timeout=5)
+        response.raise_for_status()
+        return response.json()["allowed_models"]
 
 
 class RESTServerCommunicator():
@@ -153,131 +229,125 @@ class RESTServerCommunicator():
 
     def setup_routes(self):
         """Configure endpoints to handle RESTClientCommunicator requests."""
-        class StandardPayload(BaseModel):
-            client_id: str
-            ml_model_id: str
 
-        class DownloadPayload(StandardPayload):
-            pass
+        @self.app.get(f"{REST_API_PREFIX}/health")
+        async def health():
+            return {"status": "ok"}
 
-        class UploadPayload(StandardPayload):
-            model: str
-
-        class AttributeCallPayload(StandardPayload):
-            attribute: str
-            args: dict
-            kwargs: dict
-
-        class AttributeTypePayload(StandardPayload):
-            attribute: str
-
-        @self.app.get("/register/")
-        async def register_client():
+        @self.app.get(f"{REST_API_PREFIX}/clients/register")
+        async def request_client_id():
             client_id = str(uuid.uuid4())
             self._ps.init_client(client_id)
-            return {
-                "client_id": client_id
-            }
+            return {"client_id": client_id}
 
-        @self.app.post("/request_model_id/")
-        async def request_model(request: Request):
-            body = await request.json()
-            body = self.parse(body)
-            client_id = body["client_id"]
+        @self.app.delete(f"{REST_API_PREFIX}/clients/{{client_id}}")
+        async def remove_client(client_id: str):
+            is_succeed, detail_message = self._ps.remove_client(client_id)
+            if not is_succeed:
+                raise HTTPException(status_code=404, detail=detail_message)
+            return {"client_id": client_id}
+
+        @self.app.post(f"{REST_API_PREFIX}/clients/{{client_id}}/models/register")
+        async def request_model(client_id: str):
             model_id = str(uuid.uuid4())
             is_succeed, detail_message = self._ps.init_ml_model(client_id, model_id)
             if not is_succeed:
                 raise HTTPException(status_code=404, detail=detail_message)
+            return {"client_id": client_id, "ml_model_id": model_id}
+
+        @self.app.delete(f"{REST_API_PREFIX}/clients/{{client_id}}/models/{{ml_model_id}}")
+        async def remove_model(client_id: str, ml_model_id: str):
+            is_succeed, detail_message = self._ps.remove_ml_model(client_id, ml_model_id)
+            if not is_succeed:
+                raise HTTPException(status_code=404, detail=detail_message)
+            return {"client_id": client_id, "ml_model_id": ml_model_id}
+
+        @self.app.get(f"{REST_API_PREFIX}/clients/{{client_id}}/models")
+        async def get_client_models(client_id: str):
+            return {"client_id": client_id, "ml_models_id": self._ps.get_ml_models(client_id)}
+
+        @self.app.post(f"{REST_API_PREFIX}/clients/{{allower_id}}/grant/{{allowee_id}}/models/{{model_id}}")
+        async def grant_model_access(allower_id: str, allowee_id: str, model_id: str):
+            is_succeed, detail_message = self._ps.grant_access(allower_id, allowee_id, model_id)
+            if not is_succeed:
+                raise HTTPException(status_code=404, detail=detail_message)
             return {
-                "client_id": client_id,
-                "ml_model_id": model_id,
+                "allower_id": allower_id,
+                "allowee_id": allowee_id,
+                "allowed_model_id": model_id
             }
 
-        @self.app.get("/clients/")
-        async def get_client():
+        @self.app.post(f"{REST_API_PREFIX}/clients/{{revoker_id}}/revoke/{{revokee_id}}/models/{{model_id}}")
+        async def revoke_model_access(revoker_id: str, revokee_id: str, model_id: str):
+            is_succeed, detail_message = self._ps.revoke_access(revoker_id, revokee_id, model_id)
+            if not is_succeed:
+                raise HTTPException(status_code=404, detail=detail_message)
             return {
-                "clients_id": self._ps.get_clients(),
+                "revoker_id": revoker_id,
+                "revokee_id": revokee_id,
+                "revoked_model_id": model_id
             }
 
-        @self.app.post("/client/models/")
-        async def get_client_models(request: Request):
-            body = await request.json()
-            body = self.parse(body)
-            client_id = body["client_id"]
-            return {
-                "client_id": client_id,
-                "ml_models_id": self._ps.get_ml_models(client_id),
-            }
+        @self.app.get(f"{REST_API_PREFIX}/clients/{{allower_id}}/allowances")
+        async def get_allowance(allower_id: str):
+            allowance, reason = self._ps.get_clients_allowance(allower_id)
+            if not allowance:
+                raise HTTPException(status_code=404, detail=reason)
+            return {"allower_id": allower_id, "allowance": allowance}
 
-        @self.app.get("/download/")
-        async def download(request: Request):
-            body = await request.json()
-            body = self.parse(body)
-            payload = DownloadPayload(**body)
-            client_id = payload.client_id
-            ml_model_id = payload.ml_model_id
-            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+        @self.app.get(f"{REST_API_PREFIX}/clients/{{allower_id}}/allowances/{{allowee_id}}")
+        async def get_allowed_models(allower_id: str, allowee_id: str):
+            models, reason = self._ps.get_allowed_models(allower_id, allowee_id)
+            if models is None:
+                raise HTTPException(status_code=404, detail=reason)
+            return {"allower_id": allower_id, "allowee_id": allowee_id, "allowed_models": models}
+
+        @self.app.get(f"{REST_API_PREFIX}/clients/{{client_id}}/models/{{ml_model_id}}/download")
+        async def download_model(client_id: str, ml_model_id: str):
+            is_valid, reason = self._ps._validate_id(client_id, ml_model_id)
             if not is_valid:
-                raise HTTPException(status_code=404, detail=invalidity_reason)
-            message = "/download request from client: {} for model: {}".format(client_id, ml_model_id)
+                raise HTTPException(status_code=404, detail=reason)
             return {
-                "message": message,
-                "payload": self._ps.export_model(client_id, ml_model_id),
+                "message": f"/download request from client: {client_id} for model: {ml_model_id}",
+                "payload": self._ps.export_model(client_id, ml_model_id)
             }
 
-        @self.app.post("/upload/")
-        async def upload(request: Request):
-            body = await request.json()
-            body = self.parse(body)
-            payload = UploadPayload(**body)
-            client_id = payload.client_id
-            ml_model_id = payload.ml_model_id
-            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+        @self.app.post(f"{REST_API_PREFIX}/clients/{{client_id}}/models/{{ml_model_id}}/upload")
+        async def upload_model(client_id: str, ml_model_id: str, request: Request):
+            model_data = self.parse(await request.json()).get("model")
+            if model_data is None:
+                raise HTTPException(status_code=400, detail="Missing 'model' in request")
+
+            is_valid, reason = self._ps._validate_id(client_id, ml_model_id)
             if not is_valid:
-                raise HTTPException(status_code=404, detail=invalidity_reason)
-            message = "/upload request from client: {} for model: {}".format(client_id, ml_model_id)
+                raise HTTPException(status_code=404, detail=reason)
+
             return {
-                "message": message,
-                "payload": self._ps.update_model(client_id, ml_model_id, payload.model)
+                "message": f"/upload request from client: {client_id} for model: {ml_model_id}",
+                "payload": self._ps.update_model(client_id, ml_model_id, model_data)
             }
 
-        @self.app.post("/attribute_call/")
-        async def attribute_call(request: Request):
-            body = await request.json()
-            body = self.parse(body)
-            payload = AttributeCallPayload(**body)
-            client_id = payload.client_id
-            ml_model_id = payload.ml_model_id
-            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+        @self.app.post(f"{REST_API_PREFIX}/clients/{{client_id}}/models/{{ml_model_id}}/attribute-call")
+        async def attribute_call(client_id: str, ml_model_id: str, request: Request):
+            request_payload = self.parse(await request.json())
+            is_valid, reason = self._ps._validate_id(client_id, ml_model_id)
             if not is_valid:
-                raise HTTPException(status_code=404, detail=invalidity_reason)
-            message = "/attribute_call request from client: {} for model: {}".format(
-                client_id,
-                ml_model_id,
-            )
-            result = self._ps.execute_model(payload)
+                raise HTTPException(status_code=404, detail=reason)
+            result = self._ps.execute_model(request_payload)
             return {
-                "message": message,
-                "payload": result if result is not None else "The ML model has been updated in place."
+                "message": f"/attribute_call request from client: {client_id} for model: {ml_model_id}",
+                "payload": result or "The ML model has been updated in place."
             }
 
-        @self.app.post("/attribute_type/")
-        async def attribute_type(request: Request):
-            body = await request.json()
-            body = self.parse(body)
-            payload = AttributeTypePayload(**body)
-            client_id = payload.client_id
-            ml_model_id = payload.ml_model_id
-            is_valid, invalidity_reason = self._ps._validate_id(client_id, ml_model_id)
+        @self.app.post(f"{REST_API_PREFIX}/clients/{{client_id}}/models/{{ml_model_id}}/attribute-type")
+        async def attribute_type(client_id: str, ml_model_id: str, request: Request):
+            request = self.parse(await request.json())
+            is_valid, reason = self._ps._validate_id(client_id, ml_model_id)
             if not is_valid:
-                raise HTTPException(status_code=404, detail=invalidity_reason)
-            message = "/attribute_type request from client: {} for model: {}".format(
-                client_id,
-                ml_model_id,
-            )
-            is_callable, field_value = self._ps.is_callable_attribute(payload)
+                raise HTTPException(status_code=404, detail=reason)
+            is_callable, field_value = self._ps.is_callable_attribute(request)
             return {
-                "message": message,
+                "message": f"/attribute_type request from client: {client_id} for model: {ml_model_id}",
                 "attribute type": "method" if is_callable else "field",
                 "attribute value": "" if is_callable else field_value,
             }
