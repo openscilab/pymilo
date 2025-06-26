@@ -10,7 +10,7 @@ authors:
   - name: AmirHosein Rostami
     orcid: 0009-0000-0638-2263
     corresponding: true
-    affiliation: 1
+    affiliation: "1, 2"
   - name: Sepand Haghighi
     orcid: 0000-0001-9450-2375
     corresponding: false
@@ -18,7 +18,7 @@ authors:
   - name: Sadra Sabouri
     orcid: 0000-0003-1047-2346
     corresponding: false
-    affiliation: "1, 2"
+    affiliation: "1, 3"
   - name: Alireza Zolanvari
     orcid: 0000-0003-2367-8343
     corresponding: false
@@ -27,6 +27,9 @@ affiliations:
  - index: 1
    name: Open Science Lab
  - index: 2
+   name: University of Toronto, Toronto, Canada
+   ror: 03dbr7087
+ - index: 3
    name: University of Southern California, Los Angeles, United States
    ror: 03taz7m60
 date: 24 June 2025
