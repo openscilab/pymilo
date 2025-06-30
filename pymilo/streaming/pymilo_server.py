@@ -225,9 +225,9 @@ class PymiloServer:
             return None, f"The allower client with client_id: {allower_id} doesn't exist."
         if allowee_id not in self._clients:
             return None, f"The allowee client with client_id: {allowee_id} doesn't exist."
-        
+
         return self._allowance.get(allower_id).get(allowee_id, []), None
-    
+
     def get_clients_allowance(self, client_id):
         """
         Retrieve the allowance dictionary for a given client.
