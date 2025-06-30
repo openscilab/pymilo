@@ -166,7 +166,7 @@ class PymiloServer:
             return False, f"The allowee client with client_id: {allowee_id} doesn't exist."
         if allowed_model_id not in self._clients[allower_id]:
             return False, f"The model with ml_model_id: {allowed_model_id} doesn't exist for the allower client with client_id: {allower_id}."
-        
+
         if allowed_model_id in self._allowance.get(allower_id).get(allowee_id, []):
             return False, f"The model with ml_model_id: {allowed_model_id} is already allowed for the allowee client with client_id: {allowee_id} by the allower client with client_id: {allower_id}."
 
@@ -228,7 +228,7 @@ class PymiloServer:
         
         return self._allowance.get(allower_id).get(allowee_id, []), None
     
-    def get_clients_allowance(self, client_id): 
+    def get_clients_allowance(self, client_id):
         """
         Retrieve the allowance dictionary for a given client.
 
