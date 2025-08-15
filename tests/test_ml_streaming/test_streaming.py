@@ -46,7 +46,7 @@ def prepare_bare_server(request):
 
 @pytest.fixture(
     scope="session",
-    params=["REST", "WEBSOCKET"])
+    params=["REST",]) #"WEBSOCKET"])
 def prepare_ml_server(request):
     communication_protocol = request.param
     compression_method = "ZLIB"

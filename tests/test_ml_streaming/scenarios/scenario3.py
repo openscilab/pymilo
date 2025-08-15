@@ -19,6 +19,9 @@ def scenario3(compression_method, communication_protocol):
         server_url="127.0.0.1:9000",
         communication_protocol=CommunicationProtocol[communication_protocol],
         )
+    client.client_id = "0x_demo_client_id"
+    client.ml_model_id = "0x_demo_ml_model_id"
+
     client.toggle_mode(PymiloClient.Mode.DELEGATE)
     result = client.predict(x_test)
     mse_server = mean_squared_error(y_test, result)

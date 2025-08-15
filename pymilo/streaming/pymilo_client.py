@@ -60,9 +60,7 @@ class PymiloClient:
         :return: the compressed and encrypted version of the body payload
         """
         return self._encryptor.encrypt(
-            self._compressor.compress(
-                body
-            )
+            self._compressor.compress(body)
         )
 
     def toggle_mode(self, mode=Mode.LOCAL):
@@ -83,12 +81,8 @@ class PymiloClient:
         :return: None
         """
         serialized_model = self._communicator.download(
-            self.encrypt_compress(
-                {
-                    "client_id": self.client_id,
-                    "ml_model_id": self.ml_model_id,
-                }
-            )
+            self.client_id,
+            self.ml_model_id
         )
         if serialized_model is None:
             print(PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL)
@@ -103,18 +97,99 @@ class PymiloClient:
         :return: None
         """
         succeed = self._communicator.upload(
-            self.encrypt_compress(
-                {
-                    "client_id": self.client_id,
-                    "ml_model_id": self.ml_model_id,
-                    "model": Export(self.model).to_json(),
-                }
-            )
+            self.client_id,
+            self.ml_model_id,
+            self.encrypt_compress({"model": Export(self.model).to_json()})
         )
         if succeed:
             print(PYMILO_CLIENT_LOCAL_MODEL_UPLOADED)
         else:
             print(PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED)
+
+    def register(self):
+        """
+        Register client in the remote server.
+
+        :return: None
+        """
+        self.client_id = self._communicator.register_client()
+
+    def deregister(self):
+        """
+        Deregister client in the remote server.
+
+        :return: None
+        """
+        self._communicator.remove_client(self.client_id)
+        self.client_id = "0x_client_id"
+
+    def register_ml_model(self):
+        """
+        Register ML model in the remote server.
+
+        :return: None
+        """
+        self.ml_model_id = self._communicator.register_model(self.client_id)
+
+    def deregister_ml_model(self):
+        """
+        Deregister ML model in the remote server.
+
+        :return: None
+        """
+        self._communicator.remove_model(self.client_id, self.ml_model_id)
+        self.ml_model_id = "0x_ml_model_id"
+
+    def get_ml_models(self):
+        """
+        Get all registered ml models in the remote server for this client.
+
+        :return: list of ml model ids
+        """
+        return self._communicator.get_ml_models(self.client_id)
+
+    def grant_access(self, allowee_id):
+        """
+        Grant access to one of this client's models to another client.
+
+        :param allowee_id: The client ID to grant access to
+        :return: True if successful, False otherwise
+        """
+        return self._communicator.grant_access(
+            self.client_id,
+            allowee_id,
+            self.ml_model_id
+        )
+
+    def revoke_access(self, revokee_id):
+        """
+        Revoke access previously granted to another client.
+
+        :param revokee_id: The client ID to revoke access from
+        :return: True if successful, False otherwise
+        """
+        return self._communicator.revoke_access(
+            self.client_id,
+            revokee_id,
+            self.ml_model_id
+        )
+
+    def get_allowance(self):
+        """
+        Get a dictionary of all clients who have access to this client's models.
+
+        :return: Dict of allowee_id -> list of model_ids
+        """
+        return self._communicator.get_allowance(self.client_id)
+
+    def get_allowed_models(self, allower_id):
+        """
+        Get a list of models you are allowed to access from another client.
+
+        :param allower_id: The client ID who owns the models
+        :return: list of allowed model IDs
+        """
+        return self._communicator.get_allowed_models(allower_id, self.client_id)
 
     def __getattr__(self, attribute):
         """
@@ -133,13 +208,13 @@ class PymiloClient:
         elif self._mode == PymiloClient.Mode.DELEGATE:
             gdst = GeneralDataStructureTransporter()
             response = self._communicator.attribute_type(
-                self.encrypt_compress(
-                    {
-                        "client_id": self.client_id,
-                        "ml_model_id": self.ml_model_id,
-                        "attribute": attribute,
-                    }
-                )
+                self.client_id,
+                self.ml_model_id,
+                self.encrypt_compress({
+                    "attribute": attribute,
+                    "client_id": self.client_id,
+                    "ml_model_id": self.ml_model_id,
+                })
             )
             if response["attribute type"] == "field":
                 return gdst.deserialize(response, "attribute value", None)
@@ -155,9 +230,9 @@ class PymiloClient:
                 payload["args"] = gdst.serialize(payload, "args", None)
                 payload["kwargs"] = gdst.serialize(payload, "kwargs", None)
                 result = self._communicator.attribute_call(
-                    self.encrypt_compress(
-                        payload
-                    )
+                    self.client_id,
+                    self.ml_model_id,
+                    self.encrypt_compress(payload)
                 )
                 return gdst.deserialize(result, "payload", None)
             return relayer
