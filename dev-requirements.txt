@@ -3,7 +3,7 @@ scikit-learn==1.6.1
 scipy>=0.19.1
 uvicorn==0.35.0
 fastapi==0.116.1
-requests==2.32.4
+requests==2.32.5
 websockets==15.0.1
 pydantic==2.11.7
 setuptools>=40.8.0
