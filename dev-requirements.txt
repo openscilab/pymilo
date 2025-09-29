@@ -1,7 +1,7 @@
 numpy==2.2.4
 scikit-learn==1.6.1
 scipy>=0.19.1
-uvicorn==0.35.0
+uvicorn==0.37.0
 fastapi==0.116.1
 requests==2.32.5
 websockets==15.0.1
