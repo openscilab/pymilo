@@ -43,7 +43,7 @@ Others apply structural transformations during export that may degrade predictiv
 In contrast, PyMilo serializes models in a transparent human-readable format that preserves end-to-end model fidelity and enables reliable, safe, and interpretable exchange. Here, transparent refers to the ability to inspect model internals through a human-readable structure without execution, and end-to-end fidelity denotes that a model exported and re-imported with PyMilo retains the exact same signature, functionality, parameters, and internal structure as the original, ensuring complete behavioral and structural equivalence.
 This package is designed to make the preservation and reuse of trained ML models safer, more interpretable, and easier to manage across different stages of the ML workflow (\autoref{fig:overall}).
 
-![PyMilo is an end-to-end, transparent, and safe solution for transporting models from machine-learning frameworks to target devices. Currently, PyMilo supports models built with scikit-learn. Support for PyTorch and TensorFlow is planned in upcoming releases.\label{fig:overall}](pymilo_outlook.png)
+![PyMilo is an end-to-end, transparent, and safe solution for transporting models from machine learning frameworks to the target devices. PyMilo preserves the original model's structure while transferring, allowing it to be imported back as the exact same object in its native framework. Currently (v1.3), PyMilo supports models built with scikit-learn. Support for PyTorch and TensorFlow is planned in upcoming releases.\label{fig:overall}](pymilo_outlook.png)
 
 \newpage
 
