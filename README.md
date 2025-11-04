@@ -102,15 +102,15 @@ Export(model).save("model.json")
 
 The `Export` class facilitates exporting of machine learning models to JSON files.
 
-| **Parameter** | **Type** | **Description** |
-| ------------- | -------- | --------------- |
-| model | Any | The machine learning model to be exported |
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| model | The machine learning model to be exported |
 
-| **Property** | **Type** | **Description** |
-| ------------ | -------- | --------------- |
-| data | dict | The serialized model data including all learned parameters |
-| version | str | The scikit-learn version used to train the model |
-| type | str | The type/class name of the exported model |
+| **Property** | **Description** |
+| ------------ | --------------- |
+| data | The serialized model data including all learned parameters |
+| version | The scikit-learn version used to train the model |
+| type | The type/class name of the exported model |
 
 | **Method** | **Description** |
 | ---------- | --------------- |
@@ -174,17 +174,17 @@ pred = model.predict(np.array([[3, 5]]))
 
 The `Import` class facilitates importing of serialized models from JSON files, JSON strings, or URLs.
 
-| **Parameter** | **Type** | **Description** |
-| ------------- | -------- | --------------- |
-| file_adr | str or None | Path to the JSON file containing the serialized model |
-| json_dump | str or None | JSON string representation of the serialized model |
-| url | str or None | URL to download the serialized model from |
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| file_adr | Path to the JSON file containing the serialized model |
+| json_dump | JSON string representation of the serialized model |
+| url | URL to download the serialized model from |
 
-| **Property** | **Type** | **Description** |
-| ------------ | -------- | --------------- |
-| data | dict | The deserialized model data |
-| version | str | The scikit-learn version of the original model |
-| type | str | The type/class name of the imported model |
+| **Property** | **Description** |
+| ------------ | --------------- |
+| data | The deserialized model data |
+| version | The scikit-learn version of the original model |
+| type | The type/class name of the imported model |
 
 | **Method** | **Description** |
 | ---------- | --------------- |
@@ -220,12 +220,12 @@ communicator.run()
 
 The `PymiloServer` class facilitates streaming machine learning models over a network.
 
-| **Parameter** | **Type** | **Description** |
-| ------------- | -------- | --------------- |
-| port | int | Port number for the server to listen on (default: 8000) |
-| host | str | Host address for the server (default: "127.0.0.1") |
-| compressor | Compression | Compression method for client-server communications |
-| communication_protocol | CommunicationProtocol | Protocol for communication (REST or WebSocket) |
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| port | Port number for the server to listen on (default: 8000) |
+| host | Host address for the server (default: "127.0.0.1") |
+| compressor | Compression method for client-server communications |
+| communication_protocol | Protocol for communication (REST or WebSocket) |
 
 | **Method** | **Description** |
 | ---------- | --------------- |
@@ -261,13 +261,13 @@ result = pymilo_client.predict(x_test)
 
 The `PymiloClient` class facilitates working with remote PyMilo servers.
 
-| **Parameter** | **Type** | **Description** |
-| ------------- | -------- | --------------- |
-| model | Any | The local ML model to wrap around |
-| mode | Mode | Operating mode (LOCAL or DELEGATE) |
-| compressor | Compression | Compression method for communications |
-| server_url | str | URL of the PyMilo server |
-| communication_protocol | CommunicationProtocol | Communication protocol to use |
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| model | The local ML model to wrap around |
+| mode | Operating mode (LOCAL or DELEGATE) |
+| compressor | Compression method for communications |
+| server_url | URL of the PyMilo server |
+| communication_protocol | Communication protocol to use |
 
 | **Mode** | **Description** |
 | -------- | --------------- |
