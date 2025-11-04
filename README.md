@@ -224,8 +224,10 @@ The `PymiloServer` class facilitates streaming machine learning models over a ne
 | ------------- | --------------- |
 | port | Port number for the server to listen on (default: 8000) |
 | host | Host address for the server (default: "127.0.0.1") |
-| compressor | Compression method for client-server communications |
-| communication_protocol | Protocol for communication (REST or WebSocket) |
+| compressor | Compression method from `Compression` enum |
+| communication_protocol | Communication protocol from `CommunicationProtocol` enum |
+
+The `compressor` parameter accepts values from the `Compression` enum including `NULL` (no compression), `GZIP`, `ZLIB`, `LZMA`, or `BZ2`. The `communication_protocol` parameter accepts values from the `CommunicationProtocol` enum including `REST` or `WEBSOCKET`.
 
 | **Method** | **Description** |
 | ---------- | --------------- |
@@ -265,14 +267,11 @@ The `PymiloClient` class facilitates working with remote PyMilo servers.
 | ------------- | --------------- |
 | model | The local ML model to wrap around |
 | mode | Operating mode (LOCAL or DELEGATE) |
-| compressor | Compression method for communications |
+| compressor | Compression method from `Compression` enum |
 | server_url | URL of the PyMilo server |
-| communication_protocol | Communication protocol to use |
+| communication_protocol | Communication protocol from `CommunicationProtocol` enum |
 
-| **Mode** | **Description** |
-| -------- | --------------- |
-| LOCAL | Execute operations on the local model |
-| DELEGATE | Delegate operations to the remote server |
+The `mode` parameter accepts two values `LOCAL` to execute operations on the local model, or `DELEGATE` to delegate operations to the remote server. The `compressor` parameter accepts values from the `Compression` enum including `NULL` (no compression), `GZIP`, `ZLIB`, `LZMA`, or `BZ2`. The `communication_protocol` parameter accepts values from the `CommunicationProtocol` enum including `REST` or `WEBSOCKET`.
 
 | **Method** | **Description** |
 | ---------- | --------------- |
