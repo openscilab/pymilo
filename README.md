@@ -98,6 +98,26 @@ from pymilo import Export
 Export(model).save("model.json")
 ```
 
+#### Export
+
+The `Export` class facilitates exporting of machine learning models to JSON files.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| model | The machine learning model to be exported |
+
+| **Property** | **Description** |
+| ------------ | --------------- |
+| data | The serialized model data including all learned parameters |
+| version | The scikit-learn version used to train the model |
+| type | The type/class name of the exported model |
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| save | Save the exported model to a JSON file |
+| to_json | Return the model as a JSON string representation |
+| batch_export | Export multiple models to individual JSON files in a directory |
+
 You can check out your model as a JSON file now.
 ```json
 {
@@ -149,6 +169,28 @@ model = Import("model.json").to_model()
 pred = model.predict(np.array([[3, 5]]))
 # pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
+
+#### Import
+
+The `Import` class facilitates importing of serialized models from JSON files, JSON strings, or URLs.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| file_adr | Path to the JSON file containing the serialized model |
+| json_dump | JSON string representation of the serialized model |
+| url | URL to download the serialized model from |
+
+| **Property** | **Description** |
+| ------------ | --------------- |
+| data | The deserialized model data |
+| version | The scikit-learn version of the original model |
+| type | The type/class name of the imported model |
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| to_model | Convert the imported data back to a scikit-learn model |
+| batch_import | Import multiple models from JSON files in a directory |
+
 This loaded model is exactly the same as the original trained model.
 
 ### ML streaming
@@ -173,6 +215,33 @@ communicator = PymiloServer(
     ).communicator
 communicator.run()
 ```
+
+#### PymiloServer
+
+The `PymiloServer` class facilitates streaming machine learning models over a network.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| port | Port number for the server to listen on (default: 8000) |
+| host | Host address for the server (default: "127.0.0.1") |
+| compressor | Compression method from `Compression` enum |
+| communication_protocol | Communication protocol from `CommunicationProtocol` enum |
+
+The `compressor` parameter accepts values from the `Compression` enum including `NULL` (no compression), `GZIP`, `ZLIB`, `LZMA`, or `BZ2`. The `communication_protocol` parameter accepts values from the `CommunicationProtocol` enum including `REST` or `WEBSOCKET`.
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| init_client | Initialize a new client with the given client ID |
+| remove_client | Remove an existing client by client ID |
+| init_ml_model | Initialize a new ML model for a given client |
+| set_ml_model | Set or update the ML model for a client |
+| remove_ml_model | Remove an existing ML model for a client |
+| get_ml_models | Get all ML model IDs for a client |
+| execute_model | Execute model methods or access attributes |
+| grant_access | Allow a client to access another client's model |
+| revoke_access | Revoke access to a client's model |
+| get_allowed_models | Get models a client is allowed to access |
+
 Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
 
 ℹ️ By default, `PymiloServer` listens on the loopback interface (`127.0.0.1`). To make it accessible over a local network (LAN), specify your machine’s LAN IP address in the `host` parameter of the `PymiloServer` constructor.
@@ -189,6 +258,35 @@ pymilo_client = PymiloClient(
 pymilo_client.toggle_mode(PymiloClient.Mode.DELEGATE)
 result = pymilo_client.predict(x_test)
 ```
+
+#### PymiloClient
+
+The `PymiloClient` class facilitates working with remote PyMilo servers.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| model | The local ML model to wrap around |
+| mode | Operating mode (LOCAL or DELEGATE) |
+| compressor | Compression method from `Compression` enum |
+| server_url | URL of the PyMilo server |
+| communication_protocol | Communication protocol from `CommunicationProtocol` enum |
+
+The `mode` parameter accepts two values `LOCAL` to execute operations on the local model, or `DELEGATE` to delegate operations to the remote server. The `compressor` parameter accepts values from the `Compression` enum including `NULL` (no compression), `GZIP`, `ZLIB`, `LZMA`, or `BZ2`. The `communication_protocol` parameter accepts values from the `CommunicationProtocol` enum including `REST` or `WEBSOCKET`.
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| toggle_mode | Switch between LOCAL and DELEGATE modes |
+| register | Register the client with the remote server |
+| deregister | Deregister the client from the server |
+| register_ml_model | Register an ML model with the server |
+| deregister_ml_model | Deregister an ML model from the server |
+| upload | Upload the local model to the remote server |
+| download | Download the remote model to local |
+| get_ml_models | Get all registered ML models for this client |
+| grant_access | Grant access to this client's model to another client |
+| revoke_access | Revoke access previously granted to another client |
+| get_allowance | Get clients who have access to this client's models |
+| get_allowed_models | Get models this client is allowed to access from another client |
 
 ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000` or `ws://127.0.0.1:8000` based on the selected protocol for the communication medium.
 
