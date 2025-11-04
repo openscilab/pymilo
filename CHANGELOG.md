@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `README.md` updated
 - `__init__` function in `PyMiloServer`
 - Test system modified
+- `Python 3.14` added to `test.yml`
 ### Removed
 - Python 3.6 support
 ## [1.3] - 2025-02-26
