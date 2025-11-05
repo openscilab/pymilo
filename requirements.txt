@@ -1,5 +1,5 @@
 art>=1.8
 numpy>=1.9.0
-requests>=2.0.0
+requests>=2.32.4
 scikit-learn>=0.22.2
 scipy>=0.19.1
