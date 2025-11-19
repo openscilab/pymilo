@@ -76,23 +76,12 @@ However, this process has been shown to introduce compatibility issues, performa
 Models from other frameworks, such as scikit-learn or PyTorch, must be re-implemented or retrained in TensorFlow to be exported. 
 Additionally, running complex models in JavaScript runtimes introduces memory and performance limitations, often making the deployment of large neural networks prohibitively slow or even infeasible in browser environments [@NerdCorner2025].
 
-In summary, current solutions force practitioners into a trade-offs between security, transparency, end-to-end fidelity, and performance preservation (see Table 1). 
+In summary, current solutions force practitioners into trade-offs between security, transparency, end-to-end fidelity, and performance preservation. 
 The machine learning community still lacks a safe and transparent end-to-end model serialization framework through which users can securely share models, inspect them easily, and accurately reconstruct them for use across diverse frameworks and environments.
-
-**Table 1**: Comparison of PyMilo with existing model serialization tools.
-
-| Package           | Transparent | Multi-Framework | End-to-End Preservation | Secure |
-|------------------|-------------|------------------|--------------------------|--------|
-| **Pickle**        | No          | Yes              | Yes                      | No     |
-| **Joblib**        | No          | Yes              | Yes                      | No     |
-| **ONNX**          | No          | Yes              | No                       | Yes    |
-| **PMML**          | Yes         | No               | No                       | Yes    |
-| **SKOPS**         | No          | No               | Yes                      | Yes    |
-| **TensorFlow.js** | Yes         | No               | No                       | Yes    |
-| **PyMilo**        | Yes         | Yes              | Yes                      | Yes    |
 
 PyMilo is proposed to address the above gaps. It is an open-source Python library that provides an end-to-end solution for exporting and importing machine learning models in a safe, non-executable, and human-readable format such as JSON. PyMilo serializes trained models into a transparent format and fully reconstructs them without structural changes, preserving their original functionality and behavior. 
 This process does not affect inference time or performance and imports models on any target device without additional dependencies, enabling seamless execution in inference mode. 
+While PyMilo may import functions from widely used scientific libraries during deserialization to restore model behavior (for example, NumPy or SciPy), the JSON representation itself never contains executable code; any remaining security risk is therefore inherited from these already-trusted dependencies rather than introduced by PyMilo’s serialization mechanism.
 PyMilo benefits a wide range of stakeholders, including machine learning engineers, data scientists, and AI practitioners, by facilitating the development of more transparent and accountable AI systems. Furthermore, researchers working on transparent AI [@rauker2023toward], user privacy in ML [@bodimani2024assessing], and safe AI [@macrae2019governing] can use PyMilo as a framework that provides transparency and safety in the machine learning environment.
 
 # References
