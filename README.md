@@ -66,9 +66,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==1.3`
+- Run `pip install pymilo==1.4`
 ### Source code
-- Download [Version 1.3](https://github.com/openscilab/pymilo/archive/v1.3.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Download [Version 1.4](https://github.com/openscilab/pymilo/archive/v1.4.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
 
 ### Conda
