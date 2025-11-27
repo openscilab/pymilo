@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
+### Removed
+
+## [1.4] - 2025-11-27
+### Added
+### Changed
 - `README.md` updated
 - `__init__` function in `PyMiloServer`
 - Test system modified
@@ -397,7 +402,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v1.3...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v1.4...dev
+[1.4]: https://github.com/openscilab/pymilo/compare/v1.3...v1.4
 [1.3]: https://github.com/openscilab/pymilo/compare/v1.2...v1.3
 [1.2]: https://github.com/openscilab/pymilo/compare/v1.1...v1.2
 [1.1]: https://github.com/openscilab/pymilo/compare/v1.0...v1.1
