@@ -200,7 +200,7 @@ You can easily serve your ML model from a remote server using `ML streaming` fea
 
 ⚠️ In order to use `ML streaming` feature, make sure you've installed the `streaming` mode of PyMilo
 
-⚠️ **Version compatibility note:** For `ML streaming` over `WebSocket`, please use PyMilo versions `<=1.3`. In version `1.4`, `ML streaming` over `WebSocket` is under construction and not fully functional. For `ML streaming` over `REST`, you can safely use version `1.4` and later.
+⚠️ **Version compatibility note:** For ML streaming over `WebSocket`, please use PyMilo versions `<=1.3`. In version `1.4`, `ML streaming` over `WebSocket` is under construction and not fully functional.
 
 You can choose either `REST` or `WebSocket` as the communication medium protocol.
 
