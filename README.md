@@ -66,9 +66,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==1.3`
+- Run `pip install pymilo==1.4`
 ### Source code
-- Download [Version 1.3](https://github.com/openscilab/pymilo/archive/v1.3.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Download [Version 1.4](https://github.com/openscilab/pymilo/archive/v1.4.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
 
 ### Conda
@@ -199,6 +199,8 @@ You can easily serve your ML model from a remote server using `ML streaming` fea
 ⚠️ `ML streaming` feature exists in versions `>=1.0`
 
 ⚠️ In order to use `ML streaming` feature, make sure you've installed the `streaming` mode of PyMilo
+
+⚠️ The `ML streaming` feature is under construction and is not yet considered stable.
 
 You can choose either `REST` or `WebSocket` as the communication medium protocol.
 

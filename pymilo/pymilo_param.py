@@ -86,7 +86,7 @@ except BaseException:
 OVERVIEW = """
 PyMilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way.
 """
-PYMILO_VERSION = "1.3"
+PYMILO_VERSION = "1.4"
 NOT_SUPPORTED = "NOT_SUPPORTED"
 PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
 UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differs from the PyMilo version used to create the JSON file."

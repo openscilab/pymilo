@@ -5,8 +5,57 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [1.4] - 2025-11-30
 ### Added
+- `get_allowed_models` function in `PymiloClient`
+- `get_allowance` function in `PymiloClient`
+- `revoke_access` function in `PymiloClient`
+- `grant_access` function in `PymiloClient`
+- `get_ml_models` function in `PymiloClient`
+- `deregister_ml_model` function in `PymiloClient`
+- `register_ml_model` function in `PymiloClient`
+- `deregister` function in `PymiloClient`
+- `register` function in `PymiloClient`
+- `REST_API_PREFIX ` function in `streaming.param.py`
+- `register_client` function in `RESTClientCommunicator`
+- `remove_client` function in `RESTClientCommunicator`
+- `register_model` function in `RESTClientCommunicator`
+- `remove_model` function in `RESTClientCommunicator`
+- `get_ml_models` function in `RESTClientCommunicator`
+- `grant_access` function in `RESTClientCommunicator`
+- `revoke_access` function in `RESTClientCommunicator`
+- `get_allowance` function in `RESTClientCommunicator`
+- `get_allowed_models` function in `RESTClientCommunicator`
+- `_validate_id` function in `PymiloServer`
+- `init_client` function in `PymiloServer`
+- `remove_client` function in `PymiloServer`
+- `grant_access` function in `PymiloServer`
+- `revoke_access` function in `PymiloServer`
+- `get_allowed_models` function in `PymiloServer`
+- `get_clients_allowance` function in `PymiloServer`
+- `get_clients` function in `PymiloServer`
+- `init_ml_model` function in `PymiloServer`
+- `set_ml_model` function in `PymiloServer`
+- `remove_ml_model` function in `PymiloServer`
+- `get_ml_models` function in `PymiloServer`
 ### Changed
+- `is_callable_attribute` function in `PymiloServer`
+- `execute_model` function in `PymiloServer`
+- `update_model` function in `PymiloServer`
+- `export_model` function in `PymiloServer`
+- `__getattr__` in `PymiloClient`
+- `upload` function in `PymiloClient`
+- `download` function in `PymiloClient`
+- `encrypt_compress` function in `PymiloClient`
+- `ClientCommunicator` interface
+- `handle_message` function in `WebSocketServerCommunicator`
+- `_handle_download` function in `WebSocketServerCommunicator`
+- `setup_routes` function in `RESTServerCommunicator`
+- `__init__` function in `RESTClientCommunicator`
+- `download` function in `RESTClientCommunicator`
+- `upload` function in `RESTClientCommunicator`
+- `attribute_call` function in `RESTClientCommunicator`
+- `attribute_type` function in `RESTClientCommunicator`
 - `README.md` updated
 - `__init__` function in `PyMiloServer`
 - Test system modified
@@ -397,7 +446,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Export` class
 - `Import` class
 
-[Unreleased]: https://github.com/openscilab/pymilo/compare/v1.3...dev
+[Unreleased]: https://github.com/openscilab/pymilo/compare/v1.4...dev
+[1.4]: https://github.com/openscilab/pymilo/compare/v1.3...v1.4
 [1.3]: https://github.com/openscilab/pymilo/compare/v1.2...v1.3
 [1.2]: https://github.com/openscilab/pymilo/compare/v1.1...v1.2
 [1.1]: https://github.com/openscilab/pymilo/compare/v1.0...v1.1
