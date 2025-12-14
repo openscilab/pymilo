@@ -6,5 +6,5 @@ MODEL_NAME = "AdaBoostClassifier"
 
 def adaboost_classifier():
     x_train, y_train, x_test, y_test = prepare_simple_classification_datasets()
-    adaboost_classifier = AdaBoostClassifier(n_estimators=100, algorithm="SAMME", random_state=0).fit(x_train, y_train)
+    adaboost_classifier = AdaBoostClassifier(n_estimators=100, random_state=0).fit(x_train, y_train)
     pymilo_classification_test(adaboost_classifier, MODEL_NAME, (x_test, y_test))
