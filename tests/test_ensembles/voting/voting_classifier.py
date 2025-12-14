@@ -9,7 +9,7 @@ MODEL_NAME = "VotingClassifier"
 
 def voting_classifier():
     x_train, y_train, x_test, y_test = prepare_simple_classification_datasets()
-    r1 = LogisticRegression(multi_class='multinomial', random_state=1)
+    r1 = LogisticRegression(random_state=1)
     r2 = RandomForestClassifier(n_estimators=50, random_state=1)
     r3 = GaussianNB()
     voting_classifier = VotingClassifier([('lr', r1), ('rf', r2), ('r3', r3)], voting='hard').fit(x_train,y_train)
