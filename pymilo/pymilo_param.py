@@ -228,6 +228,7 @@ SKLEARN_ENSEMBLE_TABLE = {
 
 SKLEARN_PREPROCESSING_TABLE = {
     "StandardScaler": preprocessing.StandardScaler,
+    "MinMaxScaler": preprocessing.MinMaxScaler,
     "OneHotEncoder": preprocessing.OneHotEncoder,
     "LabelBinarizer": preprocessing.LabelBinarizer,
     "LabelEncoder": preprocessing.LabelEncoder,
