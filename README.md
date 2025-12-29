@@ -381,12 +381,9 @@ If you use PyMilo in your research, we would appreciate citations to the followi
 
 Download [PyMilo.bib](https://raw.githubusercontent.com/openscilab/pymilo/main/paper/PyMilo.bib)
 
-<table>
-	<tr> 
-		<td align="center">JOSS</td>
-		<td align="center"><a href="https://doi.org/10.21105/joss.08858"><img src="https://joss.theoj.org/papers/10.21105/joss.08858/status.svg"></a></td>
-	</tr>
-</table>
+<a href="https://doi.org/10.21105/joss.08858">
+  <img src="https://joss.theoj.org/papers/10.21105/joss.08858/status.svg" alt="JOSS DOI: 10.21105/joss.08858">
+</a>
 
 ## Show your support
 
