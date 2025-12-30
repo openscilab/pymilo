@@ -14,11 +14,29 @@ from .transporter import AbstractTransporter
 class GeneralDataStructureTransporter(AbstractTransporter):
     """Customized PyMilo Transporter developed to handle fields with general datastructures."""
 
+    def _is_remainder_cols_list(self, obj):
+        """
+        Check whether the given object is sklearn's internal _RemainderColsList.
+
+        :param obj: given object
+        :type obj: any
+        :return: bool
+        """
+        try:
+            return (
+                obj.__class__.__name__ == "_RemainderColsList" and
+                "_column_transformer" in obj.__class__.__module__
+            )
+        except Exception:
+            return False
+
     def serialize_tuple(self, tuple_field):
         """
         Check for non-serializable fields in tuple and serialize them.
 
             1. Serialize inner np.ndarray fields in tuple
+            2. Serialize inner slice fields in tuple
+            3. Convert sklearn's _RemainderColsList to list
 
         :param tuple_field: given tuple
         :type tuple_field: tuple
@@ -28,6 +46,15 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         for item in tuple_field:
             if (isinstance(item, np.ndarray)):
                 new_tuple += (self.deep_serialize_ndarray(item),)
+            elif self._is_remainder_cols_list(item):
+                new_tuple += (list(item),)
+            elif isinstance(item, slice):
+                new_tuple += ({
+                    "pymilo-slice": True,
+                    "start": item.start,
+                    "stop": item.stop,
+                    "step": item.step,
+                },)
             else:
                 new_tuple += (item,)
         return {
@@ -51,6 +78,17 @@ class GeneralDataStructureTransporter(AbstractTransporter):
             # check inner field as a np.ndarray
             if isinstance(dictionary[key], np.ndarray):
                 dictionary[key] = self.deep_serialize_ndarray(dictionary[key])
+            # check inner field as sklearn's _RemainderColsList
+            if self._is_remainder_cols_list(dictionary[key]):
+                dictionary[key] = list(dictionary[key])
+            # check inner field as a slice
+            if isinstance(dictionary[key], slice):
+                dictionary[key] = {
+                    "pymilo-slice": True,
+                    "start": dictionary[key].start,
+                    "stop": dictionary[key].stop,
+                    "step": dictionary[key].step,
+                }
             # check inner field as np.int32
             if isinstance(key, np.int32):
                 new_value = {
@@ -142,6 +180,17 @@ class GeneralDataStructureTransporter(AbstractTransporter):
                         {"value": int(item), "np-type": "numpy.int64"})
                 elif isinstance(item, np.ndarray):
                     new_list.append(self.deep_serialize_ndarray(item))
+                elif isinstance(item, tuple):
+                    new_list.append(self.serialize_tuple(item))
+                elif self._is_remainder_cols_list(item):
+                    new_list.append(list(item))
+                elif isinstance(item, slice):
+                    new_list.append({
+                        "pymilo-slice": True,
+                        "start": item.start,
+                        "stop": item.stop,
+                        "step": item.step
+                    })
                 else:
                     new_list.append(item)
             data[key] = new_list
@@ -156,6 +205,14 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         elif isinstance(data[key], dict):
             data[key] = self.serialize_dict(data[key])
+
+        elif isinstance(data[key], slice):
+            data[key] = {
+                "pymilo-slice": True,
+                "start": data[key].start,
+                "stop": data[key].stop,
+                "step": data[key].step
+            }
 
         elif isinstance(data[key], tuple):
             data[key] = self.serialize_tuple(data[key])
@@ -196,6 +253,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         elif isinstance(data[key], list):
             return self.get_deserialized_list(data[key])
 
+        elif isinstance(data[key], dict) and data[key].get("pymilo-slice", False):
+            return slice(data[key]["start"], data[key]["stop"], data[key]["step"])
+
         elif self.is_numpy_primary_type(data[key]):
             return self.get_deserialized_regular_primary_types(data[key])
         else:
@@ -225,6 +285,9 @@ class GeneralDataStructureTransporter(AbstractTransporter):
 
         if check_str_in_iterable("pymilo-set", content):
             return set(self.get_deserialized_list(content["pymilo-set"]))
+
+        if check_str_in_iterable("pymilo-slice", content):
+            return slice(content["start"], content["stop"], content["step"])
 
         if self.is_deserialized_ndarray(content):
             return self.deep_deserialize_ndarray(content)
@@ -274,10 +337,12 @@ class GeneralDataStructureTransporter(AbstractTransporter):
         """
         new_list = []
         for item in content:
-            if check_str_in_iterable("pymilo-tuple", item):
-                new_list.append(tuple(self.get_deserialized_list(content["pymilo-tuple"])))
+            if isinstance(item, dict) and check_str_in_iterable("pymilo-tuple", item):
+                new_list.append(tuple(self.get_deserialized_list(item["pymilo-tuple"])))
             elif self.is_deserialized_ndarray(item):
                 new_list.append(self.deep_deserialize_ndarray(item))
+            elif isinstance(item, dict) and item.get("pymilo-slice", False):
+                new_list.append(slice(item["start"], item["stop"], item["step"]))
             else:
                 new_list.append(self.deserialize_primitive_type(item))
         return new_list
