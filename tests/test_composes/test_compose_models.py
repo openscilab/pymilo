@@ -1,6 +1,5 @@
 import os
 import pytest
-import shutil
 
 from column_transformer import (
     column_transformer,
@@ -25,9 +24,14 @@ COMPOSE_MODEL_TESTS = [
 def reset_exported_models_directory():
     exported_models_directory = os.path.join(
         os.getcwd(), "tests", "exported_composes")
-
-    shutil.rmtree(exported_models_directory)
-    os.mkdir(exported_models_directory)
+    if not os.path.isdir(exported_models_directory):
+        os.mkdir(exported_models_directory)
+        return
+    for file_name in os.listdir(exported_models_directory):
+        # construct full file path
+        json_file = os.path.join(exported_models_directory, file_name)
+        if os.path.isfile(json_file):
+            os.remove(json_file)
 
 def test_full():
     for model in COMPOSE_MODEL_TESTS:
