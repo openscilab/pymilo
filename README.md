@@ -360,26 +360,30 @@ We welcome contributions! Please read our **[Contributing Guidelines](.github/CO
 
 ## Cite
 
-If you use PyMilo in your research, we would appreciate citations to the following paper :
+If you use PyMilo in your research, we would appreciate citations to the following paper:
 
-[Rostami, A., Haghighi, S., Sabouri, S., & Zolanvari, A. (2024). *PyMilo: A Python Library for ML I/O*. *arXiv e-prints*, arXiv-2501.](https://arxiv.org/abs/2501.00528)
-
-<table>
-	<tr>
-		<td align="center">Zenodo</td>
-		<td align="center"><a href="https://doi.org/10.5281/zenodo.14713078"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.14713078.svg" alt="DOI 10.5281/zenodo.14713078"></a></td>
-	</tr>
-</table>
+[Rostami, A., Haghighi, S., Sabouri, S. and Zolanvari, A., 2025. PyMilo: A Python Library for ML I/O. *Journal of Open Source Software*, 10(116), p.8858.](https://joss.theoj.org/papers/10.21105/joss.08858)
 
 ```bibtex
-@article{rostami2024pymilo,
-  title={PyMilo: A Python Library for ML I/O},
-  author={Rostami, AmirHosein and Haghighi, Sepand and Sabouri, Sadra and Zolanvari, Alireza},
-  journal={arXiv e-prints},
-  pages={arXiv--2501},
-  year={2024}
+@article{Rostami2025,
+  doi = {10.21105/joss.08858},
+  url = {https://doi.org/10.21105/joss.08858},
+  year = {2025},
+  publisher = {The Open Journal},
+  volume = {10},
+  number = {116},
+  pages = {8858},
+  author = {Rostami, AmirHosein and Haghighi, Sepand and Sabouri, Sadra and Zolanvari, Alireza},
+  title = {PyMilo: A Python Library for ML I/O},
+  journal = {Journal of Open Source Software}
 }
 ```
+
+Download [PyMilo.bib](https://raw.githubusercontent.com/openscilab/pymilo/main/paper/PyMilo.bib)
+
+<a href="https://doi.org/10.21105/joss.08858">
+  <img src="https://joss.theoj.org/papers/10.21105/joss.08858/status.svg" alt="JOSS DOI: 10.21105/joss.08858">
+</a>
 
 ## Show your support
 
