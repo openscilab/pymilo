@@ -6,7 +6,7 @@ from numpy import array_equal
 
 from ..pymilo_obj import Export
 from ..pymilo_obj import Import
-from ..chains.ensemble_chain import get_transporter
+from ..chains.util import get_transporter
 from ..pymilo_func import compare_model_outputs
 from ..pymilo_param import EXPORTED_MODELS_PATH
 
