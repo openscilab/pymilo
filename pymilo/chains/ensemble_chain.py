@@ -18,7 +18,8 @@ from ..transporters.preprocessing_transporter import PreprocessingTransporter
 from ..transporters.randomstate_transporter import RandomStateTransporter
 from ..transporters.treepredictor_transporter import TreePredictorTransporter
 from ..pymilo_param import SKLEARN_ENSEMBLE_TABLE
-from ..utils.util import check_str_in_iterable, get_sklearn_type
+from ..utils.util import check_str_in_iterable
+from ..utils.ml_model_utils import serialize_possible_ml_model, deserialize_possible_ml_model
 from .util import get_concrete_transporter
 
 ENSEMBLE_CHAIN = {
@@ -183,63 +184,6 @@ class EnsembleModelChain(AbstractChain):
 
 
 ensemble_chain = EnsembleModelChain(ENSEMBLE_CHAIN, SKLEARN_ENSEMBLE_TABLE)
-
-
-def get_transporter(model):
-    """
-    Get associated transporter for the given ML model.
-
-    :param model: given model to get it's transporter
-    :type model: scikit ML model
-    :return: tuple(ML_MODEL_CATEGORY, transporter function)
-    """
-    if isinstance(model, str):
-        if model.upper() == "ENSEMBLE":
-            return "ENSEMBLE", ensemble_chain.transport
-    if ensemble_chain.is_supported(model):
-        return "ENSEMBLE", ensemble_chain.transport
-    else:
-        return get_concrete_transporter(model)
-
-
-def serialize_possible_ml_model(possible_ml_model):
-    """
-    Check whether the given object is a ML model and if it is, serialize it.
-
-    :param possible_ml_model: given obj to check
-    :type possible_ml_model: obj
-    :return: tuple(bool, whether itself or dict)
-    """
-    if isinstance(possible_ml_model, str):
-        return False, possible_ml_model
-    ml_category, transporter = get_transporter(possible_ml_model)
-    if transporter is not None:
-        return True, {
-            "pymilo-bypass": True,
-            "pymilo-inner-model-data": transporter(possible_ml_model, Command.SERIALIZE),
-            "pymilo-inner-model-type": get_sklearn_type(possible_ml_model),
-            "pymilo-ml-category": ml_category
-        }
-    else:
-        return False, possible_ml_model
-
-
-def deserialize_possible_ml_model(possible_serialized_ml_model):
-    """
-    Check whether the given object is previously serialized ML model and if it is, deserialize it back to the associated ML model.
-
-    :param possible_serialized_ml_model: given obj to check
-    :type possible_serialized_ml_model: obj
-    :return: tuple(bool, whether itself or a scikit ML model)
-    """
-    if check_str_in_iterable("pymilo-inner-model-type", possible_serialized_ml_model):
-        _, transporter = get_transporter(possible_serialized_ml_model["pymilo-ml-category"])
-        return True, transporter({
-            "data": possible_serialized_ml_model["pymilo-inner-model-data"],
-            "type": possible_serialized_ml_model["pymilo-inner-model-type"]
-        }, Command.DESERIALIZE, is_inner_model=True)
-    else:
-        return False, possible_serialized_ml_model
 
 
 def serialize_models_in_ndarray(ndarray_instance):
