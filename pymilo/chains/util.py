@@ -54,3 +54,33 @@ def get_concrete_transporter(model):
         return "CROSS_DECOMPOSITION", cross_decomposition_chain.transport
     else:
         return None, None
+
+
+def get_transporter(model):
+    """
+    Get associated transporter for the given ML model.
+
+    :param model: given model to get it's transporter
+    :type model: scikit ML model or str
+    :return: tuple(ML_MODEL_CATEGORY, transporter function)
+    """
+    # String routing
+    if isinstance(model, str):
+        upper = model.upper()
+        if upper == "COMPOSE":
+            from .compose_chain import compose_chain
+            return "COMPOSE", compose_chain.transport
+        if upper == "ENSEMBLE":
+            from .ensemble_chain import ensemble_chain
+            return "ENSEMBLE", ensemble_chain.transport
+
+    # Object routing (check higher-level categories first)
+    from .compose_chain import compose_chain
+    if compose_chain.is_supported(model):
+        return "COMPOSE", compose_chain.transport
+
+    from .ensemble_chain import ensemble_chain
+    if ensemble_chain.is_supported(model):
+        return "ENSEMBLE", ensemble_chain.transport
+
+    return get_concrete_transporter(model)
