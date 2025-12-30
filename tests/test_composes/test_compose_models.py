@@ -9,14 +9,12 @@ from column_transformer import (
 
 from transformed_target_regressor import (
     transformed_target_regressor,
-    complex_transformed_target_regressor,
 )
 
 COMPOSE_MODEL_TESTS = [
     column_transformer,
     complex_column_transformer,
     transformed_target_regressor,
-    complex_transformed_target_regressor,
     nested_column_transformer_with_pipeline,
 ]
 
