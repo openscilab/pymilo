@@ -9,6 +9,7 @@ from .naive_bayes_chain import naive_bayes_chain
 from .svm_chain import svm_chain
 from .neighbours_chain import neighbors_chain
 from .cross_decomposition_chain import cross_decomposition_chain
+from ..utils.util import get_sklearn_type, check_str_in_iterable
 
 
 MODEL_TYPE_TRANSPORTER = {
@@ -84,3 +85,44 @@ def get_transporter(model):
         return "ENSEMBLE", ensemble_chain.transport
 
     return get_concrete_transporter(model)
+
+
+def serialize_possible_ml_model(model):
+    """
+    Serialize the given object if it is a supported ML model.
+
+    :param model: given object
+    :type model: any
+    :return: tuple(bool, whether itself or dict)
+    """
+    if isinstance(model, str):
+        return False, model
+    ml_category, transporter = get_transporter(model)
+    if transporter is None:
+        return False, model
+    from ..transporters.transporter import Command
+    return True, {
+        "pymilo-bypass": True,
+        "pymilo-inner-model-data": transporter(model, Command.SERIALIZE),
+        "pymilo-inner-model-type": get_sklearn_type(model),
+        "pymilo-ml-category": ml_category
+    }
+
+
+def deserialize_possible_ml_model(serialized_model):
+    """
+    Deserialize the given object if it is a previously serialized ML model.
+
+    :param serialized_model: given obj to check
+    :type serialized_model: obj
+    :return: tuple(bool, whether itself or a scikit ML model)
+    """
+    if check_str_in_iterable("pymilo-inner-model-type", serialized_model):
+        _, transporter = get_transporter(serialized_model["pymilo-ml-category"])
+        from ..transporters.transporter import Command
+        return True, transporter({
+            "data": serialized_model["pymilo-inner-model-data"],
+            "type": serialized_model["pymilo-inner-model-type"]
+        }, Command.DESERIALIZE, is_inner_model=True)
+    else:
+        return False, serialized_model

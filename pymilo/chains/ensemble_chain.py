@@ -19,7 +19,7 @@ from ..transporters.randomstate_transporter import RandomStateTransporter
 from ..transporters.treepredictor_transporter import TreePredictorTransporter
 from ..pymilo_param import SKLEARN_ENSEMBLE_TABLE
 from ..utils.util import check_str_in_iterable
-from ..utils.ml_model_utils import serialize_possible_ml_model, deserialize_possible_ml_model
+from .util import serialize_possible_ml_model, deserialize_possible_ml_model
 from .util import get_concrete_transporter
 
 ENSEMBLE_CHAIN = {

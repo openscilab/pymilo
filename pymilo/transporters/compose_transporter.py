@@ -7,7 +7,7 @@ from .general_data_structure_transporter import GeneralDataStructureTransporter
 from .function_transporter import FunctionTransporter
 from .preprocessing_transporter import PreprocessingTransporter
 from .feature_extraction_transporter import FeatureExtractorTransporter
-from ..utils.ml_model_utils import serialize_possible_ml_model, deserialize_possible_ml_model
+from ..chains.util import serialize_possible_ml_model, deserialize_possible_ml_model
 
 COMPOSE_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
@@ -80,7 +80,6 @@ class ComposeTransporter(AbstractTransporter):
             has_ml_model, result = serialize_possible_ml_model(internal_model)
             if has_ml_model:
                 return result
-
         return internal_model
 
     def deserialize_compose_internal_model(self, serialized_internal_model):
