@@ -1,11 +1,7 @@
-import pandas as pd
 from numpy import array, array_equal
 from sklearn.compose import ColumnTransformer
-from pymilo.utils.test_pymilo import pymilo_regression_test
 from sklearn.preprocessing import Normalizer, MinMaxScaler
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LinearRegression
-from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 from util import get_path, write_and_read
 from pymilo.transporters.compose_transporter import ComposeTransporter
 from pymilo.utils.test_pymilo import report_status
@@ -36,15 +32,14 @@ def column_transformer():
 
 
 def complex_column_transformer():  
-    X = pd.DataFrame({
-        "documents": ["First item", "second one here", "Is this the last?"],
-        "width": [3, 4, 5],
-    })  
-    # "documents" is a string which configures ColumnTransformer to
-    # pass the documents column as a 1d array to the CountVectorizer
+    # Use a plain 2D numpy array (no pandas dependency). With numpy inputs, select columns by index.
+    X = array(
+        [["First item", 3.0], ["second one here", 4.0], ["Is this the last?", 5.0]],
+        dtype=object,
+    )
     ct = ColumnTransformer(
-        [("text_preprocess", CountVectorizer(), "documents"),
-        ("num_preprocess", MinMaxScaler(), ["width"])])
+        [("text_preprocess", CountVectorizer(), 0),
+        ("num_preprocess", MinMaxScaler(), [1])])
     pre_result = ct.fit_transform(X)
 
     pt = ComposeTransporter()

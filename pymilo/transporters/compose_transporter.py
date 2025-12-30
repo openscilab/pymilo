@@ -4,14 +4,12 @@
 from ..utils.util import check_str_in_iterable
 from .transporter import AbstractTransporter
 from .general_data_structure_transporter import GeneralDataStructureTransporter
-from .function_transporter import FunctionTransporter
 from .preprocessing_transporter import PreprocessingTransporter
 from .feature_extraction_transporter import FeatureExtractorTransporter
 from ..chains.util import serialize_possible_ml_model, deserialize_possible_ml_model
 
 COMPOSE_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
-    "FunctionTransporter": FunctionTransporter(),
     "PreprocessingTransporter": PreprocessingTransporter(),
     "FeatureExtractorTransporter": FeatureExtractorTransporter(),
 }
