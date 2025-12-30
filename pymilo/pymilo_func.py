@@ -3,7 +3,7 @@
 import numpy as np
 import sklearn
 
-from .chains.ensemble_chain import get_transporter
+from .chains.util import get_transporter
 from .transporters.transporter import Command
 from .pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW
 
