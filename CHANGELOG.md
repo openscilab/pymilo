@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `ColumnTransformer` model
 - Composite models test runner
 - Composite models chain
+- JOSS paper
 ### Changed
 - Ensemble models test runner
 - `get_deserialized_list` function in GeneralDataStructureTransporter
@@ -24,9 +25,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `get_deserialized_dict` function in GeneralDataStructureTransporter
 - `serialize_dict` function in GeneralDataStructureTransporter
 - `serialize_tuple` function in GeneralDataStructureTransporter
-- `README.md` updated
-- `__init__` function in `PyMiloServer`
 - Test system modified
+- `README.md` updated
 ### Removed
 - `get_transporter` in `ensemble_chain.py`
 - `deserialize_possible_ml_model` in `ensemble_chain.py`
