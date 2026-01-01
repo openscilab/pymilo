@@ -51,11 +51,7 @@ class ComposeTransporter(AbstractTransporter):
         :type obj: any
         :return: bool
         """
-        try:
-            # Check if it has fit/predict methods (common ML model interface)
-            return hasattr(obj, 'fit') and (hasattr(obj, 'predict') or hasattr(obj, 'transform'))
-        except:
-            return False
+        return hasattr(obj, 'fit') and (hasattr(obj, 'predict') or hasattr(obj, 'transform'))
 
     def serialize_compose_internal_model(self, internal_model):
         """
@@ -69,7 +65,7 @@ class ComposeTransporter(AbstractTransporter):
         pt = COMPOSE_CHAIN["PreprocessingTransporter"]
         if pt.is_preprocessing_module(internal_model):
             return pt.serialize_pre_module(internal_model)
-        
+
         # Handle feature extraction modules
         fe = COMPOSE_CHAIN["FeatureExtractorTransporter"]
         if fe.is_fe_module(internal_model):

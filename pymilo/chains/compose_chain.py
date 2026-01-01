@@ -45,7 +45,7 @@ class ComposeModelChain(AbstractChain):
         for transporter in self._transporters:
             self._transporters[transporter].transport(
                 compose, Command.DESERIALIZE, is_inner_model)
-        
+
         data = compose["data"] if is_inner_model else compose.data
 
         _type = None

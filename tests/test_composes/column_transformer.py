@@ -31,7 +31,7 @@ def column_transformer():
     assert comparison_result
 
 
-def complex_column_transformer():  
+def complex_column_transformer():
     # Use a plain 2D numpy array (no pandas dependency). With numpy inputs, select columns by index.
     X = array(
         [["First item", 3.0], ["second one here", 4.0], ["Is this the last?", 5.0]],
