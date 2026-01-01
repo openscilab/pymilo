@@ -6,11 +6,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `_is_remainder_cols_list` function in GeneralDataStructureTransporter
+- `ComposeTransporter` Transporter
+- Composite params initialized in `pymilo_param.py`
+- `get_transporter` in `chains/util.py`
+- `deserialize_possible_ml_model` in `chains/util.py`
+- `serialize_possible_ml_model` in `chains/util.py`
+- `TransformedTargetRegressor` model
+- `ColumnTransformer` model
+- Composite models test runner
+- Composite models chain
 ### Changed
+- Ensemble models test runner
+- `get_deserialized_list` function in GeneralDataStructureTransporter
+- `deserialize` function in GeneralDataStructureTransporter 
+- `serialize` function in GeneralDataStructureTransporter 
+- `get_deserialized_dict` function in GeneralDataStructureTransporter
+- `serialize_dict` function in GeneralDataStructureTransporter
+- `serialize_tuple` function in GeneralDataStructureTransporter
 - `README.md` updated
 - `__init__` function in `PyMiloServer`
 - Test system modified
 ### Removed
+- `get_transporter` in `ensemble_chain.py`
+- `deserialize_possible_ml_model` in `ensemble_chain.py`
+- `serialize_possible_ml_model` in `ensemble_chain.py`
 - Python 3.6 support
 ## [1.3] - 2025-02-26
 ### Added
