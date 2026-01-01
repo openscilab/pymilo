@@ -65,7 +65,7 @@ class ComposeModelChain(AbstractChain):
             transformer_weights = data.get("transformer_weights", None)
             verbose = data.get("verbose", False)
             verbose_feature_names_out = data.get("verbose_feature_names_out", True)
-            
+
             raw_model = self._supported_models[_type](
                 transformers=transformers,
                 remainder=remainder,
