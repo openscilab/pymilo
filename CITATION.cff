@@ -1,0 +1,74 @@
+cff-version: "1.2.0"
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+title: "PyMilo: A Python Library for ML I/O"
+abstract: >-
+  PyMilo is an open-source Python package that addresses the limitations of
+  existing machine learning (ML) model storage formats by providing a
+  transparent, reliable, end-to-end, and safe method for exporting and
+  deploying trained models. Current tools rely on black-box or executable
+  formats that obscure internal model structures, making them difficult to
+  audit, verify, or safely share. Meanwhile, tensor-centric formats securely
+  store and transfer numerical tensors but do not capture the internal and
+  structural composition of classical machine-learning models (e.g.,
+  scikit-learn pipelines), which remain PyMilo’s primary focus. Others apply
+  structural transformations during export that may degrade predictive
+  performance and reduce the model to a limited inference-only interface. In
+  contrast, PyMilo serializes models in a transparent human-readable format
+  that preserves end-to-end model fidelity and enables reliable, safe, and
+  interpretable exchange.
+authors:
+- family-names: Rostami
+  given-names: AmirHosein
+  orcid: "https://orcid.org/0009-0000-0638-2263"
+- family-names: Haghighi
+  given-names: Sepand
+  orcid: "https://orcid.org/0000-0001-9450-2375"
+- family-names: Sabouri
+  given-names: Sadra
+  orcid: "https://orcid.org/0000-0003-1047-2346"
+- family-names: Zolanvari
+  given-names: Alireza
+  orcid: "https://orcid.org/0000-0003-2367-8343"
+contact:
+- family-names: Rostami
+  given-names: AmirHosein
+  orcid: "https://orcid.org/0009-0000-0638-2263"
+version: 1.4
+date-released: 2025-12-23
+repository-code: "https://github.com/openscilab/pymilo"
+url: "https://github.com/openscilab/pymilo"
+license: MIT
+keywords:
+    - Machine Learning
+    - Model Deployment
+    - Model Serialization
+    - Transparency
+    - MLOPS
+doi: 10.5281/zenodo.17783630
+preferred-citation:
+  authors:
+  - family-names: Rostami
+    given-names: AmirHosein
+    orcid: "https://orcid.org/0009-0000-0638-2263"
+  - family-names: Haghighi
+    given-names: Sepand
+    orcid: "https://orcid.org/0000-0001-9450-2375"
+  - family-names: Sabouri
+    given-names: Sadra
+    orcid: "https://orcid.org/0000-0003-1047-2346"
+  - family-names: Zolanvari
+    given-names: Alireza
+    orcid: "https://orcid.org/0000-0003-2367-8343"
+  date-published: 2025-12-20
+  doi: 10.21105/joss.08858
+  issn: 2475-9066
+  issue: 116
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 8858
+  title: "PyMilo: A Python Library for ML I/O"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.08858"
+  volume: 10

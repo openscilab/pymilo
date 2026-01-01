@@ -56,7 +56,6 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 		<td align="center">Code Quality</td>
 		<td align="center"><a href="https://www.codefactor.io/repository/github/openscilab/pymilo"><img src="https://www.codefactor.io/repository/github/openscilab/pymilo/badge" alt="CodeFactor" /></a></td>
 		<td align="center"><a href="https://app.codacy.com/gh/openscilab/pymilo/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/9eeec99ed11f4d9b86af36dc90f5f753"></a></td>
-		<td align="center"><a href="https://codebeat.co/projects/github-com-openscilab-pymilo-dev"><img alt="codebeat badge" src="https://codebeat.co/badges/1259254f-39fc-4491-8469-17d8a43b6697" /></a></td>
 	</tr>
 </table>
 
@@ -66,9 +65,9 @@ PyMilo is an open source Python package that provides a simple, efficient, and s
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install pymilo==1.3`
+- Run `pip install pymilo==1.4`
 ### Source code
-- Download [Version 1.3](https://github.com/openscilab/pymilo/archive/v1.3.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
+- Download [Version 1.4](https://github.com/openscilab/pymilo/archive/v1.4.zip) or [Latest Source](https://github.com/openscilab/pymilo/archive/dev.zip)
 - Run `pip install .`
 
 ### Conda
@@ -97,6 +96,26 @@ Using PyMilo `Export` class you can easily serialize and export your trained mod
 from pymilo import Export
 Export(model).save("model.json")
 ```
+
+#### Export
+
+The `Export` class facilitates exporting of machine learning models to JSON files.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| model | The machine learning model to be exported |
+
+| **Property** | **Description** |
+| ------------ | --------------- |
+| data | The serialized model data including all learned parameters |
+| version | The scikit-learn version used to train the model |
+| type | The type/class name of the exported model |
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| save | Save the exported model to a JSON file |
+| to_json | Return the model as a JSON string representation |
+| batch_export | Export multiple models to individual JSON files in a directory |
 
 You can check out your model as a JSON file now.
 ```json
@@ -149,6 +168,28 @@ model = Import("model.json").to_model()
 pred = model.predict(np.array([[3, 5]]))
 # pred = [16.] (=1 * 3 + 2 * 5 + 3)
 ```
+
+#### Import
+
+The `Import` class facilitates importing of serialized models from JSON files, JSON strings, or URLs.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| file_adr | Path to the JSON file containing the serialized model |
+| json_dump | JSON string representation of the serialized model |
+| url | URL to download the serialized model from |
+
+| **Property** | **Description** |
+| ------------ | --------------- |
+| data | The deserialized model data |
+| version | The scikit-learn version of the original model |
+| type | The type/class name of the imported model |
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| to_model | Convert the imported data back to a scikit-learn model |
+| batch_import | Import multiple models from JSON files in a directory |
+
 This loaded model is exactly the same as the original trained model.
 
 ### ML streaming
@@ -157,6 +198,8 @@ You can easily serve your ML model from a remote server using `ML streaming` fea
 ⚠️ `ML streaming` feature exists in versions `>=1.0`
 
 ⚠️ In order to use `ML streaming` feature, make sure you've installed the `streaming` mode of PyMilo
+
+⚠️ The `ML streaming` feature is under construction and is not yet considered stable.
 
 You can choose either `REST` or `WebSocket` as the communication medium protocol.
 
@@ -173,6 +216,33 @@ communicator = PymiloServer(
     ).communicator
 communicator.run()
 ```
+
+#### PymiloServer
+
+The `PymiloServer` class facilitates streaming machine learning models over a network.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| port | Port number for the server to listen on (default: 8000) |
+| host | Host address for the server (default: "127.0.0.1") |
+| compressor | Compression method from `Compression` enum |
+| communication_protocol | Communication protocol from `CommunicationProtocol` enum |
+
+The `compressor` parameter accepts values from the `Compression` enum including `NULL` (no compression), `GZIP`, `ZLIB`, `LZMA`, or `BZ2`. The `communication_protocol` parameter accepts values from the `CommunicationProtocol` enum including `REST` or `WEBSOCKET`.
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| init_client | Initialize a new client with the given client ID |
+| remove_client | Remove an existing client by client ID |
+| init_ml_model | Initialize a new ML model for a given client |
+| set_ml_model | Set or update the ML model for a client |
+| remove_ml_model | Remove an existing ML model for a client |
+| get_ml_models | Get all ML model IDs for a client |
+| execute_model | Execute model methods or access attributes |
+| grant_access | Allow a client to access another client's model |
+| revoke_access | Revoke access to a client's model |
+| get_allowed_models | Get models a client is allowed to access |
+
 Now `PymiloServer` runs on port `8000` and exposes REST API to `upload`, `download` and retrieve **attributes** either **data attributes** like `model._coef` or **method attributes** like `model.predict(x_test)`.
 
 ℹ️ By default, `PymiloServer` listens on the loopback interface (`127.0.0.1`). To make it accessible over a local network (LAN), specify your machine’s LAN IP address in the `host` parameter of the `PymiloServer` constructor.
@@ -189,6 +259,35 @@ pymilo_client = PymiloClient(
 pymilo_client.toggle_mode(PymiloClient.Mode.DELEGATE)
 result = pymilo_client.predict(x_test)
 ```
+
+#### PymiloClient
+
+The `PymiloClient` class facilitates working with remote PyMilo servers.
+
+| **Parameter** | **Description** |
+| ------------- | --------------- |
+| model | The local ML model to wrap around |
+| mode | Operating mode (LOCAL or DELEGATE) |
+| compressor | Compression method from `Compression` enum |
+| server_url | URL of the PyMilo server |
+| communication_protocol | Communication protocol from `CommunicationProtocol` enum |
+
+The `mode` parameter accepts two values `LOCAL` to execute operations on the local model, or `DELEGATE` to delegate operations to the remote server. The `compressor` parameter accepts values from the `Compression` enum including `NULL` (no compression), `GZIP`, `ZLIB`, `LZMA`, or `BZ2`. The `communication_protocol` parameter accepts values from the `CommunicationProtocol` enum including `REST` or `WEBSOCKET`.
+
+| **Method** | **Description** |
+| ---------- | --------------- |
+| toggle_mode | Switch between LOCAL and DELEGATE modes |
+| register | Register the client with the remote server |
+| deregister | Deregister the client from the server |
+| register_ml_model | Register an ML model with the server |
+| deregister_ml_model | Deregister an ML model from the server |
+| upload | Upload the local model to the remote server |
+| download | Download the remote model to local |
+| get_ml_models | Get all registered ML models for this client |
+| grant_access | Grant access to this client's model to another client |
+| revoke_access | Revoke access previously granted to another client |
+| get_allowance | Get clients who have access to this client's models |
+| get_allowed_models | Get models this client is allowed to access from another client |
 
 ℹ️ If you've deployed `PymiloServer` locally (on port `8000` for instance), then `SERVER_URL` would be `http://127.0.0.1:8000` or `ws://127.0.0.1:8000` based on the selected protocol for the communication medium.
 
@@ -262,26 +361,30 @@ We welcome contributions! Please read our **[Contributing Guidelines](.github/CO
 
 ## Cite
 
-If you use PyMilo in your research, we would appreciate citations to the following paper :
+If you use PyMilo in your research, we would appreciate citations to the following paper:
 
-[Rostami, A., Haghighi, S., Sabouri, S., & Zolanvari, A. (2024). *PyMilo: A Python Library for ML I/O*. *arXiv e-prints*, arXiv-2501.](https://arxiv.org/abs/2501.00528)
-
-<table>
-	<tr>
-		<td align="center">Zenodo</td>
-		<td align="center"><a href="https://doi.org/10.5281/zenodo.14713078"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.14713078.svg" alt="DOI 10.5281/zenodo.14713078"></a></td>
-	</tr>
-</table>
+[Rostami, A., Haghighi, S., Sabouri, S. and Zolanvari, A., 2025. PyMilo: A Python Library for ML I/O. *Journal of Open Source Software*, 10(116), p.8858.](https://joss.theoj.org/papers/10.21105/joss.08858)
 
 ```bibtex
-@article{rostami2024pymilo,
-  title={PyMilo: A Python Library for ML I/O},
-  author={Rostami, AmirHosein and Haghighi, Sepand and Sabouri, Sadra and Zolanvari, Alireza},
-  journal={arXiv e-prints},
-  pages={arXiv--2501},
-  year={2024}
+@article{Rostami2025,
+  doi = {10.21105/joss.08858},
+  url = {https://doi.org/10.21105/joss.08858},
+  year = {2025},
+  publisher = {The Open Journal},
+  volume = {10},
+  number = {116},
+  pages = {8858},
+  author = {Rostami, AmirHosein and Haghighi, Sepand and Sabouri, Sadra and Zolanvari, Alireza},
+  title = {PyMilo: A Python Library for ML I/O},
+  journal = {Journal of Open Source Software}
 }
 ```
+
+Download [PyMilo.bib](https://raw.githubusercontent.com/openscilab/pymilo/main/paper/PyMilo.bib)
+
+<a href="https://doi.org/10.21105/joss.08858">
+  <img src="https://joss.theoj.org/papers/10.21105/joss.08858/status.svg" alt="JOSS DOI: 10.21105/joss.08858">
+</a>
 
 ## Show your support
 
