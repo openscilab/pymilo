@@ -82,7 +82,7 @@ class ComposeModelChain(AbstractChain):
             func = data.get("func", None)
             inverse_func = data.get("inverse_func", None)
             check_inverse = data.get("check_inverse", True)
-            
+
             raw_model = self._supported_models[_type](
                 regressor=regressor,
                 transformer=transformer,
