@@ -93,7 +93,7 @@ def serialize_possible_ml_model(model):
 
     :param model: given object
     :type model: any
-    :return: tuple(bool, whether itself or dict)
+    :return: ML model flag and serialized result
     """
     if isinstance(model, str):
         return False, model
@@ -115,7 +115,7 @@ def deserialize_possible_ml_model(serialized_model):
 
     :param serialized_model: given obj to check
     :type serialized_model: obj
-    :return: tuple(bool, whether itself or a scikit ML model)
+    :return: ML model flag and deserialized result
     """
     if check_str_in_iterable("pymilo-inner-model-type", serialized_model):
         _, transporter = get_transporter(serialized_model["pymilo-ml-category"])
