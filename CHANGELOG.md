@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Composite models chain
 - JOSS paper
 ### Changed
+- `serialize` function in FunctionTransporter
+- `serialize_spline` function in PreprocessingTransporter
+- `deserialize_spline` function in PreprocessingTransporter
 - Ensemble models test runner
 - `get_deserialized_list` function in GeneralDataStructureTransporter
 - `deserialize` function in GeneralDataStructureTransporter 
