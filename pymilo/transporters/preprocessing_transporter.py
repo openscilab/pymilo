@@ -167,14 +167,14 @@ class PreprocessingTransporter(AbstractTransporter):
         """
         data = serialized_bspline["pymilo-preprocessing-data"]
         associated_type = BSpline
-        for key in data:
+        for key in list(data.keys()):
             for transporter in PREPROCESSING_CHAIN:
                 data[key] = PREPROCESSING_CHAIN[transporter].deserialize(data, key, "")
-        retrieved_pre_module = associated_type(
-            t=data["t"],
-            k=data["k"],
-            c=data["c"],
-        )
+        # Handle both old scipy (t, c, k) and new scipy (_t, _c, _k) attribute names
+        t = data.get("t", data.get("_t"))
+        c = data.get("c", data.get("_c"))
+        k = data.get("k", data.get("_k"))
+        retrieved_pre_module = associated_type(t=t, k=k, c=c)
         for key in data:
             setattr(retrieved_pre_module, key, data[key])
         return retrieved_pre_module
