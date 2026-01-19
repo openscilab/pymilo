@@ -149,7 +149,8 @@ class PreprocessingTransporter(AbstractTransporter):
         :type bspline: scipy.interpolate._bsplines.BSpline
         :return: pymilo serialized bspline
         """
-        PREPROCESSING_CHAIN["GeneralDataStructureTransporter"].transport(bspline, Command.SERIALIZE)
+        for transporter in PREPROCESSING_CHAIN:
+            PREPROCESSING_CHAIN[transporter].transport(bspline, Command.SERIALIZE)
         return {
             "pymilo-bypass": True,
             "pymilo-preprocessing-type": get_sklearn_type(bspline),
@@ -165,9 +166,10 @@ class PreprocessingTransporter(AbstractTransporter):
         :return: retrieved associated scipy.interpolate._bsplines.BSpline object
         """
         data = serialized_bspline["pymilo-preprocessing-data"]
-        associated_type = BSpline  # if serialized_bspline["pymilo-preprocessing-type"] == "BSpline" else None
+        associated_type = BSpline
         for key in data:
-            data[key] = PREPROCESSING_CHAIN["GeneralDataStructureTransporter"].deserialize(data, key, "")
+            for transporter in PREPROCESSING_CHAIN:
+                data[key] = PREPROCESSING_CHAIN[transporter].deserialize(data, key, "")
         retrieved_pre_module = associated_type(
             t=data["t"],
             k=data["k"],
