@@ -30,7 +30,7 @@ def get_concrete_transporter(model):
 
     :param model: given model to get it's transporter
     :type model: scikit ML model
-    :return: tuple(ML_MODEL_CATEGORY, transporter function)
+    :return: Model category and transporter function
     """
     if isinstance(model, str):
         upper_model = model.upper()
@@ -63,7 +63,7 @@ def get_transporter(model):
 
     :param model: given model to get it's transporter
     :type model: scikit ML model or str
-    :return: tuple(ML_MODEL_CATEGORY, transporter function)
+    :return: Model category and transporter function
     """
     # String routing
     if isinstance(model, str):
