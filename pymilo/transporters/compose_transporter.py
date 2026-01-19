@@ -38,9 +38,9 @@ class ComposeTransporter(AbstractTransporter):
                 fe.is_fe_module(internal_model)
             )
         return (
+            self._is_ml_model(internal_model) or
             pt.is_preprocessing_module(internal_model) or
-            fe.is_fe_module(internal_model) or
-            self._is_ml_model(internal_model)
+            fe.is_fe_module(internal_model)
         )
 
     def _is_ml_model(self, obj):
@@ -103,6 +103,13 @@ class ComposeTransporter(AbstractTransporter):
         return serialized_internal_model
 
     def _serialize_nested(self, obj):
+        """
+        Recursively serialize nested structures containing internal models.
+
+        :param obj: object to serialize (dict, list, tuple, or internal model)
+        :type obj: any
+        :return: serialized object with internal models converted to pymilo format
+        """
         if isinstance(obj, dict):
             return {k: self._serialize_nested(v) for k, v in obj.items()}
         if isinstance(obj, list):
@@ -114,6 +121,13 @@ class ComposeTransporter(AbstractTransporter):
         return obj
 
     def _deserialize_nested(self, obj):
+        """
+        Recursively deserialize nested structures containing serialized internal models.
+
+        :param obj: object to deserialize (dict, list, tuple, or serialized internal model)
+        :type obj: any
+        :return: deserialized object with internal models restored to sklearn objects
+        """
         if isinstance(obj, dict):
             # Try leaf deserialization first (nested model schemas are dicts)
             if self.is_compose_internal_model(obj):
@@ -130,7 +144,7 @@ class ComposeTransporter(AbstractTransporter):
         Serialize Compose object.
 
         Serialize the data[key] of the given model which type is model_type.
-        basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
+        To fully serialize a model, we should traverse over all the keys of its data dictionary and
         pass it through the chain of associated transporters to get fully serialized.
 
         :param data: the internal data dictionary of the given model
@@ -152,7 +166,7 @@ class ComposeTransporter(AbstractTransporter):
         Deserialize previously pymilo serialized compose object.
 
         Deserialize the data[key] of the given model which type is model_type.
-        basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
+        To fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
         pass it through the chain of associated transporters to get fully deserialized.
 
         :param data: the internal data dictionary of the associated json file of the ML model which is generated previously by
