@@ -3,7 +3,7 @@
 
 from ..utils.util import import_function, check_str_in_iterable
 from .transporter import AbstractTransporter
-from types import FunctionType
+from types import FunctionType, BuiltinFunctionType
 from numpy import ufunc
 
 array_function_dispatcher_support = False
@@ -39,7 +39,7 @@ class FunctionTransporter(AbstractTransporter):
             }
             return data[key]
 
-        elif isinstance(data[key], FunctionType) or (
+        elif isinstance(data[key], (FunctionType, BuiltinFunctionType)) or (
                 array_function_dispatcher_support and
                 isinstance(data[key], _ArrayFunctionDispatcher)):
             function = data[key]
