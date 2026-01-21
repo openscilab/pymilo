@@ -54,7 +54,7 @@ def get_transporter(model):
 
     :param model: given model to get it's transporter
     :type model: scikit ML model
-    :return: Model category and transporter function
+    :return: model category and transporter function
     """
     if isinstance(model, str):
         if model.upper() == "COMPOSE":
