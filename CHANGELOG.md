@@ -6,12 +6,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `_is_remainder_cols_list` function in GeneralDataStructureTransporter
+- `ComposeTransporter` Transporter
+- Composite params initialized in `pymilo_param.py`
+- `get_transporter` in `chains/util.py`
+- `deserialize_possible_ml_model` in `chains/util.py`
+- `serialize_possible_ml_model` in `chains/util.py`
+- `TransformedTargetRegressor` model
+- `ColumnTransformer` model
+- Composite models test runner
+- Composite models chain
 - JOSS paper
 ### Changed
+- `serialize` function in FunctionTransporter
+- `serialize_spline` function in PreprocessingTransporter
+- `deserialize_spline` function in PreprocessingTransporter
+- Ensemble models test runner
+- `get_deserialized_list` function in GeneralDataStructureTransporter
+- `deserialize` function in GeneralDataStructureTransporter 
+- `serialize` function in GeneralDataStructureTransporter 
+- `get_deserialized_dict` function in GeneralDataStructureTransporter
+- `serialize_dict` function in GeneralDataStructureTransporter
+- `serialize_tuple` function in GeneralDataStructureTransporter
 - Test system modified
 - `README.md` updated
 ### Removed
-
+- `get_transporter` in `ensemble_chain.py`
+- `deserialize_possible_ml_model` in `ensemble_chain.py`
+- `serialize_possible_ml_model` in `ensemble_chain.py`
 ## [1.4] - 2025-12-01
 ### Added
 - `get_allowed_models` function in `PymiloClient`

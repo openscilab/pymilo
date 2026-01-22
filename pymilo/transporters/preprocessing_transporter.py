@@ -149,7 +149,8 @@ class PreprocessingTransporter(AbstractTransporter):
         :type bspline: scipy.interpolate._bsplines.BSpline
         :return: pymilo serialized bspline
         """
-        PREPROCESSING_CHAIN["GeneralDataStructureTransporter"].transport(bspline, Command.SERIALIZE)
+        for transporter in PREPROCESSING_CHAIN:
+            PREPROCESSING_CHAIN[transporter].transport(bspline, Command.SERIALIZE)
         return {
             "pymilo-bypass": True,
             "pymilo-preprocessing-type": get_sklearn_type(bspline),
@@ -165,14 +166,15 @@ class PreprocessingTransporter(AbstractTransporter):
         :return: retrieved associated scipy.interpolate._bsplines.BSpline object
         """
         data = serialized_bspline["pymilo-preprocessing-data"]
-        associated_type = BSpline  # if serialized_bspline["pymilo-preprocessing-type"] == "BSpline" else None
-        for key in data:
-            data[key] = PREPROCESSING_CHAIN["GeneralDataStructureTransporter"].deserialize(data, key, "")
-        retrieved_pre_module = associated_type(
-            t=data["t"],
-            k=data["k"],
-            c=data["c"],
-        )
+        associated_type = BSpline
+        for key in list(data.keys()):
+            for transporter in PREPROCESSING_CHAIN:
+                data[key] = PREPROCESSING_CHAIN[transporter].deserialize(data, key, "")
+        # Handle both old scipy (t, c, k) and new scipy (_t, _c, _k) attribute names
+        t = data.get("t", data.get("_t"))
+        c = data.get("c", data.get("_c"))
+        k = data.get("k", data.get("_k"))
+        retrieved_pre_module = associated_type(t=t, k=k, c=c)
         for key in data:
             setattr(retrieved_pre_module, key, data[key])
         return retrieved_pre_module

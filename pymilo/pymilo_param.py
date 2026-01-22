@@ -15,6 +15,7 @@ import sklearn.pipeline as pipeline
 import sklearn.preprocessing as preprocessing
 import sklearn.cross_decomposition as cross_decomposition
 import sklearn.feature_extraction as feature_extraction
+import sklearn.compose as compose
 
 quantile_regressor_support = False
 try:
@@ -228,6 +229,7 @@ SKLEARN_ENSEMBLE_TABLE = {
 
 SKLEARN_PREPROCESSING_TABLE = {
     "StandardScaler": preprocessing.StandardScaler,
+    "MinMaxScaler": preprocessing.MinMaxScaler,
     "OneHotEncoder": preprocessing.OneHotEncoder,
     "LabelBinarizer": preprocessing.LabelBinarizer,
     "LabelEncoder": preprocessing.LabelEncoder,
@@ -268,6 +270,11 @@ SKLEARN_CROSS_DECOMPOSITION_TABLE = {
     "CCA": cross_decomposition.CCA,
 }
 
+SKLEARN_COMPOSE_TABLE = {
+    "ColumnTransformer": compose.ColumnTransformer,
+    "TransformedTargetRegressor": compose.TransformedTargetRegressor,
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": preprocessing.LabelBinarizer,  # in Ridge Classifier
     "active_": np.int32,  # in Lasso Lars
@@ -300,6 +307,7 @@ EXPORTED_MODELS_PATH = {
     "NEIGHBORS": "exported_neighbors",
     "ENSEMBLE": "exported_ensembles",
     "CROSS_DECOMPOSITION": "exported_cross_decomposition",
+    "COMPOSE": "exported_composes",
 }
 
 SKLEARN_SUPPORTED_CATEGORIES = {
@@ -312,4 +320,5 @@ SKLEARN_SUPPORTED_CATEGORIES = {
     "NEIGHBORS": SKLEARN_NEIGHBORS_TABLE,
     "ENSEMBLE": SKLEARN_ENSEMBLE_TABLE,
     "CROSS_DECOMPOSITION": SKLEARN_CROSS_DECOMPOSITION_TABLE,
+    "COMPOSE": SKLEARN_COMPOSE_TABLE,
 }
