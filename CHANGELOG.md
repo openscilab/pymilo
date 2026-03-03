@@ -5,6 +5,44 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `_check_response_error` function in `WebSocketClientCommunicator`
+- `register_client` function in `WebSocketClientCommunicator`
+- `remove_client` function in `WebSocketClientCommunicator`
+- `register_model` function in `WebSocketClientCommunicator`
+- `remove_model` function in `WebSocketClientCommunicator`
+- `get_ml_models` function in `WebSocketClientCommunicator`
+- `grant_access` function in `WebSocketClientCommunicator`
+- `revoke_access` function in `WebSocketClientCommunicator`
+- `get_allowance` function in `WebSocketClientCommunicator`
+- `get_allowed_models` function in `WebSocketClientCommunicator`
+- `_action_handlers` registry in `WebSocketServerCommunicator`
+- `_handle_register_client` function in `WebSocketServerCommunicator`
+- `_handle_remove_client` function in `WebSocketServerCommunicator`
+- `_handle_register_model` function in `WebSocketServerCommunicator`
+- `_handle_remove_model` function in `WebSocketServerCommunicator`
+- `_handle_get_ml_models` function in `WebSocketServerCommunicator`
+- `_handle_grant_access` function in `WebSocketServerCommunicator`
+- `_handle_revoke_access` function in `WebSocketServerCommunicator`
+- `_handle_get_allowance` function in `WebSocketServerCommunicator`
+- `_handle_get_allowed_models` function in `WebSocketServerCommunicator`
+- `scenario4` access control test for streaming
+- `--port` argument in test server runner
+### Changed
+- `get_allowance` endpoint in `RESTServerCommunicator` to handle empty allowances
+- `send_message` function in `WebSocketClientCommunicator`
+- `download` function in `WebSocketClientCommunicator`
+- `upload` function in `WebSocketClientCommunicator`
+- `attribute_call` function in `WebSocketClientCommunicator`
+- `attribute_type` function in `WebSocketClientCommunicator`
+- `__init__` function in `WebSocketServerCommunicator`
+- `handle_message` function in `WebSocketServerCommunicator`
+- `_handle_download` function in `WebSocketServerCommunicator`
+- `_handle_upload` function in `WebSocketServerCommunicator`
+- `_handle_attribute_call` function in `WebSocketServerCommunicator`
+- `_handle_attribute_type` function in `WebSocketServerCommunicator`
+- `parse` function in `WebSocketServerCommunicator`
+- WebSocket streaming tests enabled
 ## [1.5] - 2026-01-26
 ### Added
 - `_is_remainder_cols_list` function in GeneralDataStructureTransporter
