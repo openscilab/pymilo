@@ -60,7 +60,7 @@ def prepare_ml_server(request):
     #         "--protocol", communication_protocol,
     #         "--port", "9000",
     #         "--load", os.path.join(os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json")
-    #         # "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons", "linear_regression.json",
+    #         # "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
     #     ],
     #     )
     path = os.path.join(

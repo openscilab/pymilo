@@ -432,10 +432,8 @@ class WebSocketClientCommunicator(ClientCommunicator):
         to ensure proper cleanup.
         """
         if self.websocket and not self.is_socket_closed():
-            try:
+            if self.loop and not self.loop.is_closed():
                 self.loop.run_until_complete(self.disconnect())
-            except RuntimeError:
-                pass
 
     def __del__(self):
         """Clean up WebSocket connection on object destruction."""
