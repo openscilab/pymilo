@@ -88,4 +88,10 @@ def scenario4(compression_method, communication_protocol):
     client_b.deregister()
     client_a.deregister()
 
+    # 12. Clean up WebSocket connections if applicable
+    if hasattr(client_a._communicator, 'close'):
+        client_a._communicator.close()
+    if hasattr(client_b._communicator, 'close'):
+        client_b._communicator.close()
+
     return 0

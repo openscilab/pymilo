@@ -422,6 +422,29 @@ class WebSocketClientCommunicator(ClientCommunicator):
         """Close the WebSocket connection."""
         if self.websocket:
             await self.websocket.close()
+            self.websocket = None
+
+    def close(self):
+        """
+        Synchronously close the WebSocket connection.
+
+        This method should be called before the event loop is closed
+        to ensure proper cleanup.
+        """
+        if self.websocket and not self.is_socket_closed():
+            try:
+                self.loop.run_until_complete(self.disconnect())
+            except RuntimeError:
+                pass
+
+    def __del__(self):
+        """Clean up WebSocket connection on object destruction."""
+        try:
+            if self.websocket and not self.is_socket_closed():
+                if self.loop and not self.loop.is_closed():
+                    self.loop.run_until_complete(self.disconnect())
+        except Exception:
+            pass
 
     async def send_message(self, action: str, payload: dict = None) -> dict:
         """
