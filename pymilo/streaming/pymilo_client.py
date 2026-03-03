@@ -208,7 +208,7 @@ class PymiloClient:
         """
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, _exc_type, _exc_val, _exc_tb):
         """
         Exit the context manager and close the connection.
 
@@ -219,10 +219,7 @@ class PymiloClient:
 
     def __del__(self):
         """Clean up resources on object destruction."""
-        try:
-            self.close()
-        except Exception:
-            pass
+        self.close()
 
     def __getattr__(self, attribute):
         """

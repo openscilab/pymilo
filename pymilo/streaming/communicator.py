@@ -426,7 +426,7 @@ class WebSocketClientCommunicator(ClientCommunicator):
 
     def close(self):
         """
-        Synchronously close the WebSocket connection.
+        Close the WebSocket connection synchronously.
 
         This method should be called before the event loop is closed
         to ensure proper cleanup.
@@ -439,12 +439,9 @@ class WebSocketClientCommunicator(ClientCommunicator):
 
     def __del__(self):
         """Clean up WebSocket connection on object destruction."""
-        try:
-            if self.websocket and not self.is_socket_closed():
-                if self.loop and not self.loop.is_closed():
-                    self.loop.run_until_complete(self.disconnect())
-        except Exception:
-            pass
+        if self.websocket and not self.is_socket_closed():
+            if self.loop and not self.loop.is_closed():
+                self.loop.run_until_complete(self.disconnect())
 
     async def send_message(self, action: str, payload: dict = None) -> dict:
         """
