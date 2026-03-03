@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `scenario4` access control test for streaming
 - `--port` argument in test server runner
 - `close` function in `WebSocketClientCommunicator`
+- `close` function in `PymiloClient`
+- Context manager support (`__enter__`/`__exit__`) in `PymiloClient`
 ### Changed
 - `_ArrayFunctionDispatcher` import in `FunctionTransporter` to use new numpy API
 - `datetime.utcnow()` to `datetime.now(timezone.utc)` in `PymiloException`

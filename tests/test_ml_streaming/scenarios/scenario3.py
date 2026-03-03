@@ -34,8 +34,5 @@ def scenario3(compression_method, communication_protocol):
     result = client.predict(x_test)
     mse_local = mean_squared_error(y_test, result)
 
-    # 4. Clean up WebSocket connection if applicable
-    if hasattr(client._communicator, 'close'):
-        client._communicator.close()
-
+    # 4.
     return np.abs(mse_server-mse_local)
