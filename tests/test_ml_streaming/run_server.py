@@ -26,16 +26,23 @@ def main():
         default=False,
         help='the `init` command specifies whether or not initializing the PyMilo Server with a ML model.',
     )
+    parser.add_argument(
+        '--port',
+        type=int,
+        default=None,
+        help='Override the default port.',
+    )
     args = parser.parse_args()
     communicator = None
     if args.init:
+        port = args.port if args.port else 9000
         x_train, y_train, _, _ = prepare_simple_regression_datasets()
         linear_regression = LinearRegression()
         linear_regression.fit(x_train, y_train)
         ps = PymiloServer(
-            port=9000,
+            port=port,
             compressor=Compression[args.compression],
-            communication_protocol= CommunicationProtocol[args.protocol],
+            communication_protocol=CommunicationProtocol[args.protocol],
             )
         sample_client_id = "0x_demo_client_id"
         sample_ml_model_id = "0x_demo_ml_model_id"
@@ -44,8 +51,9 @@ def main():
         ps.set_ml_model(sample_client_id, sample_ml_model_id, linear_regression)
         communicator = ps.communicator
     else:
+        port = args.port if args.port else 8000
         communicator = PymiloServer(
-            port=8000,
+            port=port,
             compressor=Compression[args.compression],
             communication_protocol=CommunicationProtocol[args.protocol],
             ).communicator
