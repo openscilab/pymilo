@@ -8,10 +8,14 @@ from numpy import ufunc
 
 array_function_dispatcher_support = False
 try:
-    from numpy.core._multiarray_umath import _ArrayFunctionDispatcher
+    from numpy._core._multiarray_umath import _ArrayFunctionDispatcher
     array_function_dispatcher_support = True
-except BaseException:
-    pass
+except ImportError:
+    try:
+        from numpy.core._multiarray_umath import _ArrayFunctionDispatcher
+        array_function_dispatcher_support = True
+    except ImportError:
+        pass
 
 
 class FunctionTransporter(AbstractTransporter):
