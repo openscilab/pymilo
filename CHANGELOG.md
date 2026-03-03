@@ -28,7 +28,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `_handle_get_allowed_models` function in `WebSocketServerCommunicator`
 - `scenario4` access control test for streaming
 - `--port` argument in test server runner
+- `close` function in `WebSocketClientCommunicator`
 ### Changed
+- `_ArrayFunctionDispatcher` import in `FunctionTransporter` to use new numpy API
+- `datetime.utcnow()` to `datetime.now(timezone.utc)` in `PymiloException`
 - `get_allowance` endpoint in `RESTServerCommunicator` to handle empty allowances
 - `send_message` function in `WebSocketClientCommunicator`
 - `download` function in `WebSocketClientCommunicator`
