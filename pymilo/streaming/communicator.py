@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """PyMilo Communication Mediums."""
+from __future__ import annotations
+
 import uuid
 import json
 import asyncio
+from typing import Any, Dict, List, Optional, Union
 import uvicorn
 import requests
 import websockets
@@ -16,13 +19,11 @@ from .util import validate_websocket_url, validate_http_url
 class RESTClientCommunicator(ClientCommunicator):
     """Facilitate working with the communication medium from the client side for the REST protocol."""
 
-    def __init__(self, server_url):
+    def __init__(self, server_url: str) -> None:
         """
         Initialize the Pymilo RESTClientCommunicator instance.
 
         :param server_url: the url to which PyMilo Server listens
-        :type server_url: str
-        :return: an instance of the Pymilo RESTClientCommunicator class
         """
         is_valid, server_url = validate_http_url(server_url)
         if not is_valid:
@@ -51,7 +52,7 @@ class RESTClientCommunicator(ClientCommunicator):
         response.raise_for_status()
         return response.json()["payload"]
 
-    def upload(self, client_id, model_id, model):
+    def upload(self, client_id: str, model_id: str, model: Any) -> bool:
         """
         Upload the local ML model to the remote server.
 
@@ -78,7 +79,7 @@ class RESTClientCommunicator(ClientCommunicator):
         response.raise_for_status()
         return response.json()
 
-    def attribute_type(self, client_id, model_id, type_payload):
+    def attribute_type(self, client_id: str, model_id: str, type_payload: Dict) -> Dict:
         """
         Identify the attribute type of the requested attribute.
 
@@ -92,7 +93,7 @@ class RESTClientCommunicator(ClientCommunicator):
         response.raise_for_status()
         return response.json()
 
-    def register_client(self):
+    def register_client(self) -> str:
         """
         Register client in the PyMiloServer.
 
@@ -102,55 +103,50 @@ class RESTClientCommunicator(ClientCommunicator):
         response.raise_for_status()
         return response.json()["client_id"]
 
-    def remove_client(self, client_id):
+    def remove_client(self, client_id: str) -> bool:
         """
         Remove client from the PyMiloServer.
 
         :param client_id: id of the client to remove
-        :type client_id: str
         :return: True if removal was successful, False otherwise
         """
         response = self.session.delete(f"{self._server_url}/clients/{client_id}", timeout=5)
         return response.status_code == 200
 
-    def register_model(self, client_id):
+    def register_model(self, client_id: str) -> str:
         """
         Register ML model in the PyMiloServer.
 
         :param client_id: id of the client who owns the model
-        :type client_id: str
         :return: newly allocated ml model id
         """
         response = self.session.post(f"{self._server_url}/clients/{client_id}/models/register", timeout=5)
         response.raise_for_status()
         return response.json()["ml_model_id"]
 
-    def remove_model(self, client_id, model_id):
+    def remove_model(self, client_id: str, model_id: str) -> bool:
         """
         Remove ML model from the PyMiloServer.
 
         :param client_id: client owning the model
-        :type client_id: str
         :param model_id: model to remove
-        :type model_id: str
         :return: True if removal was successful, False otherwise
         """
         response = self.session.delete(f"{self._server_url}/clients/{client_id}/models/{model_id}", timeout=5)
         return response.status_code == 200
 
-    def get_ml_models(self, client_id):
+    def get_ml_models(self, client_id: str) -> List[str]:
         """
         Get all ML models registered for this specific client in the PyMiloServer.
 
         :param client_id: client whose models are being queried
-        :type client_id: str
         :return: list of ml model ids
         """
         response = self.session.get(f"{self._server_url}/clients/{client_id}/models", timeout=5)
         response.raise_for_status()
         return response.json()["ml_models_id"]
 
-    def grant_access(self, allower_id, allowee_id, model_id):
+    def grant_access(self, allower_id: str, allowee_id: str, model_id: str) -> bool:
         """
         Grant access to a model to another client.
 
@@ -163,7 +159,7 @@ class RESTClientCommunicator(ClientCommunicator):
         response = self.session.post(url, timeout=5)
         return response.status_code == 200
 
-    def revoke_access(self, revoker_id, revokee_id, model_id):
+    def revoke_access(self, revoker_id: str, revokee_id: str, model_id: str) -> bool:
         """
         Revoke previously granted model access.
 
@@ -176,7 +172,7 @@ class RESTClientCommunicator(ClientCommunicator):
         response = self.session.post(url, timeout=5)
         return response.status_code == 200
 
-    def get_allowance(self, allower_id):
+    def get_allowance(self, allower_id: str) -> Dict[str, List[str]]:
         """
         Get the list of all allowees and their allowed models from a given allower.
 
@@ -187,7 +183,7 @@ class RESTClientCommunicator(ClientCommunicator):
         response.raise_for_status()
         return response.json()["allowance"]
 
-    def get_allowed_models(self, allower_id, allowee_id):
+    def get_allowed_models(self, allower_id: str, allowee_id: str) -> List[str]:
         """
         Get the list of models that one client is allowed to access from another.
 
@@ -214,12 +210,8 @@ class RESTServerCommunicator():
         Initialize the Pymilo RESTServerCommunicator instance.
 
         :param ps: reference to the PyMilo server
-        :type ps: pymilo.streaming.PymiloServer
         :param host: the url to which PyMilo Server listens
-        :type host: str
         :param port: the port to which PyMilo Server listens
-        :type port: int
-        :return: an instance of the Pymilo RESTServerCommunicator class
         """
         self._ps = ps
         self.host = host
@@ -357,7 +349,6 @@ class RESTServerCommunicator():
         Parse the compressed encrypted body of the request.
 
         :param body: request body
-        :type body: str
         :return: the extracted decrypted version
         """
         return json.loads(
@@ -382,8 +373,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
         Initialize the WebSocketClientCommunicator instance.
 
         :param server_url: the WebSocket server URL to connect to.
-        :type server_url: str
-        :return: an instance of the Pymilo WebSocketClientCommunicator class
         """
         is_valid, url = validate_websocket_url(server_url)
         if not is_valid:
@@ -424,31 +413,31 @@ class WebSocketClientCommunicator(ClientCommunicator):
             await self.websocket.close()
             self.websocket = None
 
-    def close(self):
+    def _disconnect_sync(self) -> None:
+        """Close the WebSocket connection synchronously if still open."""
+        if self.websocket and not self.is_socket_closed():
+            if self.loop and not self.loop.is_closed():
+                self.loop.run_until_complete(self.disconnect())
+
+    def close(self) -> None:
         """
         Close the WebSocket connection synchronously.
 
         This method should be called before the event loop is closed
         to ensure proper cleanup.
         """
-        if self.websocket and not self.is_socket_closed():
-            if self.loop and not self.loop.is_closed():
-                self.loop.run_until_complete(self.disconnect())
+        self._disconnect_sync()
 
-    def __del__(self):
+    def __del__(self) -> None:
         """Clean up WebSocket connection on object destruction."""
-        if self.websocket and not self.is_socket_closed():
-            if self.loop and not self.loop.is_closed():
-                self.loop.run_until_complete(self.disconnect())
+        self._disconnect_sync()
 
-    async def send_message(self, action: str, payload: dict = None) -> dict:
+    async def send_message(self, action: str, payload: Optional[Dict] = None) -> Dict:
         """
         Send a message to the WebSocket server.
 
         :param action: the type of action to perform (e.g., 'download', 'upload').
-        :type action: str
         :param payload: the payload associated with the action.
-        :type payload: dict
         :return: the server's response as a JSON object.
         """
         await self.connection_established.wait()
@@ -461,26 +450,21 @@ class WebSocketClientCommunicator(ClientCommunicator):
         response = await self.websocket.recv()
         return json.loads(response)
 
-    def _check_response_error(self, response: dict) -> None:
+    def _check_response_error(self, response: Dict) -> None:
         """
         Check if the server response contains an error and raise an exception if so.
 
         :param response: the server's response.
-        :type response: dict
-        :return: None
-        :raises RuntimeError: if the response contains an error.
         """
         if "error" in response:
             raise RuntimeError(response["error"])
 
-    def download(self, client_id, model_id):
+    def download(self, client_id: str, model_id: str) -> str:
         """
         Request for the remote ML model to download.
 
         :param client_id: ID of the requesting client
-        :type client_id: str
         :param model_id: ID of the model to download
-        :type model_id: str
         :return: string serialized model
         """
         response = self.loop.run_until_complete(
@@ -492,14 +476,12 @@ class WebSocketClientCommunicator(ClientCommunicator):
         self._check_response_error(response)
         return response.get("payload")
 
-    def upload(self, client_id, model_id, model):
+    def upload(self, client_id: str, model_id: str, model: Any) -> bool:
         """
         Upload the local ML model to the remote server.
 
         :param client_id: ID of the client
-        :type client_id: str
         :param model_id: ID of the model
-        :type model_id: str
         :param model: serialized model content
         :return: True if upload was successful, False otherwise
         """
@@ -512,14 +494,12 @@ class WebSocketClientCommunicator(ClientCommunicator):
         )
         return "error" not in response
 
-    def attribute_call(self, client_id, model_id, call_payload):
+    def attribute_call(self, client_id: str, model_id: str, call_payload: Dict) -> Dict:
         """
         Delegate the requested attribute call to the remote server.
 
         :param client_id: ID of the client
-        :type client_id: str
         :param model_id: ID of the model
-        :type model_id: str
         :param call_payload: payload containing attribute name, args, and kwargs
         :return: json-encoded response of pymilo server
         """
@@ -533,14 +513,12 @@ class WebSocketClientCommunicator(ClientCommunicator):
         self._check_response_error(response)
         return response
 
-    def attribute_type(self, client_id, model_id, type_payload):
+    def attribute_type(self, client_id: str, model_id: str, type_payload: Dict) -> Dict:
         """
         Identify the attribute type of the requested attribute.
 
         :param client_id: ID of the client
-        :type client_id: str
         :param model_id: ID of the model
-        :type model_id: str
         :param type_payload: payload containing attribute data to inspect
         :return: response of pymilo server
         """
@@ -554,7 +532,7 @@ class WebSocketClientCommunicator(ClientCommunicator):
         self._check_response_error(response)
         return response
 
-    def register_client(self):
+    def register_client(self) -> str:
         """
         Register client in the PyMiloServer.
 
@@ -566,12 +544,11 @@ class WebSocketClientCommunicator(ClientCommunicator):
         self._check_response_error(response)
         return response["client_id"]
 
-    def remove_client(self, client_id):
+    def remove_client(self, client_id: str) -> bool:
         """
         Remove client from the PyMiloServer.
 
         :param client_id: id of the client to remove
-        :type client_id: str
         :return: True if removal was successful, False otherwise
         """
         response = self.loop.run_until_complete(
@@ -593,14 +570,12 @@ class WebSocketClientCommunicator(ClientCommunicator):
         self._check_response_error(response)
         return response["ml_model_id"]
 
-    def remove_model(self, client_id, model_id):
+    def remove_model(self, client_id: str, model_id: str) -> bool:
         """
         Remove ML model from the PyMiloServer.
 
         :param client_id: client owning the model
-        :type client_id: str
         :param model_id: model to remove
-        :type model_id: str
         :return: True if removal was successful, False otherwise
         """
         response = self.loop.run_until_complete(
@@ -611,12 +586,11 @@ class WebSocketClientCommunicator(ClientCommunicator):
         )
         return "error" not in response
 
-    def get_ml_models(self, client_id):
+    def get_ml_models(self, client_id: str) -> List[str]:
         """
         Get all ML models registered for this specific client in the PyMiloServer.
 
         :param client_id: client whose models are being queried
-        :type client_id: str
         :return: list of ml model ids
         """
         response = self.loop.run_until_complete(
@@ -625,16 +599,13 @@ class WebSocketClientCommunicator(ClientCommunicator):
         self._check_response_error(response)
         return response["ml_models_id"]
 
-    def grant_access(self, allower_id, allowee_id, model_id):
+    def grant_access(self, allower_id: str, allowee_id: str, model_id: str) -> bool:
         """
         Grant access to a model to another client.
 
         :param allower_id: ID of the client granting access
-        :type allower_id: str
         :param allowee_id: ID of the client being granted access
-        :type allowee_id: str
         :param model_id: ID of the model being shared
-        :type model_id: str
         :return: True if successful, False otherwise
         """
         response = self.loop.run_until_complete(
@@ -646,16 +617,13 @@ class WebSocketClientCommunicator(ClientCommunicator):
         )
         return "error" not in response
 
-    def revoke_access(self, revoker_id, revokee_id, model_id):
+    def revoke_access(self, revoker_id: str, revokee_id: str, model_id: str) -> bool:
         """
         Revoke previously granted model access.
 
         :param revoker_id: ID of the client revoking access
-        :type revoker_id: str
         :param revokee_id: ID of the client whose access is being revoked
-        :type revokee_id: str
         :param model_id: ID of the model
-        :type model_id: str
         :return: True if successful, False otherwise
         """
         response = self.loop.run_until_complete(
@@ -672,7 +640,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
         Get the list of all allowees and their allowed models from a given allower.
 
         :param allower_id: ID of the allower
-        :type allower_id: str
         :return: dict of allowees to model lists
         """
         response = self.loop.run_until_complete(
@@ -681,14 +648,12 @@ class WebSocketClientCommunicator(ClientCommunicator):
         self._check_response_error(response)
         return response["allowance"]
 
-    def get_allowed_models(self, allower_id, allowee_id):
+    def get_allowed_models(self, allower_id: str, allowee_id: str) -> List[str]:
         """
         Get the list of models that one client is allowed to access from another.
 
         :param allower_id: ID of the model owner
-        :type allower_id: str
         :param allowee_id: ID of the requesting client
-        :type allowee_id: str
         :return: list of model IDs
         """
         response = self.loop.run_until_complete(
@@ -714,12 +679,8 @@ class WebSocketServerCommunicator:
         Initialize the WebSocketServerCommunicator instance.
 
         :param ps: reference to the PyMilo server.
-        :type ps: pymilo.streaming.PymiloServer
         :param host: the WebSocket server host address.
-        :type host: str
         :param port: the WebSocket server port.
-        :type port: int
-        :return: an instance of the WebSocketServerCommunicator class.
         """
         self._ps = ps
         self.host = host
@@ -755,12 +716,11 @@ class WebSocketServerCommunicator:
             except WebSocketDisconnect:
                 self.disconnect(websocket)
 
-    async def connect(self, websocket: WebSocket):
+    async def connect(self, websocket: WebSocket) -> None:
         """
         Accept a WebSocket connection and store it.
 
         :param websocket: the WebSocket connection to accept.
-        :type websocket: WebSocket
         """
         await websocket.accept()
         self.active_connections.append(websocket)
@@ -774,14 +734,12 @@ class WebSocketServerCommunicator:
         """
         self.active_connections.remove(websocket)
 
-    async def handle_message(self, websocket: WebSocket, message: str):
+    async def handle_message(self, websocket: WebSocket, message: str) -> None:
         """
         Handle messages received from WebSocket clients.
 
         :param websocket: the WebSocket connection from which the message was received.
-        :type websocket: WebSocket
         :param message: the message received from the client.
-        :type message: str
         """
         try:
             message = json.loads(message)
@@ -805,7 +763,6 @@ class WebSocketServerCommunicator:
         Handle client registration requests.
 
         :param payload: the payload (empty for this action).
-        :type payload: dict
         :return: a response containing the newly allocated client ID.
         """
         client_id = str(uuid.uuid4())
@@ -820,7 +777,6 @@ class WebSocketServerCommunicator:
         Handle client removal requests.
 
         :param payload: the payload containing the client ID to remove.
-        :type payload: dict
         :return: a response indicating success or failure.
         """
         client_id = payload.get("client_id")
@@ -837,7 +793,6 @@ class WebSocketServerCommunicator:
         Handle ML model registration requests.
 
         :param payload: the payload containing the client ID.
-        :type payload: dict
         :return: a response containing the newly allocated model ID.
         """
         client_id = payload.get("client_id")
@@ -856,7 +811,6 @@ class WebSocketServerCommunicator:
         Handle ML model removal requests.
 
         :param payload: the payload containing the client ID and model ID.
-        :type payload: dict
         :return: a response indicating success or failure.
         """
         client_id = payload.get("client_id")
@@ -875,7 +829,6 @@ class WebSocketServerCommunicator:
         Handle requests to get all ML models for a client.
 
         :param payload: the payload containing the client ID.
-        :type payload: dict
         :return: a response containing the list of model IDs.
         """
         client_id = payload.get("client_id")
@@ -890,7 +843,6 @@ class WebSocketServerCommunicator:
         Handle requests to grant model access to another client.
 
         :param payload: the payload containing allower_id, allowee_id, and model_id.
-        :type payload: dict
         :return: a response indicating success or failure.
         """
         allower_id = payload.get("allower_id")
@@ -911,7 +863,6 @@ class WebSocketServerCommunicator:
         Handle requests to revoke model access from another client.
 
         :param payload: the payload containing revoker_id, revokee_id, and model_id.
-        :type payload: dict
         :return: a response indicating success or failure.
         """
         revoker_id = payload.get("revoker_id")
@@ -932,7 +883,6 @@ class WebSocketServerCommunicator:
         Handle requests to get all allowances for a client.
 
         :param payload: the payload containing the allower_id.
-        :type payload: dict
         :return: a response containing the allowance dictionary.
         """
         allower_id = payload.get("allower_id")
@@ -950,7 +900,6 @@ class WebSocketServerCommunicator:
         Handle requests to get allowed models for a specific allowee.
 
         :param payload: the payload containing allower_id and allowee_id.
-        :type payload: dict
         :return: a response containing the list of allowed model IDs.
         """
         allower_id = payload.get("allower_id")
@@ -970,7 +919,6 @@ class WebSocketServerCommunicator:
         Handle download requests.
 
         :param payload: the payload containing the ids associated with the requested model for download.
-        :type payload: dict
         :return: a response containing the exported model.
         """
         client_id = payload.get("client_id")
@@ -988,7 +936,6 @@ class WebSocketServerCommunicator:
         Handle upload requests.
 
         :param payload: the payload containing the model data to upload.
-        :type payload: dict
         :return: a response indicating that the upload was processed.
         """
         client_id = payload.get("client_id")
@@ -1013,7 +960,6 @@ class WebSocketServerCommunicator:
         Handle attribute call requests.
 
         :param payload: the payload containing the attribute call details.
-        :type payload: dict
         :return: a response with the result of the attribute call.
         """
         client_id = payload.get("client_id")
@@ -1036,7 +982,6 @@ class WebSocketServerCommunicator:
         Handle attribute type queries.
 
         :param payload: the payload containing the attribute to query.
-        :type payload: dict
         :return: a response with the attribute type and value.
         """
         client_id = payload.get("client_id")
@@ -1055,12 +1000,11 @@ class WebSocketServerCommunicator:
             "attribute value": "" if is_callable else field_value,
         }
 
-    def parse(self, message) -> dict:
+    def parse(self, message: Union[str, Dict]) -> Dict:
         """
         Parse the encrypted and compressed message.
 
         :param message: the encrypted and compressed message to parse.
-        :type message: str | dict
         :return: the decrypted and extracted version of the message.
         """
         if isinstance(message, dict):
