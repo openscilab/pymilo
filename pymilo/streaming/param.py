@@ -12,3 +12,12 @@ PYMILO_INVALID_URL = "The given URL is not valid."
 PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED = "WebSocket is not connected."
 
 REST_API_PREFIX = "/api/v1"
+
+MSG_DOWNLOAD_REQUEST = "Download request from client: {client_id} for model: {ml_model_id}"
+MSG_UPLOAD_REQUEST = "Upload request from client: {client_id} for model: {ml_model_id}"
+MSG_ATTRIBUTE_CALL_REQUEST = "Attribute call request from client: {client_id} for model: {ml_model_id}"
+MSG_ATTRIBUTE_TYPE_REQUEST = "Attribute type request from client: {client_id} for model: {ml_model_id}"
+MSG_REST_DOWNLOAD_REQUEST = "/download request from client: {client_id} for model: {ml_model_id}"
+MSG_REST_UPLOAD_REQUEST = "/upload request from client: {client_id} for model: {ml_model_id}"
+MSG_REST_ATTRIBUTE_CALL_REQUEST = "/attribute_call request from client: {client_id} for model: {ml_model_id}"
+MSG_REST_ATTRIBUTE_TYPE_REQUEST = "/attribute_type request from client: {client_id} for model: {ml_model_id}"
