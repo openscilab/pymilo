@@ -12,7 +12,19 @@ import websockets
 from enum import Enum
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, HTTPException
 from .interfaces import ClientCommunicator
-from .param import PYMILO_INVALID_URL, PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED, REST_API_PREFIX
+from .param import (
+    PYMILO_INVALID_URL,
+    PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED,
+    REST_API_PREFIX,
+    MSG_DOWNLOAD_REQUEST,
+    MSG_UPLOAD_REQUEST,
+    MSG_ATTRIBUTE_CALL_REQUEST,
+    MSG_ATTRIBUTE_TYPE_REQUEST,
+    MSG_REST_DOWNLOAD_REQUEST,
+    MSG_REST_UPLOAD_REQUEST,
+    MSG_REST_ATTRIBUTE_CALL_REQUEST,
+    MSG_REST_ATTRIBUTE_TYPE_REQUEST,
+)
 from .util import validate_websocket_url, validate_http_url
 
 
@@ -39,13 +51,12 @@ class RESTClientCommunicator(ClientCommunicator):
         self.session.mount('http://', adapter)
         self.session.mount('https://', adapter)
 
-    def download(self, client_id, model_id):
+    def download(self, client_id: str, model_id: str) -> str:
         """
         Request for the remote ML model to download.
 
         :param client_id: ID of the requesting client
         :param model_id: ID of the model to download
-        :return: string serialized model
         """
         url = f"{self._server_url}/clients/{client_id}/models/{model_id}/download"
         response = self.session.get(url, timeout=5)
@@ -59,20 +70,18 @@ class RESTClientCommunicator(ClientCommunicator):
         :param client_id: ID of the client
         :param model_id: ID of the model
         :param model: serialized model content
-        :return: True if upload was successful, False otherwise
         """
         url = f"{self._server_url}/clients/{client_id}/models/{model_id}/upload"
         response = self.session.post(url, json=model, timeout=5)
         return response.status_code == 200
 
-    def attribute_call(self, client_id, model_id, call_payload):
+    def attribute_call(self, client_id: str, model_id: str, call_payload: Dict) -> Dict:
         """
         Delegate the requested attribute call to the remote server.
 
         :param client_id: ID of the client
         :param model_id: ID of the model
         :param call_payload: payload containing attribute name, args, and kwargs
-        :return: json-encoded response of pymilo server
         """
         url = f"{self._server_url}/clients/{client_id}/models/{model_id}/attribute-call"
         response = self.session.post(url, json=call_payload, timeout=5)
@@ -86,7 +95,6 @@ class RESTClientCommunicator(ClientCommunicator):
         :param client_id: ID of the client
         :param model_id: ID of the model
         :param type_payload: payload containing attribute data to inspect
-        :return: response of pymilo server
         """
         url = f"{self._server_url}/clients/{client_id}/models/{model_id}/attribute-type"
         response = self.session.post(url, json=type_payload, timeout=5)
@@ -94,11 +102,7 @@ class RESTClientCommunicator(ClientCommunicator):
         return response.json()
 
     def register_client(self) -> str:
-        """
-        Register client in the PyMiloServer.
-
-        :return: newly allocated client id
-        """
+        """Register client in the PyMiloServer."""
         response = self.session.get(f"{self._server_url}/clients/register", timeout=5)
         response.raise_for_status()
         return response.json()["client_id"]
@@ -108,7 +112,6 @@ class RESTClientCommunicator(ClientCommunicator):
         Remove client from the PyMiloServer.
 
         :param client_id: id of the client to remove
-        :return: True if removal was successful, False otherwise
         """
         response = self.session.delete(f"{self._server_url}/clients/{client_id}", timeout=5)
         return response.status_code == 200
@@ -118,7 +121,6 @@ class RESTClientCommunicator(ClientCommunicator):
         Register ML model in the PyMiloServer.
 
         :param client_id: id of the client who owns the model
-        :return: newly allocated ml model id
         """
         response = self.session.post(f"{self._server_url}/clients/{client_id}/models/register", timeout=5)
         response.raise_for_status()
@@ -130,7 +132,6 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param client_id: client owning the model
         :param model_id: model to remove
-        :return: True if removal was successful, False otherwise
         """
         response = self.session.delete(f"{self._server_url}/clients/{client_id}/models/{model_id}", timeout=5)
         return response.status_code == 200
@@ -140,7 +141,6 @@ class RESTClientCommunicator(ClientCommunicator):
         Get all ML models registered for this specific client in the PyMiloServer.
 
         :param client_id: client whose models are being queried
-        :return: list of ml model ids
         """
         response = self.session.get(f"{self._server_url}/clients/{client_id}/models", timeout=5)
         response.raise_for_status()
@@ -153,7 +153,6 @@ class RESTClientCommunicator(ClientCommunicator):
         :param allower_id: ID of the client granting access
         :param allowee_id: ID of the client being granted access
         :param model_id: ID of the model being shared
-        :return: True if successful, False otherwise
         """
         url = f"{self._server_url}/clients/{allower_id}/grant/{allowee_id}/models/{model_id}"
         response = self.session.post(url, timeout=5)
@@ -166,7 +165,6 @@ class RESTClientCommunicator(ClientCommunicator):
         :param revoker_id: ID of the client revoking access
         :param revokee_id: ID of the client whose access is being revoked
         :param model_id: ID of the model
-        :return: True if successful, False otherwise
         """
         url = f"{self._server_url}/clients/{revoker_id}/revoke/{revokee_id}/models/{model_id}"
         response = self.session.post(url, timeout=5)
@@ -177,7 +175,6 @@ class RESTClientCommunicator(ClientCommunicator):
         Get the list of all allowees and their allowed models from a given allower.
 
         :param allower_id: ID of the allower
-        :return: dict of allowees to model lists
         """
         response = self.session.get(f"{self._server_url}/clients/{allower_id}/allowances", timeout=5)
         response.raise_for_status()
@@ -189,7 +186,6 @@ class RESTClientCommunicator(ClientCommunicator):
 
         :param allower_id: ID of the model owner
         :param allowee_id: ID of the requesting client
-        :return: list of model IDs
         """
         url = f"{self._server_url}/clients/{allower_id}/allowances/{allowee_id}"
         response = self.session.get(url, timeout=5)
@@ -300,7 +296,7 @@ class RESTServerCommunicator():
             if not is_valid:
                 raise HTTPException(status_code=404, detail=reason)
             return {
-                "message": f"/download request from client: {client_id} for model: {ml_model_id}",
+                "message": MSG_REST_DOWNLOAD_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
                 "payload": self._ps.export_model(client_id, ml_model_id)
             }
 
@@ -315,7 +311,7 @@ class RESTServerCommunicator():
                 raise HTTPException(status_code=404, detail=reason)
 
             return {
-                "message": f"/upload request from client: {client_id} for model: {ml_model_id}",
+                "message": MSG_REST_UPLOAD_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
                 "payload": self._ps.update_model(client_id, ml_model_id, model_data)
             }
 
@@ -327,7 +323,7 @@ class RESTServerCommunicator():
                 raise HTTPException(status_code=404, detail=reason)
             result = self._ps.execute_model(request_payload)
             return {
-                "message": f"/attribute_call request from client: {client_id} for model: {ml_model_id}",
+                "message": MSG_REST_ATTRIBUTE_CALL_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
                 "payload": result or "The ML model has been updated in place."
             }
 
@@ -339,17 +335,16 @@ class RESTServerCommunicator():
                 raise HTTPException(status_code=404, detail=reason)
             is_callable, field_value = self._ps.is_callable_attribute(request)
             return {
-                "message": f"/attribute_type request from client: {client_id} for model: {ml_model_id}",
+                "message": MSG_REST_ATTRIBUTE_TYPE_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
                 "attribute type": "method" if is_callable else "field",
                 "attribute value": "" if is_callable else field_value,
             }
 
-    def parse(self, body):
+    def parse(self, body: str) -> Dict:
         """
         Parse the compressed encrypted body of the request.
 
         :param body: request body
-        :return: the extracted decrypted version
         """
         return json.loads(
             self._ps._compressor.extract(
@@ -387,12 +382,8 @@ class WebSocketClientCommunicator(ClientCommunicator):
             self.loop = asyncio.get_event_loop()
         self.loop.run_until_complete(self.connect())
 
-    def is_socket_closed(self):
-        """
-        Check if the WebSocket connection is closed.
-
-        :return: `True` if the WebSocket connection is closed or uninitialized, `False` otherwise.
-        """
+    def is_socket_closed(self) -> bool:
+        """Check if the WebSocket connection is closed."""
         if self.websocket is None:
             return True
         elif hasattr(self.websocket, "closed"):
@@ -438,7 +429,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
 
         :param action: the type of action to perform (e.g., 'download', 'upload').
         :param payload: the payload associated with the action.
-        :return: the server's response as a JSON object.
         """
         await self.connection_established.wait()
 
@@ -465,7 +455,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
 
         :param client_id: ID of the requesting client
         :param model_id: ID of the model to download
-        :return: string serialized model
         """
         response = self.loop.run_until_complete(
             self.send_message("download", {
@@ -483,7 +472,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
         :param client_id: ID of the client
         :param model_id: ID of the model
         :param model: serialized model content
-        :return: True if upload was successful, False otherwise
         """
         response = self.loop.run_until_complete(
             self.send_message("upload", {
@@ -492,7 +480,8 @@ class WebSocketClientCommunicator(ClientCommunicator):
                 "model": model,
             })
         )
-        return "error" not in response
+        self._check_response_error(response)
+        return True
 
     def attribute_call(self, client_id: str, model_id: str, call_payload: Dict) -> Dict:
         """
@@ -501,7 +490,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
         :param client_id: ID of the client
         :param model_id: ID of the model
         :param call_payload: payload containing attribute name, args, and kwargs
-        :return: json-encoded response of pymilo server
         """
         response = self.loop.run_until_complete(
             self.send_message("attribute_call", {
@@ -520,7 +508,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
         :param client_id: ID of the client
         :param model_id: ID of the model
         :param type_payload: payload containing attribute data to inspect
-        :return: response of pymilo server
         """
         response = self.loop.run_until_complete(
             self.send_message("attribute_type", {
@@ -533,11 +520,7 @@ class WebSocketClientCommunicator(ClientCommunicator):
         return response
 
     def register_client(self) -> str:
-        """
-        Register client in the PyMiloServer.
-
-        :return: newly allocated client id
-        """
+        """Register client in the PyMiloServer."""
         response = self.loop.run_until_complete(
             self.send_message("register_client")
         )
@@ -549,20 +532,18 @@ class WebSocketClientCommunicator(ClientCommunicator):
         Remove client from the PyMiloServer.
 
         :param client_id: id of the client to remove
-        :return: True if removal was successful, False otherwise
         """
         response = self.loop.run_until_complete(
             self.send_message("remove_client", {"client_id": client_id})
         )
-        return "error" not in response
+        self._check_response_error(response)
+        return True
 
-    def register_model(self, client_id):
+    def register_model(self, client_id: str) -> str:
         """
         Register ML model in the PyMiloServer.
 
         :param client_id: id of the client who owns the model
-        :type client_id: str
-        :return: newly allocated ml model id
         """
         response = self.loop.run_until_complete(
             self.send_message("register_model", {"client_id": client_id})
@@ -576,7 +557,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
 
         :param client_id: client owning the model
         :param model_id: model to remove
-        :return: True if removal was successful, False otherwise
         """
         response = self.loop.run_until_complete(
             self.send_message("remove_model", {
@@ -584,14 +564,14 @@ class WebSocketClientCommunicator(ClientCommunicator):
                 "ml_model_id": model_id,
             })
         )
-        return "error" not in response
+        self._check_response_error(response)
+        return True
 
     def get_ml_models(self, client_id: str) -> List[str]:
         """
         Get all ML models registered for this specific client in the PyMiloServer.
 
         :param client_id: client whose models are being queried
-        :return: list of ml model ids
         """
         response = self.loop.run_until_complete(
             self.send_message("get_ml_models", {"client_id": client_id})
@@ -606,7 +586,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
         :param allower_id: ID of the client granting access
         :param allowee_id: ID of the client being granted access
         :param model_id: ID of the model being shared
-        :return: True if successful, False otherwise
         """
         response = self.loop.run_until_complete(
             self.send_message("grant_access", {
@@ -615,7 +594,8 @@ class WebSocketClientCommunicator(ClientCommunicator):
                 "model_id": model_id,
             })
         )
-        return "error" not in response
+        self._check_response_error(response)
+        return True
 
     def revoke_access(self, revoker_id: str, revokee_id: str, model_id: str) -> bool:
         """
@@ -624,7 +604,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
         :param revoker_id: ID of the client revoking access
         :param revokee_id: ID of the client whose access is being revoked
         :param model_id: ID of the model
-        :return: True if successful, False otherwise
         """
         response = self.loop.run_until_complete(
             self.send_message("revoke_access", {
@@ -633,14 +612,14 @@ class WebSocketClientCommunicator(ClientCommunicator):
                 "model_id": model_id,
             })
         )
-        return "error" not in response
+        self._check_response_error(response)
+        return True
 
-    def get_allowance(self, allower_id):
+    def get_allowance(self, allower_id: str) -> Dict[str, List[str]]:
         """
         Get the list of all allowees and their allowed models from a given allower.
 
         :param allower_id: ID of the allower
-        :return: dict of allowees to model lists
         """
         response = self.loop.run_until_complete(
             self.send_message("get_allowance", {"allower_id": allower_id})
@@ -654,7 +633,6 @@ class WebSocketClientCommunicator(ClientCommunicator):
 
         :param allower_id: ID of the model owner
         :param allowee_id: ID of the requesting client
-        :return: list of model IDs
         """
         response = self.loop.run_until_complete(
             self.send_message("get_allowed_models", {
@@ -725,12 +703,11 @@ class WebSocketServerCommunicator:
         await websocket.accept()
         self.active_connections.append(websocket)
 
-    def disconnect(self, websocket: WebSocket):
+    def disconnect(self, websocket: WebSocket) -> None:
         """
         Handle WebSocket disconnection.
 
         :param websocket: the WebSocket connection to remove.
-        :type websocket: WebSocket
         """
         self.active_connections.remove(websocket)
 
@@ -763,7 +740,6 @@ class WebSocketServerCommunicator:
         Handle client registration requests.
 
         :param payload: the payload (empty for this action).
-        :return: a response containing the newly allocated client ID.
         """
         client_id = str(uuid.uuid4())
         self._ps.init_client(client_id)
@@ -777,7 +753,6 @@ class WebSocketServerCommunicator:
         Handle client removal requests.
 
         :param payload: the payload containing the client ID to remove.
-        :return: a response indicating success or failure.
         """
         client_id = payload.get("client_id")
         is_succeed, detail_message = self._ps.remove_client(client_id)
@@ -793,7 +768,6 @@ class WebSocketServerCommunicator:
         Handle ML model registration requests.
 
         :param payload: the payload containing the client ID.
-        :return: a response containing the newly allocated model ID.
         """
         client_id = payload.get("client_id")
         ml_model_id = str(uuid.uuid4())
@@ -811,7 +785,6 @@ class WebSocketServerCommunicator:
         Handle ML model removal requests.
 
         :param payload: the payload containing the client ID and model ID.
-        :return: a response indicating success or failure.
         """
         client_id = payload.get("client_id")
         ml_model_id = payload.get("ml_model_id")
@@ -829,7 +802,6 @@ class WebSocketServerCommunicator:
         Handle requests to get all ML models for a client.
 
         :param payload: the payload containing the client ID.
-        :return: a response containing the list of model IDs.
         """
         client_id = payload.get("client_id")
         return {
@@ -843,7 +815,6 @@ class WebSocketServerCommunicator:
         Handle requests to grant model access to another client.
 
         :param payload: the payload containing allower_id, allowee_id, and model_id.
-        :return: a response indicating success or failure.
         """
         allower_id = payload.get("allower_id")
         allowee_id = payload.get("allowee_id")
@@ -863,7 +834,6 @@ class WebSocketServerCommunicator:
         Handle requests to revoke model access from another client.
 
         :param payload: the payload containing revoker_id, revokee_id, and model_id.
-        :return: a response indicating success or failure.
         """
         revoker_id = payload.get("revoker_id")
         revokee_id = payload.get("revokee_id")
@@ -883,7 +853,6 @@ class WebSocketServerCommunicator:
         Handle requests to get all allowances for a client.
 
         :param payload: the payload containing the allower_id.
-        :return: a response containing the allowance dictionary.
         """
         allower_id = payload.get("allower_id")
         allowance, reason = self._ps.get_clients_allowance(allower_id)
@@ -900,7 +869,6 @@ class WebSocketServerCommunicator:
         Handle requests to get allowed models for a specific allowee.
 
         :param payload: the payload containing allower_id and allowee_id.
-        :return: a response containing the list of allowed model IDs.
         """
         allower_id = payload.get("allower_id")
         allowee_id = payload.get("allowee_id")
@@ -919,7 +887,6 @@ class WebSocketServerCommunicator:
         Handle download requests.
 
         :param payload: the payload containing the ids associated with the requested model for download.
-        :return: a response containing the exported model.
         """
         client_id = payload.get("client_id")
         ml_model_id = payload.get("ml_model_id")
@@ -927,7 +894,7 @@ class WebSocketServerCommunicator:
         if not is_valid:
             return {"error": reason}
         return {
-            "message": f"Download request from client: {client_id} for model: {ml_model_id}",
+            "message": MSG_DOWNLOAD_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
             "payload": self._ps.export_model(client_id, ml_model_id),
         }
 
@@ -936,7 +903,6 @@ class WebSocketServerCommunicator:
         Handle upload requests.
 
         :param payload: the payload containing the model data to upload.
-        :return: a response indicating that the upload was processed.
         """
         client_id = payload.get("client_id")
         ml_model_id = payload.get("ml_model_id")
@@ -952,7 +918,7 @@ class WebSocketServerCommunicator:
             return {"error": reason}
         self._ps.update_model(client_id, ml_model_id, model_data)
         return {
-            "message": f"Upload request from client: {client_id} for model: {ml_model_id}",
+            "message": MSG_UPLOAD_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
         }
 
     def _handle_attribute_call(self, payload: dict) -> dict:
@@ -960,7 +926,6 @@ class WebSocketServerCommunicator:
         Handle attribute call requests.
 
         :param payload: the payload containing the attribute call details.
-        :return: a response with the result of the attribute call.
         """
         client_id = payload.get("client_id")
         ml_model_id = payload.get("ml_model_id")
@@ -973,7 +938,7 @@ class WebSocketServerCommunicator:
             return {"error": reason}
         result = self._ps.execute_model(call_payload)
         return {
-            "message": f"Attribute call request from client: {client_id} for model: {ml_model_id}",
+            "message": MSG_ATTRIBUTE_CALL_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
             "payload": result if result else "The ML model has been updated in place.",
         }
 
@@ -982,7 +947,6 @@ class WebSocketServerCommunicator:
         Handle attribute type queries.
 
         :param payload: the payload containing the attribute to query.
-        :return: a response with the attribute type and value.
         """
         client_id = payload.get("client_id")
         ml_model_id = payload.get("ml_model_id")
@@ -995,7 +959,7 @@ class WebSocketServerCommunicator:
             return {"error": reason}
         is_callable, field_value = self._ps.is_callable_attribute(type_payload)
         return {
-            "message": f"Attribute type request from client: {client_id} for model: {ml_model_id}",
+            "message": MSG_ATTRIBUTE_TYPE_REQUEST.format(client_id=client_id, ml_model_id=ml_model_id),
             "attribute type": "method" if is_callable else "field",
             "attribute value": "" if is_callable else field_value,
         }
@@ -1005,7 +969,6 @@ class WebSocketServerCommunicator:
         Parse the encrypted and compressed message.
 
         :param message: the encrypted and compressed message to parse.
-        :return: the decrypted and extracted version of the message.
         """
         if isinstance(message, dict):
             return message
