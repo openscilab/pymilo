@@ -4,7 +4,7 @@
 import pymilo
 import sklearn
 import platform
-from datetime import datetime
+from datetime import datetime, timezone
 from abc import ABC, abstractmethod
 
 
@@ -50,7 +50,7 @@ class PymiloException(Exception, ABC):
                 'content': self.meta_data['object']
             },
             'error': {
-                'date-utc': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+                'date-utc': datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'),
                 'pymilo-error': self.message,
                 'inner-error': self.meta_data['error'] if "error" in self.meta_data else ""
             }

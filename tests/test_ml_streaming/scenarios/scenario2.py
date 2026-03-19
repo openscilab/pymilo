@@ -49,4 +49,5 @@ def scenario2(compression_method, communication_protocol):
     local_field = client.coef_
     result = client.predict(x_test)
     mse_local = mean_squared_error(y_test, result)
+
     return np.abs(mse_server-mse_local) + np.abs(np.sum(local_field-remote_field))

@@ -44,4 +44,5 @@ def scenario1(compression_method, communication_protocol):
     # 7.
     result = client.predict(x_test)
     mse_after = mean_squared_error(y_test, result)
+
     return np.abs(mse_after-mse_before)

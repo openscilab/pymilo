@@ -7,6 +7,7 @@ from sys import executable
 from scenarios.scenario1 import scenario1
 from scenarios.scenario2 import scenario2
 from scenarios.scenario3 import scenario3
+from scenarios.scenario4 import scenario4
 from pymilo.streaming.util import generate_dockerfile
 
 @pytest.fixture(
@@ -46,7 +47,7 @@ def prepare_bare_server(request):
 
 @pytest.fixture(
     scope="session",
-    params=["REST",]) #"WEBSOCKET"])
+    params=["REST", "WEBSOCKET"])
 def prepare_ml_server(request):
     communication_protocol = request.param
     compression_method = "ZLIB"
@@ -82,6 +83,33 @@ def prepare_ml_server(request):
     server_proc.terminate()
 
 
+@pytest.fixture(
+    scope="function",
+    params=["REST", "WEBSOCKET"])
+def prepare_access_control_server(request):
+    communication_protocol = request.param
+    compression_method = "ZLIB"
+    path = os.path.join(
+        os.getcwd(),
+        "tests",
+        "test_ml_streaming",
+        "run_server.py",
+        )
+    server_proc = subprocess.Popen(
+        [
+            executable,
+            path,
+            "--compression", compression_method,
+            "--protocol", communication_protocol,
+            "--port", "8500",
+        ],
+        )
+    time.sleep(10)
+    yield (compression_method, communication_protocol)
+    server_proc.terminate()
+    time.sleep(2)
+
+
 def test1(prepare_bare_server):
     compression_method, communication_protocol = prepare_bare_server
     assert scenario1(compression_method, communication_protocol) == 0
@@ -95,6 +123,11 @@ def test2(prepare_bare_server):
 def test3(prepare_ml_server):
     compression_method, communication_protocol = prepare_ml_server
     assert scenario3(compression_method, communication_protocol) == 0
+
+
+def test4(prepare_access_control_server):
+    compression_method, communication_protocol = prepare_access_control_server
+    assert scenario4(compression_method, communication_protocol) == 0
 
 
 def test_dockerfile():

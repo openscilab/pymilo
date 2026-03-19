@@ -191,6 +191,36 @@ class PymiloClient:
         """
         return self._communicator.get_allowed_models(allower_id, self.client_id)
 
+    def close(self):
+        """
+        Close the client connection and release resources.
+
+        :return: None
+        """
+        if hasattr(self._communicator, 'close'):
+            self._communicator.close()
+
+    def __enter__(self):
+        """
+        Enter the context manager.
+
+        :return: self
+        """
+        return self
+
+    def __exit__(self, _exc_type, _exc_val, _exc_tb):
+        """
+        Exit the context manager and close the connection.
+
+        :return: False
+        """
+        self.close()
+        return False
+
+    def __del__(self):
+        """Clean up resources on object destruction."""
+        self.close()
+
     def __getattr__(self, attribute):
         """
         Overwrite the __getattr__ default function to extract requested.
