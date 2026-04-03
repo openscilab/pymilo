@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `close` function in `PymiloClient`
 - Context manager support (`__enter__`/`__exit__`) in `PymiloClient`
 ### Changed
+- Test system modified
 - `_ArrayFunctionDispatcher` import in `FunctionTransporter` to use new numpy API
 - `datetime.utcnow()` to `datetime.now(timezone.utc)` in `PymiloException`
 - `get_allowance` endpoint in `RESTServerCommunicator` to handle empty allowances
