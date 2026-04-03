@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [1.6] - 2026-04-06
+## [1.6] - 2026-04-03
 ### Added
 - `_check_response_error` function in `WebSocketClientCommunicator`
 - `register_client` function in `WebSocketClientCommunicator`
