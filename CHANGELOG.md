@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ## Changed
+- `get_requires` function in `setup.py`
+- `meta.yaml`
 - `dev-requirements.txt`
 - `requirements.txt`
 ## [1.6] - 2026-04-03
