@@ -14,8 +14,13 @@ INSTALLATION_MODES = {
 def get_requires(mode='core'):
     """Read associated requirements to install."""
     reqs_path = INSTALLATION_MODES[mode]
-    requirements = open(reqs_path, "r").read()
-    return list(filter(lambda x: x != "", requirements.split()))
+    requirements = open(reqs_path, "r", encoding="utf-8").read()
+    lines = []
+    for line in requirements.splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            lines.append(line)
+    return lines
 
 
 def read_description():
