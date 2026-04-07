@@ -1,0 +1,8 @@
+---
+engines:
+  bandit:
+    exclude_paths:
+      - "requirements.txt"
+      - "dev-requirements.txt"
+      - "streaming-requirements.txt"
+      - "test-requirements.txt"
