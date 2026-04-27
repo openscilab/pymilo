@@ -8,7 +8,7 @@ requests>=2.0.0; python_full_version < "3.10"
 websockets==15.0.1
 pydantic==2.13.2
 setuptools>=40.8.0
-vulture>=1.0
+vulture>=2.16
 bandit>=1.5.1
 pydocstyle>=3.0.0
 pytest>=4.3.1
