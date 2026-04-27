@@ -1,6 +1,6 @@
 numpy==2.2.4
 scikit-learn==1.6.1
-scipy>=0.19.1
+scipy>=1.13.1
 uvicorn==0.39.0
 fastapi==0.128.8
 requests==2.33.0; python_full_version >= "3.10"
