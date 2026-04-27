@@ -1,4 +1,4 @@
-art>=1.8
+art>=6.5
 numpy>=1.9.0
 requests>=2.33.0; python_full_version >= "3.10"
 requests>=2.0.0; python_full_version < "3.10"
