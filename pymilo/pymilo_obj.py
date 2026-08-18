@@ -8,10 +8,11 @@ from warnings import warn
 from traceback import format_exc
 from .utils.util import get_sklearn_type, download_model
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
+from .pymilo_func import get_sklearn_data, get_sklearn_version, get_xgboost_version, to_sklearn_model
 from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
 from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
+from .pymilo_param import UNEQUAL_XGBOOST_VERSIONS, XGBOOST_MODEL_TABLE
 from .pymilo_param import INVALID_IMPORT_INIT_PARAMS, BATCH_IMPORT_INVALID_DIRECTORY
 
 
@@ -35,6 +36,7 @@ class Export:
         self.data = get_sklearn_data(deepcopy(model))
         self.version = get_sklearn_version()
         self.type = get_sklearn_type(model)
+        self.xgboost_version = get_xgboost_version() if self.type in XGBOOST_MODEL_TABLE else None
 
     def save(self, file_adr):
         """
@@ -54,15 +56,15 @@ class Export:
         :return: model's representation as str
         """
         try:
-            return json.dumps(
-                {
-                    "data": self.data,
-                    "sklearn_version": self.version,
-                    "pymilo_version": PYMILO_VERSION,
-                    "model_type": self.type
-                },
-                indent=4
-            )
+            payload = {
+                "data": self.data,
+                "sklearn_version": self.version,
+                "pymilo_version": PYMILO_VERSION,
+                "model_type": self.type
+            }
+            if self.xgboost_version is not None:
+                payload["xgboost_version"] = self.xgboost_version
+            return json.dumps(payload, indent=4)
         except Exception as e:
             raise PymiloSerializationException(
                 {
@@ -74,7 +76,8 @@ class Export:
                         "data": self.data,
                         "sklearn_version": self.version,
                         "pymilo_version": PYMILO_VERSION,
-                        "model_type": self.type},
+                        "model_type": self.type,
+                        "xgboost_version": self.xgboost_version},
                 })
 
     @staticmethod
@@ -153,9 +156,14 @@ class Import:
                 warn(UNEQUAL_PYMILO_VERSIONS, category=Warning)
             if not serialized_model_obj["sklearn_version"] == get_sklearn_version():
                 warn(UNEQUAL_SKLEARN_VERSIONS, category=Warning)
+            if "xgboost_version" in serialized_model_obj:
+                installed_xgboost = get_xgboost_version()
+                if installed_xgboost is not None and serialized_model_obj["xgboost_version"] != installed_xgboost:
+                    warn(UNEQUAL_XGBOOST_VERSIONS, category=Warning)
             self.data = serialized_model_obj["data"]
             self.version = serialized_model_obj["sklearn_version"]
             self.type = serialized_model_obj["model_type"]
+            self.xgboost_version = serialized_model_obj.get("xgboost_version")
         except Exception as e:
             json_content = None
             if json_dump and isinstance(json_dump, str):

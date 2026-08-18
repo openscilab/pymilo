@@ -1,6 +1,6 @@
 # Supported Models
 
-**Last Update: 2025-12-30**
+**Last Update: 2026-08-18**
 
 
 <h2 id="scikit-learn">Scikit-Learn</h2> 
@@ -796,5 +796,65 @@
 		<td>2</td>
 		<td><b>TransformedTargetRegressor</b></td>
 		<td>>=1.5</td>
+	</tr>
+</table>
+
+<h2 id="xgboost">XGBoost</h2>
+<h3 id="xgboost-sklearn">Scikit-Learn API</h3>
+
+📚 <a href="https://xgboost.readthedocs.io/en/stable/python/python_api.html#module-xgboost.sklearn" target="_blank"><b>Models Document</b></a>
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+		<th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>XGBClassifier</b></td>
+		<td>>=1.6</td>
+	</tr>
+	<tr align="center">
+		<td>2</td>
+		<td><b>XGBRegressor</b></td>
+		<td>>=1.6</td>
+	</tr>
+	<tr align="center">
+		<td>3</td>
+		<td><b>XGBRanker</b></td>
+		<td>>=1.6</td>
+	</tr>
+	<tr align="center">
+		<td>4</td>
+		<td><b>XGBRFClassifier</b></td>
+		<td>>=1.6</td>
+	</tr>
+	<tr align="center">
+		<td>5</td>
+		<td><b>XGBRFRegressor</b></td>
+		<td>>=1.6</td>
+	</tr>
+	<tr align="center">
+		<td>6</td>
+		<td><b>XGBModel</b></td>
+		<td>>=1.6</td>
+	</tr>
+</table>
+
+<h3 id="xgboost-core">Core Booster</h3>
+
+📚 <a href="https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.Booster" target="_blank"><b>Models Document</b></a>
+
+<table>
+	<tr align="center">
+		<th>ID</th>
+		<th>Model Name</th>
+		<th>PyMilo Version</th>
+	</tr>
+	<tr align="center">
+		<td>1</td>
+		<td><b>Booster</b></td>
+		<td>>=1.6</td>
 	</tr>
 </table>
