@@ -84,6 +84,28 @@ try:
 except BaseException:
     pass
 
+xgboost_support = False
+XGBClassifier = None
+XGBRegressor = None
+XGBRanker = None
+XGBRFClassifier = None
+XGBRFRegressor = None
+XGBModel = None
+XGBoostBooster = None
+try:
+    from xgboost import (
+        XGBClassifier,
+        XGBRegressor,
+        XGBRanker,
+        XGBRFClassifier,
+        XGBRFRegressor,
+        XGBModel,
+        Booster as XGBoostBooster,
+    )
+    xgboost_support = True
+except BaseException:
+    pass
+
 OVERVIEW = """
 PyMilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way.
 """
@@ -92,6 +114,8 @@ NOT_SUPPORTED = "NOT_SUPPORTED"
 PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
 UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differs from the PyMilo version used to create the JSON file."
 UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differs from the Scikit version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
+UNEQUAL_XGBOOST_VERSIONS = "warning: Installed XGBoost version differs from the XGBoost version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
+XGBOOST_NOT_INSTALLED = "XGBoost is not installed. Install it with `pip install xgboost` (or `pip install pymilo[xgboost]`) to import/export XGBoost models."
 INVALID_IMPORT_INIT_PARAMS = "Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class."
 URL_REGEX = r'^(http|https)://[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}(/\S*)?$'
 DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond."
@@ -275,6 +299,16 @@ SKLEARN_COMPOSE_TABLE = {
     "TransformedTargetRegressor": compose.TransformedTargetRegressor,
 }
 
+XGBOOST_MODEL_TABLE = {
+    "XGBClassifier": XGBClassifier if xgboost_support else NOT_SUPPORTED,
+    "XGBRegressor": XGBRegressor if xgboost_support else NOT_SUPPORTED,
+    "XGBRanker": XGBRanker if xgboost_support else NOT_SUPPORTED,
+    "XGBRFClassifier": XGBRFClassifier if xgboost_support else NOT_SUPPORTED,
+    "XGBRFRegressor": XGBRFRegressor if xgboost_support else NOT_SUPPORTED,
+    "XGBModel": XGBModel if xgboost_support else NOT_SUPPORTED,
+    "Booster": XGBoostBooster if xgboost_support else NOT_SUPPORTED,
+}
+
 KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
     "_label_binarizer": preprocessing.LabelBinarizer,  # in Ridge Classifier
     "active_": np.int32,  # in Lasso Lars
@@ -308,6 +342,7 @@ EXPORTED_MODELS_PATH = {
     "ENSEMBLE": "exported_ensembles",
     "CROSS_DECOMPOSITION": "exported_cross_decomposition",
     "COMPOSE": "exported_composes",
+    "XGBOOST": "exported_xgboosts",
 }
 
 SKLEARN_SUPPORTED_CATEGORIES = {
@@ -322,3 +357,6 @@ SKLEARN_SUPPORTED_CATEGORIES = {
     "CROSS_DECOMPOSITION": SKLEARN_CROSS_DECOMPOSITION_TABLE,
     "COMPOSE": SKLEARN_COMPOSE_TABLE,
 }
+
+ALL_SUPPORTED_CATEGORIES = dict(SKLEARN_SUPPORTED_CATEGORIES)
+ALL_SUPPORTED_CATEGORIES["XGBOOST"] = XGBOOST_MODEL_TABLE

@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- XGBoost models support (`XGBClassifier`, `XGBRegressor`, `XGBRanker`, `XGBRFClassifier`, `XGBRFRegressor`, `XGBModel`, `Booster`)
+- `XGBoostTransporter` Transporter
+- XGBoost models chain
+- XGBoost params initialized in `pymilo_param.py`
+- Transparent JSON serialization of XGBoost `Booster` via official `save_raw(raw_format="json")`
+- `xgboost_version` field in exported XGBoost JSON files
+- `get_xgboost_version` function in `pymilo_func.py`
+- `prepare_simple_ranking_datasets` function in `data_exporter.py`
+- `pymilo_prediction_test` function in `test_pymilo.py`
+- XGBoost models test runner
+- `xgboost` extra in `setup.py`
+### Changed
+- `serialize_spline` function in PreprocessingTransporter to export public BSpline constructor fields
+- `get_transporter` in `chains/util.py`
+- `print_supported_ml_models` in `pymilo_func.py`
+- `get_sklearn_class` in `utils/util.py`
+- `Export` / `Import` to carry XGBoost version metadata
+- `README.md` updated
+- `SUPPORTED_MODELS.md` updated
 
 ## [1.6] - 2026-04-03
 ### Added

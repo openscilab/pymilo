@@ -9,6 +9,7 @@ from .naive_bayes_chain import naive_bayes_chain
 from .svm_chain import svm_chain
 from .neighbours_chain import neighbors_chain
 from .cross_decomposition_chain import cross_decomposition_chain
+from .xgboost_chain import xgboost_chain
 from ..utils.util import get_sklearn_type, check_str_in_iterable
 
 
@@ -21,6 +22,7 @@ MODEL_TYPE_TRANSPORTER = {
     "SVM": svm_chain.transport,
     "NEIGHBORS": neighbors_chain.transport,
     "CROSS_DECOMPOSITION": cross_decomposition_chain.transport,
+    "XGBOOST": xgboost_chain.transport,
 }
 
 
@@ -53,6 +55,8 @@ def get_concrete_transporter(model):
         return "NEIGHBORS", neighbors_chain.transport
     elif cross_decomposition_chain.is_supported(model):
         return "CROSS_DECOMPOSITION", cross_decomposition_chain.transport
+    elif xgboost_chain.is_supported(model):
+        return "XGBOOST", xgboost_chain.transport
     else:
         return None, None
 
@@ -74,6 +78,8 @@ def get_transporter(model):
         if upper == "ENSEMBLE":
             from .ensemble_chain import ensemble_chain
             return "ENSEMBLE", ensemble_chain.transport
+        if upper == "XGBOOST":
+            return "XGBOOST", xgboost_chain.transport
 
     # Object routing (check higher-level categories first)
     from .compose_chain import compose_chain

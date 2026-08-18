@@ -329,6 +329,7 @@ result = pymilo_client.predict(x_test)
 | Cross Decomposition Models &#x2705; | - |
 | Feature Extractor Models &#x2705; | - |
 | Composite Models &#x2705; | - |
+| XGBoost Models &#x2705; | - |
 
 
 Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).

@@ -5,7 +5,7 @@ import sklearn
 
 from .chains.util import get_transporter
 from .transporters.transporter import Command
-from .pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW
+from .pymilo_param import ALL_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW, xgboost_support
 
 
 def get_sklearn_version():
@@ -15,6 +15,21 @@ def get_sklearn_version():
     :return: sklearn version as a str
     """
     return sklearn.__version__
+
+
+def get_xgboost_version():
+    """
+    Return xgboost version when the package is installed.
+
+    :return: xgboost version as a str or None
+    """
+    if not xgboost_support:
+        return None
+    try:
+        import xgboost
+        return xgboost.__version__
+    except Exception:
+        return None
 
 
 def get_sklearn_data(model):
@@ -67,12 +82,12 @@ def compare_model_outputs(exported_output,
 
 def print_supported_ml_models():
     """
-    Print the supported sklearn ML models categorized by type.
+    Print the supported ML models categorized by type.
 
     :return: None
     """
     print("Supported Machine Learning Models:")
-    for category, table in SKLEARN_SUPPORTED_CATEGORIES.items():
+    for category, table in ALL_SUPPORTED_CATEGORIES.items():
         print(f"**{category}**:")
         for model_name in table:
             if table[model_name] != NOT_SUPPORTED:

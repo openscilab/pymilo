@@ -3,7 +3,11 @@
 import requests
 import importlib
 from inspect import signature
-from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL, SKLEARN_SUPPORTED_CATEGORIES
+from ..pymilo_param import (
+    DOWNLOAD_MODEL_FAILED,
+    INVALID_DOWNLOADED_MODEL,
+    ALL_SUPPORTED_CATEGORIES,
+)
 
 
 def get_sklearn_type(model):
@@ -176,7 +180,7 @@ def get_sklearn_class(model_name):
 
     :return: sklearn ML model class
     """
-    for _, category_models in SKLEARN_SUPPORTED_CATEGORIES.items():
+    for _, category_models in ALL_SUPPORTED_CATEGORIES.items():
         if model_name in category_models:
             return category_models[model_name]
     return None

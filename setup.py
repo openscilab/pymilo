@@ -50,6 +50,7 @@ setup(
     install_requires=get_requires(),
     extras_require={
         'streaming': get_requires(mode='streaming'),
+        'xgboost': ['xgboost>=1.6.0'],
     },
     python_requires='>=3.7',
     classifiers=[

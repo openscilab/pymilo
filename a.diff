@@ -1,0 +1,2565 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 992b369..b37d637 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+ 
+ ## [Unreleased]
++### Added
++- XGBoost models support (`XGBClassifier`, `XGBRegressor`, `XGBRanker`, `XGBRFClassifier`, `XGBRFRegressor`, `XGBModel`, `Booster`)
++- `XGBoostTransporter` Transporter
++- XGBoost models chain
++- XGBoost params initialized in `pymilo_param.py`
++- Transparent JSON serialization of XGBoost `Booster` via official `save_raw(raw_format="json")`
++- `xgboost_version` field in exported XGBoost JSON files
++- `get_xgboost_version` function in `pymilo_func.py`
++- `prepare_simple_ranking_datasets` function in `data_exporter.py`
++- `pymilo_prediction_test` function in `test_pymilo.py`
++- XGBoost models test runner
++- `xgboost` extra in `setup.py`
++### Changed
++- `serialize_spline` function in PreprocessingTransporter to export public BSpline constructor fields
++- `get_transporter` in `chains/util.py`
++- `print_supported_ml_models` in `pymilo_func.py`
++- `get_sklearn_class` in `utils/util.py`
++- `Export` / `Import` to carry XGBoost version metadata
++- `README.md` updated
++- `SUPPORTED_MODELS.md` updated
+ 
+ ## [1.6] - 2026-04-03
+ ### Added
+diff --git a/README.md b/README.md
+index a3f29dc..bc78d35 100644
+--- a/README.md
++++ b/README.md
+@@ -329,6 +329,7 @@ result = pymilo_client.predict(x_test)
+ | Cross Decomposition Models &#x2705; | - |
+ | Feature Extractor Models &#x2705; | - |
+ | Composite Models &#x2705; | - |
++| XGBoost Models &#x2705; | - |
+ 
+ 
+ Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
+diff --git a/SUPPORTED_MODELS.md b/SUPPORTED_MODELS.md
+index fe3eb17..7e56f20 100644
+--- a/SUPPORTED_MODELS.md
++++ b/SUPPORTED_MODELS.md
+@@ -1,6 +1,6 @@
+ # Supported Models
+ 
+-**Last Update: 2025-12-30**
++**Last Update: 2026-08-18**
+ 
+ 
+ <h2 id="scikit-learn">Scikit-Learn</h2> 
+@@ -798,3 +798,63 @@
+ 		<td>>=1.5</td>
+ 	</tr>
+ </table>
++
++<h2 id="xgboost">XGBoost</h2>
++<h3 id="xgboost-sklearn">Scikit-Learn API</h3>
++
++📚 <a href="https://xgboost.readthedocs.io/en/stable/python/python_api.html#module-xgboost.sklearn" target="_blank"><b>Models Document</b></a>
++
++<table>
++	<tr align="center">
++		<th>ID</th>
++		<th>Model Name</th>
++		<th>PyMilo Version</th>
++	</tr>
++	<tr align="center">
++		<td>1</td>
++		<td><b>XGBClassifier</b></td>
++		<td>>=1.6</td>
++	</tr>
++	<tr align="center">
++		<td>2</td>
++		<td><b>XGBRegressor</b></td>
++		<td>>=1.6</td>
++	</tr>
++	<tr align="center">
++		<td>3</td>
++		<td><b>XGBRanker</b></td>
++		<td>>=1.6</td>
++	</tr>
++	<tr align="center">
++		<td>4</td>
++		<td><b>XGBRFClassifier</b></td>
++		<td>>=1.6</td>
++	</tr>
++	<tr align="center">
++		<td>5</td>
++		<td><b>XGBRFRegressor</b></td>
++		<td>>=1.6</td>
++	</tr>
++	<tr align="center">
++		<td>6</td>
++		<td><b>XGBModel</b></td>
++		<td>>=1.6</td>
++	</tr>
++</table>
++
++<h3 id="xgboost-core">Core Booster</h3>
++
++📚 <a href="https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.Booster" target="_blank"><b>Models Document</b></a>
++
++<table>
++	<tr align="center">
++		<th>ID</th>
++		<th>Model Name</th>
++		<th>PyMilo Version</th>
++	</tr>
++	<tr align="center">
++		<td>1</td>
++		<td><b>Booster</b></td>
++		<td>>=1.6</td>
++	</tr>
++</table>
+diff --git a/XGBOOST_SUPPORT_REPORT.md b/XGBOOST_SUPPORT_REPORT.md
+new file mode 100644
+index 0000000..aadb2c3
+--- /dev/null
++++ b/XGBOOST_SUPPORT_REPORT.md
+@@ -0,0 +1,284 @@
++# XGBoost Support in PyMilo — Evaluation Report
++
++Date: 2026-08-18  
++Environment: Linux, Python 3.12.3, scikit-learn 1.6.1, XGBoost 3.4.1, numpy 2.2.4  
++PyMilo version left at **1.6** (changes listed under `[Unreleased]`).
++
++## Goal
++
++Add support for all XGBoost models to PyMilo, aligned with the existing chain + transporter architecture, with **transparent JSON** output (not a binary/UBJSON blob), plus tests, Bandit, pydocstyle, and coverage.
++
++## What was implemented
++
++XGBoost is an **optional** dependency (`pip install pymilo[xgboost]` or a bare `pip install xgboost`). If it is missing, the table entries become `NOT_SUPPORTED` and Import/Export raise a clear `ImportError`.
++
++Supported models (sklearn API + core booster):
++
++| Model | Role |
++| --- | --- |
++| `XGBClassifier` | binary + multiclass |
++| `XGBRegressor` | regression, including `booster="dart"` and `booster="gblinear"` |
++| `XGBRanker` | learning-to-rank |
++| `XGBRFClassifier` | RF-style classifier wrapper (deprecated upstream, still exported) |
++| `XGBRFRegressor` | RF-style regressor wrapper |
++| `XGBModel` | generic sklearn base |
++| `Booster` | low-level `xgboost.core.Booster` |
++
++Dask/Spark XGBoost estimators were **not** added. They require extra runtimes and are not serializable as standalone local estimators the same way.
++
++### Transparency (not binary)
++
++Export still uses PyMilo’s existing JSON envelope:
++
++```json
++{
++  "data": { ... },
++  "sklearn_version": "...",
++  "pymilo_version": "1.6",
++  "model_type": "XGBClassifier",
++  "xgboost_version": "3.4.1"
++}
++```
++
++The fitted booster is **not** stored as `save_raw()` UBJSON/bytes. It is parsed from the official XGBoost JSON format (`save_raw(raw_format="json")`) and written as nested JSON. A real export from this environment contained:
++
++- `data._Booster.pymilo-xgboost-booster.model-json.learner.gradient_booster.model.trees[]`
++- per-tree fields: `split_conditions`, `split_indices`, `left_children`, `right_children`, `base_weights`, `loss_changes`, `sum_hessian`, `tree_param`
++- learner config (`save_config()`), feature names/types, attributes
++- `trees-dump` (human-readable `get_dump(dump_format="json")`)
++- constructor params (`n_estimators`, `max_depth`, `device`, `objective`, …)
++- fitted extras such as `n_classes_` and `evals_result_`
++
++`Import` accepts the same three existing channels as the rest of PyMilo: file path, `json_dump` string, and URL.
++
++GPU-trained payloads are still valid JSON. On import, `device=cuda|gpu` is rewritten to CPU when a GPU is not available (or when the caller requests a CPU-safe load). The original `requested_device` stays in the JSON for inspection.
++
++## Files changed and why
++
++### New
++
++| File | Why |
++| --- | --- |
++| `pymilo/transporters/xgboost_transporter.py` | Serializes/deserializes `Booster`, `missing=NaN`, callbacks, callable `eval_metric`; GPU→CPU rewrite helpers |
++| `pymilo/chains/xgboost_chain.py` | Chain for wrappers + standalone `Booster` |
++| `tests/test_xgboosts/*` | Model, transparency, mocked-network, simulated-GPU, routing, and coverage tests |
++| `XGBOOST_SUPPORT_REPORT.md` | This report |
++
++### Modified
++
++| File | Why |
++| --- | --- |
++| `pymilo/pymilo_param.py` | Optional XGBoost imports, `XGBOOST_MODEL_TABLE`, `EXPORTED_MODELS_PATH["XGBOOST"]`, `ALL_SUPPORTED_CATEGORIES`, version/install messages |
++| `pymilo/chains/util.py` | Route `"XGBOOST"` / XGBoost objects through the new chain (including inner Pipeline models) |
++| `pymilo/pymilo_func.py` | `get_xgboost_version()`; print all categories including XGBoost |
++| `pymilo/pymilo_obj.py` | Write/read `xgboost_version`; warn on mismatch |
++| `pymilo/utils/util.py` | `get_sklearn_class()` searches `ALL_SUPPORTED_CATEGORIES` |
++| `pymilo/utils/data_exporter.py` | `prepare_simple_ranking_datasets()` |
++| `pymilo/utils/test_pymilo.py` | `pymilo_prediction_test()` for ranker/booster/multiclass |
++| `pymilo/transporters/preprocessing_transporter.py` | `serialize_spline()` now exports public `t,c,k` fields (see below) |
++| `setup.py` | Extra: `'xgboost': ['xgboost>=1.6.0']` |
++| `README.md` | XGBoost row in supported-models table |
++| `SUPPORTED_MODELS.md` | XGBoost section |
++| `CHANGELOG.md` | `[Unreleased]` notes |
++| `tests/test_exceptions/import_exceptions.py` | URL tests now mock the network (no live HTTP) |
++
++`coverage_core.xml` was generated during test runs and **not** kept in the tree.
++
++## Configs / defaults
++
++| Item | Default / choice |
++| --- | --- |
++| XGBoost install | Optional. Core `requirements.txt` unchanged |
++| Extra | `pip install pymilo[xgboost]` → `xgboost>=1.6.0` |
++| CPU device | Tests always pass `device="cpu"`, `n_jobs=1`, `verbosity=0`, and set `CUDA_VISIBLE_DEVICES=""` |
++| Import GPU models | Map `cuda`/`gpu`/`gpu_hist` → `cpu`/`hist` when GPU is unavailable |
++| Export format | Official XGBoost JSON (`raw_format="json"`), pretty-printed by `Export.to_json()` |
++| Version metadata | `sklearn_version` kept; `xgboost_version` added only for XGBoost models |
++| `XGBRF*` | Still supported; XGBoost 3.4 emits a `FutureWarning` (upstream deprecation) |
++
++## Tests added
++
++Under `tests/test_xgboosts/`:
++
++| File | What it covers |
++| --- | --- |
++| `test_xgboosts.py` | Runner for all model families (creates `tests/exported_xgboosts/`) |
++| `xgb_classifier.py` | Binary `XGBClassifier` via `pymilo_classification_test` |
++| `xgb_classifier_multiclass.py` | 3-class + `predict_proba` |
++| `xgb_regressor.py` | `XGBRegressor` |
++| `xgb_ranker.py` | `XGBRanker` with qid |
++| `xgb_rf_classifier.py` / `xgb_rf_regressor.py` | RF wrappers |
++| `xgb_model.py` | Generic `XGBModel` |
++| `xgb_booster.py` | Standalone `Booster` + `DMatrix` predict |
++| `xgb_dart.py` / `xgb_gblinear.py` | Other booster types |
++| `xgb_early_stopping.py` | `evals_result_` / `best_iteration` |
++| `xgb_feature_names.py` | Feature-name round-trip |
++| `xgb_pipeline.py` | `Pipeline(StandardScaler, XGBClassifier)` inner-model JSON |
++| `test_xgboost_transparency.py` | JSON is structured (trees, not bytes); file / `json_dump` / batch / unfitted |
++| `test_xgboost_network.py` | `Import(url=...)` with **mocked** `requests` / `download_model` |
++| `test_xgboost_gpu.py` | Device helpers + simulated CUDA payload remapped to CPU |
++| `test_xgboost_exceptions.py` | Wrong chain, bad payload |
++| `test_xgboost_routing.py` | `get_transporter`, CLI class lookup, version warning |
++| `test_xgboost_more_coverage.py` | Guards, helpers, inner deserialize |
++| `xgboost_test_helpers.py` | CPU kwargs (unique name so it does not clash with other `util.py` test modules) |
++
++Existing URL exception tests (`valid_url_valid_file`, etc.) now load the local `linear_regression.json` through a mock instead of hitting GitHub.
++
++## Exact commands and real outputs
++
++### XGBoost suite (CPU only)
++
++```bash
++python -m pytest tests/test_xgboosts -v --tb=line
++```
++
++Real result:
++
++```
++================== 36 passed, 1 skipped, 4 warnings in 3.26s ===================
++```
++
++The single skip is `test_real_gpu_training_disabled` (unconditional skip; see GPU section).
++
++All 36 passing names are in `/tmp/pytest_xgboost.txt` from this session. Highlights:
++
++```
++test_xgboost_gpu.py::test_simulated_gpu_payload_falls_back_to_cpu_on_import PASSED
++test_xgboost_network.py::test_import_from_url_with_mocked_network PASSED
++test_xgboost_network.py::test_import_from_url_via_requests_session_mock PASSED
++test_xgboost_network.py::test_import_from_url_network_failure_is_simulated PASSED
++test_xgboost_transparency.py::test_to_json_is_human_readable_and_not_binary PASSED
++test_xgboosts.py::test_full PASSED
++```
++
++`test_full` trains/exports/imports: classifier (binary+multi), regressor, ranker, both RF wrappers, `XGBModel`, `Booster`, DART, gblinear, early stopping, feature names, and a Pipeline.
++
++### Full core suite (CI equivalent, streaming ignored)
++
++```bash
++python -m pytest . --ignore=./tests/test_ml_streaming --cov=pymilo --cov-report=term --cov-report=term-missing --tb=line
++```
++
++Real result:
++
++```
++collected 51 items
++...
++tests/test_xgboosts/test_xgboosts.py .                                   [100%]
++...
++TOTAL                                                        2948   1031   1050     96    66%
++============ 50 passed, 1 skipped, 38 warnings in 77.81s (0:01:17) =============
++```
++
++Exit code **0**.
++
++New-module coverage from that run:
++
++| Module | Cover |
++| --- | --- |
++| `pymilo/chains/xgboost_chain.py` | **100%** |
++| `pymilo/transporters/xgboost_transporter.py` | **85%** |
++| `pymilo/utils/data_exporter.py` | **100%** |
++| `pymilo/chains/util.py` | **100%** |
++| `pymilo/transporters/preprocessing_transporter.py` | **96%** (was lower before the spline JSON fix) |
++
++Overall 66% includes `pymilo/streaming/*` at 0% because streaming tests were ignored (same as CI’s core job). This does **not** reduce existing sklearn-chain coverage.
++
++### Bandit
++
++```bash
++python -m bandit -r pymilo -s B311
++```
++
++```
++Test results:
++No issues identified.
++
++Code scanned:
++Total lines of code: 6713
++...
++Total issues (by severity):
++Undefined: 0
++Low: 0
++Medium: 0
++High: 0
++```
++
++### Pydocstyle
++
++```bash
++python -m pydocstyle -v
++```
++
++Checked every package module including `xgboost_chain.py` and `xgboost_transporter.py`. Exit code **0** (no findings).
++
++### Vulture
++
++```bash
++python -m vulture pymilo/ otherfiles/ setup.py --min-confidence 65 --exclude=__init__.py --sort-by-size
++```
++
++Exit code **0** (no unused-code findings).
++
++### Version check
++
++```bash
++python otherfiles/version_check.py
++```
++
++```
++Version tag tests passed!
++Passed : 7/7
++```
++
++## Network
++
++No test in this work opens a real socket to the internet.
++
++- New XGBoost URL tests patch `pymilo.pymilo_obj.download_model` and `pymilo.utils.util.requests.Session`.
++- Existing `valid_url_valid_file` / `valid_url_invalid_file` / `invalid_url` now use the same mock style and the local `tests/test_exceptions/valid_jsons/linear_regression.json`.
++
++`tests/test_ml_streaming` was **not** executed (CI runs it as a separate job; it starts local REST/WebSocket servers). That is not XGBoost work.
++
++## GPU — what exists, what was simulated, what was not run
++
++There were **no** GPU tests in the repo before this change (`gpu`/`cuda` grep was empty).
++
++Added `tests/test_xgboosts/test_xgboost_gpu.py`:
++
++| Test | Behavior |
++| --- | --- |
++| `test_gpu_helpers_recognize_cuda_specifiers` | `cuda`, `cuda:0`, `gpu` vs `cpu` |
++| `test_rewrite_gpu_fields_to_cpu_is_recursive` | Nested dict rewrite |
++| `test_exported_cpu_model_records_cpu_device_metadata` | Exported JSON records `device=cpu` |
++| `test_simulated_gpu_payload_falls_back_to_cpu_on_import` | CPU-trained JSON is rewritten to claim `device=cuda`, then Import remaps to CPU; predictions match |
++| `test_gpu_availability_probe_does_not_allocate_a_device` | Reads `xgboost.build_info()` only |
++| `test_real_gpu_training_disabled` | **SKIPPED always** — documents a real-CUDA entry point |
++
++**Not tested on GPU (cannot be tested on CPU):**
++
++- Actual `XGBClassifier(device="cuda").fit(...)`
++- `tree_method="gpu_hist"` training
++- CUDA predictor / inplace GPU predict
++- Multi-GPU `cuda:1` execution
++- Numerical identity between a GPU-trained booster and its CPU-imported copy when both devices exist
++
++All training and prediction in this session used **CPU**. `CUDA_VISIBLE_DEVICES` is forced empty in the GPU test module and helper.
++
++## Extra compatibility fix (not XGBoost-specific)
++
++`SplineTransformer` tests failed on this SciPy/sklearn pair because `BSpline.__dict__` now holds a private `_BSpline` plus module objects, which `json.dumps` cannot encode. `serialize_spline()` now writes the public constructor fields (`t`, `c`, `k`, `extrapolate`, `axis`). That unblocked `tests/test_preprocessings` and raised `preprocessing_transporter.py` coverage to 96%.
++
++## How to use
++
++```python
++from xgboost import XGBClassifier
++from pymilo import Export, Import
++
++model = XGBClassifier(n_estimators=50, device="cpu").fit(X, y)
++Export(model).save("xgb.json")          # inspectable JSON, including trees
++restored = Import("xgb.json").to_model()
++restored.predict(X)
++```
++
++`Export(model).to_json()` returns the same payload as a string. `Import(json_dump=...)` and `Import(url=...)` work as for sklearn models.
+diff --git a/pymilo/chains/util.py b/pymilo/chains/util.py
+index fad8ff9..e662243 100644
+--- a/pymilo/chains/util.py
++++ b/pymilo/chains/util.py
+@@ -9,6 +9,7 @@ from .naive_bayes_chain import naive_bayes_chain
+ from .svm_chain import svm_chain
+ from .neighbours_chain import neighbors_chain
+ from .cross_decomposition_chain import cross_decomposition_chain
++from .xgboost_chain import xgboost_chain
+ from ..utils.util import get_sklearn_type, check_str_in_iterable
+ 
+ 
+@@ -21,6 +22,7 @@ MODEL_TYPE_TRANSPORTER = {
+     "SVM": svm_chain.transport,
+     "NEIGHBORS": neighbors_chain.transport,
+     "CROSS_DECOMPOSITION": cross_decomposition_chain.transport,
++    "XGBOOST": xgboost_chain.transport,
+ }
+ 
+ 
+@@ -53,6 +55,8 @@ def get_concrete_transporter(model):
+         return "NEIGHBORS", neighbors_chain.transport
+     elif cross_decomposition_chain.is_supported(model):
+         return "CROSS_DECOMPOSITION", cross_decomposition_chain.transport
++    elif xgboost_chain.is_supported(model):
++        return "XGBOOST", xgboost_chain.transport
+     else:
+         return None, None
+ 
+@@ -74,6 +78,8 @@ def get_transporter(model):
+         if upper == "ENSEMBLE":
+             from .ensemble_chain import ensemble_chain
+             return "ENSEMBLE", ensemble_chain.transport
++        if upper == "XGBOOST":
++            return "XGBOOST", xgboost_chain.transport
+ 
+     # Object routing (check higher-level categories first)
+     from .compose_chain import compose_chain
+diff --git a/pymilo/chains/xgboost_chain.py b/pymilo/chains/xgboost_chain.py
+new file mode 100644
+index 0000000..f1ddaef
+--- /dev/null
++++ b/pymilo/chains/xgboost_chain.py
+@@ -0,0 +1,152 @@
++# -*- coding: utf-8 -*-
++"""PyMilo chain for XGBoost models."""
++
++from ..chains.chain import AbstractChain
++from ..pymilo_param import (
++    NOT_SUPPORTED,
++    XGBOOST_MODEL_TABLE,
++    XGBOOST_NOT_INSTALLED,
++    xgboost_support,
++)
++from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
++from ..transporters.randomstate_transporter import RandomStateTransporter
++from ..transporters.transporter import Command
++from ..transporters.xgboost_transporter import (
++    PYMILO_XGBOOST_BOOSTER,
++    XGBoostTransporter,
++    booster_from_transparent_dict,
++    booster_to_transparent_dict,
++    is_xgboost_booster,
++    wrap_booster_payload,
++)
++XGBOOST_CHAIN = {
++    "XGBoostTransporter": XGBoostTransporter(),
++    "RandomStateTransporter": RandomStateTransporter(),
++    "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
++}
++
++PYMILO_XGBOOST_STANDALONE = "pymilo-xgboost-standalone-booster"
++
++
++class XGBoostModelChain(AbstractChain):
++    """XGBoostModelChain developed to handle XGBoost ML model transportation."""
++
++    def is_supported(self, model):
++        """
++        Check if the given model is an XGBoost model supported by this chain.
++
++        :param model: a string name of an ML model or an XGBoost object of it
++        :type model: any object
++        :return: check result as bool
++        """
++        if is_xgboost_booster(model):
++            return True
++        return super().is_supported(model)
++
++    def serialize(self, model):
++        """
++        Return the serialized dictionary of the given XGBoost model.
++
++        Standalone Booster objects are exported as a transparent JSON model
++        (trees, weights, splits and learner config). Sklearn-compatible wrappers
++        keep every constructor parameter plus the same transparent booster body.
++
++        :param model: given model to be get serialized
++        :type model: xgboost.core.Booster or xgboost.sklearn.XGBModel
++        :return: the serialized dictionary of the given XGBoost model
++        """
++        if not xgboost_support:
++            raise ImportError(XGBOOST_NOT_INSTALLED)
++        if is_xgboost_booster(model):
++            return {
++                PYMILO_XGBOOST_STANDALONE: True,
++                PYMILO_XGBOOST_BOOSTER: booster_to_transparent_dict(model),
++            }
++        for transporter in self._transporters:
++            self._transporters[transporter].transport(model, Command.SERIALIZE)
++        return model.__dict__
++
++    def deserialize(self, serialized_model, is_inner_model=False):
++        """
++        Return the associated XGBoost model of the given serialized model.
++
++        :param serialized_model: given json object of an XGBoost model to get deserialized
++        :type serialized_model: obj
++        :param is_inner_model: determines whether it is an inner model of a super ML model
++        :type is_inner_model: boolean
++        :return: associated XGBoost model
++        """
++        if not xgboost_support:
++            raise ImportError(XGBOOST_NOT_INSTALLED)
++
++        data = serialized_model["data"] if is_inner_model else serialized_model.data
++        model_type = serialized_model["type"] if is_inner_model else serialized_model.type
++
++        if model_type == "Booster" or (
++                isinstance(data, dict) and data.get(PYMILO_XGBOOST_STANDALONE)):
++            payload = data.get(PYMILO_XGBOOST_BOOSTER, data)
++            return booster_from_transparent_dict(payload, map_gpu_to_cpu=True)
++
++        for transporter in self._transporters:
++            self._transporters[transporter].transport(
++                serialized_model, Command.DESERIALIZE, is_inner_model)
++
++        raw_model = self._instantiate(model_type)
++        for item in data:
++            try:
++                setattr(raw_model, item, data[item])
++            except AttributeError:
++                # Some XGBoost attributes are read-only properties (e.g. classes_).
++                continue
++        return raw_model
++
++    def _instantiate(self, model_type):
++        """
++        Create an empty XGBoost estimator of the requested type.
++
++        :param model_type: model type name
++        :type model_type: str
++        :return: an unfitted XGBoost estimator
++        """
++        model_cls = self._supported_models.get(model_type)
++        if model_cls is None or model_cls == NOT_SUPPORTED:
++            raise ValueError("Unsupported XGBoost model type: {0}".format(model_type))
++        return model_cls()
++
++
++xgboost_chain = XGBoostModelChain(XGBOOST_CHAIN, XGBOOST_MODEL_TABLE)
++
++
++def is_xgboost_model(model):
++    """
++    Check whether the given object is a supported XGBoost model.
++
++    :param model: given object or model type name
++    :type model: any
++    :return: check result as bool
++    """
++    return xgboost_chain.is_supported(model)
++
++
++def serialize_xgboost_booster(booster):
++    """
++    Serialize a standalone XGBoost Booster as a pymilo-bypass payload.
++
++    :param booster: fitted XGBoost Booster
++    :type booster: xgboost.core.Booster
++    :return: dictionary
++    """
++    return wrap_booster_payload(booster)
++
++
++def deserialize_xgboost_booster(payload):
++    """
++    Deserialize a previously serialized XGBoost Booster payload.
++
++    :param payload: serialized booster dictionary
++    :type payload: dict
++    :return: xgboost.core.Booster
++    """
++    if isinstance(payload, dict) and PYMILO_XGBOOST_BOOSTER in payload:
++        return booster_from_transparent_dict(payload[PYMILO_XGBOOST_BOOSTER], map_gpu_to_cpu=True)
++    return booster_from_transparent_dict(payload, map_gpu_to_cpu=True)
+diff --git a/pymilo/pymilo_func.py b/pymilo/pymilo_func.py
+index d62c733..b3a615b 100644
+--- a/pymilo/pymilo_func.py
++++ b/pymilo/pymilo_func.py
+@@ -5,7 +5,7 @@ import sklearn
+ 
+ from .chains.util import get_transporter
+ from .transporters.transporter import Command
+-from .pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW
++from .pymilo_param import ALL_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW, xgboost_support
+ 
+ 
+ def get_sklearn_version():
+@@ -17,6 +17,21 @@ def get_sklearn_version():
+     return sklearn.__version__
+ 
+ 
++def get_xgboost_version():
++    """
++    Return xgboost version when the package is installed.
++
++    :return: xgboost version as a str or None
++    """
++    if not xgboost_support:
++        return None
++    try:
++        import xgboost
++        return xgboost.__version__
++    except Exception:
++        return None
++
++
+ def get_sklearn_data(model):
+     """
+     Return sklearn data by serializing given model.
+@@ -67,12 +82,12 @@ def compare_model_outputs(exported_output,
+ 
+ def print_supported_ml_models():
+     """
+-    Print the supported sklearn ML models categorized by type.
++    Print the supported ML models categorized by type.
+ 
+     :return: None
+     """
+     print("Supported Machine Learning Models:")
+-    for category, table in SKLEARN_SUPPORTED_CATEGORIES.items():
++    for category, table in ALL_SUPPORTED_CATEGORIES.items():
+         print(f"**{category}**:")
+         for model_name in table:
+             if table[model_name] != NOT_SUPPORTED:
+diff --git a/pymilo/pymilo_obj.py b/pymilo/pymilo_obj.py
+index 7598b8e..557dc1a 100644
+--- a/pymilo/pymilo_obj.py
++++ b/pymilo/pymilo_obj.py
+@@ -8,10 +8,11 @@ from warnings import warn
+ from traceback import format_exc
+ from .utils.util import get_sklearn_type, download_model
+ from concurrent.futures import ThreadPoolExecutor, as_completed
+-from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
++from .pymilo_func import get_sklearn_data, get_sklearn_version, get_xgboost_version, to_sklearn_model
+ from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
+ from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
+ from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
++from .pymilo_param import UNEQUAL_XGBOOST_VERSIONS, XGBOOST_MODEL_TABLE
+ from .pymilo_param import INVALID_IMPORT_INIT_PARAMS, BATCH_IMPORT_INVALID_DIRECTORY
+ 
+ 
+@@ -35,6 +36,7 @@ class Export:
+         self.data = get_sklearn_data(deepcopy(model))
+         self.version = get_sklearn_version()
+         self.type = get_sklearn_type(model)
++        self.xgboost_version = get_xgboost_version() if self.type in XGBOOST_MODEL_TABLE else None
+ 
+     def save(self, file_adr):
+         """
+@@ -54,15 +56,15 @@ class Export:
+         :return: model's representation as str
+         """
+         try:
+-            return json.dumps(
+-                {
+-                    "data": self.data,
+-                    "sklearn_version": self.version,
+-                    "pymilo_version": PYMILO_VERSION,
+-                    "model_type": self.type
+-                },
+-                indent=4
+-            )
++            payload = {
++                "data": self.data,
++                "sklearn_version": self.version,
++                "pymilo_version": PYMILO_VERSION,
++                "model_type": self.type
++            }
++            if self.xgboost_version is not None:
++                payload["xgboost_version"] = self.xgboost_version
++            return json.dumps(payload, indent=4)
+         except Exception as e:
+             raise PymiloSerializationException(
+                 {
+@@ -74,7 +76,8 @@ class Export:
+                         "data": self.data,
+                         "sklearn_version": self.version,
+                         "pymilo_version": PYMILO_VERSION,
+-                        "model_type": self.type},
++                        "model_type": self.type,
++                        "xgboost_version": self.xgboost_version},
+                 })
+ 
+     @staticmethod
+@@ -153,9 +156,14 @@ class Import:
+                 warn(UNEQUAL_PYMILO_VERSIONS, category=Warning)
+             if not serialized_model_obj["sklearn_version"] == get_sklearn_version():
+                 warn(UNEQUAL_SKLEARN_VERSIONS, category=Warning)
++            if "xgboost_version" in serialized_model_obj:
++                installed_xgboost = get_xgboost_version()
++                if installed_xgboost is not None and serialized_model_obj["xgboost_version"] != installed_xgboost:
++                    warn(UNEQUAL_XGBOOST_VERSIONS, category=Warning)
+             self.data = serialized_model_obj["data"]
+             self.version = serialized_model_obj["sklearn_version"]
+             self.type = serialized_model_obj["model_type"]
++            self.xgboost_version = serialized_model_obj.get("xgboost_version")
+         except Exception as e:
+             json_content = None
+             if json_dump and isinstance(json_dump, str):
+diff --git a/pymilo/pymilo_param.py b/pymilo/pymilo_param.py
+index 0c45676..9040219 100644
+--- a/pymilo/pymilo_param.py
++++ b/pymilo/pymilo_param.py
+@@ -84,6 +84,28 @@ try:
+ except BaseException:
+     pass
+ 
++xgboost_support = False
++XGBClassifier = None
++XGBRegressor = None
++XGBRanker = None
++XGBRFClassifier = None
++XGBRFRegressor = None
++XGBModel = None
++XGBoostBooster = None
++try:
++    from xgboost import (
++        XGBClassifier,
++        XGBRegressor,
++        XGBRanker,
++        XGBRFClassifier,
++        XGBRFRegressor,
++        XGBModel,
++        Booster as XGBoostBooster,
++    )
++    xgboost_support = True
++except BaseException:
++    pass
++
+ OVERVIEW = """
+ PyMilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way.
+ """
+@@ -92,6 +114,8 @@ NOT_SUPPORTED = "NOT_SUPPORTED"
+ PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
+ UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differs from the PyMilo version used to create the JSON file."
+ UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differs from the Scikit version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
++UNEQUAL_XGBOOST_VERSIONS = "warning: Installed XGBoost version differs from the XGBoost version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
++XGBOOST_NOT_INSTALLED = "XGBoost is not installed. Install it with `pip install xgboost` (or `pip install pymilo[xgboost]`) to import/export XGBoost models."
+ INVALID_IMPORT_INIT_PARAMS = "Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class."
+ URL_REGEX = r'^(http|https)://[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}(/\S*)?$'
+ DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond."
+@@ -275,6 +299,16 @@ SKLEARN_COMPOSE_TABLE = {
+     "TransformedTargetRegressor": compose.TransformedTargetRegressor,
+ }
+ 
++XGBOOST_MODEL_TABLE = {
++    "XGBClassifier": XGBClassifier if xgboost_support else NOT_SUPPORTED,
++    "XGBRegressor": XGBRegressor if xgboost_support else NOT_SUPPORTED,
++    "XGBRanker": XGBRanker if xgboost_support else NOT_SUPPORTED,
++    "XGBRFClassifier": XGBRFClassifier if xgboost_support else NOT_SUPPORTED,
++    "XGBRFRegressor": XGBRFRegressor if xgboost_support else NOT_SUPPORTED,
++    "XGBModel": XGBModel if xgboost_support else NOT_SUPPORTED,
++    "Booster": XGBoostBooster if xgboost_support else NOT_SUPPORTED,
++}
++
+ KEYS_NEED_PREPROCESSING_BEFORE_DESERIALIZATION = {
+     "_label_binarizer": preprocessing.LabelBinarizer,  # in Ridge Classifier
+     "active_": np.int32,  # in Lasso Lars
+@@ -308,6 +342,7 @@ EXPORTED_MODELS_PATH = {
+     "ENSEMBLE": "exported_ensembles",
+     "CROSS_DECOMPOSITION": "exported_cross_decomposition",
+     "COMPOSE": "exported_composes",
++    "XGBOOST": "exported_xgboosts",
+ }
+ 
+ SKLEARN_SUPPORTED_CATEGORIES = {
+@@ -322,3 +357,6 @@ SKLEARN_SUPPORTED_CATEGORIES = {
+     "CROSS_DECOMPOSITION": SKLEARN_CROSS_DECOMPOSITION_TABLE,
+     "COMPOSE": SKLEARN_COMPOSE_TABLE,
+ }
++
++ALL_SUPPORTED_CATEGORIES = dict(SKLEARN_SUPPORTED_CATEGORIES)
++ALL_SUPPORTED_CATEGORIES["XGBOOST"] = XGBOOST_MODEL_TABLE
+diff --git a/pymilo/transporters/preprocessing_transporter.py b/pymilo/transporters/preprocessing_transporter.py
+index 9c3d2ae..e6d911a 100644
+--- a/pymilo/transporters/preprocessing_transporter.py
++++ b/pymilo/transporters/preprocessing_transporter.py
+@@ -145,16 +145,29 @@ class PreprocessingTransporter(AbstractTransporter):
+         """
+         Serialize scipy.interpolate._bsplines.BSpline object.
+ 
++        Newer SciPy versions wrap a private ``_BSpline`` plus module objects in
++        ``BSpline.__dict__``. Those fields are not JSON-serializable, so the
++        public constructor arguments (``t``, ``c``, ``k``, ``extrapolate``,
++        ``axis``) are exported instead.
++
+         :param bspline: given scipy.interpolate._bsplines.BSpline module
+         :type bspline: scipy.interpolate._bsplines.BSpline
+         :return: pymilo serialized bspline
+         """
+-        for transporter in PREPROCESSING_CHAIN:
+-            PREPROCESSING_CHAIN[transporter].transport(bspline, Command.SERIALIZE)
++        gdst = GeneralDataStructureTransporter()
++        knots = bspline.t
++        coeffs = bspline.c
++        data = {
++            "t": gdst.deep_serialize_ndarray(knots) if hasattr(knots, "tolist") else knots,
++            "c": gdst.deep_serialize_ndarray(coeffs) if hasattr(coeffs, "tolist") else coeffs,
++            "k": int(bspline.k),
++            "extrapolate": bspline.extrapolate,
++            "axis": int(getattr(bspline, "axis", 0)),
++        }
+         return {
+             "pymilo-bypass": True,
+-            "pymilo-preprocessing-type": get_sklearn_type(bspline),
+-            "pymilo-preprocessing-data": bspline.__dict__
++            "pymilo-preprocessing-type": "BSpline",
++            "pymilo-preprocessing-data": data
+         }
+ 
+     def deserialize_spline(self, serialized_bspline):
+diff --git a/pymilo/transporters/xgboost_transporter.py b/pymilo/transporters/xgboost_transporter.py
+new file mode 100644
+index 0000000..bff31e5
+--- /dev/null
++++ b/pymilo/transporters/xgboost_transporter.py
+@@ -0,0 +1,463 @@
++# -*- coding: utf-8 -*-
++"""PyMilo transporter for XGBoost Booster objects and related fields."""
++import json
++import math
++
++from .transporter import AbstractTransporter
++from ..utils.util import check_str_in_iterable
++from ..pymilo_param import (
++    xgboost_support,
++    XGBoostBooster,
++    XGBOOST_NOT_INSTALLED,
++)
++
++PYMILO_XGBOOST_BOOSTER = "pymilo-xgboost-booster"
++PYMILO_XGBOOST_CALLABLE = "pymilo-xgboost-callable"
++PYMILO_XGBOOST_CALLBACKS = "pymilo-xgboost-callbacks"
++
++GPU_DEVICE_PREFIXES = ("cuda", "gpu")
++GPU_TREE_METHODS = {"gpu_hist", "gpu_exact"}
++CPU_DEVICE = "cpu"
++CPU_TREE_METHOD = "hist"
++
++
++def is_xgboost_booster(obj):
++    """
++    Check whether the given object is an XGBoost Booster.
++
++    :param obj: given object
++    :type obj: any
++    :return: check result as bool
++    """
++    if not xgboost_support or XGBoostBooster is None:
++        return False
++    return isinstance(obj, XGBoostBooster)
++
++
++def is_gpu_device(device):
++    """
++    Check whether the given device specifier refers to a GPU.
++
++    :param device: device name such as ``cpu``, ``cuda``, ``cuda:0`` or ``gpu``
++    :type device: str or None
++    :return: check result as bool
++    """
++    if device is None:
++        return False
++    device_name = str(device).strip().lower()
++    return any(device_name == prefix or device_name.startswith(prefix + ":") for prefix in GPU_DEVICE_PREFIXES)
++
++
++def is_xgboost_gpu_available():
++    """
++    Check whether the installed XGBoost build reports CUDA support.
++
++    This does not allocate a GPU context and does not run a GPU kernel.
++
++    :return: check result as bool
++    """
++    if not xgboost_support:
++        return False
++    try:
++        import xgboost
++        if hasattr(xgboost, "build_info"):
++            info = xgboost.build_info()
++            return bool(info.get("USE_CUDA"))
++    except Exception:
++        return False
++    return False
++
++
++def rewrite_gpu_fields_to_cpu(payload):
++    """
++    Recursively rewrite GPU device / tree-method fields in a nested payload to CPU.
++
++    The original payload is modified in place and also returned.
++
++    :param payload: nested dict / list structure (XGBoost JSON model or config)
++    :type payload: any
++    :return: the same payload with GPU fields rewritten
++    """
++    if isinstance(payload, dict):
++        device = payload.get("device")
++        if is_gpu_device(device):
++            payload["device"] = CPU_DEVICE
++        tree_method = payload.get("tree_method")
++        if isinstance(tree_method, str) and tree_method in GPU_TREE_METHODS:
++            payload["tree_method"] = CPU_TREE_METHOD
++        for value in payload.values():
++            rewrite_gpu_fields_to_cpu(value)
++    elif isinstance(payload, list):
++        for item in payload:
++            rewrite_gpu_fields_to_cpu(item)
++    return payload
++
++
++def extract_requested_device(model_json, config, fallback=None):
++    """
++    Extract the device requested by an XGBoost model payload.
++
++    :param model_json: parsed XGBoost ``save_raw(raw_format="json")`` body
++    :type model_json: dict or None
++    :param config: parsed XGBoost ``save_config()`` body
++    :type config: dict or None
++    :param fallback: value used when no device field is present
++    :type fallback: str or None
++    :return: device name as str or None
++    """
++    candidates = []
++    if isinstance(config, dict):
++        generic = config.get("learner", {}).get("generic_param", {})
++        if isinstance(generic, dict):
++            candidates.append(generic.get("device"))
++    if isinstance(model_json, dict):
++        generic = model_json.get("learner", {}).get("generic_param", {})
++        if isinstance(generic, dict):
++            candidates.append(generic.get("device"))
++    for item in candidates:
++        if item is not None:
++            return item
++    return fallback
++
++
++def booster_to_transparent_dict(booster):
++    """
++    Convert an XGBoost Booster to a fully transparent JSON-compatible dictionary.
++
++    The official XGBoost JSON model (trees, weights, splits, learner params) is stored
++    as parsed JSON rather than a binary / UBJSON buffer.
++
++    :param booster: fitted XGBoost Booster
++    :type booster: xgboost.core.Booster
++    :return: transparent dictionary representation
++    """
++    if not xgboost_support:
++        raise ImportError(XGBOOST_NOT_INSTALLED)
++
++    import xgboost
++    raw = _save_booster_json_bytes(booster)
++    model_json = json.loads(raw.decode("utf-8"))
++    try:
++        config = json.loads(booster.save_config())
++    except Exception:
++        config = None
++
++    attributes = {}
++    try:
++        attributes = booster.attributes() or {}
++    except Exception:
++        attributes = {}
++
++    feature_names = None
++    feature_types = None
++    try:
++        feature_names = booster.feature_names
++    except Exception:
++        feature_names = None
++    try:
++        feature_types = booster.feature_types
++    except Exception:
++        feature_types = None
++
++    trees_dump = None
++    try:
++        dumped = booster.get_dump(dump_format="json")
++        trees_dump = [json.loads(tree) for tree in dumped]
++    except Exception:
++        trees_dump = None
++
++    requested_device = extract_requested_device(model_json, config)
++
++    payload = {
++        "xgboost_version": getattr(xgboost, "__version__", None),
++        "model-json": model_json,
++        "config": config,
++        "feature_names": feature_names,
++        "feature_types": feature_types,
++        "attributes": attributes,
++        "requested_device": requested_device,
++        "trees-dump": trees_dump,
++        "num_boosted_rounds": _safe_call(booster.num_boosted_rounds),
++        "num_features": _safe_call(booster.num_features),
++        "best_iteration": _safe_getattr(booster, "best_iteration"),
++        "best_score": _safe_getattr(booster, "best_score"),
++    }
++    return payload
++
++
++def booster_from_transparent_dict(payload, map_gpu_to_cpu=True):
++    """
++    Rebuild an XGBoost Booster from a transparent dictionary produced by PyMilo.
++
++    When ``map_gpu_to_cpu`` is True and the stored device is a GPU device, the payload
++    is rewritten to CPU before ``load_model`` so deserialization works without a GPU.
++
++    :param payload: previously serialized booster dictionary
++    :type payload: dict
++    :param map_gpu_to_cpu: rewrite GPU device fields to CPU when GPU is unavailable
++        or when the caller requests a CPU-safe load
++    :type map_gpu_to_cpu: bool
++    :return: reconstructed ``xgboost.core.Booster``
++    """
++    if not xgboost_support or XGBoostBooster is None:
++        raise ImportError(XGBOOST_NOT_INSTALLED)
++    if not isinstance(payload, dict):
++        raise TypeError("XGBoost booster payload must be a dictionary.")
++
++    model_json = payload.get("model-json")
++    if model_json is None:
++        raise ValueError("XGBoost booster payload is missing the transparent `model-json` field.")
++
++    load_body = json.loads(json.dumps(model_json))
++    config = payload.get("config")
++    requested_device = payload.get("requested_device")
++    if requested_device is None:
++        requested_device = extract_requested_device(load_body, config)
++
++    should_map = map_gpu_to_cpu and (
++        is_gpu_device(requested_device) or not is_xgboost_gpu_available()
++    )
++    if is_gpu_device(requested_device) and should_map:
++        rewrite_gpu_fields_to_cpu(load_body)
++        if isinstance(config, dict):
++            rewrite_gpu_fields_to_cpu(config)
++
++    raw = json.dumps(load_body).encode("utf-8")
++    booster = XGBoostBooster()
++    booster.load_model(bytearray(raw))
++
++    if is_gpu_device(requested_device) and should_map:
++        _restore_optional_field(lambda: booster.set_param({"device": CPU_DEVICE}))
++
++    feature_names = payload.get("feature_names")
++    if feature_names is not None:
++        _restore_optional_field(lambda: setattr(booster, "feature_names", list(feature_names)))
++    feature_types = payload.get("feature_types")
++    if feature_types is not None:
++        _restore_optional_field(lambda: setattr(booster, "feature_types", list(feature_types)))
++
++    attributes = payload.get("attributes") or {}
++    for key, value in attributes.items():
++        attr_value = None if value is None else str(value)
++        _restore_optional_field(lambda k=key, v=attr_value: booster.set_attr(**{str(k): v}))
++    return booster
++
++
++def wrap_booster_payload(booster):
++    """
++    Wrap a Booster as a pymilo-bypass dictionary used inside model ``__dict__``.
++
++    :param booster: fitted XGBoost Booster
++    :type booster: xgboost.core.Booster
++    :return: dictionary with ``pymilo-bypass`` and the transparent booster body
++    """
++    return {
++        "pymilo-bypass": True,
++        PYMILO_XGBOOST_BOOSTER: booster_to_transparent_dict(booster),
++    }
++
++
++def unwrap_booster_payload(content, map_gpu_to_cpu=True):
++    """
++    Unwrap a pymilo booster dictionary back to a Booster.
++
++    :param content: serialized content
++    :type content: dict
++    :param map_gpu_to_cpu: rewrite GPU device fields to CPU when needed
++    :type map_gpu_to_cpu: bool
++    :return: reconstructed Booster or the original content
++    """
++    if check_str_in_iterable(PYMILO_XGBOOST_BOOSTER, content):
++        return booster_from_transparent_dict(content[PYMILO_XGBOOST_BOOSTER], map_gpu_to_cpu=map_gpu_to_cpu)
++    return content
++
++
++def _save_booster_json_bytes(booster):
++    """
++    Export a Booster as UTF-8 JSON bytes using the official XGBoost JSON format.
++
++    :param booster: fitted XGBoost Booster
++    :type booster: xgboost.core.Booster
++    :return: JSON bytes
++    """
++    try:
++        raw = booster.save_raw(raw_format="json")
++        return bytes(raw)
++    except TypeError:
++        # Older XGBoost builds accept no raw_format argument.
++        raw = booster.save_raw()
++        if _looks_like_json(raw):
++            return bytes(raw)
++        raise ValueError(
++            "This XGBoost build cannot export a Booster as JSON. "
++            "Upgrade XGBoost to a version that supports save_raw(raw_format='json')."
++        )
++
++
++def _looks_like_json(raw):
++    """
++    Check whether a raw buffer starts with a JSON object / array.
++
++    :param raw: raw bytes or bytearray
++    :type raw: bytes or bytearray
++    :return: check result as bool
++    """
++    if not raw:
++        return False
++    first = bytes(raw).lstrip()[:1]
++    return first in (b"{", b"[")
++
++
++def _restore_optional_field(action):
++    """
++    Run an optional Booster restore action and report whether it succeeded.
++
++    Feature names, feature types and device are auxiliary; a failure must not
++    block reconstruction of the learned trees.
++
++    :param action: zero-argument callable performing the restore
++    :type action: callable
++    :return: True when the action succeeded, otherwise False
++    """
++    try:
++        action()
++        return True
++    except Exception:
++        return False
++
++
++def _safe_call(func):
++    """
++    Call ``func`` and return None when it raises.
++
++    :param func: zero-argument callable
++    :type func: callable
++    :return: func result or None
++    """
++    try:
++        return func()
++    except Exception:
++        return None
++
++
++def _safe_getattr(obj, name):
++    """
++    Return ``getattr(obj, name)`` or None when it raises.
++
++    :param obj: given object
++    :type obj: any
++    :param name: attribute name
++    :type name: str
++    :return: attribute value or None
++    """
++    try:
++        return getattr(obj, name)
++    except Exception:
++        return None
++
++
++def _is_nan_number(value):
++    """
++    Check whether the given value is a NaN floating number.
++
++    :param value: given value
++    :type value: any
++    :return: check result as bool
++    """
++    if isinstance(value, float):
++        return math.isnan(value)
++    try:
++        import numpy as np
++        return isinstance(value, np.floating) and np.isnan(value)
++    except Exception:
++        return False
++
++
++class XGBoostTransporter(AbstractTransporter):
++    """Customized PyMilo Transporter developed to handle XGBoost Booster objects and related fields."""
++
++    def serialize(self, data, key, model_type):
++        """
++        Serialize XGBoost Booster instances and a few non-JSON XGBoost fields.
++
++        serialize the data[key] of the given model which type is model_type.
++        basically in order to fully serialize a model, we should traverse over all the keys of its data dictionary and
++        pass it through the chain of associated transporters to get fully serialized.
++
++        :param data: the internal data dictionary of the given model
++        :type data: dict
++        :param key: the special key of the data param, which we're going to serialize its value(data[key])
++        :type key: object
++        :param model_type: the model type of the ML model, which data dictionary is given as the data param
++        :type model_type: str
++        :return: pymilo serialized output of data[key]
++        """
++        value = data[key]
++        if is_xgboost_booster(value):
++            data[key] = wrap_booster_payload(value)
++            return data[key]
++        if key == "missing" and _is_nan_number(value):
++            data[key] = {
++                "np-type": "numpy.nan",
++                "value": "NaN"
++            }
++            return data[key]
++        if key == "callbacks" and value is not None:
++            data[key] = {
++                "pymilo-bypass": True,
++                PYMILO_XGBOOST_CALLBACKS: _serialize_callbacks(value),
++            }
++            return data[key]
++        if key == "eval_metric" and callable(value):
++            data[key] = {
++                "pymilo-bypass": True,
++                PYMILO_XGBOOST_CALLABLE: getattr(value, "__name__", None),
++            }
++            return data[key]
++        return value
++
++    def deserialize(self, data, key, model_type):
++        """
++        Deserialize previously serialized XGBoost Booster instances and related fields.
++
++        deserialize the data[key] of the given model which type is model_type.
++        basically in order to fully deserialize a model, we should traverse over all the keys of its serialized data dictionary and
++        pass it through the chain of associated transporters to get fully deserialized.
++
++        :param data: the internal data dictionary of the associated JSON file of the ML model generated by pymilo export.
++        :type data: dict
++        :param key: the special key of the data param, which we're going to deserialize its value(data[key])
++        :type key: object
++        :param model_type: the model type of the ML model
++        :type model_type: str
++        :return: pymilo deserialized output of data[key]
++        """
++        content = data[key]
++        if check_str_in_iterable(PYMILO_XGBOOST_BOOSTER, content):
++            return unwrap_booster_payload(content, map_gpu_to_cpu=True)
++        if check_str_in_iterable(PYMILO_XGBOOST_CALLBACKS, content):
++            # Custom callback objects cannot be reconstructed transparently.
++            return None
++        if check_str_in_iterable(PYMILO_XGBOOST_CALLABLE, content):
++            return content.get(PYMILO_XGBOOST_CALLABLE)
++        return content
++
++
++def _serialize_callbacks(callbacks):
++    """
++    Serialize XGBoost callback objects as their type names.
++
++    Custom callback instances are not reconstructed; only a transparent name list is kept.
++
++    :param callbacks: callback list or single callback
++    :type callbacks: list or object
++    :return: list of callback type names
++    """
++    if callbacks is None:
++        return None
++    if not isinstance(callbacks, (list, tuple)):
++        callbacks = [callbacks]
++    names = []
++    for item in callbacks:
++        names.append(getattr(item, "__class__", type(item)).__name__)
++    return names
+diff --git a/pymilo/utils/data_exporter.py b/pymilo/utils/data_exporter.py
+index 2a53885..1a09173 100644
+--- a/pymilo/utils/data_exporter.py
++++ b/pymilo/utils/data_exporter.py
+@@ -1,5 +1,6 @@
+ # -*- coding: utf-8 -*-
+ """data exporter modules."""
++import numpy as np
+ from sklearn import datasets
+ 
+ 
+@@ -44,6 +45,31 @@ def prepare_simple_regression_datasets(threshold=20):
+     return _split_X_y(diabetes_X, diabetes_y, threshold)
+ 
+ 
++def prepare_simple_ranking_datasets(n_queries=8, n_per_query=10, n_features=6, threshold_queries=2, random_state=42):
++    """
++    Generate a synthetic dataset for learning-to-rank tasks.
++
++    :param n_queries: number of query groups
++    :type n_queries: int
++    :param n_per_query: number of documents per query
++    :type n_per_query: int
++    :param n_features: number of features
++    :type n_features: int
++    :param threshold_queries: number of trailing query groups used as the test split
++    :type threshold_queries: int
++    :param random_state: random seed
++    :type random_state: int
++    :return: X train, y train, qid train, X test, y test, qid test
++    """
++    rng = np.random.RandomState(random_state)
++    n_samples = n_queries * n_per_query
++    X = rng.randn(n_samples, n_features)
++    y = rng.randint(0, 5, size=n_samples)
++    qid = np.repeat(np.arange(n_queries), n_per_query)
++    split = n_samples - (threshold_queries * n_per_query)
++    return X[:split], y[:split], qid[:split], X[split:], y[split:], qid[split:]
++
++
+ def prepare_simple_clustering_datasets():
+     """
+     Generate a dataset for clustering (the iris).
+diff --git a/pymilo/utils/test_pymilo.py b/pymilo/utils/test_pymilo.py
+index d06b66a..e97b2f0 100644
+--- a/pymilo/utils/test_pymilo.py
++++ b/pymilo/utils/test_pymilo.py
+@@ -154,6 +154,35 @@ def pymilo_nearest_neighbor_test(nearest_neighbor, model_name, test_data):
+     report_status(array_equal(pre_pymilo_kneighbors, post_pymilo_kneighbors), model_name)
+ 
+ 
++def pymilo_prediction_test(model, model_name, x_test, predict_fn=None):
++    """
++    Test export/import fidelity by comparing raw prediction arrays.
++
++    :param model: the given model
++    :type model: any supported estimator
++    :param model_name: model name
++    :type model_name: str
++    :param x_test: data for testing
++    :type x_test: np.ndarray or list
++    :param predict_fn: optional callable ``(estimator, x) -> ndarray`` used instead of ``predict``
++    :type predict_fn: callable or None
++    :return: True if the test succeed
++    """
++    from numpy import allclose, asarray
++
++    def _predict(current):
++        if predict_fn is not None:
++            return asarray(predict_fn(current, x_test))
++        return asarray(current.predict(x_test))
++
++    pre_pred = _predict(model)
++    post_model = pymilo_test(model, model_name)
++    post_pred = _predict(post_model)
++    comparison_result = allclose(pre_pred, post_pred, rtol=1e-5, atol=1e-6)
++    report_status(comparison_result, model_name)
++    return comparison_result
++
++
+ def report_status(result, model_name):
+     """
+     Print status for each model.
+diff --git a/pymilo/utils/util.py b/pymilo/utils/util.py
+index e43d074..1547d8c 100644
+--- a/pymilo/utils/util.py
++++ b/pymilo/utils/util.py
+@@ -3,7 +3,11 @@
+ import requests
+ import importlib
+ from inspect import signature
+-from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL, SKLEARN_SUPPORTED_CATEGORIES
++from ..pymilo_param import (
++    DOWNLOAD_MODEL_FAILED,
++    INVALID_DOWNLOADED_MODEL,
++    ALL_SUPPORTED_CATEGORIES,
++)
+ 
+ 
+ def get_sklearn_type(model):
+@@ -176,7 +180,7 @@ def get_sklearn_class(model_name):
+ 
+     :return: sklearn ML model class
+     """
+-    for _, category_models in SKLEARN_SUPPORTED_CATEGORIES.items():
++    for _, category_models in ALL_SUPPORTED_CATEGORIES.items():
+         if model_name in category_models:
+             return category_models[model_name]
+     return None
+diff --git a/setup.py b/setup.py
+index 5b19a27..5d3eb02 100644
+--- a/setup.py
++++ b/setup.py
+@@ -50,6 +50,7 @@ setup(
+     install_requires=get_requires(),
+     extras_require={
+         'streaming': get_requires(mode='streaming'),
++        'xgboost': ['xgboost>=1.6.0'],
+     },
+     python_requires='>=3.7',
+     classifiers=[
+diff --git a/tests/test_exceptions/import_exceptions.py b/tests/test_exceptions/import_exceptions.py
+index 1c2324a..c4742a2 100644
+--- a/tests/test_exceptions/import_exceptions.py
++++ b/tests/test_exceptions/import_exceptions.py
+@@ -1,8 +1,11 @@
+ # CORRUPTED_JSON_FILE = 1 -> tested.
+ # INVALID_MODEL = 2 -> tested.
+ # VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 3 -> tested.
++import json
+ import os
++from unittest.mock import patch
+ from pymilo.pymilo_obj import Import
++from pymilo.pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL
+ 
+ 
+ def invalid_json(print_output = True):
+@@ -20,7 +23,8 @@ def invalid_json(print_output = True):
+ def invalid_url():
+   try:
+     url = "https://invalid_url"
+-    Import(url=url)
++    with patch("pymilo.pymilo_obj.download_model", side_effect=Exception(DOWNLOAD_MODEL_FAILED)):
++        Import(url=url)
+     return False
+   except Exception:
+     return True
+@@ -28,12 +32,19 @@ def invalid_url():
+ def valid_url_invalid_file():
+   try:
+     url = "https://filesamples.com/samples/code/json/sample1.json"
+-    Import(url=url)
++    with patch("pymilo.pymilo_obj.download_model", side_effect=Exception(INVALID_DOWNLOADED_MODEL)):
++        Import(url=url)
+     return False
+   except Exception:
+     return True
+ 
+ def valid_url_valid_file():
+     url = "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json"
+-    _ = Import(url=url).to_model()
++    local_path = os.path.join(
++        os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json")
++    with open(local_path, "r") as handle:
++        payload = json.load(handle)
++    with patch("pymilo.pymilo_obj.download_model", return_value=payload) as mocked_download:
++        _ = Import(url=url).to_model()
++        mocked_download.assert_called_once_with(url)
+     return True
+diff --git a/tests/test_xgboosts/test_xgboost_exceptions.py b/tests/test_xgboosts/test_xgboost_exceptions.py
+new file mode 100644
+index 0000000..d1a47a8
+--- /dev/null
++++ b/tests/test_xgboosts/test_xgboost_exceptions.py
+@@ -0,0 +1,42 @@
++import pytest
++
++from pymilo import Export
++from pymilo.chains.xgboost_chain import xgboost_chain
++from pymilo.exceptions.serialize_exception import PymiloSerializationException
++from pymilo.pymilo_param import XGBOOST_MODEL_TABLE, NOT_SUPPORTED
++from pymilo.transporters.transporter import Command
++from pymilo.transporters.xgboost_transporter import booster_from_transparent_dict
++from xgboost_test_helpers import xgboost_available
++
++pytestmark = pytest.mark.skipif(
++    not xgboost_available or XGBOOST_MODEL_TABLE.get("XGBClassifier") == NOT_SUPPORTED,
++    reason="xgboost is not installed",
++)
++
++
++def test_irrelevant_model_rejected_by_xgboost_chain():
++    from sklearn.linear_model import LinearRegression
++    from pymilo.utils.data_exporter import prepare_simple_regression_datasets
++    x_train, y_train, _, _ = prepare_simple_regression_datasets()
++    linear = LinearRegression().fit(x_train, y_train)
++    with pytest.raises(PymiloSerializationException):
++        xgboost_chain.transport(linear, Command.SERIALIZE)
++
++
++def test_missing_model_json_raises():
++    with pytest.raises(ValueError):
++        booster_from_transparent_dict({"config": {}})
++
++
++def test_invalid_payload_type_raises():
++    with pytest.raises(TypeError):
++        booster_from_transparent_dict("not-a-dict")
++
++
++def test_export_invalid_object_is_not_an_xgboost_model():
++    class NotAModel(object):
++        def fit(self, x, y):
++            return self
++
++    with pytest.raises(Exception):
++        Export(NotAModel())
+diff --git a/tests/test_xgboosts/test_xgboost_gpu.py b/tests/test_xgboosts/test_xgboost_gpu.py
+new file mode 100644
+index 0000000..91bc820
+--- /dev/null
++++ b/tests/test_xgboosts/test_xgboost_gpu.py
+@@ -0,0 +1,103 @@
++import json
++import os
++
++import pytest
++from numpy import allclose
++
++from pymilo import Export, Import
++from pymilo.pymilo_param import XGBOOST_MODEL_TABLE, NOT_SUPPORTED
++from pymilo.transporters.xgboost_transporter import (
++    CPU_DEVICE,
++    booster_from_transparent_dict,
++    extract_requested_device,
++    is_gpu_device,
++    is_xgboost_gpu_available,
++    rewrite_gpu_fields_to_cpu,
++)
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++# Never expose a GPU to these tests, even if the host has one.
++os.environ["CUDA_VISIBLE_DEVICES"] = ""
++
++pytestmark = pytest.mark.skipif(
++    not xgboost_available or XGBOOST_MODEL_TABLE.get("XGBClassifier") == NOT_SUPPORTED,
++    reason="xgboost is not installed",
++)
++
++
++def _cpu_model_and_data():
++    from xgboost import XGBClassifier
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier)).fit(x_train, y_train)
++    return model, x_test
++
++
++def test_gpu_helpers_recognize_cuda_specifiers():
++    assert is_gpu_device("cuda") is True
++    assert is_gpu_device("cuda:0") is True
++    assert is_gpu_device("gpu") is True
++    assert is_gpu_device("cpu") is False
++    assert is_gpu_device(None) is False
++
++
++def test_rewrite_gpu_fields_to_cpu_is_recursive():
++    payload = {
++        "learner": {
++            "generic_param": {"device": "cuda:0", "tree_method": "gpu_hist"},
++            "nested": [{"device": "gpu"}],
++        }
++    }
++    rewrite_gpu_fields_to_cpu(payload)
++    assert payload["learner"]["generic_param"]["device"] == CPU_DEVICE
++    assert payload["learner"]["generic_param"]["tree_method"] == "hist"
++    assert payload["learner"]["nested"][0]["device"] == CPU_DEVICE
++
++
++def test_exported_cpu_model_records_cpu_device_metadata():
++    model, _ = _cpu_model_and_data()
++    payload = json.loads(Export(model).to_json())
++    booster_body = payload["data"]["_Booster"]["pymilo-xgboost-booster"]
++    requested = extract_requested_device(booster_body["model-json"], booster_body["config"])
++    assert requested == "cpu"
++    assert booster_body["requested_device"] == "cpu"
++    assert payload["data"]["device"] == "cpu"
++
++
++def test_simulated_gpu_payload_falls_back_to_cpu_on_import():
++    """Simulate a GPU-trained JSON file without touching a GPU.
++
++    The serialized CPU model is rewritten so its metadata claims ``device=cuda``.
++    Import must remap that request onto CPU and keep predictions identical.
++    """
++    model, x_test = _cpu_model_and_data()
++    payload = json.loads(Export(model).to_json())
++    booster_body = payload["data"]["_Booster"]["pymilo-xgboost-booster"]
++    booster_body["requested_device"] = "cuda"
++    if isinstance(booster_body.get("config"), dict):
++        generic = booster_body["config"].setdefault("learner", {}).setdefault("generic_param", {})
++        generic["device"] = "cuda"
++    payload["data"]["device"] = "cuda"
++
++    imported = Import(json_dump=json.dumps(payload)).to_model()
++    assert allclose(imported.predict_proba(x_test), model.predict_proba(x_test), rtol=1e-5, atol=1e-6)
++    rebuilt = booster_from_transparent_dict(booster_body, map_gpu_to_cpu=True)
++    assert rebuilt.num_features() == model.get_booster().num_features()
++
++
++def test_gpu_availability_probe_does_not_allocate_a_device():
++    # The helper only reads build_info(); it must not raise and must not train.
++    available = is_xgboost_gpu_available()
++    assert available in (True, False)
++
++
++@pytest.mark.skipif(True, reason="Real CUDA execution is disabled; GPU support is simulated in this suite.")
++def test_real_gpu_training_disabled():
++    """Placeholder for a real GPU training path.
++
++    Kept so the repository documents a GPU test entry point. The test is
++    unconditionally skipped: training on GPU is not exercised here.
++    """
++    from xgboost import XGBClassifier
++    x_train, y_train, _, _ = prepare_simple_classification_datasets()
++    XGBClassifier(device="cuda", n_estimators=2, max_depth=1, verbosity=0).fit(x_train, y_train)
+diff --git a/tests/test_xgboosts/test_xgboost_more_coverage.py b/tests/test_xgboosts/test_xgboost_more_coverage.py
+new file mode 100644
+index 0000000..e694a3c
+--- /dev/null
++++ b/tests/test_xgboosts/test_xgboost_more_coverage.py
+@@ -0,0 +1,160 @@
++import json
++from types import SimpleNamespace
++from unittest.mock import patch
++
++import pytest
++
++from pymilo.chains.xgboost_chain import (
++    deserialize_xgboost_booster,
++    xgboost_chain,
++)
++from pymilo.pymilo_func import get_xgboost_version
++from pymilo.pymilo_param import XGBOOST_MODEL_TABLE, NOT_SUPPORTED, XGBOOST_NOT_INSTALLED
++from pymilo.transporters.xgboost_transporter import (
++    PYMILO_XGBOOST_BOOSTER,
++    XGBoostTransporter,
++    _looks_like_json,
++    _restore_optional_field,
++    _safe_call,
++    _safe_getattr,
++    booster_from_transparent_dict,
++    booster_to_transparent_dict,
++    extract_requested_device,
++    is_gpu_device,
++    is_xgboost_booster,
++    is_xgboost_gpu_available,
++    rewrite_gpu_fields_to_cpu,
++)
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++pytestmark = pytest.mark.skipif(
++    not xgboost_available or XGBOOST_MODEL_TABLE.get("XGBClassifier") == NOT_SUPPORTED,
++    reason="xgboost is not installed",
++)
++
++
++def test_helpers_cover_error_and_edge_paths():
++    assert _looks_like_json(b"") is False
++    assert _looks_like_json(b"  {\"a\": 1}") is True
++    assert _looks_like_json(b"[]") is True
++    assert _looks_like_json(b"\x00binary") is False
++    assert _safe_call(lambda: (_ for _ in ()).throw(RuntimeError("x"))) is None
++    assert _safe_getattr(object(), "missing") is None
++    assert _restore_optional_field(lambda: (_ for _ in ()).throw(RuntimeError("x"))) is False
++    assert _restore_optional_field(lambda: None) is True
++    assert extract_requested_device(None, None, fallback="cpu") == "cpu"
++    assert extract_requested_device({"learner": {"generic_param": {"device": "cuda"}}}, None) == "cuda"
++    rewrite_gpu_fields_to_cpu("scalar")
++    assert is_gpu_device("CUDA:1") is True
++
++
++def test_instantiate_unknown_type_raises():
++    with pytest.raises(ValueError):
++        xgboost_chain._instantiate("NotAnXGBModel")
++
++
++def test_deserialize_xgboost_booster_accepts_bare_payload():
++    import xgboost as xgb
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    booster = xgb.train(
++        {"max_depth": 1, "objective": "binary:logistic", "verbosity": 0, "device": "cpu", "nthread": 1},
++        xgb.DMatrix(x_train, label=y_train),
++        num_boost_round=2,
++    )
++    bare = booster_to_transparent_dict(booster)
++    restored = deserialize_xgboost_booster(bare)
++    from numpy import allclose
++    assert allclose(booster.predict(xgb.DMatrix(x_test)), restored.predict(xgb.DMatrix(x_test)), rtol=1e-5, atol=1e-6)
++
++
++def test_inner_model_deserialize_roundtrip():
++    from xgboost import XGBClassifier
++    from pymilo import Export
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier)).fit(x_train, y_train)
++    payload = json.loads(Export(model).to_json())
++    restored = xgboost_chain.deserialize(
++        {"data": payload["data"], "type": payload["model_type"]},
++        is_inner_model=True,
++    )
++    from numpy import allclose
++    assert allclose(restored.predict_proba(x_test), model.predict_proba(x_test), rtol=1e-5, atol=1e-6)
++
++
++def test_setattr_attribute_error_is_skipped():
++    from xgboost import XGBClassifier
++    from pymilo import Export
++    x_train, y_train, _, _ = prepare_simple_classification_datasets()
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier)).fit(x_train, y_train)
++    payload = json.loads(Export(model).to_json())
++    payload["data"]["classes_"] = [0, 1]
++    restored = xgboost_chain.deserialize(
++        {"data": payload["data"], "type": "XGBClassifier"},
++        is_inner_model=True,
++    )
++    assert restored.n_classes_ == 2
++
++
++def test_transporter_serializes_missing_nan_and_eval_metric():
++    transporter = XGBoostTransporter()
++    data = {"missing": float("nan"), "eval_metric": (lambda y, p: 0.0), "other": 1}
++    assert transporter.serialize(data, "missing", "XGBClassifier")["np-type"] == "numpy.nan"
++    serialized_metric = transporter.serialize(data, "eval_metric", "XGBClassifier")
++    assert "pymilo-xgboost-callable" in serialized_metric
++    assert transporter.serialize(data, "other", "XGBClassifier") == 1
++    assert transporter.deserialize({"eval_metric": serialized_metric}, "eval_metric", "XGBClassifier")
++    assert transporter.deserialize(
++        {"callbacks": {"pymilo-xgboost-callbacks": ["EvaluationMonitor"]}},
++        "callbacks",
++        "XGBClassifier",
++    ) is None
++    assert transporter.deserialize({"plain": 3}, "plain", "XGBClassifier") == 3
++
++
++def test_booster_from_dict_without_gpu_remap():
++    import xgboost as xgb
++    x_train, y_train, _, _ = prepare_simple_classification_datasets()
++    booster = xgb.train(
++        {"max_depth": 1, "objective": "binary:logistic", "verbosity": 0, "device": "cpu", "nthread": 1},
++        xgb.DMatrix(x_train, label=y_train),
++        num_boost_round=1,
++    )
++    payload = booster_to_transparent_dict(booster)
++    restored = booster_from_transparent_dict(payload, map_gpu_to_cpu=False)
++    assert restored.num_features() == booster.num_features()
++
++
++def test_support_guards_when_xgboost_flag_is_false():
++    with patch("pymilo.chains.xgboost_chain.xgboost_support", False):
++        with pytest.raises(ImportError) as exc_info:
++            xgboost_chain.serialize(SimpleNamespace())
++        assert XGBOOST_NOT_INSTALLED in str(exc_info.value)
++        with pytest.raises(ImportError):
++            xgboost_chain.deserialize(SimpleNamespace(data={}, type="XGBClassifier"))
++    with patch("pymilo.transporters.xgboost_transporter.xgboost_support", False):
++        assert is_xgboost_booster(object()) is False
++        assert is_xgboost_gpu_available() is False
++    with patch("pymilo.pymilo_func.xgboost_support", False):
++        assert get_xgboost_version() is None
++
++
++def test_get_xgboost_version_handles_import_failure():
++    import pymilo.pymilo_func as func
++
++    real_import = __import__
++
++    def fake_import(name, *args, **kwargs):
++        if name == "xgboost":
++            raise ImportError("simulated missing xgboost")
++        return real_import(name, *args, **kwargs)
++
++    with patch.object(func, "xgboost_support", True):
++        with patch("builtins.__import__", side_effect=fake_import):
++            assert func.get_xgboost_version() is None
++
++
++def test_gpu_availability_build_info_exception():
++    import xgboost
++    with patch.object(xgboost, "build_info", side_effect=RuntimeError("no build info")):
++        assert is_xgboost_gpu_available() is False
+diff --git a/tests/test_xgboosts/test_xgboost_network.py b/tests/test_xgboosts/test_xgboost_network.py
+new file mode 100644
+index 0000000..fd85b21
+--- /dev/null
++++ b/tests/test_xgboosts/test_xgboost_network.py
+@@ -0,0 +1,83 @@
++import json
++from unittest.mock import Mock, patch
++
++import pytest
++from numpy import allclose
++
++from pymilo import Export, Import
++from pymilo.pymilo_param import (
++    DOWNLOAD_MODEL_FAILED,
++    INVALID_DOWNLOADED_MODEL,
++    XGBOOST_MODEL_TABLE,
++    NOT_SUPPORTED,
++)
++from pymilo.utils.data_exporter import prepare_simple_regression_datasets
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++pytestmark = pytest.mark.skipif(
++    not xgboost_available or XGBOOST_MODEL_TABLE.get("XGBRegressor") == NOT_SUPPORTED,
++    reason="xgboost is not installed",
++)
++
++FAKE_URL = "https://example.test/exported/xgb_regressor.json"
++
++
++def _fitted_regressor():
++    from xgboost import XGBRegressor
++    x_train, y_train, x_test, _ = prepare_simple_regression_datasets()
++    model = XGBRegressor(**cpu_estimator_kwargs(XGBRegressor)).fit(x_train, y_train)
++    return model, x_test
++
++
++def test_import_from_url_with_mocked_network():
++    model, x_test = _fitted_regressor()
++    payload = json.loads(Export(model).to_json())
++
++    with patch("pymilo.pymilo_obj.download_model") as mocked_download:
++        mocked_download.return_value = payload
++        imported = Import(url=FAKE_URL).to_model()
++        mocked_download.assert_called_once_with(FAKE_URL)
++
++    assert allclose(imported.predict(x_test), model.predict(x_test), rtol=1e-5, atol=1e-6)
++
++
++def test_import_from_url_via_requests_session_mock():
++    model, x_test = _fitted_regressor()
++    payload = json.loads(Export(model).to_json())
++    response = Mock()
++    response.status_code = 200
++    response.json.return_value = payload
++
++    session = Mock()
++    session.get.return_value = response
++    session.mount = Mock()
++
++    with patch("pymilo.utils.util.requests.Session", return_value=session):
++        imported = Import(url=FAKE_URL).to_model()
++
++    session.get.assert_called()
++    assert allclose(imported.predict(x_test), model.predict(x_test), rtol=1e-5, atol=1e-6)
++
++
++def test_import_from_url_network_failure_is_simulated():
++    with patch("pymilo.utils.util.requests.Session") as session_cls:
++        session = session_cls.return_value
++        session.get.side_effect = Exception("simulated network down")
++        with pytest.raises(Exception) as exc_info:
++            Import(url=FAKE_URL)
++        assert DOWNLOAD_MODEL_FAILED in str(exc_info.value)
++
++
++def test_import_from_url_invalid_json_payload():
++    response = Mock()
++    response.status_code = 200
++    response.json.side_effect = ValueError("not json")
++
++    session = Mock()
++    session.get.return_value = response
++    session.mount = Mock()
++
++    with patch("pymilo.utils.util.requests.Session", return_value=session):
++        with pytest.raises(Exception) as exc_info:
++            Import(url=FAKE_URL)
++        assert INVALID_DOWNLOADED_MODEL in str(exc_info.value)
+diff --git a/tests/test_xgboosts/test_xgboost_routing.py b/tests/test_xgboosts/test_xgboost_routing.py
+new file mode 100644
+index 0000000..289c525
+--- /dev/null
++++ b/tests/test_xgboosts/test_xgboost_routing.py
+@@ -0,0 +1,105 @@
++import json
++import warnings
++
++import pytest
++
++from pymilo import Export, Import
++from pymilo.chains.util import get_transporter
++from pymilo.chains.xgboost_chain import (
++    deserialize_xgboost_booster,
++    is_xgboost_model,
++    serialize_xgboost_booster,
++    xgboost_chain,
++)
++from pymilo.pymilo_func import get_xgboost_version, print_supported_ml_models
++from pymilo.pymilo_param import UNEQUAL_XGBOOST_VERSIONS, XGBOOST_MODEL_TABLE, NOT_SUPPORTED
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from pymilo.utils.util import get_sklearn_class, get_sklearn_type
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++pytestmark = pytest.mark.skipif(
++    not xgboost_available or XGBOOST_MODEL_TABLE.get("XGBClassifier") == NOT_SUPPORTED,
++    reason="xgboost is not installed",
++)
++
++
++def test_get_transporter_routes_wrappers_and_category_string():
++    from xgboost import XGBClassifier, XGBRegressor, Booster
++    assert get_transporter("XGBOOST")[0] == "XGBOOST"
++    assert get_transporter("XGBClassifier")[0] == "XGBOOST"
++    assert get_transporter(XGBClassifier())[0] == "XGBOOST"
++    assert get_transporter(XGBRegressor())[0] == "XGBOOST"
++    assert get_transporter(Booster())[0] == "XGBOOST"
++    assert is_xgboost_model("XGBRanker") is True
++    assert is_xgboost_model(XGBClassifier()) is True
++
++
++def test_get_sklearn_class_and_type():
++    from xgboost import XGBClassifier
++    assert get_sklearn_class("XGBClassifier") is XGBClassifier
++    assert get_sklearn_class("Booster") is not None
++    assert get_sklearn_type(XGBClassifier()) == "XGBClassifier"
++
++
++def test_print_supported_ml_models_includes_xgboost(capsys):
++    print_supported_ml_models()
++    captured = capsys.readouterr().out
++    assert "XGBOOST" in captured
++    assert "XGBClassifier" in captured
++    assert "Booster" in captured
++
++
++def test_get_xgboost_version_matches_package():
++    import xgboost
++    assert get_xgboost_version() == xgboost.__version__
++
++
++def test_unequal_xgboost_version_warns():
++    from xgboost import XGBClassifier
++    x_train, y_train, _, _ = prepare_simple_classification_datasets()
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier)).fit(x_train, y_train)
++    payload = json.loads(Export(model).to_json())
++    payload["xgboost_version"] = "0.0.0-fake"
++    with warnings.catch_warnings(record=True) as caught:
++        warnings.simplefilter("always")
++        Import(json_dump=json.dumps(payload))
++    messages = [str(item.message) for item in caught]
++    assert any(UNEQUAL_XGBOOST_VERSIONS in message for message in messages)
++
++
++def test_serialize_helpers_roundtrip_booster():
++    import xgboost as xgb
++    from numpy import allclose
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    booster = xgb.train(
++        {"max_depth": 2, "objective": "binary:logistic", "verbosity": 0, "device": "cpu", "nthread": 1},
++        xgb.DMatrix(x_train, label=y_train),
++        num_boost_round=3,
++    )
++    wrapped = serialize_xgboost_booster(booster)
++    restored = deserialize_xgboost_booster(wrapped)
++    assert allclose(
++        booster.predict(xgb.DMatrix(x_test)),
++        restored.predict(xgb.DMatrix(x_test)),
++        rtol=1e-5,
++        atol=1e-6,
++    )
++    assert xgboost_chain.is_supported(booster) is True
++
++
++def test_callbacks_and_callable_eval_metric_are_serialized():
++    from xgboost import XGBClassifier, callback
++    x_train, y_train, _, _ = prepare_simple_classification_datasets()
++
++    def custom_metric(y_true, y_pred):
++        return 0.0
++
++    kwargs = cpu_estimator_kwargs(XGBClassifier, callbacks=[callback.EvaluationMonitor(period=10)])
++    model = XGBClassifier(**kwargs)
++    # eval_metric callables are constructor-accepted; keep training simple.
++    model.fit(x_train, y_train)
++    model.eval_metric = custom_metric
++    dumped = json.loads(Export(model).to_json())
++    assert "pymilo-xgboost-callbacks" in dumped["data"]["callbacks"]
++    imported = Import(json_dump=json.dumps(dumped)).to_model()
++    assert imported.n_estimators == model.n_estimators
+diff --git a/tests/test_xgboosts/test_xgboost_transparency.py b/tests/test_xgboosts/test_xgboost_transparency.py
+new file mode 100644
+index 0000000..577b250
+--- /dev/null
++++ b/tests/test_xgboosts/test_xgboost_transparency.py
+@@ -0,0 +1,106 @@
++import json
++import os
++
++import pytest
++from numpy import allclose
++
++from pymilo import Export, Import
++from pymilo.pymilo_param import PYMILO_VERSION, XGBOOST_MODEL_TABLE, NOT_SUPPORTED
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++pytestmark = pytest.mark.skipif(
++    not xgboost_available or XGBOOST_MODEL_TABLE.get("XGBClassifier") == NOT_SUPPORTED,
++    reason="xgboost is not installed",
++)
++
++
++def _fitted_classifier():
++    from xgboost import XGBClassifier
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier)).fit(x_train, y_train)
++    return model, x_test
++
++
++def test_to_json_is_human_readable_and_not_binary():
++    model, x_test = _fitted_classifier()
++    exported = Export(model)
++    dumped = exported.to_json()
++    payload = json.loads(dumped)
++
++    assert payload["model_type"] == "XGBClassifier"
++    assert payload["pymilo_version"] == PYMILO_VERSION
++    assert "sklearn_version" in payload
++    assert "xgboost_version" in payload
++    assert isinstance(payload["xgboost_version"], str)
++
++    booster_body = payload["data"]["_Booster"]["pymilo-xgboost-booster"]
++    assert "model-json" in booster_body
++    assert isinstance(booster_body["model-json"], dict)
++    learner = booster_body["model-json"]["learner"]
++    trees = learner["gradient_booster"]["model"]["trees"]
++    assert isinstance(trees, list) and len(trees) > 0
++    first_tree = trees[0]
++    assert "split_conditions" in first_tree
++    assert "left_children" in first_tree
++    assert "base_weights" in first_tree
++    # The official XGBoost JSON must be present as structured data, not a blob.
++    assert not isinstance(booster_body["model-json"], (bytes, bytearray))
++    assert "ubj" not in dumped.lower()
++    assert booster_body["trees-dump"] is None or isinstance(booster_body["trees-dump"], list)
++    assert "n_estimators" in payload["data"]
++    assert payload["data"]["device"] == "cpu"
++
++    imported = Import(json_dump=dumped).to_model()
++    assert allclose(imported.predict_proba(x_test), model.predict_proba(x_test), rtol=1e-5, atol=1e-6)
++
++
++def test_save_and_reload_json_file(tmp_path):
++    model, x_test = _fitted_classifier()
++    path = os.path.join(str(tmp_path), "xgb_classifier.json")
++    Export(model).save(path)
++    with open(path, "r") as handle:
++        raw = handle.read()
++    payload = json.loads(raw)
++    assert payload["model_type"] == "XGBClassifier"
++    imported = Import(file_adr=path).to_model()
++    assert allclose(imported.predict(x_test), model.predict(x_test))
++
++
++def test_unfitted_wrapper_roundtrip():
++    from xgboost import XGBClassifier
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier))
++    dumped = Export(model).to_json()
++    payload = json.loads(dumped)
++    assert payload["model_type"] == "XGBClassifier"
++    assert "_Booster" not in payload["data"]
++    imported = Import(json_dump=dumped).to_model()
++    assert imported.n_estimators == model.n_estimators
++    assert not imported.__sklearn_is_fitted__()
++
++
++def test_batch_export_import_json(tmp_path):
++    model, x_test = _fitted_classifier()
++    directory = os.path.join(str(tmp_path), "batch")
++    count = Export.batch_export([model, model], directory)
++    assert count == 2
++    imported_count, models = Import.batch_import(directory)
++    assert imported_count == 2
++    assert allclose(models[0].predict_proba(x_test), model.predict_proba(x_test), rtol=1e-5, atol=1e-6)
++
++
++def test_booster_json_contains_version_and_objective():
++    import xgboost as xgb
++    from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++    x_train, y_train, _, _ = prepare_simple_classification_datasets()
++    booster = xgb.train(
++        {"max_depth": 2, "objective": "binary:logistic", "verbosity": 0, "device": "cpu", "nthread": 1},
++        xgb.DMatrix(x_train, label=y_train),
++        num_boost_round=3,
++    )
++    payload = json.loads(Export(booster).to_json())
++    assert payload["model_type"] == "Booster"
++    body = payload["data"]["pymilo-xgboost-booster"]
++    assert body["model-json"]["version"]
++    assert body["model-json"]["learner"]["objective"]["name"] == "binary:logistic"
++    assert body["config"]["learner"]["generic_param"]["device"] == "cpu"
+diff --git a/tests/test_xgboosts/test_xgboosts.py b/tests/test_xgboosts/test_xgboosts.py
+new file mode 100644
+index 0000000..28dee88
+--- /dev/null
++++ b/tests/test_xgboosts/test_xgboosts.py
+@@ -0,0 +1,53 @@
++import os
++import pytest
++
++from pymilo.pymilo_param import XGBOOST_MODEL_TABLE, NOT_SUPPORTED
++from xgb_classifier import xgb_classifier
++from xgb_classifier_multiclass import xgb_classifier_multiclass
++from xgb_regressor import xgb_regressor
++from xgb_ranker import xgb_ranker
++from xgb_rf_classifier import xgb_rf_classifier
++from xgb_rf_regressor import xgb_rf_regressor
++from xgb_model import xgb_model
++from xgb_booster import xgb_booster
++from xgb_dart import xgb_dart
++from xgb_gblinear import xgb_gblinear
++from xgb_early_stopping import xgb_early_stopping
++from xgb_pipeline import xgb_pipeline
++from xgb_feature_names import xgb_feature_names
++
++os.environ.setdefault("CUDA_VISIBLE_DEVICES", "")
++
++XGBOOSTS = {
++    "CLASSIFIER": [xgb_classifier, xgb_classifier_multiclass],
++    "REGRESSOR": [xgb_regressor],
++    "RANKER": [xgb_ranker],
++    "RANDOM_FOREST": [xgb_rf_classifier, xgb_rf_regressor],
++    "GENERIC": [xgb_model, xgb_booster],
++    "BOOSTER_TYPES": [xgb_dart, xgb_gblinear],
++    "FIT_VARIANTS": [xgb_early_stopping, xgb_feature_names],
++    "COMPOSE": [xgb_pipeline],
++}
++
++
++@pytest.fixture(scope="session", autouse=True)
++def reset_exported_models_directory():
++    exported_models_directory = os.path.join(
++        os.getcwd(), "tests", "exported_xgboosts")
++    if not os.path.isdir(exported_models_directory):
++        os.mkdir(exported_models_directory)
++        return
++    for file_name in os.listdir(exported_models_directory):
++        json_file = os.path.join(exported_models_directory, file_name)
++        if os.path.isfile(json_file):
++            os.remove(json_file)
++
++
++def test_full():
++    if XGBOOST_MODEL_TABLE.get("XGBClassifier") == NOT_SUPPORTED:
++        print("XGBoost is not installed; skipping XGBoost model tests.")
++        return
++    for category in XGBOOSTS:
++        for model in XGBOOSTS[category]:
++            print("Testing model: ", model.__name__)
++            model()
+diff --git a/tests/test_xgboosts/xgb_booster.py b/tests/test_xgboosts/xgb_booster.py
+new file mode 100644
+index 0000000..90d991f
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_booster.py
+@@ -0,0 +1,33 @@
++import xgboost as xgb
++from numpy import allclose
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from pymilo.utils.test_pymilo import pymilo_prediction_test
++from xgboost_test_helpers import xgboost_available
++
++MODEL_NAME = "Booster"
++
++
++def xgb_booster():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    dtrain = xgb.DMatrix(x_train, label=y_train)
++    params = {
++        "max_depth": 2,
++        "eta": 0.3,
++        "objective": "binary:logistic",
++        "verbosity": 0,
++        "nthread": 1,
++        "device": "cpu",
++    }
++    booster = xgb.train(params, dtrain, num_boost_round=6)
++
++    def _predict(current, data):
++        return current.predict(xgb.DMatrix(data))
++
++    assert pymilo_prediction_test(booster, MODEL_NAME, x_test, predict_fn=_predict)
++    # Direct equality check kept for extra safety around DMatrix reconstruction.
++    from pymilo.utils.test_pymilo import pymilo_test
++    imported = pymilo_test(booster, MODEL_NAME + "_direct")
++    assert allclose(_predict(booster, x_test), _predict(imported, x_test), rtol=1e-5, atol=1e-6)
+diff --git a/tests/test_xgboosts/xgb_classifier.py b/tests/test_xgboosts/xgb_classifier.py
+new file mode 100644
+index 0000000..16448c8
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_classifier.py
+@@ -0,0 +1,15 @@
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from pymilo.utils.test_pymilo import pymilo_classification_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBClassifier"
++
++
++def xgb_classifier():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBClassifier
++    x_train, y_train, x_test, y_test = prepare_simple_classification_datasets()
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier)).fit(x_train, y_train)
++    assert pymilo_classification_test(model, MODEL_NAME, (x_test, y_test))
+diff --git a/tests/test_xgboosts/xgb_classifier_multiclass.py b/tests/test_xgboosts/xgb_classifier_multiclass.py
+new file mode 100644
+index 0000000..6687ae0
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_classifier_multiclass.py
+@@ -0,0 +1,29 @@
++from sklearn.datasets import make_classification
++from pymilo.utils.test_pymilo import pymilo_prediction_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBClassifierMultiClass"
++
++
++def xgb_classifier_multiclass():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBClassifier
++    x, y = make_classification(
++        n_samples=120,
++        n_features=8,
++        n_informative=5,
++        n_redundant=0,
++        n_classes=3,
++        random_state=0,
++    )
++    x_train, y_train, x_test = x[:90], y[:90], x[90:]
++    model = XGBClassifier(
++        **cpu_estimator_kwargs(XGBClassifier, objective="multi:softprob")
++    ).fit(x_train, y_train)
++    assert pymilo_prediction_test(model, MODEL_NAME, x_test)
++    imported = __import__("pymilo.utils.test_pymilo", fromlist=["pymilo_test"]).pymilo_test(model, MODEL_NAME + "_proba_check")
++    assert (imported.predict_proba(x_test).shape == model.predict_proba(x_test).shape)
++    from numpy import allclose
++    assert allclose(imported.predict_proba(x_test), model.predict_proba(x_test), rtol=1e-5, atol=1e-6)
+diff --git a/tests/test_xgboosts/xgb_dart.py b/tests/test_xgboosts/xgb_dart.py
+new file mode 100644
+index 0000000..d1e8096
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_dart.py
+@@ -0,0 +1,17 @@
++from pymilo.utils.data_exporter import prepare_simple_regression_datasets
++from pymilo.utils.test_pymilo import pymilo_regression_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBRegressorDART"
++
++
++def xgb_dart():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBRegressor
++    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
++    model = XGBRegressor(
++        **cpu_estimator_kwargs(XGBRegressor, booster="dart", rate_drop=0.1)
++    ).fit(x_train, y_train)
++    assert pymilo_regression_test(model, MODEL_NAME, (x_test, y_test))
+diff --git a/tests/test_xgboosts/xgb_early_stopping.py b/tests/test_xgboosts/xgb_early_stopping.py
+new file mode 100644
+index 0000000..c35e255
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_early_stopping.py
+@@ -0,0 +1,28 @@
++from numpy import allclose
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from pymilo.utils.test_pymilo import pymilo_test, pymilo_classification_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBClassifierEarlyStopping"
++
++
++def xgb_early_stopping():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBClassifier
++    x_train, y_train, x_test, y_test = prepare_simple_classification_datasets()
++    model = XGBClassifier(
++        **cpu_estimator_kwargs(
++            XGBClassifier,
++            n_estimators=20,
++            early_stopping_rounds=3,
++            eval_metric="logloss",
++        )
++    )
++    model.fit(x_train, y_train, eval_set=[(x_test, y_test)], verbose=False)
++    assert pymilo_classification_test(model, MODEL_NAME, (x_test, y_test))
++    imported = pymilo_test(model, MODEL_NAME + "_attrs")
++    assert imported.best_iteration == model.best_iteration
++    assert imported.evals_result()["validation_0"]["logloss"]
++    assert allclose(imported.predict_proba(x_test), model.predict_proba(x_test), rtol=1e-5, atol=1e-6)
+diff --git a/tests/test_xgboosts/xgb_feature_names.py b/tests/test_xgboosts/xgb_feature_names.py
+new file mode 100644
+index 0000000..f09191c
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_feature_names.py
+@@ -0,0 +1,21 @@
++from numpy import allclose, array_equal
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from pymilo.utils.test_pymilo import pymilo_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBClassifierFeatureNames"
++
++
++def xgb_feature_names():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBClassifier
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    model = XGBClassifier(**cpu_estimator_kwargs(XGBClassifier)).fit(x_train, y_train)
++    names = ["feat_{0}".format(idx) for idx in range(x_train.shape[1])]
++    model.get_booster().feature_names = names
++    imported = pymilo_test(model, MODEL_NAME)
++    assert imported.get_booster().feature_names == names
++    assert array_equal(imported.feature_names_in_, model.feature_names_in_)
++    assert allclose(imported.predict_proba(x_test), model.predict_proba(x_test), rtol=1e-5, atol=1e-6)
+diff --git a/tests/test_xgboosts/xgb_gblinear.py b/tests/test_xgboosts/xgb_gblinear.py
+new file mode 100644
+index 0000000..5cc59a7
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_gblinear.py
+@@ -0,0 +1,18 @@
++from pymilo.utils.data_exporter import prepare_simple_regression_datasets
++from pymilo.utils.test_pymilo import pymilo_regression_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBRegressorGBLinear"
++
++
++def xgb_gblinear():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBRegressor
++    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
++    kwargs = cpu_estimator_kwargs(XGBRegressor, booster="gblinear")
++    kwargs.pop("max_depth", None)
++    kwargs.pop("tree_method", None)
++    model = XGBRegressor(**kwargs).fit(x_train, y_train)
++    assert pymilo_regression_test(model, MODEL_NAME, (x_test, y_test))
+diff --git a/tests/test_xgboosts/xgb_model.py b/tests/test_xgboosts/xgb_model.py
+new file mode 100644
+index 0000000..a0d5673
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_model.py
+@@ -0,0 +1,17 @@
++from pymilo.utils.data_exporter import prepare_simple_regression_datasets
++from pymilo.utils.test_pymilo import pymilo_regression_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBModel"
++
++
++def xgb_model():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBModel
++    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
++    model = XGBModel(
++        **cpu_estimator_kwargs(XGBModel, objective="reg:squarederror")
++    ).fit(x_train, y_train)
++    assert pymilo_regression_test(model, MODEL_NAME, (x_test, y_test))
+diff --git a/tests/test_xgboosts/xgb_pipeline.py b/tests/test_xgboosts/xgb_pipeline.py
+new file mode 100644
+index 0000000..5181579
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_pipeline.py
+@@ -0,0 +1,33 @@
++import json
++from numpy import allclose
++from sklearn.pipeline import Pipeline
++from sklearn.preprocessing import StandardScaler
++from pymilo import Export, Import
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "PipelineXGBClassifier"
++
++
++def xgb_pipeline():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBClassifier
++    x_train, y_train, x_test, _ = prepare_simple_classification_datasets()
++    pipeline = Pipeline(
++        steps=[
++            ("scaler", StandardScaler()),
++            ("clf", XGBClassifier(**cpu_estimator_kwargs(XGBClassifier))),
++        ]
++    )
++    pipeline.fit(x_train, y_train)
++    dumped = Export(pipeline).to_json()
++    payload = json.loads(dumped)
++    assert payload["model_type"] == "Pipeline"
++    dumped_text = dumped
++    assert "pymilo-xgboost-booster" in dumped_text
++    assert "model-json" in dumped_text
++    imported = Import(json_dump=dumped).to_model()
++    assert allclose(imported.predict_proba(x_test), pipeline.predict_proba(x_test), rtol=1e-5, atol=1e-6)
++    print("Pymilo Test for Model: " + MODEL_NAME + " succeed.")
+diff --git a/tests/test_xgboosts/xgb_ranker.py b/tests/test_xgboosts/xgb_ranker.py
+new file mode 100644
+index 0000000..db7dd63
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_ranker.py
+@@ -0,0 +1,15 @@
++from pymilo.utils.data_exporter import prepare_simple_ranking_datasets
++from pymilo.utils.test_pymilo import pymilo_prediction_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBRanker"
++
++
++def xgb_ranker():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBRanker
++    x_train, y_train, qid_train, x_test, _, _ = prepare_simple_ranking_datasets()
++    model = XGBRanker(**cpu_estimator_kwargs(XGBRanker)).fit(x_train, y_train, qid=qid_train)
++    assert pymilo_prediction_test(model, MODEL_NAME, x_test)
+diff --git a/tests/test_xgboosts/xgb_regressor.py b/tests/test_xgboosts/xgb_regressor.py
+new file mode 100644
+index 0000000..62a6d4e
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_regressor.py
+@@ -0,0 +1,15 @@
++from pymilo.utils.data_exporter import prepare_simple_regression_datasets
++from pymilo.utils.test_pymilo import pymilo_regression_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBRegressor"
++
++
++def xgb_regressor():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBRegressor
++    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
++    model = XGBRegressor(**cpu_estimator_kwargs(XGBRegressor)).fit(x_train, y_train)
++    assert pymilo_regression_test(model, MODEL_NAME, (x_test, y_test))
+diff --git a/tests/test_xgboosts/xgb_rf_classifier.py b/tests/test_xgboosts/xgb_rf_classifier.py
+new file mode 100644
+index 0000000..5c340ed
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_rf_classifier.py
+@@ -0,0 +1,15 @@
++from pymilo.utils.data_exporter import prepare_simple_classification_datasets
++from pymilo.utils.test_pymilo import pymilo_classification_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBRFClassifier"
++
++
++def xgb_rf_classifier():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBRFClassifier
++    x_train, y_train, x_test, y_test = prepare_simple_classification_datasets()
++    model = XGBRFClassifier(**cpu_estimator_kwargs(XGBRFClassifier)).fit(x_train, y_train)
++    assert pymilo_classification_test(model, MODEL_NAME, (x_test, y_test))
+diff --git a/tests/test_xgboosts/xgb_rf_regressor.py b/tests/test_xgboosts/xgb_rf_regressor.py
+new file mode 100644
+index 0000000..c3615a9
+--- /dev/null
++++ b/tests/test_xgboosts/xgb_rf_regressor.py
+@@ -0,0 +1,15 @@
++from pymilo.utils.data_exporter import prepare_simple_regression_datasets
++from pymilo.utils.test_pymilo import pymilo_regression_test
++from xgboost_test_helpers import cpu_estimator_kwargs, xgboost_available
++
++MODEL_NAME = "XGBRFRegressor"
++
++
++def xgb_rf_regressor():
++    if not xgboost_available:
++        print("Model: " + MODEL_NAME + " is not supported in this python version.")
++        return
++    from xgboost import XGBRFRegressor
++    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
++    model = XGBRFRegressor(**cpu_estimator_kwargs(XGBRFRegressor)).fit(x_train, y_train)
++    assert pymilo_regression_test(model, MODEL_NAME, (x_test, y_test))
+diff --git a/tests/test_xgboosts/xgboost_test_helpers.py b/tests/test_xgboosts/xgboost_test_helpers.py
+new file mode 100644
+index 0000000..73d1c34
+--- /dev/null
++++ b/tests/test_xgboosts/xgboost_test_helpers.py
+@@ -0,0 +1,36 @@
++# -*- coding: utf-8 -*-
++"""Helpers for XGBoost tests. All training and prediction stay on CPU."""
++import os
++
++os.environ.setdefault("CUDA_VISIBLE_DEVICES", "")
++
++xgboost_available = False
++try:
++    import xgboost
++    from pymilo.pymilo_param import XGBOOST_MODEL_TABLE, NOT_SUPPORTED
++    xgboost_available = XGBOOST_MODEL_TABLE.get("XGBClassifier") != NOT_SUPPORTED
++except Exception:
++    xgboost = None
++    xgboost_available = False
++
++
++def cpu_estimator_kwargs(estimator_cls, **overrides):
++    """
++    Build constructor kwargs that force CPU execution.
++
++    :param estimator_cls: XGBoost sklearn estimator class
++    :type estimator_cls: type
++    :param overrides: extra constructor kwargs
++    :return: kwargs dict
++    """
++    params = {
++        "n_estimators": 8,
++        "max_depth": 2,
++        "random_state": 0,
++        "verbosity": 0,
++        "n_jobs": 1,
++        "device": "cpu",
++        "tree_method": "hist",
++    }
++    params.update(overrides)
++    return params

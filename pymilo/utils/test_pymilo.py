@@ -154,6 +154,35 @@ def pymilo_nearest_neighbor_test(nearest_neighbor, model_name, test_data):
     report_status(array_equal(pre_pymilo_kneighbors, post_pymilo_kneighbors), model_name)
 
 
+def pymilo_prediction_test(model, model_name, x_test, predict_fn=None):
+    """
+    Test export/import fidelity by comparing raw prediction arrays.
+
+    :param model: the given model
+    :type model: any supported estimator
+    :param model_name: model name
+    :type model_name: str
+    :param x_test: data for testing
+    :type x_test: np.ndarray or list
+    :param predict_fn: optional callable ``(estimator, x) -> ndarray`` used instead of ``predict``
+    :type predict_fn: callable or None
+    :return: True if the test succeed
+    """
+    from numpy import allclose, asarray
+
+    def _predict(current):
+        if predict_fn is not None:
+            return asarray(predict_fn(current, x_test))
+        return asarray(current.predict(x_test))
+
+    pre_pred = _predict(model)
+    post_model = pymilo_test(model, model_name)
+    post_pred = _predict(post_model)
+    comparison_result = allclose(pre_pred, post_pred, rtol=1e-5, atol=1e-6)
+    report_status(comparison_result, model_name)
+    return comparison_result
+
+
 def report_status(result, model_name):
     """
     Print status for each model.

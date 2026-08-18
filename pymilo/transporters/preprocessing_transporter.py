@@ -145,16 +145,29 @@ class PreprocessingTransporter(AbstractTransporter):
         """
         Serialize scipy.interpolate._bsplines.BSpline object.
 
+        Newer SciPy versions wrap a private ``_BSpline`` plus module objects in
+        ``BSpline.__dict__``. Those fields are not JSON-serializable, so the
+        public constructor arguments (``t``, ``c``, ``k``, ``extrapolate``,
+        ``axis``) are exported instead.
+
         :param bspline: given scipy.interpolate._bsplines.BSpline module
         :type bspline: scipy.interpolate._bsplines.BSpline
         :return: pymilo serialized bspline
         """
-        for transporter in PREPROCESSING_CHAIN:
-            PREPROCESSING_CHAIN[transporter].transport(bspline, Command.SERIALIZE)
+        gdst = GeneralDataStructureTransporter()
+        knots = bspline.t
+        coeffs = bspline.c
+        data = {
+            "t": gdst.deep_serialize_ndarray(knots) if hasattr(knots, "tolist") else knots,
+            "c": gdst.deep_serialize_ndarray(coeffs) if hasattr(coeffs, "tolist") else coeffs,
+            "k": int(bspline.k),
+            "extrapolate": bspline.extrapolate,
+            "axis": int(getattr(bspline, "axis", 0)),
+        }
         return {
             "pymilo-bypass": True,
-            "pymilo-preprocessing-type": get_sklearn_type(bspline),
-            "pymilo-preprocessing-data": bspline.__dict__
+            "pymilo-preprocessing-type": "BSpline",
+            "pymilo-preprocessing-data": data
         }
 
     def deserialize_spline(self, serialized_bspline):

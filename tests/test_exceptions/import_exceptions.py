@@ -1,8 +1,11 @@
 # CORRUPTED_JSON_FILE = 1 -> tested.
 # INVALID_MODEL = 2 -> tested.
 # VALID_MODEL_INVALID_INTERNAL_STRUCTURE = 3 -> tested.
+import json
 import os
+from unittest.mock import patch
 from pymilo.pymilo_obj import Import
+from pymilo.pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL
 
 
 def invalid_json(print_output = True):
@@ -20,7 +23,8 @@ def invalid_json(print_output = True):
 def invalid_url():
   try:
     url = "https://invalid_url"
-    Import(url=url)
+    with patch("pymilo.pymilo_obj.download_model", side_effect=Exception(DOWNLOAD_MODEL_FAILED)):
+        Import(url=url)
     return False
   except Exception:
     return True
@@ -28,12 +32,19 @@ def invalid_url():
 def valid_url_invalid_file():
   try:
     url = "https://filesamples.com/samples/code/json/sample1.json"
-    Import(url=url)
+    with patch("pymilo.pymilo_obj.download_model", side_effect=Exception(INVALID_DOWNLOADED_MODEL)):
+        Import(url=url)
     return False
   except Exception:
     return True
 
 def valid_url_valid_file():
     url = "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json"
-    _ = Import(url=url).to_model()
+    local_path = os.path.join(
+        os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json")
+    with open(local_path, "r") as handle:
+        payload = json.load(handle)
+    with patch("pymilo.pymilo_obj.download_model", return_value=payload) as mocked_download:
+        _ = Import(url=url).to_model()
+        mocked_download.assert_called_once_with(url)
     return True
