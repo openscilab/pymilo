@@ -1,4 +1,4 @@
-uvicorn>=0.14.0
+uvicorn>=0.52.4
 fastapi>=0.68.0
 pydantic>=1.5.0
 websockets>=9.0
