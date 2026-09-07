@@ -6,7 +6,7 @@ fastapi==0.128.8
 requests==2.33.0; python_full_version >= "3.10"
 requests>=2.0.0; python_full_version < "3.10"
 websockets==15.0.1
-pydantic==2.13.2
+pydantic==2.13.5
 setuptools>=40.8.0
 vulture>=1.0
 bandit>=1.5.1
