@@ -8,7 +8,7 @@ from warnings import warn
 from traceback import format_exc
 from .utils.util import get_sklearn_type, download_model
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from .pymilo_func import get_sklearn_data, get_sklearn_version, get_xgboost_version, get_framework_versions, to_sklearn_model
+from .pymilo_func import get_ml_model_data, get_sklearn_version, get_xgboost_version, get_framework_versions, to_ml_model
 from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
 from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS, UNEQUAL_XGBOOST_VERSIONS
@@ -32,7 +32,7 @@ class Export:
         :type model: any class of the supported ML models
         :return: an instance of the Pymilo Export class
         """
-        self.data = get_sklearn_data(deepcopy(model))
+        self.data = get_ml_model_data(deepcopy(model))
         self.type = get_sklearn_type(model)
         self.framework_versions = get_framework_versions(model)
         # Keep `version` as sklearn_version for backward compatibility with callers
@@ -47,6 +47,9 @@ class Export:
         :type file_adr: str
         :return: None
         """
+        directory = os.path.dirname(file_adr)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
         with open(file_adr, 'w') as fp:
             fp.write(self.to_json())
 
@@ -184,11 +187,11 @@ class Import:
 
     def to_model(self):
         """
-        Convert imported model to sklearn model.
+        Convert imported model to its ML model.
 
-        :return: sklearn model
+        :return: ML model
         """
-        return to_sklearn_model(self)
+        return to_ml_model(self)
 
     @staticmethod
     def batch_import(file_addr, run_parallel=False):
