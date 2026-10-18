@@ -100,7 +100,7 @@ RUN pip install pymilo[streaming]
         else:
             cmd += f", \"--load\", \"/app/model.json\""
     elif init_model:
-        cmd += f", \"--init\" \"{init_model}\""
+        cmd += f", \"--init\", \"{init_model}\""
     elif bare:
         cmd += f", \"--bare\""
 
