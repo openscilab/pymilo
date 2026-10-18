@@ -7,6 +7,15 @@ from .general_data_structure_transporter import GeneralDataStructureTransporter
 from .function_transporter import FunctionTransporter
 from scipy.interpolate._bsplines import BSpline
 
+# scipy>=1.18 wraps a Cython/internal `_BSpline` behind the public `BSpline` API.
+# Keep isinstance checks working across both generations.
+_BSPLINE_TYPES = (BSpline,)
+try:
+    from scipy.interpolate._bsplines import _BSpline
+    _BSPLINE_TYPES = (BSpline, _BSpline)
+except ImportError:
+    pass
+
 PREPROCESSING_CHAIN = {
     "GeneralDataStructureTransporter": GeneralDataStructureTransporter(),
     "FunctionTransporter": FunctionTransporter(),
@@ -84,10 +93,10 @@ class PreprocessingTransporter(AbstractTransporter):
         for key, value in pre_module.__dict__.items():
             if self.is_preprocessing_module(value):
                 pre_module.__dict__[key] = self.serialize_pre_module(value)
-            elif isinstance(value, BSpline):
+            elif isinstance(value, _BSPLINE_TYPES):
                 pre_module.__dict__[key] = self.serialize_spline(value)
             elif isinstance(value, list):
-                if len(value) > 0 and isinstance(value[0], BSpline):
+                if len(value) > 0 and isinstance(value[0], _BSPLINE_TYPES):
                     pre_module.__dict__[key] = [self.serialize_spline(bspline) for bspline in value]
 
         for transporter in PREPROCESSING_CHAIN:
@@ -129,7 +138,7 @@ class PreprocessingTransporter(AbstractTransporter):
 
     def is_bspline(self, bspline):
         """
-        Check whether the given module is a scipy.interpolate._bsplines.BSpline or not.
+        Check whether the given module is a scipy BSpline (or its internal _BSpline) or not.
 
         :param bspline: given object
         :type bspline: any
@@ -139,22 +148,39 @@ class PreprocessingTransporter(AbstractTransporter):
             return check_str_in_iterable(
                 "pymilo-preprocessing-type",
                 bspline) and bspline["pymilo-preprocessing-type"] == "BSpline"
-        return get_sklearn_type(bspline) == "BSpline"
+        if isinstance(bspline, _BSPLINE_TYPES):
+            return True
+        # Fall back to type-name check for older wire formats / unexpected wrappers.
+        return get_sklearn_type(bspline) in ("BSpline", "_BSpline")
 
     def serialize_spline(self, bspline):
         """
         Serialize scipy.interpolate._bsplines.BSpline object.
 
+        Only the public reconstructible state (t, c, k, extrapolate, axis) is persisted.
+        Dumping `bspline.__dict__` is unsafe on scipy>=1.18 because it contains a
+        non-JSON-serializable `_BSpline` delegate (`_delegate_to`) and array-api modules.
+
         :param bspline: given scipy.interpolate._bsplines.BSpline module
         :type bspline: scipy.interpolate._bsplines.BSpline
         :return: pymilo serialized bspline
         """
-        for transporter in PREPROCESSING_CHAIN:
-            PREPROCESSING_CHAIN[transporter].transport(bspline, Command.SERIALIZE)
+        gdst = PREPROCESSING_CHAIN["GeneralDataStructureTransporter"]
+        # Read via public properties — works for both legacy BSpline and scipy>=1.18
+        # wrappers that store state on an internal `_BSpline` delegate.
+        raw = {
+            "t": bspline.t,
+            "c": bspline.c,
+            "k": bspline.k,
+            "extrapolate": bspline.extrapolate,
+            "axis": bspline.axis,
+        }
+        for key in list(raw.keys()):
+            raw[key] = gdst.serialize(raw, key, "BSpline")
         return {
             "pymilo-bypass": True,
-            "pymilo-preprocessing-type": get_sklearn_type(bspline),
-            "pymilo-preprocessing-data": bspline.__dict__
+            "pymilo-preprocessing-type": "BSpline",
+            "pymilo-preprocessing-data": raw,
         }
 
     def deserialize_spline(self, serialized_bspline):
@@ -166,15 +192,14 @@ class PreprocessingTransporter(AbstractTransporter):
         :return: retrieved associated scipy.interpolate._bsplines.BSpline object
         """
         data = serialized_bspline["pymilo-preprocessing-data"]
-        associated_type = BSpline
         for key in list(data.keys()):
             for transporter in PREPROCESSING_CHAIN:
                 data[key] = PREPROCESSING_CHAIN[transporter].deserialize(data, key, "")
         # Handle both old scipy (t, c, k) and new scipy (_t, _c, _k) attribute names
+        # from previously serialized payloads that dumped __dict__ directly.
         t = data.get("t", data.get("_t"))
         c = data.get("c", data.get("_c"))
         k = data.get("k", data.get("_k"))
-        retrieved_pre_module = associated_type(t=t, k=k, c=c)
-        for key in data:
-            setattr(retrieved_pre_module, key, data[key])
-        return retrieved_pre_module
+        extrapolate = data.get("extrapolate", True)
+        axis = data.get("axis", 0)
+        return BSpline(t=t, c=c, k=k, extrapolate=extrapolate, axis=axis)
