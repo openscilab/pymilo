@@ -154,6 +154,38 @@ def pymilo_nearest_neighbor_test(nearest_neighbor, model_name, test_data):
     report_status(array_equal(pre_pymilo_kneighbors, post_pymilo_kneighbors), model_name)
 
 
+def pymilo_xgb_booster_test(booster, model_name, test_data):
+    """
+    Test native xgboost.Booster round-trip by comparing prediction metrics pre/post export.
+
+    :param booster: trained xgboost.Booster
+    :type booster: xgboost.Booster
+    :param model_name: model name
+    :type model_name: str
+    :param test_data: data for testing as (x_test, y_test)
+    :type test_data: tuple
+    :return: True if the test succeed
+    """
+    import xgboost as xgb
+    x_test, y_test = test_data
+    dtest = xgb.DMatrix(x_test)
+    pre_pymilo_model_y_pred = booster.predict(dtest)
+    pre_pymilo_model_prediction_output = {
+        "mean-error": mean_squared_error(y_test, pre_pymilo_model_y_pred),
+        "r2-score": r2_score(y_test, pre_pymilo_model_y_pred)
+    }
+    post_pymilo_model_y_pred = pymilo_test(booster, model_name).predict(xgb.DMatrix(x_test))
+    post_pymilo_model_prediction_outputs = {
+        "mean-error": mean_squared_error(y_test, post_pymilo_model_y_pred),
+        "r2-score": r2_score(y_test, post_pymilo_model_y_pred)
+    }
+    comparison_result = compare_model_outputs(
+        pre_pymilo_model_prediction_output,
+        post_pymilo_model_prediction_outputs)
+    report_status(comparison_result, model_name)
+    return comparison_result
+
+
 def report_status(result, model_name):
     """
     Print status for each model.
