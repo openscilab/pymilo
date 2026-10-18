@@ -26,6 +26,7 @@ requirements:
         - fastapi>=0.68.0
         - pydantic>=1.5.0
         - websockets>=9.0
+        - xgboost>=1.7.0
 
 about:
     home: https://github.com/openscilab/pymilo
