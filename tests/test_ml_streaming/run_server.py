@@ -1,6 +1,7 @@
 import argparse
 from sklearn.linear_model import LinearRegression
 from pymilo.streaming import PymiloServer, Compression, CommunicationProtocol
+from pymilo.streaming.param import PYMILO_CLIENT_DEFAULT_CLIENT_ID, PYMILO_CLIENT_DEFAULT_ML_MODEL_ID
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
@@ -44,8 +45,8 @@ def main():
             compressor=Compression[args.compression],
             communication_protocol=CommunicationProtocol[args.protocol],
             )
-        sample_client_id = "0x_demo_client_id"
-        sample_ml_model_id = "0x_demo_ml_model_id"
+        sample_client_id = PYMILO_CLIENT_DEFAULT_CLIENT_ID
+        sample_ml_model_id = PYMILO_CLIENT_DEFAULT_ML_MODEL_ID
         ps.init_client(sample_client_id)
         ps.init_ml_model(sample_client_id, sample_ml_model_id)
         ps.set_ml_model(sample_client_id, sample_ml_model_id, linear_regression)

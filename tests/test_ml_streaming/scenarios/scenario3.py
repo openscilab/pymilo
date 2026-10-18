@@ -4,7 +4,7 @@ from pymilo.streaming import PymiloClient, Compression, CommunicationProtocol
 from pymilo.utils.data_exporter import prepare_simple_regression_datasets
 
 
-def scenario3(compression_method, communication_protocol):
+def scenario3(compression_method, communication_protocol, server_url="127.0.0.1:9000"):
     # [PyMilo Server is initialized with ML Model]
     # 1. calculate mse in server
     # 2. download model in local
@@ -16,11 +16,9 @@ def scenario3(compression_method, communication_protocol):
     client = PymiloClient(
         mode=PymiloClient.Mode.LOCAL,
         compressor=Compression[compression_method],
-        server_url="127.0.0.1:9000",
+        server_url=server_url,
         communication_protocol=CommunicationProtocol[communication_protocol],
         )
-    client.client_id = "0x_demo_client_id"
-    client.ml_model_id = "0x_demo_ml_model_id"
 
     client.toggle_mode(PymiloClient.Mode.DELEGATE)
     result = client.predict(x_test)
