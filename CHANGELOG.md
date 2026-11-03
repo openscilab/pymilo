@@ -7,11 +7,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `.codacy.yaml`
+- `XGBoostChain` class in `pymilo/chains/xgboost_chain.py`
+- `BoosterTransporter` class in `pymilo/transporters/booster_transporter.py`
+- `XGBOOST_SUPPORTED_TABLE`, `XGBOOST_SUPPORTED_CATEGORIES` and `CLI_XGBOOST_NOT_INSTALLED` in `pymilo/pymilo_param.py`
+- `get_xgboost_class` and `get_ml_model_class` functions in `pymilo/utils/util.py`
+- `get_xgboost_version` and `get_framework_versions` functions in `pymilo/pymilo_func.py`
+- `get_ml_model_data` function in `pymilo/pymilo_func.py`
+- `to_ml_model` function in `pymilo/pymilo_func.py`
+- `pymilo_xgb_booster_test` function in `pymilo/utils/test_pymilo.py`
+- `xgboost-requirements.txt`
+- XGBoost models test runner
+- `scenario5` XGBoost test for streaming
+- `PYMILO_CLIENT_DEFAULT_CLIENT_ID` and `PYMILO_CLIENT_DEFAULT_ML_MODEL_ID` in `pymilo/streaming/param.py`
+- `MANIFEST.in`
 ### Changed
 - `get_requires` function in `setup.py`
 - `meta.yaml`
 - `dev-requirements.txt`
 - `requirements.txt`
+- `Export` class in `pymilo/pymilo_obj.py`
+- `Import` class in `pymilo/pymilo_obj.py`
+- `print_supported_ml_models` function in `pymilo/pymilo_func.py`
+- `pymilo/__main__.py`
+- `.github/workflows/test.yml`
+- `scenario3` in `tests/test_ml_streaming/scenarios/scenario3.py`
+- `serialize_spline` function in `PreprocessingTransporter`
+- `deserialize_spline` function in `PreprocessingTransporter`
+- `SUPPORTED_MODELS.md` updated
+- `README.md` updated
+### Fixed
+- PyMilo CLI server launch
+- `generate_dockerfile` `--init` CMD
+- Source distribution packaging
+- `Export.save` directory creation
+### Removed
+- `get_sklearn_data` function in `pymilo/pymilo_func.py`
+- `to_sklearn_model` function in `pymilo/pymilo_func.py`
 ## [1.6] - 2026-04-03
 ### Added
 - `_check_response_error` function in `WebSocketClientCommunicator`
