@@ -5,7 +5,17 @@ import sklearn
 
 from .chains.util import get_transporter
 from .transporters.transporter import Command
-from .pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW
+from .pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, XGBOOST_SUPPORTED_CATEGORIES, NOT_SUPPORTED, OVERVIEW
+
+_xgb = None
+_xgboost_available = False
+try:
+    import xgboost as _xgb_imported
+    _xgb = _xgb_imported
+    _xgboost_available = True
+except BaseException:
+    _xgb = None
+    _xgboost_available = False
 
 
 def get_sklearn_version():
@@ -17,28 +27,63 @@ def get_sklearn_version():
     return sklearn.__version__
 
 
-def get_sklearn_data(model):
+def get_xgboost_version():
     """
-    Return sklearn data by serializing given model.
+    Return xgboost version when available.
+
+    :return: xgboost version as a str, or None when xgboost is not installed
+    """
+    if not _xgboost_available:
+        return None
+    return _xgb.__version__
+
+
+def get_ml_model_data(model):
+    """
+    Return the serialized data of the given ML model.
 
     :param model: given model
-    :type model: any sklearn's model class
-    :return: sklearn data
+    :type model: any supported ML model class
+    :return: serialized model data
     """
     _, transporter = get_transporter(model)
     return transporter(model, Command.SERIALIZE)
 
 
-def to_sklearn_model(import_obj):
+def to_ml_model(import_obj):
     """
-    Deserialize the imported object as a sklearn model.
+    Deserialize the imported object as an ML model.
 
     :param import_obj: given object
     :type import_obj: pymilo.Import
-    :return: sklearn model
+    :return: ML model
     """
     _, transporter = get_transporter(import_obj.type)
     return transporter(import_obj, Command.DESERIALIZE)
+
+
+def get_framework_versions(model):
+    """
+    Return top-level framework version fields for the given model.
+
+    Pure sklearn models emit `sklearn_version`. Pure native xgboost.Booster models emit
+    `xgboost_version`. XGBoost sklearn-API wrappers emit both, since they sit on both stacks.
+
+    :param model: given model
+    :type model: any supported ML model
+    :return: dict of framework version fields
+    """
+    category, _ = get_transporter(model)
+    versions = {}
+    if category == "XGBOOST":
+        xgb_version = get_xgboost_version()
+        if xgb_version is not None:
+            versions["xgboost_version"] = xgb_version
+        if not (_xgboost_available and isinstance(model, _xgb.Booster)):
+            versions["sklearn_version"] = get_sklearn_version()
+    else:
+        versions["sklearn_version"] = get_sklearn_version()
+    return versions
 
 
 def compare_model_outputs(exported_output,
@@ -62,17 +107,20 @@ def compare_model_outputs(exported_output,
         if key not in imported_output:
             return False  # TODO: throw exception
         total_error += np.abs(imported_output[key] - exported_output[key])
-    return np.abs(total_error) < epsilon_error
+    return bool(np.abs(total_error) < epsilon_error)
 
 
 def print_supported_ml_models():
     """
-    Print the supported sklearn ML models categorized by type.
+    Print the supported ML models categorized by type.
 
     :return: None
     """
     print("Supported Machine Learning Models:")
-    for category, table in SKLEARN_SUPPORTED_CATEGORIES.items():
+    all_categories = {}
+    all_categories.update(SKLEARN_SUPPORTED_CATEGORIES)
+    all_categories.update(XGBOOST_SUPPORTED_CATEGORIES)
+    for category, table in all_categories.items():
         print(f"**{category}**:")
         for model_name in table:
             if table[model_name] != NOT_SUPPORTED:

@@ -8,10 +8,10 @@ from warnings import warn
 from traceback import format_exc
 from .utils.util import get_sklearn_type, download_model
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from .pymilo_func import get_sklearn_data, get_sklearn_version, to_sklearn_model
+from .pymilo_func import get_ml_model_data, get_sklearn_version, get_xgboost_version, get_framework_versions, to_ml_model
 from .exceptions.serialize_exception import PymiloSerializationException, SerializationErrorTypes
 from .exceptions.deserialize_exception import PymiloDeserializationException, DeserializationErrorTypes
-from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS
+from .pymilo_param import PYMILO_VERSION, UNEQUAL_PYMILO_VERSIONS, UNEQUAL_SKLEARN_VERSIONS, UNEQUAL_XGBOOST_VERSIONS
 from .pymilo_param import INVALID_IMPORT_INIT_PARAMS, BATCH_IMPORT_INVALID_DIRECTORY
 
 
@@ -28,13 +28,16 @@ class Export:
         """
         Initialize the Pymilo Export instance.
 
-        :param model: given model(any sklearn linear model)
-        :type model: any class of the sklearn's linear models
+        :param model: given model(any supported ML model)
+        :type model: any class of the supported ML models
         :return: an instance of the Pymilo Export class
         """
-        self.data = get_sklearn_data(deepcopy(model))
-        self.version = get_sklearn_version()
+        self.data = get_ml_model_data(deepcopy(model))
         self.type = get_sklearn_type(model)
+        self.framework_versions = get_framework_versions(model)
+        # Keep `version` as sklearn_version for backward compatibility with callers
+        # that read Export.version; it is None for pure native xgboost.Booster models.
+        self.version = self.framework_versions.get("sklearn_version")
 
     def save(self, file_adr):
         """
@@ -44,6 +47,9 @@ class Export:
         :type file_adr: str
         :return: None
         """
+        directory = os.path.dirname(file_adr)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
         with open(file_adr, 'w') as fp:
             fp.write(self.to_json())
 
@@ -51,18 +57,19 @@ class Export:
         """
         Return a json-like representation of model.
 
+        Top-level keys always include `data`, `pymilo_version`, and `model_type`.
+        Framework-specific version fields (`sklearn_version` and/or `xgboost_version`)
+        are also placed at the first depth, right after `data`, which keeps the key
+        order of sklearn exports byte-identical to previous PyMilo releases.
+
         :return: model's representation as str
         """
+        payload = {"data": self.data}
+        payload.update(self.framework_versions)
+        payload["pymilo_version"] = PYMILO_VERSION
+        payload["model_type"] = self.type
         try:
-            return json.dumps(
-                {
-                    "data": self.data,
-                    "sklearn_version": self.version,
-                    "pymilo_version": PYMILO_VERSION,
-                    "model_type": self.type
-                },
-                indent=4
-            )
+            return json.dumps(payload, indent=4)
         except Exception as e:
             raise PymiloSerializationException(
                 {
@@ -70,11 +77,7 @@ class Export:
                     'error': {
                         'Exception': repr(e),
                         'Traceback': format_exc()},
-                    'object': {
-                        "data": self.data,
-                        "sklearn_version": self.version,
-                        "pymilo_version": PYMILO_VERSION,
-                        "model_type": self.type},
+                    'object': payload,
                 })
 
     @staticmethod
@@ -151,10 +154,18 @@ class Import:
         try:
             if not serialized_model_obj["pymilo_version"] == PYMILO_VERSION:
                 warn(UNEQUAL_PYMILO_VERSIONS, category=Warning)
-            if not serialized_model_obj["sklearn_version"] == get_sklearn_version():
-                warn(UNEQUAL_SKLEARN_VERSIONS, category=Warning)
+            if "sklearn_version" in serialized_model_obj:
+                if not serialized_model_obj["sklearn_version"] == get_sklearn_version():
+                    warn(UNEQUAL_SKLEARN_VERSIONS, category=Warning)
+                self.version = serialized_model_obj["sklearn_version"]
+            else:
+                # Pure native Booster exports omit sklearn_version; keep BC attribute present.
+                self.version = None
+            if "xgboost_version" in serialized_model_obj:
+                installed_xgboost = get_xgboost_version()
+                if installed_xgboost is not None and serialized_model_obj["xgboost_version"] != installed_xgboost:
+                    warn(UNEQUAL_XGBOOST_VERSIONS, category=Warning)
             self.data = serialized_model_obj["data"]
-            self.version = serialized_model_obj["sklearn_version"]
             self.type = serialized_model_obj["model_type"]
         except Exception as e:
             json_content = None
@@ -176,11 +187,11 @@ class Import:
 
     def to_model(self):
         """
-        Convert imported model to sklearn model.
+        Convert imported model to its ML model.
 
-        :return: sklearn model
+        :return: ML model
         """
-        return to_sklearn_model(self)
+        return to_ml_model(self)
 
     @staticmethod
     def batch_import(file_addr, run_parallel=False):

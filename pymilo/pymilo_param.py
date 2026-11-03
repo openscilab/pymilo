@@ -84,6 +84,13 @@ try:
 except BaseException:
     pass
 
+xgboost_support = False
+try:
+    import xgboost as _xgb
+    xgboost_support = True
+except BaseException:
+    _xgb = None
+
 OVERVIEW = """
 PyMilo is an open source Python package that provides a simple, efficient, and safe way for users to export pre-trained machine learning models in a transparent way.
 """
@@ -92,6 +99,7 @@ NOT_SUPPORTED = "NOT_SUPPORTED"
 PYMILO_VERSION_DOES_NOT_EXIST = "Corrupted JSON file, `pymilo_version` doesn't exist in this file."
 UNEQUAL_PYMILO_VERSIONS = "warning: Installed PyMilo version differs from the PyMilo version used to create the JSON file."
 UNEQUAL_SKLEARN_VERSIONS = "warning: Installed Scikit version differs from the Scikit version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
+UNEQUAL_XGBOOST_VERSIONS = "warning: Installed XGBoost version differs from the XGBoost version used to create the JSON file and it may prevent PyMilo from transporting seamlessly."
 INVALID_IMPORT_INIT_PARAMS = "Invalid input parameters, you should either pass a valid file_adr or a json_dump or a url to initiate Import class."
 URL_REGEX = r'^(http|https)://[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}(/\S*)?$'
 DOWNLOAD_MODEL_FAILED = "Failed to download the JSON file, Server didn't respond."
@@ -101,6 +109,9 @@ BATCH_IMPORT_INVALID_DIRECTORY = "The given directory does not exist."
 CLI_ML_STREAMING_NOT_INSTALLED = """ML Streaming is not installed.
 To install ML Streaming, run the following command:
 pip install pymilo[streaming]"""
+CLI_XGBOOST_NOT_INSTALLED = """XGBoost is not installed.
+To install XGBoost support, run the following command:
+pip install pymilo[xgboost]"""
 CLI_MORE_INFO = "For more information, visit the PyMilo README at https://github.com/openscilab/pymilo"
 CLI_UNKNOWN_MODEL = "The provided ML model name is either invalid or unsupported."
 
@@ -308,6 +319,7 @@ EXPORTED_MODELS_PATH = {
     "ENSEMBLE": "exported_ensembles",
     "CROSS_DECOMPOSITION": "exported_cross_decomposition",
     "COMPOSE": "exported_composes",
+    "XGBOOST": "exported_xgboost",
 }
 
 SKLEARN_SUPPORTED_CATEGORIES = {
@@ -321,4 +333,17 @@ SKLEARN_SUPPORTED_CATEGORIES = {
     "ENSEMBLE": SKLEARN_ENSEMBLE_TABLE,
     "CROSS_DECOMPOSITION": SKLEARN_CROSS_DECOMPOSITION_TABLE,
     "COMPOSE": SKLEARN_COMPOSE_TABLE,
+}
+
+XGBOOST_SUPPORTED_TABLE = {
+    "XGBRegressor": _xgb.XGBRegressor if xgboost_support else NOT_SUPPORTED,
+    "XGBClassifier": _xgb.XGBClassifier if xgboost_support else NOT_SUPPORTED,
+    "XGBRanker": _xgb.XGBRanker if xgboost_support else NOT_SUPPORTED,
+    "XGBRFRegressor": _xgb.XGBRFRegressor if xgboost_support else NOT_SUPPORTED,
+    "XGBRFClassifier": _xgb.XGBRFClassifier if xgboost_support else NOT_SUPPORTED,
+    "Booster": _xgb.Booster if xgboost_support else NOT_SUPPORTED,
+}
+
+XGBOOST_SUPPORTED_CATEGORIES = {
+    "XGBOOST": XGBOOST_SUPPORTED_TABLE,
 }

@@ -7,6 +7,11 @@ PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED = "PyMiloClient failed to upload the loc
 PYMILO_CLIENT_INVALID_ATTRIBUTE = "This attribute doesn't exist in either PymiloClient or the inner ML model."
 PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL = "PyMiloClient failed to download the remote ML model."
 
+# Identifiers a PymiloClient uses before it registers itself; a PyMilo Server started from the
+# CLI with a preloaded ML model publishes that model under them, so an unregistered client works.
+PYMILO_CLIENT_DEFAULT_CLIENT_ID = "0x_client_id"
+PYMILO_CLIENT_DEFAULT_ML_MODEL_ID = "0x_ml_model_id"
+
 PYMILO_SERVER_NON_EXISTENT_ATTRIBUTE = "The requested attribute doesn't exist in this model."
 PYMILO_INVALID_URL = "The given URL is not valid."
 PYMILO_CLIENT_WEBSOCKET_NOT_CONNECTED = "WebSocket is not connected."

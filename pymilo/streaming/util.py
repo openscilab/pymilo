@@ -65,8 +65,8 @@ def generate_dockerfile(
     :type protocol: str
     :param port: Port for the PyMilo server (default: 8000).
     :type port: int
-    :param init_model: The model that the server initialized with.
-    :type init_model: boolean
+    :param init_model: Name of the ML model to initialize the PyMilo server with.
+    :type init_model: str
     :param bare: A flag that sets if the server runs without an internal ML model.
     :type bare: boolean
     """
@@ -100,7 +100,7 @@ RUN pip install pymilo[streaming]
         else:
             cmd += f", \"--load\", \"/app/model.json\""
     elif init_model:
-        cmd += f", \"--init\" \"{init_model}\""
+        cmd += f", \"--init\", \"{init_model}\""
     elif bare:
         cmd += f", \"--bare\""
 

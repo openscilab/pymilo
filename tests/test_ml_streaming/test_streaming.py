@@ -1,4 +1,5 @@
 import os
+import json
 import time
 import pytest
 import subprocess
@@ -15,17 +16,6 @@ from pymilo.streaming.util import generate_dockerfile
     params=["NULL", "GZIP", "ZLIB", "LZMA", "BZ2"])
 def prepare_bare_server(request):
     compression_method = request.param
-    # Using PyMilo direct CLI
-    # server_proc = subprocess.Popen(
-    #     [
-    #         executable,
-    #         "-m", "pymilo",
-    #         "--compression", compression_method,
-    #         "--protocol", "REST",
-    #         "--port", "8000",
-    #         "--bare",
-    #     ],
-    #     )
     path = os.path.join(
         os.getcwd(),
         "tests",
@@ -51,18 +41,6 @@ def prepare_bare_server(request):
 def prepare_ml_server(request):
     communication_protocol = request.param
     compression_method = "ZLIB"
-    # Using PyMilo direct CLI
-    # server_proc = subprocess.Popen(
-    #     [
-    #         executable,
-    #         "-m", "pymilo",
-    #         "--compression", compression_method,
-    #         "--protocol", communication_protocol,
-    #         "--port", "9000",
-    #         "--load", os.path.join(os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json")
-    #         # "--load", "https://raw.githubusercontent.com/openscilab/pymilo/main/tests/test_exceptions/valid_jsons/linear_regression.json",
-    #     ],
-    #     )
     path = os.path.join(
         os.getcwd(),
         "tests",
@@ -110,6 +88,27 @@ def prepare_access_control_server(request):
     time.sleep(2)
 
 
+@pytest.fixture(scope="session")
+def prepare_cli_server():
+    # The PyMilo CLI is what the generated Dockerfiles run, so it needs coverage of its own.
+    compression_method, communication_protocol = "ZLIB", "REST"
+    server_proc = subprocess.Popen(
+        [
+            executable,
+            "-m", "pymilo",
+            "--compression", compression_method,
+            "--protocol", communication_protocol,
+            "--port", "8600",
+            "--load", os.path.join(
+                os.getcwd(), "tests", "test_exceptions", "valid_jsons", "linear_regression.json"),
+        ],
+        )
+    time.sleep(10)
+    yield (compression_method, communication_protocol)
+    server_proc.terminate()
+    time.sleep(2)
+
+
 def test1(prepare_bare_server):
     compression_method, communication_protocol = prepare_bare_server
     assert scenario1(compression_method, communication_protocol) == 0
@@ -128,6 +127,29 @@ def test3(prepare_ml_server):
 def test4(prepare_access_control_server):
     compression_method, communication_protocol = prepare_access_control_server
     assert scenario4(compression_method, communication_protocol) == 0
+
+
+def test5(prepare_bare_server):
+    pytest.importorskip("xgboost")
+    from scenarios.scenario5 import scenario5
+    compression_method, communication_protocol = prepare_bare_server
+    assert scenario5(compression_method, communication_protocol) == 0
+
+
+def test6(prepare_cli_server):
+    # same scenario as test3, against a server the PyMilo CLI preloaded through `--load`
+    compression_method, communication_protocol = prepare_cli_server
+    assert scenario3(compression_method, communication_protocol, server_url="127.0.0.1:8600") == 0
+
+
+@pytest.mark.parametrize("cli_args, port", [(["--init", "LinearRegression"], "8400"), (["--bare"], "8401")])
+def test_cli_server_boots(cli_args, port):
+    server_proc = subprocess.Popen([executable, "-m", "pymilo", "--port", port] + cli_args)  # nosec B603
+    time.sleep(8)
+    is_running = server_proc.poll() is None
+    server_proc.terminate()
+    time.sleep(2)
+    assert is_running
 
 
 def test_dockerfile():
@@ -154,5 +176,13 @@ def test_dockerfile():
         "Dockerfile2"
         )
     )
+    generate_dockerfile(
+        dockerfile_name="Dockerfile",
+        init_model="LinearRegression",
+        )
+    # the `--init` branch of generate_dockerfile used to emit a malformed (non-JSON) CMD
+    with open('Dockerfile') as f:
+        cmd_line = [line for line in f.read().splitlines() if line.startswith("CMD ")][0]
+    assert json.loads(cmd_line[len("CMD "):])[-2:] == ["--init", "LinearRegression"]
     os.remove(path='Dockerfile')
     assert r1 and r2

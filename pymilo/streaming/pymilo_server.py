@@ -21,8 +21,6 @@ class PymiloServer:
         """
         Initialize the Pymilo PymiloServer instance.
 
-        :param model: the ML model which will be streamed
-        :type model: any
         :param port: the port to which PyMiloServer listens
         :type port: int
         :param host: the url to which PyMilo Server listens

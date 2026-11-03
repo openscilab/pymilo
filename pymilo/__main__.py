@@ -9,14 +9,17 @@ from .pymilo_param import (
     CLI_MORE_INFO,
     CLI_UNKNOWN_MODEL,
     CLI_ML_STREAMING_NOT_INSTALLED,
+    CLI_XGBOOST_NOT_INSTALLED,
+    XGBOOST_SUPPORTED_TABLE,
 )
 from .pymilo_func import print_supported_ml_models, pymilo_help
 from .pymilo_obj import Import
-from .utils.util import get_sklearn_class
+from .utils.util import get_ml_model_class
 
 ml_streaming_support = True
 try:
     from .streaming import PymiloServer, Compression, CommunicationProtocol
+    from .streaming.param import PYMILO_CLIENT_DEFAULT_CLIENT_ID, PYMILO_CLIENT_DEFAULT_ML_MODEL_ID
 except BaseException:
     ml_streaming_support = False
 
@@ -95,9 +98,12 @@ def main():
         _model = _model.to_model()
     elif args.init:
         model_name = args.init
-        model_class = get_sklearn_class(model_name)
+        model_class = get_ml_model_class(model_name)
         if model_class is None:
-            print(f"{CLI_UNKNOWN_MODEL}\n{print_supported_ml_models()}")
+            if model_name in XGBOOST_SUPPORTED_TABLE:
+                print(f"{CLI_XGBOOST_NOT_INSTALLED}\n{CLI_MORE_INFO}")
+            else:
+                print(f"{CLI_UNKNOWN_MODEL}\n{print_supported_ml_models()}")
             return
         run_ps = True
         _model = model_class()
@@ -109,12 +115,16 @@ def main():
         pymilo_help()
         parser.print_help()
     else:
-        PymiloServer(
-            model=_model,
+        pymilo_server = PymiloServer(
             port=_port,
             compressor=_compressor,
             communication_protocol=_communication_protocol,
-        ).communicator.run()
+        )
+        if _model is not None:
+            pymilo_server.init_client(PYMILO_CLIENT_DEFAULT_CLIENT_ID)
+            pymilo_server.init_ml_model(PYMILO_CLIENT_DEFAULT_CLIENT_ID, PYMILO_CLIENT_DEFAULT_ML_MODEL_ID)
+            pymilo_server.set_ml_model(PYMILO_CLIENT_DEFAULT_CLIENT_ID, PYMILO_CLIENT_DEFAULT_ML_MODEL_ID, _model)
+        pymilo_server.communicator.run()
 
 
 if __name__ == '__main__':

@@ -3,7 +3,8 @@
 import requests
 import importlib
 from inspect import signature
-from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL, SKLEARN_SUPPORTED_CATEGORIES
+from ..pymilo_param import DOWNLOAD_MODEL_FAILED, INVALID_DOWNLOADED_MODEL, NOT_SUPPORTED
+from ..pymilo_param import SKLEARN_SUPPORTED_CATEGORIES, XGBOOST_SUPPORTED_CATEGORIES
 
 
 def get_sklearn_type(model):
@@ -174,9 +175,47 @@ def get_sklearn_class(model_name):
     :param model_name: model name
     :type model_name: str
 
-    :return: sklearn ML model class
+    :return: sklearn ML model class or None
     """
     for _, category_models in SKLEARN_SUPPORTED_CATEGORIES.items():
         if model_name in category_models:
-            return category_models[model_name]
+            klass = category_models[model_name]
+            if klass == NOT_SUPPORTED:
+                return None
+            return klass
     return None
+
+
+def get_xgboost_class(model_name):
+    """
+    Return the xgboost class of the requested model name.
+
+    :param model_name: model name
+    :type model_name: str
+
+    :return: xgboost ML model class or None
+    """
+    for _, category_models in XGBOOST_SUPPORTED_CATEGORIES.items():
+        if model_name in category_models:
+            klass = category_models[model_name]
+            if klass == NOT_SUPPORTED:
+                return None
+            return klass
+    return None
+
+
+def get_ml_model_class(model_name):
+    """
+    Return the ML model class of the requested model name.
+
+    Looks up sklearn-supported categories first, then XGBoost-supported categories.
+
+    :param model_name: model name
+    :type model_name: str
+
+    :return: ML model class or None when not found / not supported in this environment
+    """
+    model_class = get_sklearn_class(model_name)
+    if model_class is not None:
+        return model_class
+    return get_xgboost_class(model_name)

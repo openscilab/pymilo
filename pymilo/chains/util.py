@@ -11,6 +11,11 @@ from .neighbours_chain import neighbors_chain
 from .cross_decomposition_chain import cross_decomposition_chain
 from ..utils.util import get_sklearn_type, check_str_in_iterable
 
+try:
+    from .xgboost_chain import xgboost_chain as _xgboost_chain
+except BaseException:
+    _xgboost_chain = None
+
 
 MODEL_TYPE_TRANSPORTER = {
     "LINEAR_MODEL": linear_chain.transport,
@@ -22,6 +27,9 @@ MODEL_TYPE_TRANSPORTER = {
     "NEIGHBORS": neighbors_chain.transport,
     "CROSS_DECOMPOSITION": cross_decomposition_chain.transport,
 }
+
+if _xgboost_chain is not None:
+    MODEL_TYPE_TRANSPORTER["XGBOOST"] = _xgboost_chain.transport
 
 
 def get_concrete_transporter(model):
@@ -36,6 +44,9 @@ def get_concrete_transporter(model):
         upper_model = model.upper()
         if upper_model in MODEL_TYPE_TRANSPORTER.keys():
             return upper_model, MODEL_TYPE_TRANSPORTER[upper_model]
+
+    if _xgboost_chain is not None and _xgboost_chain.is_supported(model):
+        return "XGBOOST", _xgboost_chain.transport
 
     if linear_chain.is_supported(model):
         return "LINEAR_MODEL", linear_chain.transport

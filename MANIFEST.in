@@ -1,0 +1,5 @@
+# setup.py reads these at build time, so they must ship inside the sdist.
+include requirements.txt
+include streaming-requirements.txt
+include xgboost-requirements.txt
+include CHANGELOG.md

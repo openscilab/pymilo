@@ -6,7 +6,8 @@ from .compressor import Compression
 from ..pymilo_obj import Export, Import
 from .param import PYMILO_CLIENT_INVALID_MODE, PYMILO_CLIENT_MODEL_SYNCHED, \
     PYMILO_CLIENT_LOCAL_MODEL_UPLOADED, PYMILO_CLIENT_LOCAL_MODEL_UPLOAD_FAILED, \
-    PYMILO_CLIENT_INVALID_ATTRIBUTE, PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL
+    PYMILO_CLIENT_INVALID_ATTRIBUTE, PYMILO_CLIENT_FAILED_TO_DOWNLOAD_REMOTE_MODEL, \
+    PYMILO_CLIENT_DEFAULT_CLIENT_ID, PYMILO_CLIENT_DEFAULT_ML_MODEL_ID
 from .communicator import CommunicationProtocol
 from ..transporters.general_data_structure_transporter import GeneralDataStructureTransporter
 
@@ -44,8 +45,8 @@ class PymiloClient:
         :return: an instance of the Pymilo PymiloClient class
         """
         self.model = model
-        self.client_id = "0x_client_id"
-        self.ml_model_id = "0x_ml_model_id"
+        self.client_id = PYMILO_CLIENT_DEFAULT_CLIENT_ID
+        self.ml_model_id = PYMILO_CLIENT_DEFAULT_ML_MODEL_ID
         self._mode = mode
         self._compressor = compressor.value
         self._encryptor = DummyEncryptor()
@@ -121,7 +122,7 @@ class PymiloClient:
         :return: None
         """
         self._communicator.remove_client(self.client_id)
-        self.client_id = "0x_client_id"
+        self.client_id = PYMILO_CLIENT_DEFAULT_CLIENT_ID
 
     def register_ml_model(self):
         """
@@ -138,7 +139,7 @@ class PymiloClient:
         :return: None
         """
         self._communicator.remove_model(self.client_id, self.ml_model_id)
-        self.ml_model_id = "0x_ml_model_id"
+        self.ml_model_id = PYMILO_CLIENT_DEFAULT_ML_MODEL_ID
 
     def get_ml_models(self):
         """

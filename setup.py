@@ -8,6 +8,7 @@ except ImportError:
 INSTALLATION_MODES = {
     'core': 'requirements.txt',
     'streaming': 'streaming-requirements.txt',
+    'xgboost': 'xgboost-requirements.txt',
 }
 
 
@@ -55,6 +56,7 @@ setup(
     install_requires=get_requires(),
     extras_require={
         'streaming': get_requires(mode='streaming'),
+        'xgboost': get_requires(mode='xgboost'),
     },
     python_requires='>=3.7',
     classifiers=[
