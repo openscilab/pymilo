@@ -58,7 +58,7 @@ def xgb_untrained_model():
 
 def xgb_json_dump_round_trip():
     """Importing from an in-memory JSON dump must be as lossless as importing from a file."""
-    x_train, y_train, x_test, y_test = prepare_simple_regression_datasets()
+    x_train, y_train, x_test, _ = prepare_simple_regression_datasets()
     model = XGBRegressor(n_estimators=8, max_depth=3, random_state=0)
     model.fit(x_train, y_train)
     retrieved = Import(json_dump=Export(model).to_json()).to_model()

@@ -144,7 +144,7 @@ def test6(prepare_cli_server):
 
 @pytest.mark.parametrize("cli_args, port", [(["--init", "LinearRegression"], "8400"), (["--bare"], "8401")])
 def test_cli_server_boots(cli_args, port):
-    server_proc = subprocess.Popen([executable, "-m", "pymilo", "--port", port] + cli_args)
+    server_proc = subprocess.Popen([executable, "-m", "pymilo", "--port", port] + cli_args)  # nosec B603
     time.sleep(8)
     is_running = server_proc.poll() is None
     server_proc.terminate()
