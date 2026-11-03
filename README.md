@@ -192,6 +192,27 @@ The `Import` class facilitates importing of serialized models from JSON files, J
 
 This loaded model is exactly the same as the original trained model.
 
+### XGBoost
+PyMilo transparently exports and imports XGBoost models, just like scikit-learn ones.
+
+⚠️ In order to use XGBoost support, make sure you've installed the `xgboost` mode of PyMilo:
+
+```console
+pip install pymilo[xgboost]
+```
+
+Both the scikit-learn-style wrappers (`XGBRegressor`, `XGBClassifier`, `XGBRanker`, `XGBRFRegressor`, `XGBRFClassifier`) and the native `xgboost.Booster` are supported.
+
+```python
+from xgboost import XGBRegressor
+from pymilo import Export, Import
+
+model = XGBRegressor(n_estimators=20).fit(X_train, y_train)
+Export(model).save("xgb.json")
+
+restored = Import("xgb.json").to_model()
+```
+
 ### ML streaming
 You can easily serve your ML model from a remote server using `ML streaming` feature of PyMilo.
 
@@ -314,24 +335,7 @@ result = pymilo_client.predict(x_test)
 
 
 ## Supported ML models
-| scikit-learn | PyTorch | 
-| ---------------- | ---------------- | 
-| Linear Models &#x2705; | - | 
-| Neural Networks &#x2705; | -  | 
-| Trees &#x2705; | -  | 
-| Clustering &#x2705; | -  | 
-| Naïve Bayes &#x2705; | -  | 
-| Support Vector Machines (SVMs) &#x2705; | -  | 
-| Nearest Neighbors &#x2705; | -  |  
-| Ensemble Models &#x2705; | - | 
-| Pipeline Model &#x2705; | - |
-| Preprocessing Models &#x2705; | - |
-| Cross Decomposition Models &#x2705; | - |
-| Feature Extractor Models &#x2705; | - |
-| Composite Models &#x2705; | - |
-
-
-Details are available in [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
+See [Supported Models](https://github.com/openscilab/pymilo/blob/main/SUPPORTED_MODELS.md).
 
 ## Issues & bug reports
 
